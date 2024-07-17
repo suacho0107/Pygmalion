@@ -46,6 +46,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+
         bool hDown = Input.GetButtonDown("Horizontal");
         bool hUp = Input.GetButtonUp("Horizontal");
         bool vDown = Input.GetButtonDown("Vertical");
@@ -66,9 +69,6 @@ public class PlayerMove : MonoBehaviour
 
         void pStateMove()
         {
-            h = Input.GetAxisRaw("Horizontal");
-            v = Input.GetAxisRaw("Vertical");
-
             if (hDown)
                 isHorizonMove = true;
             else if (vDown)
@@ -120,19 +120,19 @@ public class PlayerMove : MonoBehaviour
         void pStateInteraction()
         {
             // 대화창 구현 전까지는 콘솔 출력
-            if (hDown)
+            if (hDown && h == -1)
             {
                 Debug.Log("Interaction A");
             }
-            else if (hUp)
+            else if (hDown && h == 1)
             {
                 Debug.Log("Interaction D");
             }
-            else if (vDown)
+            else if (vDown && v == -1)
             {
                 Debug.Log("Interaction S");
             }
-            else if (vUp)
+            else if (vDown && v == 1)
             {
                 Debug.Log("Interaction W");
             }
@@ -153,19 +153,19 @@ public class PlayerMove : MonoBehaviour
         void pStateInventory()
         {
             // 인벤토리 구현 전까지는 콘솔 출력
-            if (hDown)
+            if (hDown && h == -1)
             {
                 Debug.Log("Inventory A");
             }
-            else if (hUp)
+            else if (hDown && h == 1)
             {
                 Debug.Log("Inventory D");
             }
-            else if (vDown)
+            else if (vDown && v == -1)
             {
                 Debug.Log("Inventory S");
             }
-            else if (vUp)
+            else if (vDown && v == 1)
             {
                 Debug.Log("Inventory W");
             }
@@ -184,8 +184,12 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
-        rigid.velocity = moveVec * moveSpeed;
+        if(pState == PlayerState.Move)
+        {
+            Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
+            rigid.velocity = moveVec * moveSpeed;
+        }
+        
 
         // Ray
         Debug.DrawRay(rigid.position, dirVec * 0.7f, new Color(0, 1, 0));
