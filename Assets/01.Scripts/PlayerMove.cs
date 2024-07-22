@@ -8,19 +8,18 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rigid;
     Animator anim;
 
-    public float moveSpeed;
-
+    float moveSpeed;
     float h;
-    float v;
-
+    float v; 
     bool isHorizonMove;
+    public int hp = 20;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
-
+    
     void Update()
     {
         h = Input.GetAxisRaw("Horizontal");
@@ -57,5 +56,10 @@ public class PlayerMove : MonoBehaviour
     {
         Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
         rigid.velocity = moveVec * moveSpeed;
+    }
+
+    public void DamageAction(int damage)
+    {
+        hp -= damage;
     }
 }
