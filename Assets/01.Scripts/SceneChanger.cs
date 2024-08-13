@@ -12,14 +12,14 @@ public class SceneChanger : MonoBehaviour
         if (collision.tag == "TpZone")
         {
             activeTP = true;
-            Debug.Log("activeTP True");
+            //Debug.Log("activeTP True");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         activeTP = false;
-        Debug.Log("activeTP False");
+        //Debug.Log("activeTP False");
     }
 
     void Update()

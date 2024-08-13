@@ -6,14 +6,17 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     Rigidbody2D rigid;
-    Animator anim;
+    Animator frontAnimator;
+    Animator backAnimator;
+    Animator leftAnimator;
+    Animator rightAnimator;
 
     Vector3 dirVec;
-    GameObject scanObject;
 
-    // Canvas 오브젝트의 InventoryUI 스크립트 가져오기
-    public Canvas CanvasObj;
-    private InventoryUI invenScript;
+    public GameObject frontAnim;
+    public GameObject backAnim;
+    public GameObject leftAnim;
+    public GameObject rightAnim;
 
     public float moveSpeed;
 
@@ -21,7 +24,22 @@ public class PlayerMove : MonoBehaviour
     float v;
 
     bool isHorizonMove;
-    bool activeInteract = false;
+    private bool activeInteract = false;
+    public bool activeInven;
+
+    public bool ActiveInteract
+    {
+        get { return activeInteract; }
+        set
+        {
+            activeInteract = value;
+            if (activeInteract == true)
+            {
+                NPC npc = FindObjectOfType<NPC>();
+                npc.StartDialogue();
+            }
+        }
+    }    
 
     public PlayerState pState;
 
@@ -35,16 +53,22 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        invenScript = CanvasObj.GetComponent<InventoryUI>();
+        frontAnimator = frontAnim.GetComponent<Animator>();
+        backAnimator = backAnim.GetComponent<Animator>();
+        leftAnimator = leftAnim.GetComponent<Animator>();
+        rightAnimator = rightAnim.GetComponent<Animator>();
     }
 
     void Start()
     {
-        pState = PlayerState.Move;
+        pState = PlayerState.Move;        
+        frontAnim.SetActive(true);
+        rightAnim.SetActive(false);
+        backAnim.SetActive(false);
+        leftAnim.SetActive(false);
     }
 
-    void Update()
+    void Update() 
     {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
@@ -69,6 +93,7 @@ public class PlayerMove : MonoBehaviour
 
         void pStateMove()
         {
+            Debug.Log("pState = Move");
             if (hDown)
                 isHorizonMove = true;
             else if (vDown)
@@ -76,50 +101,76 @@ public class PlayerMove : MonoBehaviour
             else if (hUp || vUp)
                 isHorizonMove = h != 0;
 
-            // Interaction 입력
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                activeInteract = !activeInteract;
-            }
-
-            // Move 상태에서 Inventory, Interaction 상태로 전환
-            if (invenScript.activeInventory == true)
-            {
+                activeInven = true;
                 pState = PlayerState.Inventory;
             }
-            else if (activeInteract == true)
+
+            if (activeInteract == true)
             {
                 pState = PlayerState.Interaction;
             }
 
             // Ray Direction
             if (vDown && v == 1)
+            {
                 dirVec = Vector3.up;
+                backAnim.SetActive(true);
+                frontAnim.SetActive(false);
+                leftAnim.SetActive(false);
+                rightAnim.SetActive(false);
+            }                
             else if (vDown && v == -1)
+            {
                 dirVec = Vector3.down;
+                frontAnim.SetActive(true);
+                leftAnim.SetActive(false);
+                rightAnim.SetActive(false);
+                backAnim.SetActive(false);
+            }
             else if (hDown && h == -1)
+            {
                 dirVec = Vector3.left;
+                leftAnim.SetActive(true);
+                rightAnim.SetActive(false);
+                frontAnim.SetActive(false);
+                backAnim.SetActive(false);
+            }
             else if (hDown && h == 1)
+            {
                 dirVec = Vector3.right;
+                rightAnim.SetActive(true);
+                leftAnim.SetActive(false);
+                frontAnim.SetActive(false);
+                backAnim.SetActive(false);
+            }
 
-            //// 애니메이션
-            //if (anim.GetInteger("hAxisRaw") != h)
-            //{
-            //    anim.SetBool("isChange", true);
-            //    anim.SetInteger("hAxisRaw", (int)h);
-            //}
-            //else if (anim.GetInteger("vAxisRaw") != v)
-            //{
-            //    anim.SetBool("isChange", true);
-            //    anim.SetInteger("vAxisRaw", (int)v);
-            //}
-            //else
-            //    anim.SetBool("isChange", false);
+            UpdateAnimator(frontAnimator);
+            UpdateAnimator(backAnimator);
+            UpdateAnimator(leftAnimator);
+            UpdateAnimator(rightAnimator);
+        }
+
+        void UpdateAnimator(Animator anim)
+        {
+            if (anim.GetInteger("hAxisRaw") != h)
+            {
+                anim.SetBool("isChange", true);
+                anim.SetInteger("hAxisRaw", (int)h);
+            }
+            else if (anim.GetInteger("vAxisRaw") != v)
+            {
+                anim.SetBool("isChange", true);
+                anim.SetInteger("vAxisRaw", (int)v);
+            }
+            else
+                anim.SetBool("isChange", false);
         }
 
         void pStateInteraction()
         {
-            // 대화창 구현 전까지는 콘솔 출력
+            Debug.Log("pState = Interaction");
             if (hDown && h == -1)
             {
                 Debug.Log("Interaction A");
@@ -137,22 +188,21 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("Interaction W");
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (activeInteract == false)
             {
-                activeInteract = false;
                 pState = PlayerState.Move;
             }
 
             // Interaction 상태에서 Tab 누르면 Inventory 상태로
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                pState = PlayerState.Inventory;
-            }
+            //if (Input.GetKeyDown(KeyCode.Tab))
+            //{
+            //    pState = PlayerState.Inventory;
+            //}
         }
 
         void pStateInventory()
         {
-            // 인벤토리 구현 전까지는 콘솔 출력
+            Debug.Log("pState = Inventory");
             if (hDown && h == -1)
             {
                 Debug.Log("Inventory A");
@@ -170,16 +220,12 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("Inventory W");
             }
 
-            if (invenScript.activeInventory == false)
+            if(Input.GetKeyDown(KeyCode.Tab))
             {
+                activeInven = false;
                 pState = PlayerState.Move;
             }
         }
-
-
-        // Scan Object
-        if (scanObject != null)
-            Debug.Log(scanObject.name);
     }
 
     void FixedUpdate()
@@ -190,14 +236,15 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = moveVec * moveSpeed;
         }
         
-
         // Ray
-        Debug.DrawRay(rigid.position, dirVec * 0.7f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 0.7f, LayerMask.GetMask("Object"));
+        Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
 
         if (rayHit.collider != null)
-            scanObject = rayHit.collider.gameObject;
-        else
-            scanObject = null;
+        {
+            Debug.Log("F키 활성화");
+            if (Input.GetKeyDown(KeyCode.F))
+                ActiveInteract = true;
+        }
     }
 }
