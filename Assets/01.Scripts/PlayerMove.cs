@@ -6,10 +6,10 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     Rigidbody2D rigid;
-    //Animator frontAnimator;
-    //Animator backAnimator;
-    //Animator leftAnimator;
-    //Animator rightAnimator;
+    Animator frontAnimator;
+    Animator backAnimator;
+    Animator leftAnimator;
+    Animator rightAnimator;
 
     Vector3 dirVec;
 
@@ -54,19 +54,19 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        //frontAnimator = frontAnim.GetComponent<Animator>();
-        //backAnimator = backAnim.GetComponent<Animator>();
-        //leftAnimator = leftAnim.GetComponent<Animator>();
-        //rightAnimator = rightAnim.GetComponent<Animator>();
+        frontAnimator = frontAnim.GetComponent<Animator>();
+        backAnimator = backAnim.GetComponent<Animator>();
+        leftAnimator = leftAnim.GetComponent<Animator>();
+        rightAnimator = rightAnim.GetComponent<Animator>();
     }
 
     void Start()
     {
-        pState = PlayerState.Move;        
-        //frontAnim.SetActive(true);
-        //rightAnim.SetActive(false);
-        //backAnim.SetActive(false);
-        //leftAnim.SetActive(false);
+        pState = PlayerState.Move;
+        frontAnim.SetActive(true);
+        rightAnim.SetActive(false);
+        backAnim.SetActive(false);
+        leftAnim.SetActive(false);
     }
 
     void Update() 
@@ -120,10 +120,10 @@ public class PlayerMove : MonoBehaviour
                 //DeactivateAnimator(leftAnim.GetComponent<Animator>());
                 //DeactivateAnimator(rightAnim.GetComponent<Animator>());
                 dirVec = Vector3.up;
-                //backAnim.SetActive(true);
-                //frontAnim.SetActive(false);
-                //leftAnim.SetActive(false);
-                //rightAnim.SetActive(false);
+                backAnim.SetActive(true);
+                frontAnim.SetActive(false);
+                leftAnim.SetActive(false);
+                rightAnim.SetActive(false);
             }                
             else if (vDown && v == -1)
             {
@@ -131,10 +131,10 @@ public class PlayerMove : MonoBehaviour
                 //DeactivateAnimator(leftAnim.GetComponent<Animator>());
                 //DeactivateAnimator(rightAnim.GetComponent<Animator>());
                 dirVec = Vector3.down;
-                //frontAnim.SetActive(true);
-                //leftAnim.SetActive(false);
-                //rightAnim.SetActive(false);
-                //backAnim.SetActive(false);
+                frontAnim.SetActive(true);
+                leftAnim.SetActive(false);
+                rightAnim.SetActive(false);
+                backAnim.SetActive(false);
             }
             else if (hDown && h == -1)
             {
@@ -142,10 +142,10 @@ public class PlayerMove : MonoBehaviour
                 //DeactivateAnimator(backAnim.GetComponent<Animator>());
                 //DeactivateAnimator(rightAnim.GetComponent<Animator>());
                 dirVec = Vector3.left;
-                //leftAnim.SetActive(true);
-                //rightAnim.SetActive(false);
-                //frontAnim.SetActive(false);
-                //backAnim.SetActive(false);
+                leftAnim.SetActive(true);
+                rightAnim.SetActive(false);
+                frontAnim.SetActive(false);
+                backAnim.SetActive(false);
             }
             else if (hDown && h == 1)
             {
@@ -153,33 +153,33 @@ public class PlayerMove : MonoBehaviour
                 //DeactivateAnimator(leftAnim.GetComponent<Animator>());
                 //DeactivateAnimator(backAnim.GetComponent<Animator>());
                 dirVec = Vector3.right;
-                //rightAnim.SetActive(true);
-                //leftAnim.SetActive(false);
-                //frontAnim.SetActive(false);
-                //backAnim.SetActive(false);
+                rightAnim.SetActive(true);
+                leftAnim.SetActive(false);
+                frontAnim.SetActive(false);
+                backAnim.SetActive(false);
             }
 
-            //UpdateAnimator(frontAnimator);
-            //UpdateAnimator(backAnimator);
-            //UpdateAnimator(leftAnimator);
-            //UpdateAnimator(rightAnimator);
+            UpdateAnimator(frontAnimator);
+            UpdateAnimator(backAnimator);
+            UpdateAnimator(leftAnimator);
+            UpdateAnimator(rightAnimator);
         }
 
-        //void UpdateAnimator(Animator anim)
-        //{
-        //    if (anim.GetInteger("hAxisRaw") != h)
-        //    {
-        //        anim.SetBool("isChange", true);
-        //        anim.SetInteger("hAxisRaw", (int)h);
-        //    }
-        //    else if (anim.GetInteger("vAxisRaw") != v)
-        //    {
-        //        anim.SetBool("isChange", true);
-        //        anim.SetInteger("vAxisRaw", (int)v);
-        //    }
-        //    else
-        //        anim.SetBool("isChange", false);
-        //}
+        void UpdateAnimator(Animator anim)
+        {
+            if (anim.GetInteger("hAxisRaw") != h)
+            {
+                anim.SetBool("isChange", true);
+                anim.SetInteger("hAxisRaw", (int)h);
+            }
+            else if (anim.GetInteger("vAxisRaw") != v)
+            {
+                anim.SetBool("isChange", true);
+                anim.SetInteger("vAxisRaw", (int)v);
+            }
+            else
+                anim.SetBool("isChange", false);
+        }
 
         //void DeactivateAnimator(Animator animator)
         //{
