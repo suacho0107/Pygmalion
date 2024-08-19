@@ -10,6 +10,12 @@ public class Dialogue
 
     [Tooltip("대사 내용")]
     public string[] contexts;
+
+    [Tooltip("이벤트 번호")]
+    public string[] eventNum;
+
+    [Tooltip("스킵라인")]
+    public string[] skipNum;
 }
 
 [System.Serializable]

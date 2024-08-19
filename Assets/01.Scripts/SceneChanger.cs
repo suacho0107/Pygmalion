@@ -26,7 +26,7 @@ public class SceneChanger : MonoBehaviour
     {
         if (activeTP == true)
         {
-            Debug.Log("TP 啊瓷 备开");
+            //Debug.Log("TP 啊瓷 备开");
             if (Input.GetKeyDown(KeyCode.F))
             {
                 SceneManager.LoadScene("Demo_minjoo");

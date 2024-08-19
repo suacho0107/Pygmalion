@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueParser : MonoBehaviour
+public class SelectParser : MonoBehaviour
 {
-    public Dialogue[] Parse(string _CSVFileName)
+    public Select[] Parse(string _CSVFileName)
     {
-        List<Dialogue> dialogueList = new List<Dialogue>(); //대화 List 생성
+        List<Select> selectList = new List<Select>(); //선지 List 생성
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName); //csv파일 TextAsset으로 변환해서 가져옴
+
+        if (csvData == null)
+        {
+            return null;
+        }
 
         string[] data = csvData.text.Split(new char[] { '\n' }); //'\n' 단위로 쪼갬
 
@@ -15,21 +20,16 @@ public class DialogueParser : MonoBehaviour
         {
             string[] row = data[i].Split(new char[] { ',' }); //',' 단위로 쪼갬
 
-            Dialogue dialgoue = new Dialogue(); // 대사 리스트 생성
-
-            dialgoue.name = row[1];
+            Select select = new Select();
 
             //List 생성
             List<string> contextList = new List<string>();
-            List<string> eventList = new List<string>();
-            List<string> skipList = new List<string>();
+            List<string> moveList = new List<string>();
 
             do
             {
-                contextList.Add(row[2]);
-                eventList.Add(row[3]);
-                skipList.Add(row[4]);
-
+                contextList.Add(row[1]);
+                moveList.Add(row[2]);
 
                 if (++i < data.Length - 1)
                 {
@@ -40,17 +40,15 @@ public class DialogueParser : MonoBehaviour
                     break;
                 }
 
-            } while (row[0].ToString() == ""); //ID가 공백이면 sentence만 추가
+            } while (row[0].ToString() == ""); //ID가 공백이면 context만 추가
 
             //List 배열화
-            dialgoue.contexts = contextList.ToArray();
-            dialgoue.eventNum = eventList.ToArray();
-            dialgoue.skipNum = skipList.ToArray();
+            select.contexts = contextList.ToArray();
+            select.moveNum = moveList.ToArray();
 
 
-            dialogueList.Add(dialgoue);
+            selectList.Add(select);
         }
-
-        return dialogueList.ToArray();
+        return selectList.ToArray();
     }
 }

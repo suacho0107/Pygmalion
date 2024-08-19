@@ -5,7 +5,12 @@ using UnityEngine;
 public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] DialogueEvent dialogue;
+    [SerializeField] SelectEvent select;
 
+    public SelectEvent Select
+    {
+        get { return select; }
+    }
     public void LoadDialogue(string _csvFileName)
     {
         DialogueParser dialogueParser = FindObjectOfType<DialogueParser>();
@@ -20,6 +25,18 @@ public class InteractionEvent : MonoBehaviour
             {
                 dialogueManager.ShowDialogue(dialogues);
             }
+        }
+    }
+
+    public void LoadSelect(string _csvFileName)
+    {
+        SelectParser selectParser = FindObjectOfType<SelectParser>();
+
+        if (selectParser != null)
+        {
+            Select[] selects = selectParser.Parse(_csvFileName);
+
+            select.selects = selects;
         }
     }
 }
