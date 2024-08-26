@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
 
     InteractionEvent interactionEvent;
     NPC npc; //= currentNPC
-    public PlayerMove_origin playerMove; //플레이어 FSM과 연결, 추가 코드
+    public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
 
     bool isDialogue = false;
     bool isNext = false; //특정 키 입력 대기
