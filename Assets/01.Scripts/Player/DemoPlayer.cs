@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class DemoPlayer : MonoBehaviour
 {
     Rigidbody2D rigid;
     Animator anim;
 
     Vector3 dirVec;
 
+    public GameObject leftAnim;
     public GameObject frontAnim;
     public GameObject backAnim;
-    public GameObject leftAnim;
-    //public GameObject rightAnim;
 
     public float moveSpeed;
 
@@ -37,7 +35,7 @@ public class PlayerMove : MonoBehaviour
                 npc.StartDialogue();
             }
         }
-    }    
+    }
 
     public PlayerState pState;
 
@@ -58,11 +56,11 @@ public class PlayerMove : MonoBehaviour
     {
         pState = PlayerState.Move;
         frontAnim.SetActive(true);
-        backAnim.SetActive(false);
         leftAnim.SetActive(false);
+        backAnim.SetActive(false);
     }
 
-    void Update() 
+    void Update()
     {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
@@ -124,8 +122,8 @@ public class PlayerMove : MonoBehaviour
             {
                 dirVec = Vector3.up;
                 backAnim.SetActive(true);
-                frontAnim.SetActive(false);
                 leftAnim.SetActive(false);
+                frontAnim.SetActive(false);
             }
             else if (vDown && v == -1)
             {
@@ -138,17 +136,20 @@ public class PlayerMove : MonoBehaviour
             {
                 dirVec = (h == -1) ? Vector3.left : Vector3.right;
 
-                frontAnim.SetActive(false);
-                backAnim.SetActive(false);
-                leftAnim.SetActive(true) ;
                 // 왼쪽 방향일 때
                 if (h == -1)
                 {
+                    leftAnim.SetActive(true);
+                    frontAnim.SetActive(false);
+                    backAnim.SetActive(false);
                     leftAnim.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f); // 왼쪽을 향하도록 스케일 조정
                 }
                 // 오른쪽 방향일 때
                 else if (h == 1)
                 {
+                    leftAnim.SetActive(true);
+                    frontAnim.SetActive(false);
+                    backAnim.SetActive(false);
                     leftAnim.transform.localScale = new Vector3(-0.4f, 0.4f, 0.4f); // 오른쪽을 향하도록 스케일 반전
                 }
 
@@ -180,12 +181,6 @@ public class PlayerMove : MonoBehaviour
                 pState = PlayerState.Move;
                 keyDown = false;
             }
-
-            // Interaction 상태에서 Tab 누르면 Inventory 상태로
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    pState = PlayerState.Inventory;
-            //}
         }
 
         void pStateInventory()
@@ -208,7 +203,7 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("Inventory W");
             }
 
-            if(Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
                 activeInven = false;
                 pState = PlayerState.Move;
@@ -218,19 +213,18 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(pState == PlayerState.Move)
+        if (pState == PlayerState.Move)
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
             rigid.velocity = moveVec * moveSpeed;
         }
-        
+
         // Ray
         Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
 
         if (rayHit.collider != null)
         {
-            //Debug.Log("F키 활성화");
             if (Input.GetKeyDown(KeyCode.F) && !keyDown)
             {
                 keyDown = true;
