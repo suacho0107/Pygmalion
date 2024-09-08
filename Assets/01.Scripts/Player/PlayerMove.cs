@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     public GameObject frontAnim;
     public GameObject backAnim;
     public GameObject leftAnim;
-    //public GameObject rightAnim;
+    private string currentState = "";
 
     public float moveSpeed;
 
@@ -67,10 +69,14 @@ public class PlayerMove : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
+        isHorizonMove = Mathf.Abs(h) > Mathf.Abs(v);
+
         bool hDown = Input.GetButtonDown("Horizontal");
         bool hUp = Input.GetButtonUp("Horizontal");
         bool vDown = Input.GetButtonDown("Vertical");
         bool vUp = Input.GetButtonUp("Vertical");
+
+        AnimationState();
 
         switch (pState)
         {
@@ -117,42 +123,24 @@ public class PlayerMove : MonoBehaviour
                 anim.SetInteger("vAxisRaw", (int)v);
             }
             else
+            {
                 anim.SetBool("isChange", false);
+            }
 
             // Ray Direction
             if (vDown && v == 1)
-            {
-                dirVec = Vector3.up;
-                backAnim.SetActive(true);
-                frontAnim.SetActive(false);
-                leftAnim.SetActive(false);
-            }
+                {
+                    dirVec = Vector3.up;
+                }
             else if (vDown && v == -1)
-            {
-                dirVec = Vector3.down;
-                frontAnim.SetActive(true);
-                leftAnim.SetActive(false);
-                backAnim.SetActive(false);
-            }
-            else if (hDown)
-            {
-                dirVec = (h == -1) ? Vector3.left : Vector3.right;
-
-                frontAnim.SetActive(false);
-                backAnim.SetActive(false);
-                leftAnim.SetActive(true) ;
-                // 왼쪽 방향일 때
-                if (h == -1)
                 {
-                    leftAnim.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f); // 왼쪽을 향하도록 스케일 조정
+                    dirVec = Vector3.down;
                 }
-                // 오른쪽 방향일 때
-                else if (h == 1)
+            else if (hDown && isHorizonMove)
                 {
-                    leftAnim.transform.localScale = new Vector3(-0.4f, 0.4f, 0.4f); // 오른쪽을 향하도록 스케일 반전
+                    dirVec = (h == -1) ? Vector3.left : Vector3.right;
                 }
-
-            }
+            
         }
 
         void pStateInteraction()
@@ -180,12 +168,6 @@ public class PlayerMove : MonoBehaviour
                 pState = PlayerState.Move;
                 keyDown = false;
             }
-
-            // Interaction 상태에서 Tab 누르면 Inventory 상태로
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    pState = PlayerState.Inventory;
-            //}
         }
 
         void pStateInventory()
@@ -218,7 +200,7 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(pState == PlayerState.Move)
+        if (pState == PlayerState.Move)
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
             rigid.velocity = moveVec * moveSpeed;
@@ -231,11 +213,67 @@ public class PlayerMove : MonoBehaviour
         if (rayHit.collider != null)
         {
             //Debug.Log("F키 활성화");
-            if (Input.GetKeyDown(KeyCode.F) && !keyDown)
-            {
-                keyDown = true;
-                ActiveInteract = true;
-            }
+            FKeyDown();
         }
+    }
+
+    public void FKeyDown()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && !keyDown)
+        {
+            keyDown = true;
+            ActiveInteract = true;
+        }
+    }
+
+    void AnimationState()
+    {
+        AnimatorStateInfo aState = anim.GetCurrentAnimatorStateInfo(0);
+        string newState = "";
+
+        if (aState.IsName("front walk") || aState.IsName("front idle"))
+            newState = "front";
+        else if (aState.IsName("back walk") || aState.IsName("back idle"))
+            newState = "back";
+        else if (aState.IsName("left walk") || aState.IsName("left idle"))
+            newState = "left";
+        else if (aState.IsName("right walk") || aState.IsName("right idle"))
+            newState = "right";
+
+        if(newState != currentState)
+        {
+            currentState = newState;
+            UpdatePrefab(newState);
+        }
+    }
+
+    void UpdatePrefab(string state)
+    {
+        switch(state)
+        {
+            case "front":
+                ActivePrefab(frontAnim);
+                break;
+            case "back":
+                ActivePrefab(backAnim);
+                break;
+            case "left":
+                ActivePrefab(leftAnim);
+                leftAnim.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                break;
+            case "right":
+                ActivePrefab(leftAnim);
+                leftAnim.transform.localScale = new Vector3(-0.4f, 0.4f, 0.4f);
+                break;
+        }
+    }
+
+    void ActivePrefab(GameObject activePrefab)
+    {
+        frontAnim.SetActive(false);
+        backAnim.SetActive(false);
+        leftAnim.SetActive(false);
+
+        activePrefab.SetActive(true);
     }
 }

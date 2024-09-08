@@ -11,5 +11,12 @@ public class FieldItems : MonoBehaviour
     {
         InventoryUI.instance.GetAnItem(itemID);
         Destroy(this.gameObject);
+        //PlayerMove playerMove = GetComponent<PlayerMove>();
+        //playerMove.FKeyDown();
+        //if (playerMove.ActiveInteract)
+        //{
+        //    InventoryUI.instance.GetAnItem(itemID);
+        //    Destroy(this.gameObject);
+        //}
     }
 }
