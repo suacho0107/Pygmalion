@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
 
     InteractionEvent interactionEvent;
     NPC npc; //= currentNPC
+    //public PlayerMove playerMove;
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
 
     bool isDialogue = false;
@@ -54,6 +55,7 @@ public class DialogueManager : MonoBehaviour
         namePanel.SetActive(false);
         selectBtn1.gameObject.SetActive(false);
         selectBtn2.gameObject.SetActive(false);
+        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
     }
 
     private void Update()
