@@ -1,22 +1,21 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
     Rigidbody2D rigid;
-    Animator frontAnimator;
-    Animator backAnimator;
-    Animator leftAnimator;
-    Animator rightAnimator;
+    Animator anim;
 
     Vector3 dirVec;
 
     public GameObject frontAnim;
     public GameObject backAnim;
     public GameObject leftAnim;
-    public GameObject rightAnim;
+    private string currentState = "";
 
     public float moveSpeed;
 
@@ -54,17 +53,13 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        frontAnimator = frontAnim.GetComponent<Animator>();
-        backAnimator = backAnim.GetComponent<Animator>();
-        leftAnimator = leftAnim.GetComponent<Animator>();
-        rightAnimator = rightAnim.GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
 
     void Start()
     {
         pState = PlayerState.Move;
         frontAnim.SetActive(true);
-        rightAnim.SetActive(false);
         backAnim.SetActive(false);
         leftAnim.SetActive(false);
     }
@@ -74,10 +69,14 @@ public class PlayerMove : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
+        isHorizonMove = Mathf.Abs(h) > Mathf.Abs(v);
+
         bool hDown = Input.GetButtonDown("Horizontal");
         bool hUp = Input.GetButtonUp("Horizontal");
         bool vDown = Input.GetButtonDown("Vertical");
         bool vUp = Input.GetButtonUp("Vertical");
+
+        AnimationState();
 
         switch (pState)
         {
@@ -113,60 +112,6 @@ public class PlayerMove : MonoBehaviour
                 pState = PlayerState.Interaction;
             }
 
-            // Ray Direction
-            if (vDown && v == 1)
-            {
-                //DeactivateAnimator(frontAnim.GetComponent<Animator>());
-                //DeactivateAnimator(leftAnim.GetComponent<Animator>());
-                //DeactivateAnimator(rightAnim.GetComponent<Animator>());
-                dirVec = Vector3.up;
-                backAnim.SetActive(true);
-                frontAnim.SetActive(false);
-                leftAnim.SetActive(false);
-                rightAnim.SetActive(false);
-            }                
-            else if (vDown && v == -1)
-            {
-                //DeactivateAnimator(backAnim.GetComponent<Animator>());
-                //DeactivateAnimator(leftAnim.GetComponent<Animator>());
-                //DeactivateAnimator(rightAnim.GetComponent<Animator>());
-                dirVec = Vector3.down;
-                frontAnim.SetActive(true);
-                leftAnim.SetActive(false);
-                rightAnim.SetActive(false);
-                backAnim.SetActive(false);
-            }
-            else if (hDown && h == -1)
-            {
-                //DeactivateAnimator(frontAnim.GetComponent<Animator>());
-                //DeactivateAnimator(backAnim.GetComponent<Animator>());
-                //DeactivateAnimator(rightAnim.GetComponent<Animator>());
-                dirVec = Vector3.left;
-                leftAnim.SetActive(true);
-                rightAnim.SetActive(false);
-                frontAnim.SetActive(false);
-                backAnim.SetActive(false);
-            }
-            else if (hDown && h == 1)
-            {
-                //DeactivateAnimator(frontAnim.GetComponent<Animator>());
-                //DeactivateAnimator(leftAnim.GetComponent<Animator>());
-                //DeactivateAnimator(backAnim.GetComponent<Animator>());
-                dirVec = Vector3.right;
-                rightAnim.SetActive(true);
-                leftAnim.SetActive(false);
-                frontAnim.SetActive(false);
-                backAnim.SetActive(false);
-            }
-
-            UpdateAnimator(frontAnimator);
-            UpdateAnimator(backAnimator);
-            UpdateAnimator(leftAnimator);
-            UpdateAnimator(rightAnimator);
-        }
-
-        void UpdateAnimator(Animator anim)
-        {
             if (anim.GetInteger("hAxisRaw") != h)
             {
                 anim.SetBool("isChange", true);
@@ -178,14 +123,25 @@ public class PlayerMove : MonoBehaviour
                 anim.SetInteger("vAxisRaw", (int)v);
             }
             else
+            {
                 anim.SetBool("isChange", false);
-        }
+            }
 
-        //void DeactivateAnimator(Animator animator)
-        //{
-        //    animator.Rebind();  // 애니메이터 초기화
-        //    animator.Update(0); // 즉시 업데이트
-        //}
+            // Ray Direction
+            if (vDown && v == 1)
+                {
+                    dirVec = Vector3.up;
+                }
+            else if (vDown && v == -1)
+                {
+                    dirVec = Vector3.down;
+                }
+            else if (hDown && isHorizonMove)
+                {
+                    dirVec = (h == -1) ? Vector3.left : Vector3.right;
+                }
+            
+        }
 
         void pStateInteraction()
         {
@@ -212,12 +168,6 @@ public class PlayerMove : MonoBehaviour
                 pState = PlayerState.Move;
                 keyDown = false;
             }
-
-            // Interaction 상태에서 Tab 누르면 Inventory 상태로
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    pState = PlayerState.Inventory;
-            //}
         }
 
         void pStateInventory()
@@ -250,7 +200,7 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(pState == PlayerState.Move)
+        if (pState == PlayerState.Move)
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
             rigid.velocity = moveVec * moveSpeed;
@@ -263,11 +213,72 @@ public class PlayerMove : MonoBehaviour
         if (rayHit.collider != null)
         {
             //Debug.Log("F키 활성화");
+            //FKeyDown();
             if (Input.GetKeyDown(KeyCode.F) && !keyDown)
             {
                 keyDown = true;
                 ActiveInteract = true;
             }
         }
+    }
+
+    //public void FKeyDown()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F) && !keyDown)
+    //    {
+    //        keyDown = true;
+    //        ActiveInteract = true;
+    //    }
+    //}
+
+    void AnimationState()
+    {
+        AnimatorStateInfo aState = anim.GetCurrentAnimatorStateInfo(0);
+        string newState = "";
+
+        if (aState.IsName("front walk") || aState.IsName("front idle"))
+            newState = "front";
+        else if (aState.IsName("back walk") || aState.IsName("back idle"))
+            newState = "back";
+        else if (aState.IsName("left walk") || aState.IsName("left idle"))
+            newState = "left";
+        else if (aState.IsName("right walk") || aState.IsName("right idle"))
+            newState = "right";
+
+        if(newState != currentState)
+        {
+            currentState = newState;
+            UpdatePrefab(newState);
+        }
+    }
+
+    void UpdatePrefab(string state)
+    {
+        switch(state)
+        {
+            case "front":
+                ActivePrefab(frontAnim);
+                break;
+            case "back":
+                ActivePrefab(backAnim);
+                break;
+            case "left":
+                ActivePrefab(leftAnim);
+                leftAnim.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                break;
+            case "right":
+                ActivePrefab(leftAnim);
+                leftAnim.transform.localScale = new Vector3(-0.4f, 0.4f, 0.4f);
+                break;
+        }
+    }
+
+    void ActivePrefab(GameObject activePrefab)
+    {
+        frontAnim.SetActive(false);
+        backAnim.SetActive(false);
+        leftAnim.SetActive(false);
+
+        activePrefab.SetActive(true);
     }
 }
