@@ -11,7 +11,8 @@ public class InteractionEvent : MonoBehaviour
     {
         get { return select; }
     }
-    public void LoadDialogue(string _csvFileName)
+
+    public void LoadDialogue(string _csvFileName, string explainNum = null)
     {
         DialogueParser dialogueParser = FindObjectOfType<DialogueParser>();
         DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
@@ -23,7 +24,14 @@ public class InteractionEvent : MonoBehaviour
 
             if (dialogueManager != null)
             {
-                dialogueManager.ShowDialogue(dialogues);
+                if (!string.IsNullOrEmpty(explainNum))//explainNum 있으면 전달
+                {
+                    dialogueManager.ShowDialogue(dialogues, explainNum);
+                }
+                else //explainNum 없으면 그냥
+                {
+                    dialogueManager.ShowDialogue(dialogues);
+                }
             }
         }
     }

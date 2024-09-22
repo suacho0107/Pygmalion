@@ -35,8 +35,17 @@ public class PlayerMove : MonoBehaviour
             activeInteract = value;
             if (activeInteract == true)
             {
-                NPC npc = FindObjectOfType<NPC>();
-                npc.StartDialogue();
+                //Vector2 rayOg = new Vector2(rigid.position.x, rigid.position.y + 0.7f);
+                RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+
+                if (rayHit.collider != null)
+                {
+                    NPC npc = rayHit.collider.GetComponent<NPC>();
+                    if (npc != null)
+                    {
+                        npc.StartDialogue();
+                    }
+                }
             }
         }
     }    
@@ -205,10 +214,14 @@ public class PlayerMove : MonoBehaviour
             Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
             rigid.velocity = moveVec * moveSpeed;
         }
-        
+
         // Ray
+        //Vector2 rayOg = new Vector2(rigid.position.x, rigid.position.y + 0.7f);
+        //Debug.DrawRay(rayOg, dirVec * 1f, new Color(0, 1, 0));
+        //RaycastHit2D rayHit = Physics2D.Raycast(rayOg, dirVec, 1f, LayerMask.GetMask("InteractObj"));
         Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+        //Debug.Log("대상 오브젝트: "+ rayHit.collider.gameObject.name);
 
         if (rayHit.collider != null)
         {

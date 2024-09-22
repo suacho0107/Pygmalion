@@ -9,7 +9,7 @@ public class SelectParser : MonoBehaviour
         List<Select> selectList = new List<Select>(); //선지 List 생성
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName); //csv파일 TextAsset으로 변환해서 가져옴
 
-        if (csvData == null)
+        if (csvData == null) //null 처리
         {
             return null;
         }
