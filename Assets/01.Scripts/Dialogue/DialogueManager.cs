@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,12 +22,12 @@ public class DialogueManager : MonoBehaviour
 
     InteractionEvent interactionEvent;
     NPC npc; //= currentNPC
-    //public PlayerMove playerMove;
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
 
     bool isDialogue = false;
     bool isNext = false; //특정 키 입력 대기
     bool isSelect = false;
+    bool isExplain = false; //설명대사인지 구분
 
     int lineCount = 0; //대화 카운트
     int contextCount = 0; //대사 카운트
@@ -48,7 +47,6 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("SetNPC: NPC is null.");
         }
     }
-
     private void Start()
     {
         dialoguePanel.SetActive(false);
@@ -67,6 +65,7 @@ public class DialogueManager : MonoBehaviour
                 isNext = false;
                 dialogueText.text = "";
 
+                //skipNum이 있으면
                 if (!string.IsNullOrEmpty(dialogues[lineCount].skipNum[contextCount]))
                 {
                     int skipLine;
@@ -77,16 +76,18 @@ public class DialogueManager : MonoBehaviour
                     }
                 }
 
-                // 선지 선택 여부를 확인하고 로드
-                if (!string.IsNullOrEmpty(dialogues[lineCount].eventNum[contextCount])) //eventNum이 Null이 아니면
+                //eventNum이 있으면: 선지대화
+                if (!string.IsNullOrEmpty(dialogues[lineCount].eventNum[contextCount]))
                 {
-                    // selectFileName이 비어 있지 않을 때만 호출
-                    if (!string.IsNullOrEmpty(npc.selectFileName))
+                    if (!string.IsNullOrEmpty(npc.selectFileName)) //selectFileName 유무 확인
                     {
                         interactionEvent.LoadSelect(npc.selectFileName);
 
                         if (interactionEvent.Select != null && interactionEvent.Select.selects.Length > 0)
                         {
+                            //한 대화에 선지대사 2번인 거 고쳐보려다 일단 말았음
+                            //int eNum =  int.Parse(dialogues[lineCount].eventNum[contextCount]);
+                            //Debug.Log("ShowSelect 전: " + interactionEvent.Select.selects);
                             ShowSelect(interactionEvent.Select.selects);
                         }
                         else
@@ -99,23 +100,31 @@ public class DialogueManager : MonoBehaviour
                         Debug.LogWarning("npc.selectFileName 공백");
                     }
                 }
-                else
+                else //eventNum이 없으면: 선지 없는 그냥 대화
                 {
-                    if (++contextCount < dialogues[lineCount].contexts.Length)
+                    if (++contextCount < dialogues[lineCount].contexts.Length) //line의 contexts.Length 미만이면
                     {
                         StartCoroutine(DialogueWriter()); //같은 name 밑의 context만 변경
                     }
-                    else
+                    else //line을 넘겨야 하면
                     {
-                        contextCount = 0;
-                        if (++lineCount < dialogues.Length)
+                        if (!isExplain) //설명문이 아니면 line도 넘김
                         {
-                            StartCoroutine(DialogueWriter()); //name과 context 모두 변경
+                            contextCount = 0;
+                            if (++lineCount < dialogues.Length)
+                            {
+                                StartCoroutine(DialogueWriter()); //name과 context 모두 변경
+                            }
+                            else
+                            {
+                                EndDialogue();
+                            }
                         }
-                        else
+                        else //설명문이면 걍 끝내
                         {
                             EndDialogue();
                         }
+
                     }
                 }
 
@@ -124,15 +133,43 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(Dialogue[] _dialogues)
+    public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
         isDialogue = true;
-
         dialogueText.text = "";
         nameText.text = "";
         dialogues = _dialogues;
 
-        StartCoroutine(DialogueWriter());
+        if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
+        {
+            isExplain = true;
+
+            int explainLine;
+            if (int.TryParse(explainNum, out explainLine))
+            {
+                if (explainLine > 0 && explainLine <= dialogues.Length)
+                {
+                    lineCount = explainLine - 1; //explainLine번째 line으로 이동; 근데 왜 -1인진 모르겠음... 그냥 잘 돌아감
+                    contextCount = 0;
+                }
+                else //예외처리
+                {
+                    Debug.LogError("Invalid explainNum. Starting from the first dialogue.");
+                    lineCount = 0; // explainNum이 잘못된 경우 첫 번째 대화로 시작
+                }
+            }
+            else //예외처리
+            {
+                Debug.LogError("Failed to parse explainNum. Starting from the first dialogue.");
+                lineCount = 0; // explainNum 파싱 실패 시 첫 번째 대화로 시작
+            }
+        }
+        else //explainNum 없으면 그냥 처음부터
+        {
+            lineCount = 0;
+        }
+
+        StartCoroutine(DialogueWriter()); //대화 시작
     }
 
     public void ShowSelect(Select[] _selects)
@@ -179,6 +216,7 @@ public class DialogueManager : MonoBehaviour
         lineCount = 0;
         dialogues = null;
         isNext = false;
+        isExplain = false;
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
@@ -198,13 +236,12 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator DialogueWriter()
     {
-        //Debug.Log(dialogues[lineCount].name);
-        if (dialogues[lineCount].name != "")
+        if (dialogues[lineCount].name != "") //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
             namePanel.SetActive(true);
         }
-        else
+        else //name 없으면
         {
             dialoguePanel.SetActive(true);
             namePanel.SetActive(false);
@@ -212,9 +249,11 @@ public class DialogueManager : MonoBehaviour
 
         string replaceText = dialogues[lineCount].contexts[contextCount];
         replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
+        replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
 
-        nameText.text = dialogues[lineCount].name;
+        nameText.text = dialogues[lineCount].name; //name 출력
 
+        //context 출력
         for (int i = 0; i < replaceText.Length; i++)
         {
             dialogueText.text += replaceText[i];
