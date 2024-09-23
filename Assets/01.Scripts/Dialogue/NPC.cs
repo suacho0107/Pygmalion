@@ -7,11 +7,12 @@ public class NPC : MonoBehaviour
     public DialogueManager dialogueManager;
     public InteractionEvent interactionEvent; // 이 NPC와 연결된 InteractionEvent
 
-    [SerializeField] private string dialogueFileName;
+    [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
-    [SerializeField] private string[] dialogueFiles; // 파일 변경 배열 추가
-    [SerializeField] private string[] selectFiles;
-    int currentIndex = 0;
+    [SerializeField] public string explainNum;
+    [SerializeField] public string[] dialogueFiles; // 파일 변경 배열 추가
+    [SerializeField] public string[] selectFiles;
+    public int currentIndex = 0;
 
     public bool isChecked = false;
 
@@ -19,15 +20,13 @@ public class NPC : MonoBehaviour
     //{
     //    StartDialogue();
     //}
-
-    private void Start()
-    {
-        dialogueFiles = new string[] { "Tutorial1_dialogue", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue" };
-        selectFiles = new string[] { "Tutorial1_select", "", "", "", ""};
-        dialogueFileName = dialogueFiles[currentIndex];
-        selectFileName = selectFiles[currentIndex];
-    }
-
+    //private void Start()
+    //{
+    //    dialogueFiles = new string[] { "Tutorial1_dialogue", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue" };
+    //    selectFiles = new string[] { "Tutorial1_select", "", "", "", ""};
+    //    dialogueFileName = dialogueFiles[currentIndex];
+    //    selectFileName = selectFiles[currentIndex];
+    //}
     private void Update()
     {
         if (isChecked)
@@ -43,7 +42,7 @@ public class NPC : MonoBehaviour
         {
             dialogueManager.SetNPC(this);
         }
-        else
+        else //null 처리
         {
             Debug.LogError("DialogueManager is null.");
         }
@@ -51,13 +50,21 @@ public class NPC : MonoBehaviour
         InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
         if (interactionEvent != null)
         {
-            interactionEvent.LoadDialogue(dialogueFileName);
+
+            if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면 전달
+            {
+                interactionEvent.LoadDialogue(dialogueFileName, explainNum);
+            }
+            else //explainNum 없으면 그냥
+            {
+                interactionEvent.LoadDialogue(dialogueFileName);
+            }
         }
     }
 
     void ChangeDialogueFile()
     {
-        if(currentIndex < dialogueFiles.Length - 1)
+        if (currentIndex < dialogueFiles.Length - 1)
         {
             currentIndex++;
             dialogueFileName = dialogueFiles[currentIndex];
