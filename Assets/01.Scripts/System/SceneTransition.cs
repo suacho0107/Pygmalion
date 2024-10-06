@@ -11,24 +11,6 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] SceneData sceneData;
     [SerializeField] string nextScene;
 
-    //[SerializeField] GameObject obj3;
-    //[SerializeField] GameObject obj4;
-
-    //private void Awake()
-    //{
-    //    string currentSceneName = SceneManager.GetActiveScene().name;
-    //    if (currentSceneName == "Museum_ExhibitionRoom2")
-    //    {
-    //        int sceneIndex = GetSceneIndex(currentSceneName);
-    //        if (sceneIndex != -1 && sceneData.scenes[sceneIndex].visitCount == 2)
-    //        {
-    //            Vector3 tempPos = obj3.transform.position;
-    //            obj3.transform.position = obj4.transform.position;
-    //            obj4.transform.position = tempPos;
-    //        }
-    //    }
-    //}
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))

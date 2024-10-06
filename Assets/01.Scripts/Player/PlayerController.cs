@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
 
     private bool isChecked;
 
+    private void Awake()
+    {
+        Debug.Log($"현재 위치: {transform.position}");
+    }
+
     void Update()
     {
         playerPos.currentPosition = transform.position;

@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// 전시실2 조각상 위치 변경 스크립트
+    /// </summary>
+
     [SerializeField] SceneData sceneData;
 
     [SerializeField] GameObject statue_3;
