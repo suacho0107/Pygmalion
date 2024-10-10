@@ -205,6 +205,20 @@ public class PlayerMove : MonoBehaviour
                 pState = PlayerState.Move;
             }
         }
+
+        Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+
+        if (rayHit.collider != null)
+        {
+            //Debug.Log("F키 활성화");
+            //FKeyDown();
+            if (Input.GetKeyDown(KeyCode.F) && !keyDown)
+            {
+                keyDown = true;
+                ActiveInteract = true;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -219,20 +233,23 @@ public class PlayerMove : MonoBehaviour
         //Vector2 rayOg = new Vector2(rigid.position.x, rigid.position.y + 0.7f);
         //Debug.DrawRay(rayOg, dirVec * 1f, new Color(0, 1, 0));
         //RaycastHit2D rayHit = Physics2D.Raycast(rayOg, dirVec, 1f, LayerMask.GetMask("InteractObj"));
-        Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+        
+        // Update로 이동
+        //Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
+        //RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
         //Debug.Log("대상 오브젝트: "+ rayHit.collider.gameObject.name);
 
-        if (rayHit.collider != null)
-        {
-            //Debug.Log("F키 활성화");
-            //FKeyDown();
-            if (Input.GetKeyDown(KeyCode.F) && !keyDown)
-            {
-                keyDown = true;
-                ActiveInteract = true;
-            }
-        }
+        // Update로 이동
+        //if (rayHit.collider != null)
+        //{
+        //    //Debug.Log("F키 활성화");
+        //    //FKeyDown();
+        //    if (Input.GetKeyDown(KeyCode.F) && !keyDown)
+        //    {
+        //        keyDown = true;
+        //        ActiveInteract = true;
+        //    }
+        //}
     }
 
     //public void FKeyDown()
