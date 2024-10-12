@@ -40,7 +40,7 @@ public class StatueController : MonoBehaviour
     }
     void Start()
     {
-        sState = StatueState.Move;
+        sState = StatueState.Idle;
         originPos = transform.position;
         player = GameObject.Find("Player").transform;        
     }
@@ -84,6 +84,7 @@ public class StatueController : MonoBehaviour
 
     void sStateIdle()
     {
+        rigid.isKinematic = true;
         // 판별 후 전투 씬으로 이동 - 이 스크립트에서?
         //if(StatueState == enemey)
         //{
@@ -113,6 +114,7 @@ public class StatueController : MonoBehaviour
 
     void sStateMove()
     {
+        rigid.isKinematic = true;
         Vector2 dirVec = randPos - rigid.position;
 
         if (Mathf.Abs(dirVec.x) > Mathf.Abs(dirVec.y))
@@ -137,6 +139,7 @@ public class StatueController : MonoBehaviour
 
     void sStateChase()
     {
+        rigid.isKinematic = true;
         Vector2 dirVec = player.position - transform.position;
 
         if (Mathf.Abs(dirVec.x) > Mathf.Abs(dirVec.y))
@@ -177,6 +180,7 @@ public class StatueController : MonoBehaviour
 
     void sStateDestroyed()
     {
+        rigid.isKinematic = true;
         // 전투 종료(전투 씬 --> 맵 씬 전환) 후
         // 움직임 제거
         // 파괴된 조각상 일러스트
