@@ -13,9 +13,13 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] Button selectBtn1;
     [SerializeField] Button selectBtn2;
+    [SerializeField] Button selectBtn3;
+    [SerializeField] Button selectBtn4;
 
     [SerializeField] Text selectText1;
     [SerializeField] Text selectText2;
+    [SerializeField] Text selectText3;
+    [SerializeField] Text selectText4;
 
     Dialogue[] dialogues;
     Select[] selects;
@@ -53,6 +57,8 @@ public class DialogueManager : MonoBehaviour
         namePanel.SetActive(false);
         selectBtn1.gameObject.SetActive(false);
         selectBtn2.gameObject.SetActive(false);
+        selectBtn3.gameObject.SetActive(false);
+        selectBtn4.gameObject.SetActive(false);
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
     }
 
@@ -184,13 +190,63 @@ public class DialogueManager : MonoBehaviour
 
         selectText1.text = "";
         selectText2.text = "";
+        selectText3.text = "";
+        selectText4.text = "";
         selects = _selects;
 
         StartCoroutine(SelectWriter());
     }
 
-    public void OnSelectButtonClicked(int selectedIndex)
+    public void OnSelectButtonClicked(int selectedIndex, int currentIndex) // 판별 매개변수 추가(currentIndex)
     {
+        //Debug.Log("누른 버튼:" + currentIndex);
+        if (npc.isStatue)
+        {
+            if (!npc.isChecked && currentIndex == 0) // 첫 번째 상호작용(조사): 선지 2개 출력
+            {
+                npc.isChecked = true;
+                Debug.Log("statue.isChecked == True");
+            }
+            else if (!npc.isChecked && currentIndex == 1)
+            {
+                Debug.Log("1) 그대로 둔다");
+            }
+            else if (npc.isChecked && currentIndex == 0) // 두 번째 상호작용(판별): 선지 4개 출력
+            {
+                Debug.Log("2) 다시 살펴본다");
+            }
+            else if (npc.isChecked && currentIndex == 1)
+            {
+                if (npc.isEnemy)
+                {// 건드린다 --> 정답
+                    npc.isJudged = true;
+                    npc.isCorrect = true;
+                }
+                else
+                {// 건드린다 --> 오답
+                    npc.isJudged = true;
+                    npc.isCorrect = false;
+                }
+            }
+            else if (npc.isChecked && currentIndex == 2)
+            {
+                if (npc.isEnemy)
+                {// 이상 없음 --> 오답
+                    npc.isJudged = true;
+                    npc.isCorrect = false;
+                }
+                else
+                {// 이상 없음 --> 정답
+                    npc.isJudged = true;
+                    npc.isCorrect = true;
+                }
+            }
+            else if (npc.isChecked && currentIndex == 3)
+            {// 그대로 둔다
+                Debug.Log("2) 그대로 둔다");
+            }
+        }
+
         int targetLineCount = (int)selectedIndex - 1;
 
         if (targetLineCount >= 0 && targetLineCount < dialogues.Length) //targetLineCount가 0 이상이고, dialogues 안에 있으면
@@ -199,6 +255,11 @@ public class DialogueManager : MonoBehaviour
             contextCount = 0; //contextCount 초기화
             EndSelect(); //Select End하기
             StartCoroutine(DialogueWriter()); //변경한 lineCount, contextCount로 DialogueWriter 실행
+        }
+        else if (selectedIndex == 0) // 선지 선택 직후 대화 종료
+        {
+            EndSelect();
+            EndDialogue();
         }
         else
         {
@@ -232,6 +293,11 @@ public class DialogueManager : MonoBehaviour
         selectBtn2.gameObject.SetActive(false);
         selectText1.gameObject.SetActive(false);
         selectText2.gameObject.SetActive(false);
+
+        selectBtn3.gameObject.SetActive(false);
+        selectBtn4.gameObject.SetActive(false);
+        selectText3.gameObject.SetActive(false);
+        selectText4.gameObject.SetActive(false);
     }
 
     IEnumerator DialogueWriter()
@@ -267,8 +333,8 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator SelectWriter()
     {
-        Button[] buttons = { selectBtn1, selectBtn2 };
-        Text[] texts = { selectText1, selectText2 };
+        Button[] buttons = { selectBtn1, selectBtn2, selectBtn3, selectBtn4 };
+        Text[] texts = { selectText1, selectText2, selectText3, selectText4 };
 
         for (int i = 0; i < selects.Length; i++)
         {
@@ -293,8 +359,10 @@ public class DialogueManager : MonoBehaviour
                         int selectedMoveNumInt;
                         int.TryParse(selectedMoveNum, out selectedMoveNumInt);
 
+                        int currentSelectNum = j;// 판별 추가 코드
+
                         buttons[j].onClick.RemoveAllListeners();
-                        buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt));
+                        buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
                     }
                 }
             }
