@@ -7,6 +7,8 @@ public class NPC : MonoBehaviour
 {
     public DialogueManager dialogueManager;
     public InteractionEvent interactionEvent; // 이 NPC와 연결된 InteractionEvent
+    public MuseumLobbyCSV csv; // A와 상호작용 종료 시 B 대화 파일 변경, csv 파일 목록 한번에 관리하는 스크립트로 변경할 수 있을까?
+    public StatueScore statueScore;
     //public StatueController statueController;
 
     public bool isStatue = false;
@@ -14,8 +16,12 @@ public class NPC : MonoBehaviour
     public bool isJudged = false;
     public bool isEnemy = false;
     public bool isCorrect;
+    public bool tutorial = false;
+    public bool isInteract = false;
 
     bool isDialogueChanged = false;
+    bool isFin = false;
+    int lastCount = -1;
 
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
@@ -24,18 +30,9 @@ public class NPC : MonoBehaviour
     [SerializeField] public string[] selectFiles;
     public int currentIndex = 0;
 
-    //public bool isChecked = false;
-
     //private void OnMouseDown()
     //{
     //    StartDialogue();
-    //}
-    //private void Start()
-    //{
-    //    dialogueFiles = new string[] { "Tutorial1_dialogue", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue" };
-    //    selectFiles = new string[] { "Tutorial1_select", "", "", "", ""};
-    //    dialogueFileName = dialogueFiles[currentIndex];
-    //    selectFileName = selectFiles[currentIndex];
     //}
 
     private void Start()
@@ -47,10 +44,39 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
-        //if (isChecked)
-        //{
-        //    ChangeDialogueFile();
-        //}
+        if(tutorial && csv != null)// 미술관장 tutorial V
+        {
+            // 미술관장과의 첫 대화가 끝나면 isInteract == true;
+            if(isInteract)
+            {
+                if (!isDialogueChanged)
+                {
+                    csv.npcs[1].ChangeDialogueFile(); // 조각상(npcs[1])의 대화 파일 변경
+                    isDialogueChanged = true;
+                }
+
+                // 조각상 판별 개수에 따라 대화 파일 변경
+                if (statueScore != null && isDialogueChanged && !isFin && statueScore.statueCount != lastCount)
+                {
+                    lastCount = statueScore.statueCount;
+
+                    if (lastCount == 1)
+                    {
+                        ChangeDialogueFile();
+                    }
+                    else if (lastCount > 1 && lastCount < 6)
+                    {
+                        ChangeDialogueFile();
+                    }
+                    else if (lastCount == 6)
+                    {
+                        ChangeDialogueFile();
+                        isFin = true;
+                    }
+                }
+            }
+        }
+
         if (isStatue && isChecked)
         {
             if (!isDialogueChanged)
@@ -79,11 +105,14 @@ public class NPC : MonoBehaviour
                     if (isCorrect)
                     {// 이상 없음 --> 정답 --> 기록 효과~ --> count++
                         Debug.Log("이상 없음 > 정답");
+                        StatueScore statueScore = FindObjectOfType<StatueScore>();
+                        statueScore.statueCount =+ 1;
                     }
                     else
                     {// 건드린다 --> 오답 --> 조각상이 힘없이 무너져내린다... --> statueState.Destroyed
                         Debug.Log("건드린다 > 오답");
                         ChangeDialogueFile("2");
+                        statueScore.statueCount = +1;
                         //statueController.sState = statueController.StatueState.Destroyed;
                     }
                 }

@@ -17,7 +17,7 @@ public class MuseumLobbyCSV : MonoBehaviour
             npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
             npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
 
-            // 조각상 기본 csv: 미술관장과 상호작용 하기 전?
+            // 조각상 기본 csv: 미술관장과 상호작용 하기 전
             //npcs[1].dialogueFiles = new string[] { "stage1_lobby_dialogue" };
             //npcs[1].selectFiles = new string[] { "" };
             //npcs[1].currentIndex = 0;
@@ -25,8 +25,8 @@ public class MuseumLobbyCSV : MonoBehaviour
             //npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
 
             // 조각상 판별 csv(테스트)
-            npcs[1].dialogueFiles = new string[] { "judge1_dialogue", "judge1_dialogue", "battleDialogue1" };
-            npcs[1].selectFiles = new string[] { "judge1_select", "judge2_select", "" };
+            npcs[1].dialogueFiles = new string[] { "stage1_lobby_dialogue", "judge1_dialogue", "judge1_dialogue", "battleDialogue1" };
+            npcs[1].selectFiles = new string[] { "", "judge1_select", "judge2_select", "" };
             npcs[1].currentIndex = 0;
             npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
             npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];

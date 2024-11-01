@@ -42,7 +42,7 @@ public class StatueController : MonoBehaviour
     {
         sState = StatueState.Idle;
         originPos = transform.position;
-        player = GameObject.Find("Player").transform;        
+        player = GameObject.Find("Player").transform;
     }
 
     void Update()
