@@ -278,6 +278,7 @@ public class DialogueManager : MonoBehaviour
         dialogues = null;
         isNext = false;
         isExplain = false;
+        npc.isInteract = true;
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
