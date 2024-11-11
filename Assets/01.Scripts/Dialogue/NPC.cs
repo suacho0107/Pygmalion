@@ -8,6 +8,7 @@ public class NPC : MonoBehaviour
     public DialogueManager dialogueManager;
     public InteractionEvent interactionEvent; // 이 NPC와 연결된 InteractionEvent
     public MuseumLobbyCSV csv; // A와 상호작용 종료 시 B 대화 파일 변경, csv 파일 목록 한번에 관리하는 스크립트로 변경할 수 있을까?
+    public CompanyOfficeCSV csv_company; // A와 상호작용 종료 시 B 대화 파일 변경, csv 파일 목록 한번에 관리하는 스크립트로 변경할 수 있을까?
     public StatueScore statueScore;
     //public StatueController statueController;
 
@@ -18,6 +19,11 @@ public class NPC : MonoBehaviour
     public bool isCorrect;
     public bool tutorial = false;
     public bool isInteract = false;
+    /// <summary>
+    /// 업무 지시서 코드 테스트
+    /// </summary>
+    public bool requestChat = false;
+    public bool isSend = false;
 
     bool isDialogueChanged = false;
     bool isFin = false;
@@ -44,6 +50,13 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
+        if (requestChat && csv_company != null)
+        {
+            ChangeDialogueFile();
+
+            // 조건 추가
+        }
+
         if(tutorial && csv != null)// 미술관장 tutorial V
         {
             // 미술관장과의 첫 대화가 끝나면 isInteract == true;
