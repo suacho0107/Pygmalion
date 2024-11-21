@@ -40,6 +40,7 @@ public class PlayerMove : MonoBehaviour
 
                 if (rayHit.collider != null)
                 {
+                    // NPC의 npc 객체 가져오기(방법 다르게)
                     NPC npc = rayHit.collider.GetComponent<NPC>();
                     if (npc != null)
                     {
