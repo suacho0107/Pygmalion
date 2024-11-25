@@ -1417,6 +1417,22 @@ MonoBehaviour:
   interactionEvent: {fileID: 547722789}
   csv: {fileID: 0}
   statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  spriteRenderer: {fileID: 0}
+  destroyedSprite: {fileID: 0}
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -1424,6 +1440,11 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
+  isTutoDialogueChanged: 0
+  isTutoFin: 0
+  isFin: 0
+  result: 0
+  isSpriteChanged: 0
   dialogueFileName: stage1_lobby_dialogue
   selectFileName: 
   explainNum: 6
@@ -2858,7 +2879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8041798209513320476, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_Name
-      value: statue 0
+      value: stage1_statue 1
       objectReference: {fileID: 0}
     - target: {fileID: 8041798209513320476, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_Layer
@@ -2910,6 +2931,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
+--- !u!212 &909144929 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8041798209513320479, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
+  m_PrefabInstance: {fileID: 909144928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &922056697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6401,6 +6427,9 @@ MonoBehaviour:
   statueScorePanel: {fileID: 1265613735}
   statueScoreText: {fileID: 322831989}
   statueCount: 0
+  destroyedCount: 0
+  checkedCount: 0
+  fightCount: 0
 --- !u!1 &1360671720
 GameObject:
   m_ObjectHideFlags: 0
@@ -7661,6 +7690,22 @@ MonoBehaviour:
   interactionEvent: {fileID: 1726397087}
   csv: {fileID: 1726397086}
   statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  spriteRenderer: {fileID: 0}
+  destroyedSprite: {fileID: 0}
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -7668,6 +7713,11 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
+  isTutoDialogueChanged: 0
+  isTutoFin: 0
+  isFin: 0
+  result: 0
+  isSpriteChanged: 0
   dialogueFileName: stage1_lobby_dialogue
   selectFileName: 
   explainNum: 2
@@ -8931,8 +8981,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 2065348656}
-  csv: {fileID: 0}
+  csv: {fileID: 2065348662}
   statueScore: {fileID: 1327760292}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  spriteRenderer: {fileID: 909144929}
+  destroyedSprite: {fileID: -947290737, guid: 5cbbdc16996fb6642a13dd4b9722ffc9, type: 3}
   isStatue: 1
   isChecked: 0
   isJudged: 0
@@ -8940,7 +9006,12 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  dialogueFileName: stage1_lobby_dialogue
+  isTutoDialogueChanged: 0
+  isTutoFin: 0
+  isFin: 0
+  result: 0
+  isSpriteChanged: 0
+  dialogueFileName: 
   selectFileName: 
   explainNum: 1
   dialogueFiles: []
@@ -9016,8 +9087,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 2143907461}
-  csv: {fileID: 2065348662}
+  csv: {fileID: 2143907466}
   statueScore: {fileID: 1327760292}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  spriteRenderer: {fileID: 2143907464}
+  destroyedSprite: {fileID: 0}
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -9025,6 +9112,11 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 1
   isInteract: 0
+  isTutoDialogueChanged: 0
+  isTutoFin: 0
+  isFin: 0
+  result: 0
+  isSpriteChanged: 0
   dialogueFileName: Check3_dialogue
   selectFileName: 
   explainNum: 

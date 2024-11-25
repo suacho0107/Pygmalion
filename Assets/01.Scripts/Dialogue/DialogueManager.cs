@@ -29,6 +29,7 @@ public class DialogueManager : MonoBehaviour
     NPC npc; //= currentNPC
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     StatueScore statueScore;
+    MuseumLobbyCSV csv;
 
     bool isDialogue = false;
     bool isNext = false; //특정 키 입력 대기
@@ -208,6 +209,7 @@ public class DialogueManager : MonoBehaviour
             if (!npc.isChecked && currentIndex == 0) // 첫 번째 상호작용(조사): 선지 2개 출력
             {
                 npc.isChecked = true;
+                npc.SaveNPCData();
                 Debug.Log("statue.isChecked == True");
             }
             else if (!npc.isChecked && currentIndex == 1)
@@ -229,11 +231,13 @@ public class DialogueManager : MonoBehaviour
                 {// 건드린다 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    //npc.SaveNPCData();
                 }
                 else
                 {// 건드린다 --> 오답
                     npc.isJudged = true;
                     npc.isCorrect = false;
+                    //npc.SaveNPCData();
                 }
             }
             else if (npc.isChecked && currentIndex == 2)
@@ -245,11 +249,13 @@ public class DialogueManager : MonoBehaviour
                 {// 이상 없음 --> 오답
                     npc.isJudged = true;
                     npc.isCorrect = false;
+                    //npc.SaveNPCData();
                 }
                 else
                 {// 이상 없음 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    //npc.SaveNPCData();
                 }
             }
             else if (npc.isChecked && currentIndex == 3)
@@ -289,8 +295,39 @@ public class DialogueManager : MonoBehaviour
         dialogues = null;
         isNext = false;
         isExplain = false;
-        npc.isInteract = true;
-        npc.SaveTuto();
+        npc.isInteract = true; // 미술관장
+        if(npc.dialogueFileName == "Tutorial2_dialogue")
+        {
+            npc.isTutoFin = true;
+            Debug.Log("isTutoFin True 테스트 완료 시 삭제할 로그");
+        }
+        if(npc.isStatue && npc.isChecked && npc.isJudged)
+        {
+            if(npc.isEnemy)
+            {
+                npc.result = true;
+            }
+            else
+            {
+                if (npc.isCorrect)
+                {
+                    if (npc.currentIndex == 2)
+                    {
+                        npc.result = true;
+                        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                    }
+                }
+                else
+                {
+                    if (npc.currentIndex == 3)
+                    {
+                        npc.result = true;
+                        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                    }
+                }
+            }
+        }
+        npc.SaveNPCData();
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
