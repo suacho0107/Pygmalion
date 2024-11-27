@@ -25,7 +25,7 @@ public class DialogueManager : MonoBehaviour
     Select[] selects;
 
     InteractionEvent interactionEvent;
-    NPC npc; //= currentNPC
+    NPC npc; //= currentNPCZ
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
 
     bool isDialogue = false;
@@ -51,6 +51,7 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("SetNPC: NPC is null.");
         }
     }
+    
     private void Start()
     {
         dialoguePanel.SetActive(false);
@@ -169,6 +170,8 @@ public class DialogueManager : MonoBehaviour
                 Debug.LogError("Failed to parse explainNum. Starting from the first dialogue.");
                 lineCount = 0; // explainNum 파싱 실패 시 첫 번째 대화로 시작
             }
+
+
         }
         else //explainNum 없으면 그냥 처음부터
         {
@@ -268,7 +271,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-
     void EndDialogue()
     {
         //초기화
@@ -329,8 +331,6 @@ public class DialogueManager : MonoBehaviour
 
         isNext = true;
     }
-
-
 
     IEnumerator SelectWriter()
     {
