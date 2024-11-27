@@ -155,7 +155,7 @@ public class PlayerMove : MonoBehaviour
 
         void pStateInteraction()
         {
-            Debug.Log("pState = Interaction");
+            //Debug.Log("pState = Interaction");
             if (hDown && h == -1)
             {
                 Debug.Log("Interaction A");

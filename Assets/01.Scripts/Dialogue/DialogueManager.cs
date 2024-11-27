@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,8 @@ public class DialogueManager : MonoBehaviour
     InteractionEvent interactionEvent;
     NPC npc; //= currentNPCZ
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
+    StatueScore statueScore;
+    MuseumLobbyCSV csv;
 
     bool isDialogue = false;
     bool isNext = false; //특정 키 입력 대기
@@ -61,6 +64,7 @@ public class DialogueManager : MonoBehaviour
         selectBtn3.gameObject.SetActive(false);
         selectBtn4.gameObject.SetActive(false);
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
+        statueScore = FindObjectOfType<StatueScore>();
     }
 
     private void Update()
@@ -208,40 +212,53 @@ public class DialogueManager : MonoBehaviour
             if (!npc.isChecked && currentIndex == 0) // 첫 번째 상호작용(조사): 선지 2개 출력
             {
                 npc.isChecked = true;
+                npc.SaveNPCData();
                 Debug.Log("statue.isChecked == True");
             }
             else if (!npc.isChecked && currentIndex == 1)
             {
                 Debug.Log("1) 그대로 둔다");
             }
-            else if (npc.isChecked && currentIndex == 0) // 두 번째 상호작용(판별): 선지 4개 출력
+            else if (npc.isChecked && currentIndex == 0 ) // 두 번째 상호작용(판별): 선지 4개 출력
             {
                 Debug.Log("2) 다시 살펴본다");
+                statueScore.checkedCount += 1;
+                statueScore.SaveScore();
             }
-            else if (npc.isChecked && currentIndex == 1)
+            else if (npc.isChecked && currentIndex == 1 )
             {
+                statueScore.checkedCount += 1;
+                statueScore.SaveScore();
+
                 if (npc.isEnemy)
                 {// 건드린다 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    //npc.SaveNPCData();
                 }
                 else
                 {// 건드린다 --> 오답
                     npc.isJudged = true;
                     npc.isCorrect = false;
+                    //npc.SaveNPCData();
                 }
             }
             else if (npc.isChecked && currentIndex == 2)
             {
+                statueScore.checkedCount += 1;
+                statueScore.SaveScore();
+
                 if (npc.isEnemy)
                 {// 이상 없음 --> 오답
                     npc.isJudged = true;
                     npc.isCorrect = false;
+                    //npc.SaveNPCData();
                 }
                 else
                 {// 이상 없음 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    //npc.SaveNPCData();
                 }
             }
             else if (npc.isChecked && currentIndex == 3)
@@ -280,7 +297,39 @@ public class DialogueManager : MonoBehaviour
         dialogues = null;
         isNext = false;
         isExplain = false;
-        npc.isInteract = true;
+        npc.isInteract = true; // 미술관장
+        if(npc.dialogueFileName == "Tutorial2_dialogue")
+        {
+            npc.isTutoFin = true;
+            Debug.Log("isTutoFin True 테스트 완료 시 삭제할 로그");
+        }
+        if(npc.isStatue && npc.isChecked && npc.isJudged)
+        {
+            if(npc.isEnemy)
+            {
+                npc.result = true;
+            }
+            else
+            {
+                if (npc.isCorrect)
+                {
+                    if (npc.currentIndex == 2)
+                    {
+                        npc.result = true;
+                        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                    }
+                }
+                else
+                {
+                    if (npc.currentIndex == 3)
+                    {
+                        npc.result = true;
+                        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                    }
+                }
+            }
+        }
+        npc.SaveNPCData();
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
