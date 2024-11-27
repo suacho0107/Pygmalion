@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +27,6 @@ public class DialogueManager : MonoBehaviour
     InteractionEvent interactionEvent;
     NPC npc; //= currentNPC
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
-    StatueScore statueScore;
 
     bool isDialogue = false;
     bool isNext = false; //특정 키 입력 대기
@@ -62,7 +60,6 @@ public class DialogueManager : MonoBehaviour
         selectBtn3.gameObject.SetActive(false);
         selectBtn4.gameObject.SetActive(false);
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
-        statueScore = FindObjectOfType<StatueScore>();
     }
 
     private void Update()
@@ -214,17 +211,12 @@ public class DialogueManager : MonoBehaviour
             {
                 Debug.Log("1) 그대로 둔다");
             }
-            else if (npc.isChecked && currentIndex == 0 ) // 두 번째 상호작용(판별): 선지 4개 출력
+            else if (npc.isChecked && currentIndex == 0) // 두 번째 상호작용(판별): 선지 4개 출력
             {
                 Debug.Log("2) 다시 살펴본다");
-                statueScore.checkedCount += 1;
-                statueScore.SaveScore();
             }
-            else if (npc.isChecked && currentIndex == 1 )
+            else if (npc.isChecked && currentIndex == 1)
             {
-                statueScore.checkedCount += 1;
-                statueScore.SaveScore();
-
                 if (npc.isEnemy)
                 {// 건드린다 --> 정답
                     npc.isJudged = true;
@@ -238,9 +230,6 @@ public class DialogueManager : MonoBehaviour
             }
             else if (npc.isChecked && currentIndex == 2)
             {
-                statueScore.checkedCount += 1;
-                statueScore.SaveScore();
-
                 if (npc.isEnemy)
                 {// 이상 없음 --> 오답
                     npc.isJudged = true;
@@ -290,7 +279,6 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true;
-        npc.SaveTuto();
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);

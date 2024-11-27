@@ -19,12 +19,10 @@ public class NPC : MonoBehaviour
     public bool tutorial = false;
     public bool isInteract = false;
 
-    bool isTutoDialogueChanged = false;
-    bool isTutoFin = false;
     bool isDialogueChanged = false;
     bool isFin = false;
     int lastCount = -1;
-    
+
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
     [SerializeField] public string explainNum;
@@ -32,17 +30,17 @@ public class NPC : MonoBehaviour
     [SerializeField] public string[] selectFiles;
     public int currentIndex = 0;
 
+    //private void OnMouseDown()
+    //{
+    //    StartDialogue();
+    //}
+
     private void Start()
     {
         if(isStatue)
         {
             isChecked = false;
         }
-        //PlayerPrefs.DeleteAll();
-        isInteract = PlayerPrefs.GetInt("isInteract", 0) == 1;
-        isTutoDialogueChanged = PlayerPrefs.GetInt("isTutoDialogueChanged", 0) == 1;
-        isTutoFin = PlayerPrefs.GetInt("isTutoFin", 0) == 1;
-        lastCount = PlayerPrefs.GetInt("lastCount", lastCount);
     }
     private void Update()
     {
@@ -51,17 +49,15 @@ public class NPC : MonoBehaviour
             // 미술관장과의 첫 대화가 끝나면 isInteract == true;
             if(isInteract)
             {
-                if (!isTutoDialogueChanged)
+                if (!isDialogueChanged)
                 {
-                    csv.npcs[0].ChangeDialogueFile(); // 조각상(npcs[0])의 대화 파일 변경
-                    isTutoDialogueChanged = true;
-                    SaveTuto();
+                    csv.npcs[1].ChangeDialogueFile(); // 조각상(npcs[1])의 대화 파일 변경
+                    isDialogueChanged = true;
                 }
 
                 // 조각상 판별 개수에 따라 대화 파일 변경
-                if (isTutoDialogueChanged && !isTutoFin && statueScore.statueCount != lastCount)
+                if (statueScore != null && isDialogueChanged && !isFin && statueScore.statueCount != lastCount)
                 {
-                    // 아예 여기로 안 넘어오는 듯
                     lastCount = statueScore.statueCount;
 
                     if (lastCount == 1)
@@ -75,8 +71,7 @@ public class NPC : MonoBehaviour
                     else if (lastCount == 6)
                     {
                         ChangeDialogueFile();
-                        isTutoFin = true;
-                        SaveTuto();
+                        isFin = true;
                     }
                 }
             }
@@ -105,24 +100,19 @@ public class NPC : MonoBehaviour
                         SceneManager.LoadScene("Demo_minjoo");
                     }
                 }
-                else if (!isEnemy && isJudged && !isFin)
+                else if (!isEnemy && isJudged)
                 {
                     if (isCorrect)
                     {// 이상 없음 --> 정답 --> 기록 효과~ --> count++
                         Debug.Log("이상 없음 > 정답");
-                        //StatueScore statueScore = FindObjectOfType<StatueScore>();
-                        statueScore.statueCount += 1;
-                        statueScore.SaveScore();
-                        isFin = true;
+                        StatueScore statueScore = FindObjectOfType<StatueScore>();
+                        statueScore.statueCount =+ 1;
                     }
                     else
                     {// 건드린다 --> 오답 --> 조각상이 힘없이 무너져내린다... --> statueState.Destroyed
                         Debug.Log("건드린다 > 오답");
                         ChangeDialogueFile("2");
-                        statueScore.statueCount += 1;
-                        statueScore.destroyedCount += 1;
-                        statueScore.SaveScore();
-                        isFin = true;
+                        statueScore.statueCount = +1;
                         //statueController.sState = statueController.StatueState.Destroyed;
                     }
                 }
@@ -177,7 +167,7 @@ public class NPC : MonoBehaviour
                 currentIndex++;
                 dialogueFileName = dialogueFiles[currentIndex];
                 selectFileName = selectFiles[currentIndex];
-                //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+                Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
 
                 StartCoroutine(TriggerDialogue());
             }
@@ -194,13 +184,5 @@ public class NPC : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
-    }
-
-    public void SaveTuto()
-    {
-        PlayerPrefs.SetInt("isInteract", isInteract ? 1 : 0);
-        PlayerPrefs.SetInt("isDialogueChanged", isTutoDialogueChanged ? 1 : 0);
-        PlayerPrefs.SetInt("isTutoFin", isTutoFin ? 1 : 0);
-        PlayerPrefs.Save();
     }
 }
