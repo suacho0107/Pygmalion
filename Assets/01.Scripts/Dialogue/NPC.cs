@@ -50,7 +50,7 @@ public class NPC : MonoBehaviour
     }
     private void Start()
     {
-        ResetNPCData();
+        // ResetNPCData();
         LoadNPCData();
 
         //if (isStatue)
