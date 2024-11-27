@@ -356,9 +356,6 @@ MonoBehaviour:
   statueScorePanel: {fileID: 1231815518}
   statueScoreText: {fileID: 1857229409}
   statueCount: 0
-  destroyedCount: 0
-  checkedCount: 0
-  fightCount: 0
 --- !u!1001 &107339865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1156,7 +1153,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.838914, y: 5.75463, z: -20.671618}
+  m_LocalPosition: {x: -12.597586, y: 5.7546, z: -20.671618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3226,19 +3223,6 @@ MonoBehaviour:
   interactionEvent: {fileID: 880077855}
   csv: {fileID: 0}
   statueScore: {fileID: 0}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -3246,10 +3230,6 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isFin: 0
-  result: 0
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 2
@@ -5787,7 +5767,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8041798209513320476, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_Name
-      value: stage1_statue 2
+      value: statue 0
       objectReference: {fileID: 0}
     - target: {fileID: 8041798209513320476, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_Layer
@@ -5878,21 +5858,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 1060499536}
-  csv: {fileID: 1060499538}
+  csv: {fileID: 0}
   statueScore: {fileID: 87002221}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
   isStatue: 1
   isChecked: 0
   isJudged: 0
@@ -5900,17 +5867,13 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isFin: 0
-  result: 0
   dialogueFileName: judge1_dialogue
   selectFileName: judge1_select
   explainNum: 
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
---- !u!114 &1060499538
+--- !u!114 &1060499542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5919,10 +5882,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1060499535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
+  m_Script: {fileID: 11500000, guid: b4c6c1161cff2cf49b79037cd3152169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcs: []
+  npcs:
+  - {fileID: 1060499537}
 --- !u!1001 &1163372278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7104,19 +7068,6 @@ MonoBehaviour:
   interactionEvent: {fileID: 1474832420}
   csv: {fileID: 0}
   statueScore: {fileID: 87002221}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -7124,10 +7075,6 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isFin: 0
-  result: 0
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 4
@@ -7466,19 +7413,6 @@ MonoBehaviour:
   interactionEvent: {fileID: 880077855}
   csv: {fileID: 0}
   statueScore: {fileID: 0}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -7486,10 +7420,6 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isFin: 0
-  result: 0
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 1
@@ -8847,19 +8777,6 @@ MonoBehaviour:
   interactionEvent: {fileID: 880077855}
   csv: {fileID: 0}
   statueScore: {fileID: 0}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -8867,10 +8784,6 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isFin: 0
-  result: 0
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 3
