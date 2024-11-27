@@ -1,79 +1,98 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using static PlayerMove;
 
 public class NPC : MonoBehaviour
 {
-    [Header("´ëÈ­ ½Ã½ºÅÛ")]
     public DialogueManager dialogueManager;
-    public InteractionEvent interactionEvent; // ÀÌ NPC¿Í ¿¬°áµÈ InteractionEvent
-    public MuseumLobbyCSV csv; // A¿Í »óÈ£ÀÛ¿ë Á¾·á ½Ã B ´ëÈ­ ÆÄÀÏ º¯°æ, csv ÆÄÀÏ ¸ñ·Ï ÇÑ¹ø¿¡ °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®·Î º¯°æÇÒ ¼ö ÀÖÀ»±î?
+    public InteractionEvent interactionEvent; // ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ InteractionEvent
+    public MuseumLobbyCSV csv;
     public StatueScore statueScore;
+    public NPCData npcData = new NPCData();
+
+    public SpriteRenderer spriteRenderer;
+    public Sprite destroyedSprite; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     //public StatueController statueController;
 
     public bool isStatue = false;
-    public bool isChecked;
+    public bool isChecked = false;
     public bool isJudged = false;
     public bool isEnemy = false;
-    public bool isCorrect;
+    public bool isCorrect = false;
     public bool tutorial = false;
     public bool isInteract = false;
-    public bool isEnd = false;
 
+    public bool isTutoDialogueChanged = false;
+    public bool isTutoFin = false;
     bool isDialogueChanged = false;
-    bool isFin = false;
-    int lastCount = -1;
+    public bool isFin = false;
+    public bool result = false;
+
+    public bool isSpriteChanged = false;
+
+    string filePath;
+    string currentName;
 
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
     [SerializeField] public string explainNum;
-    [SerializeField] public string[] dialogueFiles; // ÆÄÀÏ º¯°æ ¹è¿­ Ãß°¡
+    [SerializeField] public string[] dialogueFiles; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ß°ï¿½
     [SerializeField] public string[] selectFiles;
     public int currentIndex = 0;
 
-    //private void OnMouseDown()
-    //{
-    //    StartDialogue();
-    //}
-
+    private void Awake()
+    {
+        filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
+        LoadNPCData();
+    }
     private void Start()
     {
-        if(isStatue)
-        {
-            isChecked = false;
-        }
+        // ResetNPCData();
+        LoadNPCData();
+
+        //if (isStatue)
+        //{
+        //    isChecked = false;
+        //}
     }
     private void Update()
     {
-        if(tutorial && csv != null)// ¹Ì¼ú°üÀå tutorial V
+        //Debug.Log(lastCount);
+        if (tutorial && csv != null)// ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ tutorial V
         {
-            // ¹Ì¼ú°üÀå°úÀÇ Ã¹ ´ëÈ­°¡ ³¡³ª¸é isInteract == true;
-            if(isInteract)
+            // ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¹ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ isInteract == true;
+            if (isInteract)
             {
-                if (!isDialogueChanged)
+                if (!isTutoDialogueChanged)
                 {
-                    csv.npcs[1].ChangeDialogueFile(); // Á¶°¢»ó(npcs[1])ÀÇ ´ëÈ­ ÆÄÀÏ º¯°æ
-                    isDialogueChanged = true;
+                    csv.npcs[0].ChangeDialogueFile(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(npcs[0])ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                    isTutoDialogueChanged = true;
+                    SaveNPCData();
                 }
 
-                // Á¶°¢»ó ÆÇº° °³¼ö¿¡ µû¶ó ´ëÈ­ ÆÄÀÏ º¯°æ
-                if (statueScore != null && isDialogueChanged && !isFin && statueScore.statueCount != lastCount)
+                if (isTutoDialogueChanged)
                 {
-                    lastCount = statueScore.statueCount;
-
-                    if (lastCount == 1)
+                    if (statueScore.statueCount == 1 && !isTutoFin)
                     {
-                        ChangeDialogueFile();
+                        ChangeDialogueFileName("Tutorial2_dialogue");
                     }
-                    else if (lastCount > 1 && lastCount < 6)
+                    if (isTutoFin)
                     {
-                        ChangeDialogueFile();
-                    }
-                    else if (lastCount == 6)
-                    {
-                        ChangeDialogueFile();
-                        isFin = true;
+                        if (statueScore.statueCount == 1)
+                        {
+                            ChangeDialogueFileName("Check1_dialogue");
+                        }
+                        else if (statueScore.statueCount > 1 && statueScore.statueCount < 6)
+                        {
+                            ChangeDialogueFileName("Check2_dialogue");
+                        }
+                        else if (statueScore.statueCount == 6)
+                        {
+                            ChangeDialogueFileName("Check3_dialogue");
+                        }
                     }
                 }
             }
@@ -81,6 +100,7 @@ public class NPC : MonoBehaviour
 
         if (isStatue && isChecked)
         {
+            isChecked = true;
             if (!isDialogueChanged)
             {
                 ChangeDialogueFile();
@@ -88,35 +108,89 @@ public class NPC : MonoBehaviour
             }
             else
             {
+                // Æ©ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã½ï¿½1ï¿½ï¿½ï¿½ï¿½, ï¿½Çºï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½×´ï¿½ï¿½ 2ï¿½ï¿½
                 if (isEnemy && isJudged)
                 {
                     if (isCorrect)
-                    {// °Çµå¸°´Ù --> Á¤´ä --> battleDialogue.csv --> ÀüÅõ ÁøÀÔ(ÇÃ·¹ÀÌ¾î ¼±°ø)
-                        Debug.Log("°Çµå¸°´Ù > Á¤´ä");
+                    {// ï¿½Çµå¸°ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ --> battleDialogue.csv --> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½)
+                        Debug.Log("ï¿½Çµå¸°ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½");
+                        isCorrect = true;
                         ChangeDialogueFile("1");
                         StartCoroutine(DelayLoadScene(1.5f, "Demo_minjoo"));
                     }
                     else
-                    {// ÀÌ»ó ¾øÀ½ --> ¿À´ä --> ±â·Ï È¿°ú~ --> ÀüÅõ ÁøÀÔ(Àû ¼±°ø)
-                        Debug.Log("ÀÌ»ó ¾øÀ½ > ¿À´ä");
+                    {// ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ È¿ï¿½ï¿½~ --> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+                        Debug.Log("ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½");
+                        isCorrect = false;
                         SceneManager.LoadScene("Demo_minjoo");
                     }
                 }
-                else if (!isEnemy && isJudged)
+                else if (!isEnemy && isJudged && !isFin)
                 {
                     if (isCorrect)
-                    {// ÀÌ»ó ¾øÀ½ --> Á¤´ä --> ±â·Ï È¿°ú~ --> count++
-                        Debug.Log("ÀÌ»ó ¾øÀ½ > Á¤´ä");
-                        StatueScore statueScore = FindObjectOfType<StatueScore>();
-                        statueScore.statueCount =+ 1;
+                    {// ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ È¿ï¿½ï¿½~ --> count++
+                        Debug.Log("ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½");
+                        //StatueScore statueScore = FindObjectOfType<StatueScore>();
+                        statueScore.statueCount += 1;
+                        statueScore.SaveScore();
+                        isCorrect = true;
+                        isFin = true;
+                        Debug.Log("currentIdnex " + currentIndex);
+                        SaveNPCData();
                     }
                     else
-                    {// °Çµå¸°´Ù --> ¿À´ä --> Á¶°¢»óÀÌ Èû¾øÀÌ ¹«³ÊÁ®³»¸°´Ù... --> statueState.Destroyed
-                        Debug.Log("°Çµå¸°´Ù > ¿À´ä");
+                    {// ï¿½Çµå¸°ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... --> statueState.Destroyed
+                        Debug.Log("ï¿½Çµå¸°ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½");
                         ChangeDialogueFile("2");
-                        statueScore.statueCount = +1;
+                        ChangeSprite();
+                        statueScore.statueCount += 1;
+                        statueScore.destroyedCount += 1;
+                        statueScore.SaveScore();
+                        isCorrect = false;
+                        isSpriteChanged = true;
+                        isFin = true;
+                        Debug.Log("currentIdnex " + currentIndex);
+                        SaveNPCData();
                         //statueController.sState = statueController.StatueState.Destroyed;
                     }
+                }
+
+                if (isDialogueChanged && isFin && result && !isEnemy)
+                {
+                    Debug.Log("result ï¿½ï¿½ï¿½");
+                    //string currentName;
+                    //dialogueFileName = currentName;
+                    if (isCorrect == true) // statueDialogue: BattleDialogue.csv ID 3
+                    {
+                        Debug.Log("statueDialogue ï¿½ï¿½ï¿½");
+                        currentIndex = 2;
+                        explainNum = "3";
+                        ChangeDialogueFile();
+                    }
+                    else // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½: ï¿½ï¿½ï¿½ï¿½ Destroyed.csv
+                    {
+                        currentIndex = 3;
+                        explainNum = "1";
+                        ChangeDialogueFile();
+                        //dialogueFileName = "Destroyed_dialogue";
+                        //SaveNPCData();
+                    }
+                    //PlayerMove playerMove = FindObjectOfType<PlayerMove>();
+                    //if(playerMove.pState == PlayerState.Interaction)
+                    //{
+                    //    if (isCorrect == true) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½: ï¿½ï¿½ï¿½ï¿½ Destroyed.csv
+                    //    {
+                    //        Debug.Log("statueDialogue ï¿½ï¿½ï¿½");
+                    //        //currentIndex = 2;
+                    //        ChangeDialogueFileName("battle1_dialogue");
+                    //    }
+                    //    else // statueDialogue: BattleDialogue.csv ID 3
+                    //    {
+                    //        ChangeDialogueFileName("Destroyed_dialogue");
+                    //        //dialogueFileName = "Destroyed_dialogue";
+                    //        //SaveNPCData();
+                    //    }
+                    //}
                 }
             }
         }
@@ -129,7 +203,7 @@ public class NPC : MonoBehaviour
         {
             dialogueManager.SetNPC(this);
         }
-        else //null Ã³¸®
+        else //null Ã³ï¿½ï¿½
         {
             Debug.LogError("DialogueManager is null.");
         }
@@ -138,18 +212,26 @@ public class NPC : MonoBehaviour
         if (interactionEvent != null)
         {
 
-            if (!string.IsNullOrEmpty(explainNum)) //explainNum ÀÖÀ¸¸é Àü´Þ
+            if (!string.IsNullOrEmpty(explainNum)) //explainNum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 interactionEvent.LoadDialogue(dialogueFileName, explainNum);
             }
-            else //explainNum ¾øÀ¸¸é ±×³É
+            else //explainNum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½
             {
                 interactionEvent.LoadDialogue(dialogueFileName);
             }
         }
     }
 
-    public void ChangeDialogueFile(string _explainNum = null)
+    void ChangeDialogueFileName(string _dialogueFileName)
+    {
+        dialogueFileName = _dialogueFileName;
+        currentName = dialogueFileName;
+        Debug.Log(dialogueFileName);
+        //SaveNPCData();
+    }
+
+    void ChangeDialogueFile(string _explainNum = null)
     {
         if (string.IsNullOrEmpty(_explainNum))
         {
@@ -158,7 +240,7 @@ public class NPC : MonoBehaviour
                 currentIndex++;
                 dialogueFileName = dialogueFiles[currentIndex];
                 selectFileName = selectFiles[currentIndex];
-                Debug.Log("´ëÈ­: " + dialogueFileName + ", ¼±Áö: " + selectFileName);
+                Debug.Log("ï¿½ï¿½È­: " + dialogueFileName + ", ï¿½ï¿½ï¿½ï¿½: " + selectFileName);
             }
         }
         else
@@ -169,11 +251,15 @@ public class NPC : MonoBehaviour
                 currentIndex++;
                 dialogueFileName = dialogueFiles[currentIndex];
                 selectFileName = selectFiles[currentIndex];
-                Debug.Log("´ëÈ­: " + dialogueFileName + ", ¼±Áö: " + selectFileName);
-
-                StartCoroutine(TriggerDialogue());
+                currentName = dialogueFileName;
+                Debug.Log("ï¿½ï¿½È­: " + dialogueFileName + ", ï¿½ï¿½ï¿½ï¿½: " + selectFileName);
+                if (isJudged && ((!isCorrect && !isEnemy) || (isCorrect && isEnemy)))
+                {
+                    StartCoroutine(TriggerDialogue());
+                }
             }
         }
+        //SaveNPCData();
     }
 
     IEnumerator TriggerDialogue()
@@ -186,5 +272,72 @@ public class NPC : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void SaveNPCData()
+    {
+        npcData.isChecked = isChecked;
+        npcData.isJudged = isJudged;
+        npcData.isCorrect = isCorrect;
+        npcData.isDialogueChanged = isDialogueChanged;
+        npcData.currentIndex = currentIndex;
+        npcData.dialogueFileName = dialogueFileName;
+        npcData.selectFileName = selectFileName;
+        npcData.isInteract = isInteract;
+        npcData.isTutoDialogueChanged = isTutoDialogueChanged;
+        npcData.isTutoFin = isTutoFin;
+        npcData.isFin = isFin;
+        npcData.result = result;
+        npcData.isSpriteChanged = isSpriteChanged;
+
+        string json = JsonUtility.ToJson(npcData);
+        File.WriteAllText(filePath, json);
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+    }
+
+    public void LoadNPCData()
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            npcData = JsonUtility.FromJson<NPCData>(json);
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½");
+
+            isChecked = npcData.isChecked;
+            isJudged = npcData.isJudged;
+            isCorrect = npcData.isCorrect;
+            isDialogueChanged = npcData.isDialogueChanged;
+            currentIndex = npcData.currentIndex;
+            dialogueFileName = npcData.dialogueFileName;
+            selectFileName = npcData.selectFileName;
+            isInteract = npcData.isInteract;
+            isTutoDialogueChanged = npcData.isTutoDialogueChanged;
+            isTutoFin = npcData.isTutoFin;
+            isFin = npcData.isFin;
+            result = npcData.result;
+            isSpriteChanged = npcData.isSpriteChanged;
+            if (isSpriteChanged)
+            {
+                ChangeSprite();
+            }
+        }
+    }
+
+    public void ResetNPCData()
+    {
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            Debug.Log("NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ : " + filePath);
+        }
+        npcData = new NPCData();
+    }
+
+    void ChangeSprite()
+    {
+        if (spriteRenderer != null && destroyedSprite != null)
+        {
+            spriteRenderer.sprite = destroyedSprite;
+        }
     }
 }
