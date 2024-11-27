@@ -31,6 +31,8 @@ public class SceneTransition : MonoBehaviour
                 Debug.LogError("SceneData not found for scene: " + nextScene);
             }
 
+            UpdateUIManagerState(nextScene);
+
             SceneManager.LoadScene(nextScene);
         }
     }
@@ -45,5 +47,17 @@ public class SceneTransition : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    private void UpdateUIManagerState(string sceneName)
+    {
+        if (sceneName == "Museum_Lobby" || sceneName == "Library_1F" || sceneName == "Park" || 
+            sceneName == "CityHall_Lobby" || sceneName == "Broadcast_1F" || sceneName == "Hospital_1F")
+        {
+            if (UIManager.u_instance != null)
+            {
+                UIManager.u_instance.SetUIState(Define.UI.UIState.Work);
+            }
+        }
     }
 }

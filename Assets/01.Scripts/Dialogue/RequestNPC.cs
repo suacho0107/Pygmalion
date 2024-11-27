@@ -18,7 +18,7 @@ public class RequestNPC : NPC
     public CompanyOfficeCSV csv2;
 
     private bool isStartRequest = true;
-    private bool isAcceptRequest = false;
+    public  bool isAcceptRequest = false;
     private bool isRoutineStarted = false;
     private bool canSend = false;
 
@@ -83,17 +83,17 @@ public class RequestNPC : NPC
     {
         if (canSend)
         {
-            // 스크롤뷰에 답장 오브젝트 추가
             replyChat.SetActive(true);
             canSend = false;
             isAcceptRequest = true;
             replyButton.interactable = false;
 
-            // UI 상태 전환 (Ready -> Start)
-            UIManager.u_instance.SetUIState(Define.UI.UIState.Start);
+            playerDesk.startON = true;
 
-            UIManager.u_instance.UpdateUIText(locationText);
-            Debug.Log("RequestNPC는 정상");
+            UIManager.u_instance.UpdateUIText();
+            Debug.Log($"RequestNPC: {locationText}");
+            // UIManager.u_instance.UpdateUIText(locationText);
+            // Debug.Log($"장소 텍스트 변경: {locationText}");
         }
     }
 
