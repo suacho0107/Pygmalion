@@ -31,6 +31,8 @@ public class NPC : MonoBehaviour
     public bool isFin = false;
     public bool result = false;
 
+    bool test1;
+
     public bool isSpriteChanged = false;
 
     string filePath;
@@ -50,7 +52,7 @@ public class NPC : MonoBehaviour
     }
     private void Start()
     {
-        // ResetNPCData();
+        //ResetNPCData();
         LoadNPCData();
 
         //if (isStatue)
@@ -98,6 +100,53 @@ public class NPC : MonoBehaviour
             }
         }
 
+        if(SceneManager.GetActiveScene().name == "Museum_Lobby")
+        {
+            Judge();
+        }
+        else
+        {
+            if (isInteract && statueScore.statueCount >= 1)
+            {
+                if (!test1)
+                {
+                    ChangeDialogueFile();
+                    test1 = true;
+                }
+                Judge();
+            }
+        }
+    }
+
+    public void StartDialogue()
+    {
+        DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
+        if (dialogueManager != null)
+        {
+            dialogueManager.SetNPC(this);
+        }
+        else //null 처리
+        {
+            Debug.LogError("DialogueManager is null.");
+        }
+
+        InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
+        if (interactionEvent != null)
+        {
+
+            if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면 전달
+            {
+                interactionEvent.LoadDialogue(dialogueFileName, explainNum);
+            }
+            else //explainNum 없으면 그냥
+            {
+                interactionEvent.LoadDialogue(dialogueFileName);
+            }
+        }
+    }
+
+    public void Judge()
+    {
         if (isStatue && isChecked)
         {
             isChecked = true;
@@ -111,18 +160,26 @@ public class NPC : MonoBehaviour
                 // 튜토 후 전시실1에서, 판별로 넘어는 갔는데 선택지 4개가 안 나옴, 그대로 2개
                 if (isEnemy && isJudged)
                 {
-                    if (isCorrect)
+                    if (isCorrect & !isFin)
                     {// 건드린다 --> 정답 --> battleDialogue.csv --> 전투 진입(플레이어 선공)
                         Debug.Log("건드린다 > 정답");
                         isCorrect = true;
+                        statueScore.fightCount += 1;
+                        statueScore.SaveScore();
                         ChangeDialogueFile("1");
                         StartCoroutine(DelayLoadScene(1.5f, "Demo_minjoo"));
                     }
-                    else
+                    else if(!isCorrect & !isFin)
                     {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
                         Debug.Log("이상 없음 > 오답");
                         isCorrect = false;
+                        statueScore.fightCount += 1;
+                        statueScore.SaveScore();
                         SceneManager.LoadScene("Demo_minjoo");
+                    }
+                    else if (isFin) // 전투 승리 시 조각상 무너짐 대화로?
+                    {
+                        ChangeDialogueFile();
                     }
                 }
                 else if (!isEnemy && isJudged && !isFin)
@@ -135,7 +192,7 @@ public class NPC : MonoBehaviour
                         statueScore.SaveScore();
                         isCorrect = true;
                         isFin = true;
-                        Debug.Log("currentIdnex " +currentIndex);
+                        Debug.Log("currentIdnex " + currentIndex);
                         SaveNPCData();
                     }
                     else
@@ -154,7 +211,7 @@ public class NPC : MonoBehaviour
                         //statueController.sState = statueController.StatueState.Destroyed;
                     }
                 }
-                
+
                 if (isDialogueChanged && isFin && result && !isEnemy)
                 {
                     Debug.Log("result 출력");
@@ -192,33 +249,6 @@ public class NPC : MonoBehaviour
                     //    }
                     //}
                 }
-            }
-        }
-    }
-
-    public void StartDialogue()
-    {
-        DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
-        if (dialogueManager != null)
-        {
-            dialogueManager.SetNPC(this);
-        }
-        else //null 처리
-        {
-            Debug.LogError("DialogueManager is null.");
-        }
-
-        InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
-        if (interactionEvent != null)
-        {
-
-            if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면 전달
-            {
-                interactionEvent.LoadDialogue(dialogueFileName, explainNum);
-            }
-            else //explainNum 없으면 그냥
-            {
-                interactionEvent.LoadDialogue(dialogueFileName);
             }
         }
     }
@@ -289,6 +319,7 @@ public class NPC : MonoBehaviour
         npcData.isFin = isFin;
         npcData.result = result;
         npcData.isSpriteChanged = isSpriteChanged;
+        npcData.test1 = test1;
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
@@ -320,6 +351,7 @@ public class NPC : MonoBehaviour
             {
                 ChangeSprite();
             }
+            test1 = npcData.test1;
         }
     }
 

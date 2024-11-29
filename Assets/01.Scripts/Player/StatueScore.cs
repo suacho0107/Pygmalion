@@ -16,7 +16,7 @@ public class StatueScore : MonoBehaviour
     private void Start()
     {
         // 테스트 초기화
-        // PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
 
         statueCount = PlayerPrefs.GetInt("StatueCount", statueCount);
         destroyedCount = PlayerPrefs.GetInt("destroyedCount", destroyedCount);

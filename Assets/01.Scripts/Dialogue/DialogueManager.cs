@@ -231,6 +231,8 @@ public class DialogueManager : MonoBehaviour
                 {// 건드린다 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    //statueScore.fightCount += 1;
+                    //statueScore.SaveScore();
                     //npc.SaveNPCData();
                 }
                 else
@@ -249,6 +251,8 @@ public class DialogueManager : MonoBehaviour
                 {// 이상 없음 --> 오답
                     npc.isJudged = true;
                     npc.isCorrect = false;
+                    //statueScore.fightCount += 1;
+                    //statueScore.SaveScore();      //NPC 스크립트에서 변경
                     //npc.SaveNPCData();
                 }
                 else
