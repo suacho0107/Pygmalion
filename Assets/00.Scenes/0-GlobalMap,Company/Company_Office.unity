@@ -256,7 +256,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3783,7 +3783,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c13a25bf38dd1614da0891a1f7414a91, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6730,7 +6730,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12404,6 +12404,23 @@ MonoBehaviour:
   interactionEvent: {fileID: 1657761209}
   csv: {fileID: 0}
   statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    test1: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  spriteRenderer: {fileID: 0}
+  destroyedSprite: {fileID: 0}
   isStatue: 0
   isChecked: 0
   isJudged: 0
@@ -12411,7 +12428,11 @@ MonoBehaviour:
   isCorrect: 0
   tutorial: 0
   isInteract: 0
-  isEnd: 0
+  isTutoDialogueChanged: 0
+  isTutoFin: 0
+  isFin: 0
+  result: 0
+  isSpriteChanged: 0
   dialogueFileName: request1_dialogue
   selectFileName: 
   explainNum: 1
@@ -13258,21 +13279,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 639353802284706704, guid: a7fc9cd717630c14f92dbbe82fa62dda, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 639353802284706705, guid: a7fc9cd717630c14f92dbbe82fa62dda, type: 3}
       propertyPath: m_RootOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 639353802284706705, guid: a7fc9cd717630c14f92dbbe82fa62dda, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 639353802284706705, guid: a7fc9cd717630c14f92dbbe82fa62dda, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 639353802284706705, guid: a7fc9cd717630c14f92dbbe82fa62dda, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13916,7 +13925,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

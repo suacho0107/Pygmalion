@@ -106,14 +106,17 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            if (isInteract && statueScore.statueCount >= 1)
+            if (statueScore != null)
             {
-                if (!test1)
+                if (isInteract && statueScore.statueCount >= 1)
                 {
-                    ChangeDialogueFile();
-                    test1 = true;
+                    if (!test1)
+                    {
+                        ChangeDialogueFile();
+                        test1 = true;
+                    }
+                    Judge();
                 }
-                Judge();
             }
         }
     }
