@@ -105,7 +105,7 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            if(statueScore != null)
+            if (statueScore != null)
             {
                 if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
                 {
