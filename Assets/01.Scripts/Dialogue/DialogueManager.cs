@@ -169,7 +169,7 @@ public class DialogueManager : MonoBehaviour
             {
                 if (explainIndex >= 0 && explainIndex < Images.Count)
                 {
-                    Images[explainIndex].SetActive(true);
+                    Images[explainIndex-1].SetActive(true);
                     isPopup = true;
                 }
             }
