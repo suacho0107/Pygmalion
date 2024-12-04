@@ -234,6 +234,8 @@ public class DialogueManager : MonoBehaviour
                 {// 건드린다 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    npc.currentIndex = 3;
+                    npc.explainNum = "1";
                     //statueScore.fightCount += 1;
                     //statueScore.SaveScore();
                     //npc.SaveNPCData();
@@ -254,6 +256,7 @@ public class DialogueManager : MonoBehaviour
                 {// 이상 없음 --> 오답
                     npc.isJudged = true;
                     npc.isCorrect = false;
+                    npc.explainNum = "2";
                     //statueScore.fightCount += 1;
                     //statueScore.SaveScore();      //NPC 스크립트에서 변경
                     //npc.SaveNPCData();
@@ -262,6 +265,7 @@ public class DialogueManager : MonoBehaviour
                 {// 이상 없음 --> 정답
                     npc.isJudged = true;
                     npc.isCorrect = true;
+                    npc.explainNum = "3";
                     //npc.SaveNPCData();
                 }
             }
@@ -305,7 +309,6 @@ public class DialogueManager : MonoBehaviour
         if(npc.dialogueFileName == "Tutorial2_dialogue")
         {
             npc.isTutoFin = true;
-            Debug.Log("isTutoFin True 테스트 완료 시 삭제할 로그");
         }
         if(npc.isStatue && npc.isChecked && npc.isJudged)
         {
@@ -315,22 +318,36 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                if (npc.isCorrect)
+                if(npc.currentIndex == 3)
                 {
-                    if (npc.currentIndex == 2)
+                    if (npc.isCorrect == true)
                     {
+                        npc.ChangeDialogueExplain(3, "3");
                         npc.result = true;
-                        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                    }
+                    else
+                    {
+                        npc.ChangeDialogueExplain(4, "1");
+                        Debug.Log("dialogueManager 여기, " + npc.dialogueFileName);
+                        npc.result = true;
                     }
                 }
-                else
-                {
-                    if (npc.currentIndex == 3)
-                    {
-                        npc.result = true;
-                        Debug.Log("result True 테스트 완료 시 삭제할 로그");
-                    }
-                }
+                //if (npc.isCorrect)
+                //{
+                //    if (npc.currentIndex == 3)
+                //    {
+                //        npc.result = true;
+                //        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                //    }
+                //}
+                //else
+                //{
+                //    if (npc.currentIndex == 3)
+                //    {
+                //        npc.result = true;
+                //        Debug.Log("result True 테스트 완료 시 삭제할 로그");
+                //    }
+                //}
             }
         }
         npc.SaveNPCData();
@@ -354,6 +371,8 @@ public class DialogueManager : MonoBehaviour
         selectBtn4.gameObject.SetActive(false);
         selectText3.gameObject.SetActive(false);
         selectText4.gameObject.SetActive(false);
+        
+        npc.SaveNPCData();
     }
 
     IEnumerator DialogueWriter()

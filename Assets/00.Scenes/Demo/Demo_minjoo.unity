@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 2115450228}
   - component: {fileID: 2115450227}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: stage1_statue 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -835,6 +835,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c800d178c7cf24ab24d994770ed6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    test1: 0
+    test2: 0
+    test3: 0
+    test4: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  isWin: 0
 --- !u!212 &2115450228
 SpriteRenderer:
   m_ObjectHideFlags: 0

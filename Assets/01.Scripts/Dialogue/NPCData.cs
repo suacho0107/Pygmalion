@@ -17,6 +17,9 @@ public class NPCData
     public bool result;
     public bool isSpriteChanged;
     public bool test1;
+    public bool test2;
+    public bool test3;
+    public bool test4;
 
     public bool isInteract;
     public bool isTutoDialogueChanged;
