@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    [SerializeField] List<GameObject> Images;
     [SerializeField] GameObject dialoguePanel;
     [SerializeField] GameObject namePanel;
 
@@ -35,6 +36,7 @@ public class DialogueManager : MonoBehaviour
     bool isNext = false; //특정 키 입력 대기
     bool isSelect = false;
     bool isExplain = false; //설명대사인지 구분
+    bool isPopup = false;
 
     int lineCount = 0; //대화 카운트
     int contextCount = 0; //대사 카운트
@@ -57,14 +59,22 @@ public class DialogueManager : MonoBehaviour
     
     private void Start()
     {
+        foreach (var image in Images)
+        {
+            image.gameObject.SetActive(false);
+        }
+        
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
+
         selectBtn1.gameObject.SetActive(false);
         selectBtn2.gameObject.SetActive(false);
         selectBtn3.gameObject.SetActive(false);
         selectBtn4.gameObject.SetActive(false);
+
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
         statueScore = FindObjectOfType<StatueScore>();
+
     }
 
     private void Update()
@@ -153,6 +163,17 @@ public class DialogueManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
         {
+            // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
+            // imageImage.SetActive(true);
+            if (int.TryParse(explainNum, out int explainIndex))
+            {
+                if (explainIndex >= 0 && explainIndex < Images.Count)
+                {
+                    Images[explainIndex].SetActive(true);
+                    isPopup = true;
+                }
+            }
+            
             isExplain = true;
 
             int explainLine;
@@ -338,6 +359,12 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
         playerMove.ActiveInteract = false; // 추가 코드
+
+        // 모든 이미지 비활성화
+        foreach (var image in Images)
+        {
+            image.SetActive(false);
+        }
     }
 
     void EndSelect()
@@ -356,6 +383,7 @@ public class DialogueManager : MonoBehaviour
         selectText4.gameObject.SetActive(false);
     }
 
+    #region 팝업 이미지 구현
     IEnumerator DialogueWriter()
     {
         if (dialogues[lineCount].name != "") //대사에 name 있으면
@@ -384,6 +412,7 @@ public class DialogueManager : MonoBehaviour
 
         isNext = true;
     }
+    #endregion
 
     IEnumerator SelectWriter()
     {

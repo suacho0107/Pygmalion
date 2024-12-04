@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviour
 
             case UI.UIState.Start:
                 if (UIStart != null) UIStart.SetActive(true);
-                UpdateUIText();
+                UpdateStartUI();
                 break;
 
             case UI.UIState.Work:
@@ -146,7 +146,7 @@ public class UIManager : MonoBehaviour
         "병원",
     };
 
-    public void UpdateUIText()
+    public void UpdateStartUI()
     {
         // 자료구조(딕셔너리orEnum) 정의 후 상태 및 순서에 따라 6개의 장소 중 하나를 출력
         // UI 뿐 아니라 업무지시서의 "장소"에도 같은 내용이 표기되어야 함

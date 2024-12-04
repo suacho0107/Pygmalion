@@ -34,6 +34,9 @@ public class RequestNPC : NPC
             // 의뢰 접수
             if (isStartRequest)
             {
+                isInteract = false;
+                replyButton.interactable = false;
+
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     StartDialogue();
@@ -47,15 +50,14 @@ public class RequestNPC : NPC
                 // 텍스트 필드의 값을 "네 알겠습니다."로 변경
                 if (explainNum == "1")
                 {
+                    replyButton.interactable = true;
+
                     interactText.text = "네 알겠습니다.";
                     profileText.text = "네 알겠습니다.";
 
                     interactText.color = new Color(0f, 0f, 0f);
                 }
                 canSend = true;
-
-                // CSV 파일의 대화 파일 변경
-                // csv2.npcs[0].ChangeDialogueFile();
             }
 
             // 의뢰 수락
@@ -63,6 +65,7 @@ public class RequestNPC : NPC
             {
                 interactText.text = "메세지 입력";
                 interactText.color = new Color(103f / 255f, 102f / 255f, 102f / 255f);
+                replyButton.interactable = false;
 
                 // 다이얼로그 출력 후 패널 닫기
                 explainNum = "2";
@@ -90,7 +93,7 @@ public class RequestNPC : NPC
 
             playerDesk.startON = true;
 
-            UIManager.u_instance.UpdateUIText();
+            UIManager.u_instance.UpdateStartUI();
             Debug.Log($"RequestNPC: {locationText}");
             // UIManager.u_instance.UpdateUIText(locationText);
             // Debug.Log($"장소 텍스트 변경: {locationText}");
