@@ -17,7 +17,7 @@ public class FightCountTest : MonoBehaviour
     private void Awake()
     {
         // 이러면 전투 씬에서도 조각상 이름이 같아야 함
-        filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
+        filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
     }
 

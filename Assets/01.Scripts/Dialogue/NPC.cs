@@ -173,7 +173,7 @@ public class NPC : MonoBehaviour
                     statueScore.SaveScore();
                     ChangeDialogueExplain(3, "1");
                     test2 = true;
-                    StartCoroutine(DelayLoadScene(1.5f, "Demo_minjoo"));
+                    StartCoroutine(DelayLoadScene(1.5f, "Battle"));
                 }
                 else if (!isCorrect && !isFin && !test2)
                 {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
@@ -182,7 +182,7 @@ public class NPC : MonoBehaviour
                     statueScore.fightCount += 1;
                     statueScore.SaveScore();
                     test2 = true;
-                    SceneManager.LoadScene("Demo_minjoo");
+                    SceneManager.LoadScene("Battle");
                 }
                 else if (isFin) // 전투 승리 시 조각상 무너짐 대화로?
                 {

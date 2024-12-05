@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerMove : MonoBehaviour
     Animator anim;
 
     Vector3 dirVec;
+
+    private Transform spawnPoint;
 
     public GameObject frontAnim;
     public GameObject backAnim;
@@ -72,6 +75,13 @@ public class PlayerMove : MonoBehaviour
         frontAnim.SetActive(true);
         backAnim.SetActive(false);
         leftAnim.SetActive(false);
+
+        if(PlayerPrefs.GetInt("PlayerWin", 0) == 1)
+        {
+            PlayerPrefs.SetInt("PlayerWin", 0);
+            FindSpawnPoint();
+            MoveToSpawnPoint();
+        }
     }
 
     void Update() 
@@ -311,5 +321,23 @@ public class PlayerMove : MonoBehaviour
         leftAnim.SetActive(false);
 
         activePrefab.SetActive(true);
+    }
+
+    void FindSpawnPoint()
+    {
+        GameObject spawnObject = GameObject.FindWithTag("SpawnPoint");
+        if(spawnObject != null)
+        {
+            spawnPoint = spawnObject.transform;
+        }
+    }
+
+    void MoveToSpawnPoint()
+    {
+        if(spawnPoint != null)
+        {
+            transform.position = spawnPoint.position;
+            Debug.Log("플레이어 스폰포인트로 이동");
+        }
     }
 }
