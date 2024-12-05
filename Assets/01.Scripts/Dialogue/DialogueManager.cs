@@ -165,7 +165,7 @@ public class DialogueManager : MonoBehaviour
         {
             // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
             // imageImage.SetActive(true);
-            if (!npc.isStatue && int.TryParse(explainNum, out int explainIndex))
+            if (!npc.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
             {
                 if (explainIndex >= 0 && explainIndex < Images.Count)
                 {

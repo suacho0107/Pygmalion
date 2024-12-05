@@ -20,6 +20,7 @@ public class NPC : MonoBehaviour
     //public StatueController statueController;
 
     public bool isStatue = false;
+    public bool isNPC;
     public bool isChecked = false;
     public bool isJudged = false;
     public bool isEnemy = false;
@@ -290,58 +291,64 @@ public class NPC : MonoBehaviour
 
     public void SaveNPCData()
     {
-        npcData.isChecked = isChecked;
-        npcData.isJudged = isJudged;
-        npcData.isCorrect = isCorrect;
-        npcData.isDialogueChanged = isDialogueChanged;
-        npcData.currentIndex = currentIndex;
-        npcData.dialogueFileName = dialogueFileName;
-        npcData.selectFileName = selectFileName;
-        npcData.isInteract = isInteract;
-        npcData.isTutoDialogueChanged = isTutoDialogueChanged;
-        npcData.isTutoFin = isTutoFin;
-        npcData.isFin = isFin;
-        npcData.result = result;
-        npcData.isSpriteChanged = isSpriteChanged;
-        npcData.test1 = test1;
-        npcData.test2 = test2;
-        npcData.test3 = test3;
-        npcData.test4 = test4;
+        if(isStatue || isNPC)
+        {
+            npcData.isChecked = isChecked;
+            npcData.isJudged = isJudged;
+            npcData.isCorrect = isCorrect;
+            npcData.isDialogueChanged = isDialogueChanged;
+            npcData.currentIndex = currentIndex;
+            npcData.dialogueFileName = dialogueFileName;
+            npcData.selectFileName = selectFileName;
+            npcData.isInteract = isInteract;
+            npcData.isTutoDialogueChanged = isTutoDialogueChanged;
+            npcData.isTutoFin = isTutoFin;
+            npcData.isFin = isFin;
+            npcData.result = result;
+            npcData.isSpriteChanged = isSpriteChanged;
+            npcData.test1 = test1;
+            npcData.test2 = test2;
+            npcData.test3 = test3;
+            npcData.test4 = test4;
 
-        string json = JsonUtility.ToJson(npcData);
-        File.WriteAllText(filePath, json);
-        Debug.Log("데이터 저장");
+            string json = JsonUtility.ToJson(npcData);
+            File.WriteAllText(filePath, json);
+            Debug.Log("데이터 저장");
+        }
     }
 
     public void LoadNPCData()
     {
-        if (File.Exists(filePath))
+        if(isStatue || isNPC)
         {
-            string json = File.ReadAllText(filePath);
-            npcData = JsonUtility.FromJson<NPCData>(json);
-            Debug.Log("데이터 로드");
-
-            isChecked = npcData.isChecked;
-            isJudged = npcData.isJudged;
-            isCorrect = npcData.isCorrect;
-            isDialogueChanged = npcData.isDialogueChanged;
-            currentIndex = npcData.currentIndex;
-            dialogueFileName = npcData.dialogueFileName;
-            selectFileName = npcData.selectFileName;
-            isInteract = npcData.isInteract;
-            isTutoDialogueChanged = npcData.isTutoDialogueChanged;
-            isTutoFin = npcData.isTutoFin;
-            isFin = npcData.isFin;
-            result = npcData.result;
-            isSpriteChanged = npcData.isSpriteChanged;
-            if (isSpriteChanged)
+            if (File.Exists(filePath))
             {
-                ChangeSprite();
+                string json = File.ReadAllText(filePath);
+                npcData = JsonUtility.FromJson<NPCData>(json);
+                Debug.Log("데이터 로드");
+
+                isChecked = npcData.isChecked;
+                isJudged = npcData.isJudged;
+                isCorrect = npcData.isCorrect;
+                isDialogueChanged = npcData.isDialogueChanged;
+                currentIndex = npcData.currentIndex;
+                dialogueFileName = npcData.dialogueFileName;
+                selectFileName = npcData.selectFileName;
+                isInteract = npcData.isInteract;
+                isTutoDialogueChanged = npcData.isTutoDialogueChanged;
+                isTutoFin = npcData.isTutoFin;
+                isFin = npcData.isFin;
+                result = npcData.result;
+                isSpriteChanged = npcData.isSpriteChanged;
+                if (isSpriteChanged)
+                {
+                    ChangeSprite();
+                }
+                test1 = npcData.test1;
+                test2 = npcData.test2;
+                test3 = npcData.test3;
+                test4 = npcData.test4;
             }
-            test1 = npcData.test1;
-            test2 = npcData.test2;
-            test3 = npcData.test3;
-            test4 = npcData.test4;
         }
     }
 
