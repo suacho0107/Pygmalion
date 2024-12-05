@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class BattleManager : MonoBehaviour
     public State state;
 
     public bool isEnemyTurnStarted = false;
+    bool isBattleEnd = false;
 
     public enum State
     {
@@ -84,11 +86,17 @@ public class BattleManager : MonoBehaviour
 
             //END
             case State.WIN:
-                PlayerWin();
+                if (!isBattleEnd)
+                {
+                    PlayerWin();
+                }
                 break;
 
             case State.LOSE:
-                PlayerLose();
+                if (isBattleEnd)
+                {
+                    PlayerLose();
+                }
                 break;
         }
     }
@@ -138,13 +146,37 @@ public class BattleManager : MonoBehaviour
     void PlayerWin()
     {
         Debug.Log("PlayerWin() 실행");
-        //구현예정
+
+        isBattleEnd = true;
+
+
+        contentText.text = ""; //대사 추가 가능
+        partText.text = "";
+        hpBoxes.SetActive(false);
+
+
+        Invoke("ExitBattleScene", 2);
+
     }
 
     void PlayerLose()
     {
         Debug.Log("PlayerLose() 실행");
-        //구현예정
+
+        isBattleEnd = true;
+
+        contentText.text = ""; //대사 추가 가능
+        partText.text = "";
+        hpBoxes.SetActive(false);
+
+        Invoke("ExitBattleScene", 2);
+    }
+
+    private void ExitBattleScene()
+    {
+        Debug.Log("ExitBattleScene() 실행");
+        //SceneManager.LoadScene("Museum_Lobby");
+        SceneManager.LoadScene("00.Scenes/1-Museum/Museum_Lobby");
     }
 
 

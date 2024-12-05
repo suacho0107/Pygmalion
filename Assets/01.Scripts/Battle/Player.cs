@@ -170,6 +170,11 @@ public class Player : MonoBehaviour
         //함수 구현
         //아마 필요한 거 전달하고 ChangeScene 할 듯?
         //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
+
+        battleManager.contentText.text = "이길 수 없어 보인다. 도망치자.";
+        battleManager.buttons.SetActive(false);
+
+        battleManager.Invoke("ExitBattleScene", 2);
     }    
 
 
