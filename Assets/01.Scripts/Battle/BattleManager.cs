@@ -165,19 +165,22 @@ public class BattleManager : MonoBehaviour
 
         isBattleEnd = true;
 
-        contentText.text = ""; //대사 추가 가능
+        contentText.text = "눈앞이 흐려진다..."; //대사 추가 가능
         partText.text = "";
         hpBoxes.SetActive(false);
 
         Invoke("ExitBattleScene", 2);
     }
 
-    private void ExitBattleScene()
+    public void ExitBattleScene()
     {
-        Debug.Log("ExitBattleScene() 실행");
-        //SceneManager.LoadScene("Museum_Lobby");
-        SceneManager.LoadScene("00.Scenes/1-Museum/Museum_Lobby");
+        if (state == State.WIN)
+        {
+            SceneManager.LoadScene("00.Scenes/1-Museum/Museum_ExhibitionRoom2");
+        }
+        else if (state == State.LOSE || state == State.PLAYERTURN_RUN)
+        {
+            SceneManager.LoadScene("00.Scenes/1-Museum/Museum_Lobby");
+        }
     }
-
-
 }

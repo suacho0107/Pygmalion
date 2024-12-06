@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -171,11 +172,11 @@ public class Player : MonoBehaviour
         //아마 필요한 거 전달하고 ChangeScene 할 듯?
         //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
 
-        battleManager.contentText.text = "이길 수 없어 보인다. 도망치자.";
+        battleManager.contentText.text = "잠깐, 숨 좀 돌리고...";
         battleManager.buttons.SetActive(false);
 
         battleManager.Invoke("ExitBattleScene", 2);
-    }    
+    }
 
 
     public void PlayerAttack(Part part)

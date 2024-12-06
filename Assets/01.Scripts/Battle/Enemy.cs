@@ -37,30 +37,72 @@ public class Enemy : MonoBehaviour
         
     }
 
-    public void StartSetEnemy() //최초 전투 진입 시에만 실행
+    //public void StartSetEnemy() //최초 전투 진입 시에만 실행
+    //{
+    //    //SetPart(), SetHp() 합침
+    //    Debug.Log("StartSetEnemy() 실행");
+    //    // 초기화
+    //    parts.Clear();
+    //    partComponents.Clear();
+    //    isDestroyed.Clear();
+    //    enemyMaxHp = 0;
+
+    //    for (int i = 0; i < transform.childCount - 1; i++)
+    //    {
+    //        parts.Add(transform.GetChild(i).gameObject.name); //List parts에 Object들 이름 추가
+    //        Debug.Log($"parts.Add(${parts[i]})");
+
+    //        partComponents.Add(transform.GetChild(i).GetComponent<Part>());
+    //        partComponents[i].SetPartHp(); //partHP 초기화
+
+    //        enemyMaxHp += partComponents[i].partMaxHp; //partMaxHp 합산
+
+    //        isDestroyed.Add(false); //parts 길이만큼 isDestroyed false로 초기화
+    //    }
+    //    enemyHp = enemyMaxHp;
+    //    Debug.Log($"enemyMaxHp = ${enemyMaxHp}\nenemyHp = ${enemyHp}");
+    //}
+
+    public void StartSetEnemy() // 최초 전투 진입 시에만 실행
     {
-        //SetPart(), SetHp() 합침
         Debug.Log("StartSetEnemy() 실행");
+
         // 초기화
         parts.Clear();
         partComponents.Clear();
         isDestroyed.Clear();
         enemyMaxHp = 0;
 
+        // 모든 자식의 Part 컴포넌트를 리스트에 추가
+        List<Part> sortedParts = new List<Part>();
         for (int i = 0; i < transform.childCount - 1; i++)
         {
-            parts.Add(transform.GetChild(i).gameObject.name); //List parts에 Object들 이름 추가
-            Debug.Log($"parts.Add(${parts[i]})");
-
-            partComponents.Add(transform.GetChild(i).GetComponent<Part>());
-            partComponents[i].SetPartHp(); //partHP 초기화
-
-            enemyMaxHp += partComponents[i].partMaxHp; //partMaxHp 합산
-            
-            isDestroyed.Add(false); //parts 길이만큼 isDestroyed false로 초기화
+            Part partComponent = transform.GetChild(i).GetComponent<Part>();
+            if (partComponent != null)
+            {
+                sortedParts.Add(partComponent);
+            }
         }
+
+        // partSort를 기준으로 정렬
+        sortedParts.Sort((a, b) => a.partSort.CompareTo(b.partSort));
+
+        // 정렬된 순서대로 parts, partComponents, isDestroyed 리스트 채우기
+        foreach (Part part in sortedParts)
+        {
+            parts.Add(part.gameObject.name); // Object 이름 추가
+            Debug.Log($"parts.Add({part.gameObject.name})");
+
+            partComponents.Add(part); // Part 컴포넌트 추가
+            part.SetPartHp(); // partHP 초기화
+
+            enemyMaxHp += part.partMaxHp; // partMaxHp 합산
+            isDestroyed.Add(false); // isDestroyed 초기화
+        }
+
+        // Enemy 전체 HP 초기화
         enemyHp = enemyMaxHp;
-        Debug.Log($"enemyMaxHp = ${enemyMaxHp}\nenemyHp = ${enemyHp}");
+        Debug.Log($"enemyMaxHp = {enemyMaxHp}\nenemyHp = {enemyHp}");
     }
 
     public void UpdateEnemyHp() //매 턴마다 실행
@@ -122,13 +164,14 @@ public class Enemy : MonoBehaviour
         return part;
     }
 
+
     public void EnemyTurnStart()
     {
         Debug.Log("EnemyTurnStart()");
 
         battleManager.partText.text = "";
         battleManager.hpBoxes.gameObject.SetActive(false);
-        battleManager.isEnemyTurnStarted = true;
+        //battleManager.isEnemyTurnStarted = true;
 
         //다른 Enemy 구현 시 if문으로 this.name 검사해서 Add문들 돌리기
         List<Action> skills = new List<Action>();
@@ -146,7 +189,7 @@ public class Enemy : MonoBehaviour
             Aphrodite_Throw();
         }
         Invoke("EnemyTurnEnd", 2);
-    }
+    }    
 
     private void AddSkill(List<Action> skills, string partName, bool isDestroyed, float skillprobability, Action skill)
     {
@@ -184,6 +227,7 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("EnemyTurnEnd()");
         battleManager.contentText.text = "";
+        //battleManager.ClearContentText();
         battleManager.isEnemyTurnStarted = false;
 
         //여기 로직 다시 보기

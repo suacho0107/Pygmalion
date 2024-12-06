@@ -6,6 +6,7 @@ public class Part : MonoBehaviour
 {
     public int partHp;
     public int partMaxHp;
+    public int partSort;
 
     // Start is called before the first frame update
     void Start()
