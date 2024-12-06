@@ -82,6 +82,12 @@ public class PlayerMove : MonoBehaviour
             FindSpawnPoint();
             MoveToSpawnPoint();
         }
+
+        if(PlayerPrefs.GetInt("Start1", 0) == 1)
+        {
+            FindSpawnPoint();
+            MoveToSpawnPoint();
+        }
     }
 
     void Update() 
