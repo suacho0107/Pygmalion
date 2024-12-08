@@ -15,6 +15,8 @@ public class StatueScore : MonoBehaviour
     public int checkedCount = 0;
     public int fightCount = 0;
 
+    public int checkCount = 0;
+
     private void Start()
     {
         // 테스트 초기화
@@ -24,6 +26,8 @@ public class StatueScore : MonoBehaviour
         destroyedCount = PlayerPrefs.GetInt("destroyedCount", destroyedCount);
         checkedCount = PlayerPrefs.GetInt("checkedCount", checkedCount);
         fightCount = PlayerPrefs.GetInt("fightCount", fightCount);
+
+        checkCount = PlayerPrefs.GetInt("checkCount", checkCount);
         UpdateScore();
     }
 
@@ -34,6 +38,8 @@ public class StatueScore : MonoBehaviour
         if (sceneName.StartsWith("Museum"))
         {
             statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 6";
+
+            statueCount = UIManager.u_instance.checkCount_test;
         }
         else if(sceneName.StartsWith("Library"))
         {
@@ -47,6 +53,8 @@ public class StatueScore : MonoBehaviour
         PlayerPrefs.SetInt("destroyedCount", destroyedCount);
         PlayerPrefs.SetInt("checkedCount", checkedCount);
         PlayerPrefs.SetInt("fightCount", fightCount);
+        PlayerPrefs.SetInt("checkCount", checkCount);
+
         PlayerPrefs.Save(); // 저장 강제 적용
         UpdateScore();
     }
