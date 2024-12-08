@@ -18,7 +18,15 @@ public class UIManager : MonoBehaviour
     [Header("Text")]
     [SerializeField] private GameObject textUIStart;
 
+    [SerializeField] private GameObject check_UIEnd;
+    [SerializeField] private GameObject catch_UIEnd;
+    [SerializeField] private GameObject destroy_UIEnd;
+    [SerializeField] private GameObject efficiency_UIEnd;
+    [SerializeField] private GameObject grade_UIEnd;
+
     private UI.UIState currentState;
+
+    public int checkCount_test = 0;
 
     void Awake()
     {
@@ -72,8 +80,12 @@ public class UIManager : MonoBehaviour
         UIWork = UIWork != null ? UIWork : uiCanvas.transform.Find("UIWork")?.gameObject;
         UIEnd = UIEnd != null ? UIEnd : uiCanvas.transform.Find("UIEnd")?.gameObject;
 
-        // 그럼 location이 아니라 그 위의게 할당됨
+        // Text 변수 할당
         textUIStart = UIStart.transform.GetChild(0).GetChild(0).gameObject;
+        check_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).gameObject;
+        catch_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).gameObject;
+        destroy_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
+        efficiency_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).gameObject;
 
         // 할당 후 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
@@ -126,12 +138,14 @@ public class UIManager : MonoBehaviour
 
             case UI.UIState.End:
                 if (UIEnd != null) UIEnd.SetActive(true);
+                UpdateEndUI();
                 break;
         }
 
         Debug.Log($"UI 상태가 {currentState}로 전환되었습니다.");
     }
 
+    #region UI 업데이트
     /// <summary>
     /// 리스트 정의: 업무 장소(1~6)
     /// SceneTransition에서 키 값으로 lobby 씬 이름 값을 넘겨주면
@@ -162,5 +176,69 @@ public class UIManager : MonoBehaviour
             _textUIStart.text = locations[0];
         }
     }
+
+    void UpdateEndUI()
+    {
+        // 결과창 정보 기입
+        // 조각상 조사 횟수(check_UIEnd) | 적발한 조각상(catch_UIEnd) | 파손한 조각상(destroy_UIEnd) | 업무효율(efficiency_UIEnd)
+        // 평가등급(grade_UIEnd)
+
+        Text _check_UIEnd = check_UIEnd.GetComponent<Text>();
+        Text _catch_UIEnd = catch_UIEnd.GetComponent<Text>();
+        Text _destroy_UIEnd = destroy_UIEnd.GetComponent<Text>();
+        Text _efficiency_UIEnd = efficiency_UIEnd.GetComponent<Text>();
+
+        StatueScore statueScore = FindObjectOfType<StatueScore>();
+
+        #region 조각상 조사 횟수(check_UIEnd)
+        if (_check_UIEnd != null)
+        {
+            //Debug.Log($"조각상 조사 횟수: {UIManager.u_instance.checkCount_test}");
+            _check_UIEnd.text = UIManager.u_instance.checkCount_test.ToString();
+        }
+        else
+        {
+            Debug.Log("값이 할당되지 않았습니다.");
+        }
+        #endregion
+
+        #region 적발한 조각상(catch_UIEnd)
+        if (_catch_UIEnd != null)
+        {
+            Debug.Log($"조각상 적발 횟수: {statueScore.fightCount}");
+            _catch_UIEnd.text = statueScore.fightCount.ToString();
+        }
+        else
+        {
+            Debug.Log("값이 할당되지 않았습니다.");
+        }
+        #endregion
+
+        #region 파손한 조각상(destroy_UIEnd)
+        if (_destroy_UIEnd != null)
+        {
+            Debug.Log($"조각상 파괴 횟수: {statueScore.destroyedCount}");
+            _destroy_UIEnd.text = statueScore.destroyedCount.ToString();
+        }
+        else
+        {
+            Debug.Log("값이 할당되지 않았습니다.");
+        }
+        #endregion
+
+        #region 업무효율(efficiency_UIEnd)
+        if (_efficiency_UIEnd != null)
+        {
+            Debug.Log($"조각상 조사 횟수 변수: {statueScore.checkCount}");
+            _efficiency_UIEnd.text = statueScore.checkCount.ToString();
+        }
+        else
+        {
+            Debug.Log("값이 할당되지 않았습니다.");
+        }
+        #endregion
+    }
+
+    #endregion
 
 }

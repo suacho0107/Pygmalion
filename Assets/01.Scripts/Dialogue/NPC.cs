@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using static PlayerMove;
 using UnityEditor.SearchService;
+using Define;
 
 public class NPC : MonoBehaviour
 {
+    #region Set Values
     public DialogueManager dialogueManager;
     public InteractionEvent interactionEvent; // 이 NPC와 연결된 InteractionEvent
     public MuseumLobbyCSV csv;
@@ -43,6 +45,7 @@ public class NPC : MonoBehaviour
 
     string filePath;
     string currentName;
+    #endregion
 
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
@@ -302,6 +305,9 @@ public class NPC : MonoBehaviour
                         ChangeDialogueExplain(2, "1");
                         test2 = true;
                         StartCoroutine(DelayLoadScene(1.5f, "Battle"));
+
+                        // 조사 횟수 증가
+                        UIManager.u_instance.checkCount_test++;
                     }
                     else if (!isCorrect && !isFin && !test2)
                     {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
@@ -373,7 +379,7 @@ public class NPC : MonoBehaviour
     {
         dialogueFileName = _dialogueFileName;
         currentName = dialogueFileName;
-        Debug.Log(dialogueFileName);
+        //Debug.Log(dialogueFileName);
     }
 
     public void ChangeDialogueExplain(int _currentIndex, string _explainNum)

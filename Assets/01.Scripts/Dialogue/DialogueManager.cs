@@ -317,6 +317,11 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    void SetUIStateEnd()
+    {
+        UIManager.u_instance.SetUIState(Define.UI.UIState.End);
+    }
+
     void EndDialogue()
     {
         //초기화
@@ -327,10 +332,12 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true; // 미술관장
+
         if(npc.dialogueFileName == "Tutorial2_dialogue")
         {
             npc.isTutoFin = true;
         }
+
         if(npc.isStatue && npc.isChecked && npc.isJudged)
         {
             if(npc.isEnemy)
@@ -376,6 +383,12 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
         playerMove.ActiveInteract = false; // 추가 코드
+
+        // 결과 UI 출력
+        if (npc.dialogueFileName == "Check3_dialogue")
+        {
+            Invoke("SetUIStateEnd", 1.5f);
+        }
 
         // 모든 이미지 비활성화
         foreach (var image in Images)
