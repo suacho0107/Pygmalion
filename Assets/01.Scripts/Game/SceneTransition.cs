@@ -54,6 +54,11 @@ public class SceneTransition : MonoBehaviour
         if (sceneName == "Museum_Lobby" || sceneName == "Library_1F" || sceneName == "Park" || 
             sceneName == "CityHall_Lobby" || sceneName == "Broadcast_1F" || sceneName == "Hospital_1F")
         {
+            if(sceneName == "Museum_Lobby" && SceneManager.GetActiveScene().name == "GlobalMap")
+            {
+                GetComponent <DeleteAllData>().DeleteAllJsonFiles();
+            }
+
             if (UIManager.u_instance != null)
             {
                 UIManager.u_instance.SetUIState(Define.UI.UIState.Work);

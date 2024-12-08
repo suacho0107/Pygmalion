@@ -19,7 +19,8 @@ public class NPC : MonoBehaviour
 
     public SpriteRenderer spriteRenderer;
     public Sprite destroyedSprite; // 무너진 조각상 스프라이트
-    //public StatueController statueController;
+
+    StatueAudio statueAudio;
 
     public bool isStatue = false;
     public bool isNPC;
@@ -63,6 +64,8 @@ public class NPC : MonoBehaviour
     {
         //ResetNPCData();
         LoadNPCData();
+
+        statueAudio = GetComponent<StatueAudio>();
     }
     private void Update()
     {
@@ -207,20 +210,26 @@ public class NPC : MonoBehaviour
                     {// 건드린다 --> 정답 --> battleDialogue.csv --> 전투 진입(플레이어 선공)
                         Debug.Log("건드린다 > 정답");
                         isCorrect = true;
+                        statueAudio.PlayEnterFight();
                         statueScore.fightCount += 1;
                         statueScore.SaveScore();
                         ChangeDialogueExplain(3, "1");
                         test2 = true;
-                        StartCoroutine(DelayLoadScene(1.5f, "Battle"));
+                        StartCoroutine(DelayLoadScene(2.2f, "Battle"));
                     }
-                    else if (!isCorrect && !isFin && !test2)
+                    else if (!isCorrect && !isFin)
                     {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
                         Debug.Log("이상 없음 > 오답");
+                        if (!test2)
+                        {
+                            statueAudio.PlayPencil();
+                            statueScore.fightCount += 1;
+                            statueScore.SaveScore();
+                            test2 = true;
+                        }
                         isCorrect = false;
-                        statueScore.fightCount += 1;
-                        statueScore.SaveScore();
-                        test2 = true;
-                        SceneManager.LoadScene("Battle");
+                        ChangeDialogueExplain(3, "1");
+                        StartCoroutine(PlaySound());
                     }
                     else if (isFin) // 전투 승리 시 조각상 무너짐 대화로?
                     {
@@ -228,6 +237,7 @@ public class NPC : MonoBehaviour
                         ChangeSprite();
                         if (!test4)
                         {
+                            statueAudio.PlayDestroyed();
                             statueScore.statueCount += 1;
                             statueScore.SaveScore();
                             test4 = true;
@@ -240,6 +250,7 @@ public class NPC : MonoBehaviour
                     {// 이상 없음 --> 정답 --> 기록 효과~ --> count++
                         Debug.Log("이상 없음 > 정답");
                         ChangeDialogueExplain(3, "3");
+                        statueAudio.PlayPencil();
                         statueScore.statueCount += 1;
                         statueScore.SaveScore();
                         isCorrect = true;
@@ -251,6 +262,7 @@ public class NPC : MonoBehaviour
                         Debug.Log("건드린다 > 오답");
                         ChangeDialogueExplain(3, "2");
                         ChangeSprite();
+                        statueAudio.PlayDestroyed();
                         statueScore.statueCount += 1;
                         statueScore.destroyedCount += 1;
                         statueScore.SaveScore();
@@ -300,23 +312,26 @@ public class NPC : MonoBehaviour
                     {// 건드린다 --> 정답 --> battleDialogue.csv --> 전투 진입(플레이어 선공)
                         Debug.Log("건드린다 > 정답");
                         isCorrect = true;
+                        statueAudio.PlayEnterFight();
                         statueScore.fightCount += 1;
                         statueScore.SaveScore();
                         ChangeDialogueExplain(2, "1");
                         test2 = true;
-                        StartCoroutine(DelayLoadScene(1.5f, "Battle"));
-
-                        // 조사 횟수 증가
-                        UIManager.u_instance.checkCount_test++;
+                        StartCoroutine(DelayLoadScene(2.2f, "Battle"));
                     }
-                    else if (!isCorrect && !isFin && !test2)
+                    else if (!isCorrect && !isFin)
                     {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
                         Debug.Log("이상 없음 > 오답");
+                        if (!test2)
+                        {
+                            statueAudio.PlayPencil();
+                            statueScore.fightCount += 1;
+                            statueScore.SaveScore();
+                            test2 = true;
+                        }
                         isCorrect = false;
-                        statueScore.fightCount += 1;
-                        statueScore.SaveScore();
-                        test2 = true;
-                        SceneManager.LoadScene("Battle");
+                        ChangeDialogueExplain(3, "1");
+                        StartCoroutine(PlaySound());
                     }
                     else if (isFin) // 전투 승리 시 조각상 무너짐 대화로?
                     {
@@ -324,6 +339,7 @@ public class NPC : MonoBehaviour
                         ChangeSprite();
                         if (!test4)
                         {
+                            statueAudio.PlayDestroyed();
                             statueScore.statueCount += 1;
                             statueScore.SaveScore();
                             test4 = true;
@@ -336,6 +352,7 @@ public class NPC : MonoBehaviour
                     {// 이상 없음 --> 정답 --> 기록 효과~ --> count++
                         Debug.Log("이상 없음 > 정답");
                         ChangeDialogueExplain(2, "3");
+                        statueAudio.PlayPencil();
                         statueScore.statueCount += 1;
                         statueScore.SaveScore();
                         isCorrect = true;
@@ -347,6 +364,7 @@ public class NPC : MonoBehaviour
                         Debug.Log("건드린다 > 오답");
                         ChangeDialogueExplain(2, "2");
                         ChangeSprite();
+                        statueAudio.PlayDestroyed();
                         statueScore.statueCount += 1;
                         statueScore.destroyedCount += 1;
                         statueScore.SaveScore();
@@ -420,6 +438,15 @@ public class NPC : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
+    }
+
+    IEnumerator PlaySound()
+    {
+        yield return new WaitForSeconds(1f);
+        statueAudio.PlayEnterFight();
+
+        yield return new WaitForSeconds(2f);
+        StartCoroutine(DelayLoadScene(2.2f, "Battle"));
     }
 
     public void SaveNPCData()
