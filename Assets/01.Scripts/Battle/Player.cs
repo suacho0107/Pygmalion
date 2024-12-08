@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     Part part;
 
     public int playerHp;
-    //private int playerMaxHp = 100; //임의 설정
-    private int playerMaxHp = 30; //임의 설정
+    private int playerMaxHp = 100; //임의 설정
+    //private int playerMaxHp = 30; //임의 설정
 
     private int attackDamage = 1; //피 1칸씩 깔 거임
 
