@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StatueScore : MonoBehaviour
@@ -27,7 +29,16 @@ public class StatueScore : MonoBehaviour
 
     void UpdateScore()
     {
-        statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 6";
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName.StartsWith("Museum"))
+        {
+            statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 6";
+        }
+        else if(sceneName.StartsWith("Library"))
+        {
+            statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 5";
+        }
     }
 
     public void SaveScore()

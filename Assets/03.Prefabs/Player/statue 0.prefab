@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8041798209513320479}
   - component: {fileID: 529805125512900948}
   - component: {fileID: 7568982970336778042}
+  - component: {fileID: 3692987458455740159}
   m_Layer: 0
   m_Name: statue 0
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -149985911
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 568159189, guid: 3fe11f05ec7f317478931c1c884e957d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -123,3 +124,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.6}
   m_Size: {x: 1.1875, y: 1.6}
   m_Direction: 0
+--- !u!114 &3692987458455740159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041798209513320476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f7603213b31e54a8c0a482bef2f7af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4
+  findDistance: 8
+  moveDistance: 3
+  minMoveDistance: 2
+  moveTime: 4

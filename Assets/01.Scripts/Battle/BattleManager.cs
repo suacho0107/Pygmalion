@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+using System.IO;
 using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
@@ -8,6 +10,8 @@ public class BattleManager : MonoBehaviour
     Player player;
     Enemy enemy;
     Part part;
+
+    public NPCData npcData = new NPCData();
 
     public Text contentText;
     public Text partText;
@@ -18,6 +22,9 @@ public class BattleManager : MonoBehaviour
     public Sprite hpBoxEmpty;
 
     public string currentPart; //Select 시 partText
+
+    public bool isWin;
+    string filePath;
 
     public State state;
 
@@ -40,6 +47,9 @@ public class BattleManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
+
+        filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
+        LoadFightData();
     }
 
     // Start is called before the first frame update
@@ -145,39 +155,49 @@ public class BattleManager : MonoBehaviour
     void PlayerWin()
     {
         Debug.Log("PlayerWin() 실행");
+        //구현예정
 
-        isBattleEnd = true;
+        isWin = true;
+        SaveFightData();
 
-        contentText.text = "... 생각보다 할 만 한가?"; //대사 추가 가능
-        partText.text = "";
-        hpBoxes.SetActive(false);
+        PlayerPrefs.SetInt("PlayerWin", 1);
+        PlayerPrefs.Save();
 
-
-        Invoke("ExitBattleScene", 2);
+        SceneManager.LoadScene("Museum_ExhibitionRoom2");
     }
 
     void PlayerLose()
     {
         Debug.Log("PlayerLose() 실행");
+        //구현예정
 
-        isBattleEnd = true;
+        isWin = false;
+        SaveFightData();
 
-        contentText.text = "눈앞이 흐려진다..."; //대사 추가 가능
-        partText.text = "";
-        hpBoxes.SetActive(false);
+        PlayerPrefs.SetInt("PlayerLose", 1);
+        PlayerPrefs.Save();
 
-        Invoke("ExitBattleScene", 2);
+        SceneManager.LoadScene("Museum_Lobby");
     }
 
-    public void ExitBattleScene()
+    public void SaveFightData()
     {
-        if (state == State.WIN)
+        npcData.isFin = isWin;
+
+        string json = JsonUtility.ToJson(npcData);
+        File.WriteAllText(filePath, json);
+        Debug.Log("데이터 저장");
+    }
+
+    public void LoadFightData()
+    {
+        if (File.Exists(filePath))
         {
-            SceneManager.LoadScene("00.Scenes/1-Museum/Museum_ExhibitionRoom2");
+            string json = File.ReadAllText(filePath);
+            npcData = JsonUtility.FromJson<NPCData>(json);
+            Debug.Log("데이터 로드");
         }
-        else if (state == State.LOSE || state == State.PLAYERTURN_RUN)
-        {
-            SceneManager.LoadScene("00.Scenes/1-Museum/Museum_Lobby");
-        }
+
+        isWin = npcData.isFin;
     }
 }
