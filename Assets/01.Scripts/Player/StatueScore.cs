@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StatueScore : MonoBehaviour
@@ -16,7 +18,7 @@ public class StatueScore : MonoBehaviour
     private void Start()
     {
         // 테스트 초기화
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
 
         statueCount = PlayerPrefs.GetInt("StatueCount", statueCount);
         destroyedCount = PlayerPrefs.GetInt("destroyedCount", destroyedCount);
@@ -27,7 +29,16 @@ public class StatueScore : MonoBehaviour
 
     void UpdateScore()
     {
-        statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 6";
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName.StartsWith("Museum"))
+        {
+            statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 6";
+        }
+        else if(sceneName.StartsWith("Library"))
+        {
+            statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 5";
+        }
     }
 
     public void SaveScore()

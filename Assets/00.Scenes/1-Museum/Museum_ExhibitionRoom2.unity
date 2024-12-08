@@ -602,7 +602,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7568982970336778042, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8041798209513320476, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_Name
@@ -1547,7 +1547,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7568982970336778042, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8041798209513320476, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
       propertyPath: m_Name
@@ -3699,6 +3699,7 @@ GameObject:
   - component: {fileID: 667265773}
   - component: {fileID: 667265772}
   - component: {fileID: 667265771}
+  - component: {fileID: 667265775}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -3781,6 +3782,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &667265775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667265770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03304acc027630479567e0908587515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npc: {fileID: 200458755}
 --- !u!1 &714622155
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,6 +81,10 @@ public class PlayerMove : MonoBehaviour
             PlayerPrefs.SetInt("PlayerWin", 0);
             FindSpawnPoint();
             MoveToSpawnPoint();
+            //NPC npc = FindObjectOfType<NPC>();
+            //npc.dialogueFileName = "FightEnd_dialogue";
+            //npc.explainNum = "1";
+            //npc.StartDialogue();
         }
 
         if(PlayerPrefs.GetInt("Start1", 0) == 1)

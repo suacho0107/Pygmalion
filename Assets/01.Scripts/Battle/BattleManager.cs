@@ -166,6 +166,10 @@ public class BattleManager : MonoBehaviour
 
         isWin = false;
         SaveFightData();
+
+        PlayerPrefs.SetInt("PlayerLose", 1);
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene("Museum_Lobby");
     }
 
