@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,8 +10,8 @@ public class Player : MonoBehaviour
     Part part;
 
     public int playerHp;
-    private int playerMaxHp = 100; //임의 설정
-    //private int playerMaxHp = 10; //임의 설정
+    //private int playerMaxHp = 100; //임의 설정
+    private int playerMaxHp = 30; //임의 설정
 
     private int attackDamage = 1; //피 1칸씩 깔 거임
 
@@ -24,6 +23,7 @@ public class Player : MonoBehaviour
     {
         battleManager = FindObjectOfType<BattleManager>();
         enemy = FindObjectOfType<Enemy>();
+        //part = FindObjectOfType<Part>();
     }
 
     // Start is called before the first frame update
@@ -50,7 +50,8 @@ public class Player : MonoBehaviour
 
     public void PlayerTurnStart()
     {
-        battleManager.contentText.text = "어떤 행동을 할까?";
+        //battleManager.contentText.text = "어떤 행동을 할까?";
+        StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
         battleManager.buttons.gameObject.SetActive(true);
         battleManager.partText.gameObject.SetActive(false);
         battleManager.hpBoxes.gameObject.SetActive(false);
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow)) //오른쪽 방향키
         {
-            Debug.Log("→ 입력");
+            //Debug.Log("→ 입력");
             int i = FindListIndex(enemy.parts, enemy.currentPart);
             Debug.Log($"FindListIndex(parts, currentPart): {i}");
 
@@ -85,7 +86,6 @@ public class Player : MonoBehaviour
                 //isDestroyed 여부 판별
                 if (enemy.isDestroyed[i])
                 {
-
                     battleManager.partText.color = Color.grey;
                 }
                 else
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Debug.Log("← 입력");
+            //Debug.Log("← 입력");
             int i = FindListIndex(enemy.parts, enemy.currentPart);
             Debug.Log($"FindListIndex(parts, currentPart): {i}");
 
@@ -169,25 +169,39 @@ public class Player : MonoBehaviour
     
     public void Run()
     {
-        //함수 구현
-        //아마 필요한 거 전달하고 ChangeScene 할 듯?
         //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-
-        //battleManager.contentText.text = "잠깐, 숨 좀 돌리고...";
         battleManager.contentText.text = "";
         battleManager.buttons.SetActive(false);
 
-        battleManager.Invoke("ExitBattleScene", 2);
+        battleManager.PlaySFX(battleManager.playerRunSFX);
+        ////이것만 소리 안 나서 그냥 냅다 실행하기
+        //battleManager.battleAudioSource.Stop();
+        //battleManager.battleAudioSource.clip = battleManager.playerRunSFX;
+        //battleManager.battleAudioSource.time = 0;
+        //battleManager.battleAudioSource.Play();
+
+        battleManager.Invoke("ExitBattleScene", 3);
     }
 
 
     public void PlayerAttack(Part part)
     {
         Debug.Log("PlayerAttack(enemy, part) 실행");
+
+        battleManager.contentText.text = "";
+
+        //battleManager.PlaySFX(battleManager.playerAttackSFX);
+        battleManager.battleAudioSource.Stop();
+        battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
+        battleManager.battleAudioSource.time = 0;
+        battleManager.battleAudioSource.Play();
+
+
         part.partHp -= attackDamage; //attackDamage만큼 partHp 차감
         enemy.UpdateEnemyHp();
 
-        PlayerTurnEnd();
+        //PlayerTurnEnd();
+        Invoke("PlayerTurnEnd", 1);
     }
 
     void PlayerTurnEnd()
@@ -201,5 +215,7 @@ public class Player : MonoBehaviour
         {
             battleManager.state = BattleManager.State.ENEMYTURN;
         }
+
+        battleManager.isPlayerTurnStarted = false;
     }
 }

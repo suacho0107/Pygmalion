@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,15 @@ public class BattleManager : MonoBehaviour
     List<GameObject> hpBoxesList = new List<GameObject>();
     public Sprite hpBoxFull;
     public Sprite hpBoxEmpty;
+    public GameObject blackBoard;
+
+    public AudioSource battleAudioSource;
+    public AudioClip battleStartSFX;
+    public AudioClip playerAttackSFX;
+    public AudioClip enemyAttackSFX;
+    public AudioClip playerWinSFX;
+    public AudioClip playerLoseSFX;
+    public AudioClip playerRunSFX;
 
     public string currentPart; //Select 시 partText
 
@@ -28,8 +38,11 @@ public class BattleManager : MonoBehaviour
 
     public State state;
 
+    public bool isPlayerTurnStarted = false;
     public bool isEnemyTurnStarted = false;
     bool isBattleEnd = false;
+    private bool isCoroutineRunning = false;
+    private bool isSFXPlaying = false;
 
     public enum State
     {
@@ -60,11 +73,16 @@ public class BattleManager : MonoBehaviour
         enemy.StartSetEnemy();
         SetHpBoxes();
 
+        blackBoard.SetActive(false);
+
         //HpBar
         player.UpdatePlayerHp();
         enemy.UpdateEnemyHp();
 
         state = State.PLAYERTURN_START;
+        PlaySFX(battleStartSFX);
+
+
     }
 
     // Update is called once per frame
@@ -74,7 +92,11 @@ public class BattleManager : MonoBehaviour
         {
             //PLAYERTURN
             case State.PLAYERTURN_START:
-                player.PlayerTurnStart();
+                if (!isPlayerTurnStarted)
+                {
+                    player.PlayerTurnStart();
+                    isPlayerTurnStarted = true;
+                }
                 break;
 
             case State.PLAYERTURN_ATTACK:
@@ -99,17 +121,28 @@ public class BattleManager : MonoBehaviour
                 if (!isBattleEnd)
                 {
                     PlayerWin();
+                    PlaySFX(playerWinSFX);
+                    //battleAudioSource.Stop();
+                    //battleAudioSource.clip = playerWinSFX;
+                    //battleAudioSource.time = 0;
+                    //battleAudioSource.Play();
                 }
                 break;
 
             case State.LOSE:
-                if (isBattleEnd)
+                if (!isBattleEnd)
                 {
                     PlayerLose();
+                    PlaySFX(playerLoseSFX);
+                    //battleAudioSource.Stop();
+                    //battleAudioSource.clip = playerLoseSFX;
+                    //battleAudioSource.time = 0;
+                    //battleAudioSource.Play();
                 }
                 break;
         }
     }
+
     void SetHpBoxes()
     {
         for (int i = 0; i < hpBoxes.transform.childCount; i++)
@@ -163,12 +196,16 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerWin", 1);
         PlayerPrefs.Save();
 
-        SceneManager.LoadScene("Museum_ExhibitionRoom2");
+        //SceneManager.LoadScene("Museum_ExhibitionRoom2");
+        Invoke("ExitBattleScene", 1);
     }
 
     void PlayerLose()
     {
         Debug.Log("PlayerLose() 실행");
+
+        blackBoard.SetActive(true);
+        StartCoroutine(ContentTextWriter("눈앞이 흐려진다..."));
         //구현예정
 
         isWin = false;
@@ -177,7 +214,70 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
-        SceneManager.LoadScene("Museum_Lobby");
+        //SceneManager.LoadScene("Museum_Lobby");
+        Invoke("ExitBattleScene", 2);
+    }
+
+    public void PlaySFX(AudioClip audioClip)
+    {
+        Debug.Log("PlayerSFX 실행");
+
+        if (isSFXPlaying)
+        {
+            return;
+        }
+
+        isSFXPlaying = true;
+
+        battleAudioSource.Stop();
+        battleAudioSource.clip = audioClip;
+        //audioSource.loop = false;
+        battleAudioSource.time = 0;
+        battleAudioSource.Play();
+
+        Invoke("ResetPlaySFX", 3);
+    }
+
+    private void ResetPlaySFX()
+    {
+        isSFXPlaying = false;
+    }
+
+    public void ExitBattleScene()
+    {
+        if (state == State.WIN)
+        {
+            SceneManager.LoadScene("Museum_ExhibitionRoom2");
+        }
+        else if (state == State.LOSE || state == State.PLAYERTURN_RUN)
+        {
+            SceneManager.LoadScene("Museum_Lobby");
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public IEnumerator ContentTextWriter(string origintext)
+    {
+        // 이미 코루틴이 실행 중이라면 중복 실행 방지
+        if (isCoroutineRunning)
+        {
+            yield break;
+        }
+
+        isCoroutineRunning = true;
+        contentText.text = "";
+
+        for (int i = 0; i < origintext.Length; i++)
+        {
+            contentText.text += origintext[i];
+            yield return new WaitForSeconds(0.03f);
+        }
+
+        //이거 yield break로도 가능한가?
+        isCoroutineRunning = false;
     }
 
     public void SaveFightData()
