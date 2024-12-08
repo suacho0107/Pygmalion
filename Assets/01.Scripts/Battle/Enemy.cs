@@ -257,7 +257,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     private void Aphrodite_Charm()
     {
         Debug.Log("Aphrodite_Charm()");

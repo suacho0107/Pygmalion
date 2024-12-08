@@ -100,7 +100,6 @@ public class BattleManager : MonoBehaviour
                 break;
         }
     }
-
     void SetHpBoxes()
     {
         for (int i = 0; i < hpBoxes.transform.childCount; i++)
@@ -149,14 +148,12 @@ public class BattleManager : MonoBehaviour
 
         isBattleEnd = true;
 
-
-        contentText.text = ""; //대사 추가 가능
+        contentText.text = "... 생각보다 할 만 한가?"; //대사 추가 가능
         partText.text = "";
         hpBoxes.SetActive(false);
 
 
         Invoke("ExitBattleScene", 2);
-
     }
 
     void PlayerLose()
