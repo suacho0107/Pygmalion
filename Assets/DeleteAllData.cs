@@ -8,11 +8,11 @@ public class DeleteAllData : MonoBehaviour
 {
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "GlobalMap" && Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("삭제");
-            DeleteAllJsonFiles();
-        }
+        //if (SceneManager.GetActiveScene().name == "GlobalMap" && Input.GetKeyDown(KeyCode.P))
+        //{
+        //    Debug.Log("삭제");
+        //    DeleteAllJsonFiles();
+        //}
     }
 
     public void DeleteAllJsonFiles()

@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void SetPlayerHp()
@@ -181,6 +181,8 @@ public class Player : MonoBehaviour
         //battleManager.battleAudioSource.Play();
 
         battleManager.Invoke("ExitBattleScene", 3);
+        PlayerPrefs.SetInt("PlayerRun", 1);
+        PlayerPrefs.Save();
     }
 
 
