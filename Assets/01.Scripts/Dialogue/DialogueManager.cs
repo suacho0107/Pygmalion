@@ -332,10 +332,12 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true; // 미술관장
+        Debug.Log("endDialogue1");
 
         if(npc.dialogueFileName == "Tutorial2_dialogue")
         {
             npc.isTutoFin = true;
+            Debug.Log("endDialogue2");
         }
 
         if(npc.isStatue && npc.isChecked && npc.isJudged)

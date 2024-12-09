@@ -83,8 +83,9 @@ public class NPC : MonoBehaviour
 
                 if (isTutoDialogueChanged)
                 {
-                    if (statueScore.statueCount == 1 && !isTutoFin)
+                    if (!isTutoFin && statueScore.statueCount == 1)
                     {
+                        Debug.Log("!isTutoFin, 튜토2로 변경");
                         ChangeDialogueFileName("Tutorial2_dialogue");
                     }
                     if (isTutoFin)
@@ -106,26 +107,26 @@ public class NPC : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
-        {
-            if (isInteract)
-            {
-                ChangeDialogueFileName("Guard_Check0_dialogue");
+        //if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
+        //{
+        //    if (isInteract)
+        //    {
+        //        ChangeDialogueFileName("Guard_Check0_dialogue");
 
-                if (statueScore.statueCount == 1)
-                {
-                    ChangeDialogueFileName("Guard_Check1_dialogue");
-                }
-                else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
-                {
-                    ChangeDialogueFileName("Guard_Check2_dialogue");
-                }
-                else if (statueScore.statueCount == 5)
-                {
-                    ChangeDialogueFileName("Guard_Check3_dialogue");
-                }
-            }
-        }
+        //        if (statueScore.statueCount == 1)
+        //        {
+        //            ChangeDialogueFileName("Guard_Check1_dialogue");
+        //        }
+        //        else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
+        //        {
+        //            ChangeDialogueFileName("Guard_Check2_dialogue");
+        //        }
+        //        else if (statueScore.statueCount == 5)
+        //        {
+        //            ChangeDialogueFileName("Guard_Check3_dialogue");
+        //        }
+        //    }
+        //}
 
         if(SceneManager.GetActiveScene().name == "Museum_Lobby")
         {
@@ -135,24 +136,37 @@ public class NPC : MonoBehaviour
         {
             if (statueScore != null)
             {
-                string sceneName = SceneManager.GetActiveScene().name;
-
-                if (sceneName.StartsWith("Museum"))
+                Debug.Log("statueScore != null");
+                //string sceneName = SceneManager.GetActiveScene().name;
+                if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
                 {
-                    if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
-                    {
-                        ChangeDialogueFile(1);
-                        Judge();
-                    }
-                    else
-                    {
-                        Judge();
-                    }
-                }
-                else if (sceneName.StartsWith("Library"))
-                {
+                    Debug.Log("기본대사 -> 판별");
+                    ChangeDialogueFile(1);
                     Judge();
                 }
+                else
+                {
+                    Debug.Log("판별");
+                    Judge();
+                }
+                //if (sceneName.StartsWith("Museum"))
+                //{
+                //    if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
+                //    {
+                //        Debug.Log("기본대사 -> 판별");
+                //        ChangeDialogueFile(1);
+                //        Judge();
+                //    }
+                //    else
+                //    {
+                //        Debug.Log("판별");
+                //        Judge();
+                //    }
+                //}
+                //else if (sceneName.StartsWith("Library"))
+                //{
+                //    Judge();
+                //}
             }
         }
     }

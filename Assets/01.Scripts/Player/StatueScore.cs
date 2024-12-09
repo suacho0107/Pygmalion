@@ -39,12 +39,12 @@ public class StatueScore : MonoBehaviour
         {
             statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 6";
 
-            statueCount = UIManager.u_instance.checkCount_test;
+            //statueCount = UIManager.u_instance.checkCount_test;
         }
-        else if(sceneName.StartsWith("Library"))
-        {
-            statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 5";
-        }
+        //else if(sceneName.StartsWith("Library"))
+        //{
+        //    statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 5";
+        //}
     }
 
     public void SaveScore()
