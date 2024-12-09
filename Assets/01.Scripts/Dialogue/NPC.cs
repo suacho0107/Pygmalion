@@ -1,11 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
-using static PlayerMove;
-using UnityEditor.SearchService;
-using Define;
 
 public class NPC : MonoBehaviour
 {

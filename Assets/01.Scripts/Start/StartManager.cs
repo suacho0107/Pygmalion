@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class StartManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] PlayerPosition playerPos;
+
     void Start()
     {
-        
+        playerPos.currentPosition = new Vector3(3, 0.2f, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.anyKeyDown)
