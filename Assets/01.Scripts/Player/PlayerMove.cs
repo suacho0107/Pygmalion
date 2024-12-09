@@ -13,8 +13,6 @@ public class PlayerMove : MonoBehaviour
 
     Vector3 dirVec;
 
-    AudioSource WalkSound;
-
     private Transform spawnPoint;
 
     public GameObject frontAnim;
@@ -73,8 +71,6 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        WalkSound = GetComponent<AudioSource>();
-        WalkSound.Stop();
         pState = PlayerState.Move;
         frontAnim.SetActive(true);
         backAnim.SetActive(false);
@@ -105,14 +101,6 @@ public class PlayerMove : MonoBehaviour
 
         isHorizonMove = Mathf.Abs(h) > Mathf.Abs(v);
 
-        if (h != 0 || v != 0)
-        {
-            if (isHorizonMove)
-                dirVec = new Vector3(h, 0, 0);
-            else
-                dirVec = new Vector3(0, v, 0);
-        }
-
         bool hDown = Input.GetButtonDown("Horizontal");
         bool hUp = Input.GetButtonUp("Horizontal");
         bool vDown = Input.GetButtonDown("Vertical");
@@ -135,23 +123,6 @@ public class PlayerMove : MonoBehaviour
 
         void pStateMove()
         {
-            Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
-
-            if (moveVec != Vector2.zero)
-            {
-                if (!WalkSound.isPlaying)
-                {
-                    WalkSound.Play();
-                }
-            }
-            else
-            {
-                if (WalkSound.isPlaying)
-                {
-                    WalkSound.Stop();
-                }
-            }
-
             // Debug.Log("pState = Move");
             if (hDown)
                 isHorizonMove = true;
@@ -160,11 +131,11 @@ public class PlayerMove : MonoBehaviour
             else if (hUp || vUp)
                 isHorizonMove = h != 0;
 
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    activeInven = true;
-            //    pState = PlayerState.Inventory;
-            //}
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                activeInven = true;
+                pState = PlayerState.Inventory;
+            }
 
             if (activeInteract == true)
             {
@@ -277,11 +248,6 @@ public class PlayerMove : MonoBehaviour
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
             rigid.velocity = moveVec * moveSpeed;
-
-            if (moveVec == Vector2.zero)
-            {
-                WalkSound.Stop();
-            }
         }
 
         // Ray
