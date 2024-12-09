@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
 
     public void SelectAttackPart()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow)) //오른쪽 방향키
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) //오른쪽 방향키
         {
             //Debug.Log("→ 입력");
             int i = FindListIndex(enemy.parts, enemy.currentPart);
@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
                 battleManager.UpdateHpBoxes();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             //Debug.Log("← 입력");
             int i = FindListIndex(enemy.parts, enemy.currentPart);
@@ -119,7 +119,8 @@ public class Player : MonoBehaviour
                 battleManager.UpdateHpBoxes();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        //else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             int i = FindListIndex(enemy.parts, enemy.currentPart);
 
