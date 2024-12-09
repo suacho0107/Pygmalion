@@ -122,6 +122,7 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerWin();
                     PlaySFX(playerWinSFX);
+                    isBattleEnd = true;
                     //battleAudioSource.Stop();
                     //battleAudioSource.clip = playerWinSFX;
                     //battleAudioSource.time = 0;
@@ -134,6 +135,7 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerLose();
                     PlaySFX(playerLoseSFX);
+                    isBattleEnd = true;
                     //battleAudioSource.Stop();
                     //battleAudioSource.clip = playerLoseSFX;
                     //battleAudioSource.time = 0;
@@ -188,6 +190,11 @@ public class BattleManager : MonoBehaviour
     void PlayerWin()
     {
         Debug.Log("PlayerWin() 실행");
+
+        partText.text = "";
+        hpBoxes.SetActive(false);
+
+        StartCoroutine(ContentTextWriter("...생각보다 할 만 한가?"));
         //구현예정
 
         isWin = true;
