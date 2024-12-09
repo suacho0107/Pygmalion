@@ -130,7 +130,7 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case State.LOSE:
-                if (!isBattleEnd)
+                if (isBattleEnd)
                 {
                     PlayerLose();
                     PlaySFX(playerLoseSFX);
