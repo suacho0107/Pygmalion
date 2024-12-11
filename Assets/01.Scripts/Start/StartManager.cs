@@ -14,7 +14,7 @@ public class StartManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.anyKeyDown)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene("Company_Lobby");
         }

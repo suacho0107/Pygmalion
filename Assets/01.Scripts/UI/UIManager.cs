@@ -56,6 +56,28 @@ public class UIManager : MonoBehaviour
         AssignUIObjects();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            LoadScene();
+        }
+    }
+
+    private void LoadScene()
+    {
+        string sceneName = "Start";
+
+        if (!string.IsNullOrEmpty(sceneName)) // 씬 이름이 설정되어 있는지 확인
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            Debug.LogWarning("씬 이름이 설정되지 않았습니다!");
+        }
+    }
+
     private void OnDestroy()
     {
         // 씬 로드 이벤트 해제
