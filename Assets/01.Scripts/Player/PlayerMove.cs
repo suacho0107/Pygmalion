@@ -82,7 +82,7 @@ public class PlayerMove : MonoBehaviour
 
         if(PlayerPrefs.GetInt("PlayerWin", 0) == 1)
         {
-            PlayerPrefs.SetInt("PlayerWin", 0);
+            StartCoroutine(ResetWinSignal());
             FindSpawnPoint();
             MoveToSpawnPoint();
             //NPC npc = FindObjectOfType<NPC>();
@@ -383,5 +383,12 @@ public class PlayerMove : MonoBehaviour
             transform.position = spawnPoint.position;
             Debug.Log("플레이어 스폰포인트로 이동");
         }
+    }
+
+    IEnumerator ResetWinSignal()
+    {
+        yield return new WaitForEndOfFrame();
+        PlayerPrefs.SetInt("PlayerWin", 0);
+        PlayerPrefs.Save();
     }
 }

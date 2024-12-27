@@ -331,15 +331,15 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true; // 미술관장
-        Debug.Log("endDialogue1");
+        //Debug.Log("endDialogue1");
 
         if(npc.dialogueFileName == "Tutorial2_dialogue")
         {
             npc.isTutoFin = true;
-            Debug.Log("endDialogue2");
+            //Debug.Log("endDialogue2");
         }
 
-        if(npc.isStatue && npc.isChecked && npc.isJudged)
+        if(npc.isStatue && npc.isChecked && npc.isJudged && PlayerPrefs.GetInt("PlayerWin", 0) == 1)
         {
             if(npc.isEnemy)
             {
@@ -357,7 +357,6 @@ public class DialogueManager : MonoBehaviour
                     else
                     {
                         npc.ChangeDialogueExplain(4, "1");
-                        Debug.Log("dialogueManager 여기, " + npc.dialogueFileName);
                         npc.result = true;
                     }
                 }

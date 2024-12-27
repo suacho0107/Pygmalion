@@ -24,7 +24,7 @@ public class BattleManager : MonoBehaviour
     public GameObject blackBoard;
 
     public AudioSource battleAudioSource;
-    public AudioClip battleStartSFX;
+    //public AudioClip battleStartSFX;
     public AudioClip playerAttackSFX;
     public AudioClip enemyAttackSFX;
     public AudioClip playerWinSFX;
@@ -80,7 +80,7 @@ public class BattleManager : MonoBehaviour
         enemy.UpdateEnemyHp();
 
         state = State.PLAYERTURN_START;
-        PlaySFX(battleStartSFX);
+        //PlaySFX(battleStartSFX);
 
 
     }
