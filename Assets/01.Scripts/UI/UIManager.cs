@@ -18,15 +18,22 @@ public class UIManager : MonoBehaviour
     [Header("Text")]
     [SerializeField] private GameObject textUIStart;
 
-    [SerializeField] private GameObject check_UIEnd;
-    [SerializeField] private GameObject catch_UIEnd;
-    [SerializeField] private GameObject destroy_UIEnd;
-    [SerializeField] private GameObject efficiency_UIEnd;
-    [SerializeField] private GameObject grade_UIEnd;
+    [SerializeField] private GameObject check_UIEnd;        // 조사한 조각상
+    [SerializeField] private GameObject catch_UIEnd;        // 적발한 조각상
+    [SerializeField] private GameObject destroy_UIEnd;      // 파손한 조각상
+    [SerializeField] private GameObject efficiency_UIEnd;   // 업무 효율
+    [SerializeField] private GameObject grade_UIEnd;        // 평가 등급
 
     private UI.UIState currentState;
 
     public int checkCount_test = 0;
+
+    private int checkCount;
+    private int fightCount;
+    private int destroyedCount;
+    private string efficiency;
+    float workEfficiency;   // 지역변수 임시 정의
+    private string grade;
 
     void Awake()
     {
@@ -108,6 +115,7 @@ public class UIManager : MonoBehaviour
         catch_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).gameObject;
         destroy_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
         efficiency_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).gameObject;
+        grade_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).gameObject;
 
         // 할당 후 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
@@ -209,6 +217,7 @@ public class UIManager : MonoBehaviour
         Text _catch_UIEnd = catch_UIEnd.GetComponent<Text>();
         Text _destroy_UIEnd = destroy_UIEnd.GetComponent<Text>();
         Text _efficiency_UIEnd = efficiency_UIEnd.GetComponent<Text>();
+        Text _grade_UIEnd = grade_UIEnd.GetComponent<Text>();
 
         StatueScore statueScore = FindObjectOfType<StatueScore>();
 
@@ -216,7 +225,9 @@ public class UIManager : MonoBehaviour
         if (_check_UIEnd != null)
         {
             //Debug.Log($"조각상 조사 횟수: {UIManager.u_instance.checkCount_test}");
-            _check_UIEnd.text = UIManager.u_instance.checkCount_test.ToString();
+            
+            checkCount = statueScore.statueCount;
+            _check_UIEnd.text = checkCount.ToString();
         }
         else
         {
@@ -228,7 +239,8 @@ public class UIManager : MonoBehaviour
         if (_catch_UIEnd != null)
         {
             Debug.Log($"조각상 적발 횟수: {statueScore.fightCount}");
-            _catch_UIEnd.text = statueScore.fightCount.ToString();
+            fightCount = statueScore.fightCount;
+            _catch_UIEnd.text = fightCount.ToString();
         }
         else
         {
@@ -240,7 +252,9 @@ public class UIManager : MonoBehaviour
         if (_destroy_UIEnd != null)
         {
             Debug.Log($"조각상 파괴 횟수: {statueScore.destroyedCount}");
-            _destroy_UIEnd.text = statueScore.destroyedCount.ToString();
+
+            destroyedCount = statueScore.destroyedCount;
+            _destroy_UIEnd.text = destroyedCount.ToString();
         }
         else
         {
@@ -251,8 +265,72 @@ public class UIManager : MonoBehaviour
         #region 업무효율(efficiency_UIEnd)
         if (_efficiency_UIEnd != null)
         {
-            Debug.Log($"조각상 조사 횟수 변수: {statueScore.checkCount}");
-            _efficiency_UIEnd.text = statueScore.checkCount.ToString();
+            // 업무 효율(조사 효율, 전투 효율)
+            float investigationEfficiency = checkCount / 12;
+            float battleEfficiency = fightCount / 1;
+            workEfficiency = investigationEfficiency + battleEfficiency;
+
+            // 등급 산출 및 출력
+            if (workEfficiency < 1)
+            {
+                efficiency = "탁월";
+            }
+            else if (workEfficiency >= 1 && workEfficiency < 1.5)
+            {
+                efficiency = "우수";
+            }
+            else if (workEfficiency >= 1.5 && workEfficiency < 2)
+            {
+                efficiency = "충족";
+            }
+            else if (workEfficiency >= 2 && workEfficiency < 2.5)
+            {
+                efficiency = "개선 필요";
+            }
+            else
+            {
+                efficiency = "미흡";
+            }
+
+            _efficiency_UIEnd.text = efficiency;
+        }
+        else
+        {
+            Debug.Log("값이 할당되지 않았습니다.");
+        }
+        #endregion
+
+        #region 평가등급(grade_UIEnd)
+        if (_grade_UIEnd != null)
+        {
+            // 판별 정확도
+            float catchAccurarcy = destroyedCount / 5;
+
+            // 총 평가등급(=업무 효율 + 판별 정확도)
+            float totalGrade = workEfficiency + catchAccurarcy;
+
+            if (totalGrade < 1)
+            {
+                efficiency = "A";
+            }
+            else if (totalGrade >= 1 && totalGrade < 1.3)
+            {
+                efficiency = "B";
+            }
+            else if (totalGrade >= 1.3 && totalGrade < 1.7)
+            {
+                efficiency = "C";
+            }
+            else if (totalGrade >= 1.7 && totalGrade < 2.2)
+            {
+                efficiency = "D";
+            }
+            else
+            {
+                efficiency = "E";
+            }
+
+            _grade_UIEnd.text = efficiency;
         }
         else
         {
@@ -262,5 +340,4 @@ public class UIManager : MonoBehaviour
     }
 
     #endregion
-
 }
