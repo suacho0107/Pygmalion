@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
 
+//https://docs.google.com/spreadsheets/d/1WOir0B9rY5R9YenzHMaeoO7qPDyfnq_Oio72uTV6gRk/edit?gid=1948295636#gid=1948295636
+
 public class BattleManager : MonoBehaviour
 {
     Player player;
@@ -39,6 +41,7 @@ public class BattleManager : MonoBehaviour
     public State state;
 
     public bool isPlayerTurnStarted = false;
+    public bool isPlayerRun = false;
     public bool isEnemyTurnStarted = false;
     bool isBattleEnd = false;
     private bool isCoroutineRunning = false;
@@ -70,6 +73,7 @@ public class BattleManager : MonoBehaviour
     {
         //전투 진입 시 Setting
         player.SetPlayerHp();
+        Debug.Log("BattleManager_Start_SetPlayerHp()-SetEnemy()");
         enemy.StartSetEnemy();
         SetHpBoxes();
 
@@ -88,7 +92,7 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(state)
+        switch (state)
         {
             //PLAYERTURN
             case State.PLAYERTURN_START:
@@ -104,7 +108,10 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case State.PLAYERTURN_RUN:
-                player.Run();
+                if (!isPlayerRun)
+                {
+                    player.Run();
+                }
                 break;
 
             //ENEMYTURN
@@ -142,6 +149,11 @@ public class BattleManager : MonoBehaviour
                 break;
         }
     }
+
+    //public void ChangeState(State _state)
+    //{
+    //    state = _state;
+    //}
 
     void SetHpBoxes()
     {
