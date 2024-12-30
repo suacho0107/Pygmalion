@@ -361,7 +361,9 @@ public class NPC : MonoBehaviour
                     {
                         if (!result) // 무너져 내린다 출력
                         {
-                            ChangeDialogueExplain(_FileIndex, "2");
+                            ChangeDialogueFile(5);
+                            Debug.Log("!result");
+                            
                             ChangeSprite();
                             //result = true;
                             if (!test4 && isEnemy)
@@ -369,11 +371,17 @@ public class NPC : MonoBehaviour
                                 statueAudio.PlayDestroyed();
                                 statueScore.statueCount += 1;
                                 statueScore.SaveScore();
+                                StartCoroutine(TriggerDialogue(2f));
+
+                                //ChangeDialogueFile(5);
+                                //SaveNPCData();
+                                //StartCoroutine(TriggerDialogue(0.1f));
+                                //WinDialogue();
+
                                 test4 = true;
-                                result = true;
-                                //InventoryUI.instance.GetAnItem(10301);
-                                SaveNPCData();
-                                //Debug.Log("전투 종료 후 test4 True 저장");
+                                StartCoroutine(DelayResult());
+                                //result = true;
+                                //SaveNPCData();
                             }
                         }
                         else // 무너져 있다 출력
@@ -406,7 +414,7 @@ public class NPC : MonoBehaviour
             //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
             if (isJudged && ((!isCorrect && !isEnemy) || (isCorrect && isEnemy) || (!isCorrect && isEnemy)) && !isFin)
             {
-                StartCoroutine(TriggerDialogue());
+                StartCoroutine(TriggerDialogue(0.1f));
             }
         }
     }
@@ -418,20 +426,38 @@ public class NPC : MonoBehaviour
             currentIndex = _currentIndex;
             dialogueFileName = dialogueFiles[currentIndex];
             selectFileName = selectFiles[currentIndex];
-            //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+            Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
         }
     }
 
-    IEnumerator TriggerDialogue()
+    IEnumerator TriggerDialogue(float delay)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(delay);
+        if(isEnemy && isFin)
+        {
+            ChangeDialogueFileName("stage1_exhibit2_Item");
+        }
         StartDialogue();
+        Debug.Log("triggerDialogue");
     }
 
     IEnumerator DelayLoadScene(float delay, string sceneName)
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
+    }
+
+    IEnumerator DelayResult()
+    {
+        //ChangeDialogueFile(5);
+        //SaveNPCData();
+        //WinDialogue();
+
+        yield return new WaitForSeconds(4f);
+
+        //test4 = true;
+        result = true;
+        SaveNPCData();
     }
 
     IEnumerator PlaySound()
@@ -535,4 +561,11 @@ public class NPC : MonoBehaviour
             spriteRenderer.sprite = destroyedSprite;
         }
     }
+
+    //public void WinDialogue()
+    //{
+    //    //ChangeDialogueFileName("stage1_exhibit2_Item");
+    //    StartCoroutine(TriggerDialogue(0.1f));
+    //    Debug.Log("windialogue");
+    //}
 }
