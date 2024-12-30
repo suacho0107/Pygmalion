@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
     private UI.UIState currentState;
 
     public int checkCount_test = 0;
+    public bool isTutorialRian1 = false;
+    public bool isTutorialRian2 = false;
+    public bool isTutorialEnd = false;
 
     private int checkCount;
     private int fightCount;

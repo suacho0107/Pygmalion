@@ -22,4 +22,5 @@ public class PlayerManager : MonoBehaviour
         // 시네머신 CAM에 Follow에 로드된 플레이어 저장
         virtualCamera.Follow = player.transform;
     }
+
 }

@@ -18,6 +18,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (UIManager.u_instance.isTutorialRian1)
+        {
+            transform.position = new Vector3(28f, 5.2f, 0f);
+            UIManager.u_instance.isTutorialRian1 = false;
+        }
+        if (UIManager.u_instance.isTutorialRian2)
+        {
+            transform.position = new Vector3(-1f, -0.5f, 0f);
+            UIManager.u_instance.isTutorialRian2 = false;
+            UIManager.u_instance.isTutorialEnd = true;
+        }
+
         playerPos.currentPosition = transform.position;
 
         Checking();

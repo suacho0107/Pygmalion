@@ -29,6 +29,7 @@ public class NPC : MonoBehaviour
 
     public bool isTutoDialogueChanged = false;
     public bool isTutoFin = false;
+    public bool isOfficeTuto = false;
     bool isDialogueChanged = false;
     public bool isFin = false;
     public bool result = false;

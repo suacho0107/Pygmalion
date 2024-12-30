@@ -391,6 +391,19 @@ public class DialogueManager : MonoBehaviour
             Invoke("SetUIStateEnd", 1.5f);
         }
 
+        // 튜토: 리안 업무지시
+        if (npc.dialogueFileName == "Office-2-1_Rian_dialogue")
+        {
+            UIManager.u_instance.isTutorialRian1 = true;
+            Debug.Log("Office-2-1_Rian_dialogue");
+        }
+
+        if (npc.dialogueFileName == "Office-2-2_dialogue")
+        {
+            UIManager.u_instance.isTutorialRian2 = true;
+            Debug.Log("Office-2-2_Rian_dialogue");
+        }
+
         // 모든 이미지 비활성화
         foreach (var image in Images)
         {
