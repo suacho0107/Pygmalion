@@ -11,13 +11,14 @@ public class Player : MonoBehaviour
 
     public int playerHp;
     private int playerMaxHp = 100; //임의 설정
-    //private int playerMaxHp = 30; //임의 설정
+    //private int playerMaxHp = 30; //Test용 임의 설정
 
     private int attackDamage = 1; //피 1칸씩 깔 거임
 
     public Slider playerHpBar;
 
-    public bool isCharmed; //매혹당함
+    public bool isCharmed; //매혹
+    public bool isConfused; //혼란
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
 
     public void PlayerTurnStart()
     {
-        //battleManager.contentText.text = "어떤 행동을 할까?";
+        Debug.Log("PlayerTurnStart() 실행");
         StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
         battleManager.buttons.gameObject.SetActive(true);
         battleManager.partText.gameObject.SetActive(false);
@@ -59,11 +60,39 @@ public class Player : MonoBehaviour
 
     public void AttackButton()
     {
+        if (battleManager == null)
+        {
+            Debug.LogError("BattleManager is not assigned.");
+            return;
+        }
+
+        if (enemy == null)
+        {
+            Debug.LogError("Enemy is not assigned.");
+            return;
+        }
+
+        if (enemy.parts == null || enemy.parts.Count == 0)
+        {
+            Debug.LogError("Enemy parts list is not initialized or empty.");
+            return;
+        }
+
+        if (enemy.isDestroyed == null || enemy.isDestroyed.Count != enemy.parts.Count)
+        {
+            Debug.LogError("Enemy isDestroyed list is not initialized or mismatched with parts.");
+            return;
+        }
+
         battleManager.contentText.text = "공격 부위 선택";
         battleManager.buttons.gameObject.SetActive(false);
 
         enemy.currentPart = enemy.parts[0]; //currentPart 초기화
         battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart);
+        if(enemy.enemyName == "Melpomene" && enemy.currentPart == "Head" && !enemy.isDestroyed[FindListIndex(enemy.parts, "Mask")])
+        {
+            battleManager.partText.color = Color.grey;
+        }
         battleManager.partText.gameObject.SetActive(true);
         battleManager.UpdateHpBoxes();
 
@@ -132,7 +161,15 @@ public class Player : MonoBehaviour
             }
             else
             {
-                PlayerAttack(enemy.partComponents[i]);
+                if (enemy.enemyName == "Melpomene" && enemy.currentPart == "Head" && !enemy.isDestroyed[FindListIndex(enemy.parts, "Mask")])
+                {
+                    battleManager.partText.color = Color.grey;
+                    return;
+                }
+                else
+                {
+                    PlayerAttack(enemy.partComponents[i]);
+                }
             }
         }
     }
@@ -170,20 +207,40 @@ public class Player : MonoBehaviour
     
     public void Run()
     {
-        //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-        battleManager.contentText.text = "";
-        battleManager.buttons.SetActive(false);
+        battleManager.isPlayerRun = true;
 
-        battleManager.PlaySFX(battleManager.playerRunSFX);
-        ////이것만 소리 안 나서 그냥 냅다 실행하기
-        //battleManager.battleAudioSource.Stop();
-        //battleManager.battleAudioSource.clip = battleManager.playerRunSFX;
-        //battleManager.battleAudioSource.time = 0;
-        //battleManager.battleAudioSource.Play();
+        if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, "Body")]) //멜포메네
+        {
+            battleManager.buttons.SetActive(false);
 
-        battleManager.Invoke("ExitBattleScene", 3);
-        PlayerPrefs.SetInt("PlayerRun", 1);
-        PlayerPrefs.Save();
+            enemy.Melpomene_Redemption();
+
+            Invoke("ToStateEnemyTurn", 2);
+
+            battleManager.isPlayerTurnStarted = false;
+        }
+        else
+        {
+            //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
+            battleManager.contentText.text = "";
+            battleManager.buttons.SetActive(false);
+
+            battleManager.PlaySFX(battleManager.playerRunSFX);
+            ////이것만 소리 안 나서 그냥 냅다 실행하기
+            //battleManager.battleAudioSource.Stop();
+            //battleManager.battleAudioSource.clip = battleManager.playerRunSFX;
+            //battleManager.battleAudioSource.time = 0;
+            //battleManager.battleAudioSource.Play();
+
+            battleManager.Invoke("ExitBattleScene", 3);
+            PlayerPrefs.SetInt("PlayerRun", 1);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void ToStateEnemyTurn()
+    {
+        battleManager.state = BattleManager.State.ENEMYTURN;
     }
 
 
@@ -193,7 +250,6 @@ public class Player : MonoBehaviour
 
         battleManager.contentText.text = "";
 
-        //battleManager.PlaySFX(battleManager.playerAttackSFX);
         battleManager.battleAudioSource.Stop();
         battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
         battleManager.battleAudioSource.time = 0;
@@ -210,7 +266,7 @@ public class Player : MonoBehaviour
     void PlayerTurnEnd()
     {
         Debug.Log("PlayerTurnEnd() 실행");
-        if (enemy.name == "Aphrodite" && enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, "Body")]) //아프로디테 && 몸통 파괴
+        if (enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
         {
             battleManager.state = BattleManager.State.WIN;
         }

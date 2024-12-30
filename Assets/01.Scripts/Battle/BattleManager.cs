@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 using System.IO;
 using UnityEngine.SceneManagement;
-using UnityEditor.PackageManager;
+
+//https://docs.google.com/spreadsheets/d/1WOir0B9rY5R9YenzHMaeoO7qPDyfnq_Oio72uTV6gRk/edit?gid=1948295636#gid=1948295636
 
 public class BattleManager : MonoBehaviour
 {
@@ -24,8 +25,12 @@ public class BattleManager : MonoBehaviour
     public Sprite hpBoxEmpty;
     public GameObject blackBoard;
 
+    public GameObject Aphrodite;
+    public GameObject Reading_Child;
+    public GameObject Melpomene;
+
     public AudioSource battleAudioSource;
-    //public AudioClip battleStartSFX;
+    public AudioClip battleStartSFX;
     public AudioClip playerAttackSFX;
     public AudioClip enemyAttackSFX;
     public AudioClip playerWinSFX;
@@ -35,12 +40,12 @@ public class BattleManager : MonoBehaviour
     public string currentPart; //Select 시 partText
 
     public bool isWin;
-    public bool test2;
     string filePath;
 
     public State state;
 
     public bool isPlayerTurnStarted = false;
+    public bool isPlayerRun = false;
     public bool isEnemyTurnStarted = false;
     bool isBattleEnd = false;
     private bool isCoroutineRunning = false;
@@ -60,11 +65,17 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
-        enemy = FindObjectOfType<Enemy>();
+        //enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
+
+        //if문 돌려서 알맞은 적 SetActive(true);
+        Aphrodite.SetActive(true);
+        enemy = Aphrodite.GetComponent<Enemy>();
+
+        Debug.Log($"Enemy set to: {enemy}");
     }
 
     // Start is called before the first frame update
@@ -72,6 +83,7 @@ public class BattleManager : MonoBehaviour
     {
         //전투 진입 시 Setting
         player.SetPlayerHp();
+        //Debug.Log("BattleManager_Start_SetPlayerHp()-SetEnemy()");
         enemy.StartSetEnemy();
         SetHpBoxes();
 
@@ -82,13 +94,15 @@ public class BattleManager : MonoBehaviour
         enemy.UpdateEnemyHp();
 
         state = State.PLAYERTURN_START;
-        //PlaySFX(battleStartSFX);
+        PlaySFX(battleStartSFX);
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch(state)
+        switch (state)
         {
             //PLAYERTURN
             case State.PLAYERTURN_START:
@@ -104,9 +118,10 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case State.PLAYERTURN_RUN:
-                player.Run();
-                test2 = false;
-                SaveFightData();
+                if (!isPlayerRun)
+                {
+                    player.Run();
+                }
                 break;
 
             //ENEMYTURN
@@ -124,10 +139,6 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerWin();
                     PlaySFX(playerWinSFX);
-                    //battleAudioSource.Stop();
-                    //battleAudioSource.clip = playerWinSFX;
-                    //battleAudioSource.time = 0;
-                    //battleAudioSource.Play();
                 }
                 break;
 
@@ -136,10 +147,6 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerLose();
                     PlaySFX(playerLoseSFX);
-                    //battleAudioSource.Stop();
-                    //battleAudioSource.clip = playerLoseSFX;
-                    //battleAudioSource.time = 0;
-                    //battleAudioSource.Play();
                 }
                 break;
         }
@@ -193,13 +200,11 @@ public class BattleManager : MonoBehaviour
         //구현예정
 
         isWin = true;
-        test2 = true;
         SaveFightData();
 
         PlayerPrefs.SetInt("PlayerWin", 1);
         PlayerPrefs.Save();
 
-        //SceneManager.LoadScene("Museum_ExhibitionRoom2");
         Invoke("ExitBattleScene", 1);
     }
 
@@ -212,13 +217,11 @@ public class BattleManager : MonoBehaviour
         //구현예정
 
         isWin = false;
-        test2 = false;
         SaveFightData();
 
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
-        //SceneManager.LoadScene("Museum_Lobby");
         Invoke("ExitBattleScene", 2);
     }
 
@@ -287,7 +290,6 @@ public class BattleManager : MonoBehaviour
     public void SaveFightData()
     {
         npcData.isFin = isWin;
-        npcData.test2 = test2;
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
@@ -304,6 +306,5 @@ public class BattleManager : MonoBehaviour
         }
 
         isWin = npcData.isFin;
-        test2 = npcData.test2; // 추가 코드: 전투 재진입 시 fightCount++ 하도록
     }
 }
