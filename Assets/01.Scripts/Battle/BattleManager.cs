@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEditor.PackageManager;
 
 public class BattleManager : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class BattleManager : MonoBehaviour
     public string currentPart; //Select 시 partText
 
     public bool isWin;
+    public bool test2;
     string filePath;
 
     public State state;
@@ -81,8 +83,6 @@ public class BattleManager : MonoBehaviour
 
         state = State.PLAYERTURN_START;
         //PlaySFX(battleStartSFX);
-
-
     }
 
     // Update is called once per frame
@@ -105,6 +105,8 @@ public class BattleManager : MonoBehaviour
 
             case State.PLAYERTURN_RUN:
                 player.Run();
+                test2 = false;
+                SaveFightData();
                 break;
 
             //ENEMYTURN
@@ -191,6 +193,7 @@ public class BattleManager : MonoBehaviour
         //구현예정
 
         isWin = true;
+        test2 = true;
         SaveFightData();
 
         PlayerPrefs.SetInt("PlayerWin", 1);
@@ -209,6 +212,7 @@ public class BattleManager : MonoBehaviour
         //구현예정
 
         isWin = false;
+        test2 = false;
         SaveFightData();
 
         PlayerPrefs.SetInt("PlayerLose", 1);
@@ -283,6 +287,7 @@ public class BattleManager : MonoBehaviour
     public void SaveFightData()
     {
         npcData.isFin = isWin;
+        npcData.test2 = test2;
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
@@ -299,5 +304,6 @@ public class BattleManager : MonoBehaviour
         }
 
         isWin = npcData.isFin;
+        test2 = npcData.test2; // 추가 코드: 전투 재진입 시 fightCount++ 하도록
     }
 }

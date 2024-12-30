@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class InventoryUI : MonoBehaviour
                     }
                 }
                 InventoryItemList.Add(ItemDB.itemList[i]);
+                Debug.Log("아이템 추가");
                 return;
             }
         }
@@ -73,7 +75,8 @@ public class InventoryUI : MonoBehaviour
         // GridSlot의 자식객체 저장
         slots = tf.GetComponentsInChildren<InventorySlot>();
 
-        //InventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
+        InventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
+        InventoryItemList.Add(new Item(10301, "손가락", "이게 뭐지?", "손가락", Item.ItemType.Quest));
     }
 
     void Update()

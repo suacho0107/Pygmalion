@@ -24,4 +24,5 @@ public class NPCData
     public bool isInteract;
     public bool isTutoDialogueChanged;
     public bool isTutoFin;
+    //public string judgeState;
 }

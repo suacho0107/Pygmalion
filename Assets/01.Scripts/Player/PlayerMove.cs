@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
             if (activeInteract == true)
             {
                 //Vector2 rayOg = new Vector2(rigid.position.x, rigid.position.y + 0.7f);
-                RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+                RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("InteractObj"));
 
                 if (rayHit.collider != null)
                 {
@@ -160,11 +160,11 @@ public class PlayerMove : MonoBehaviour
             else if (hUp || vUp)
                 isHorizonMove = h != 0;
 
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    activeInven = true;
-            //    pState = PlayerState.Inventory;
-            //}
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                activeInven = true;
+                pState = PlayerState.Inventory;
+            }
 
             if (activeInteract == true)
             {
@@ -256,8 +256,8 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+        Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("InteractObj"));
 
         if (rayHit.collider != null)
         {
