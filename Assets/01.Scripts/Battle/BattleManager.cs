@@ -25,6 +25,10 @@ public class BattleManager : MonoBehaviour
     public Sprite hpBoxEmpty;
     public GameObject blackBoard;
 
+    public GameObject Aphrodite;
+    public GameObject Reading_Child;
+    public GameObject Melpomene;
+
     public AudioSource battleAudioSource;
     public AudioClip battleStartSFX;
     public AudioClip playerAttackSFX;
@@ -61,11 +65,17 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
-        enemy = FindObjectOfType<Enemy>();
+        //enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
+
+        //if문 돌려서 알맞은 적 SetActive(true);
+        Aphrodite.SetActive(true);
+        enemy = Aphrodite.GetComponent<Enemy>();
+
+        Debug.Log($"Enemy set to: {enemy}");
     }
 
     // Start is called before the first frame update
@@ -73,7 +83,7 @@ public class BattleManager : MonoBehaviour
     {
         //전투 진입 시 Setting
         player.SetPlayerHp();
-        Debug.Log("BattleManager_Start_SetPlayerHp()-SetEnemy()");
+        //Debug.Log("BattleManager_Start_SetPlayerHp()-SetEnemy()");
         enemy.StartSetEnemy();
         SetHpBoxes();
 
@@ -129,10 +139,6 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerWin();
                     PlaySFX(playerWinSFX);
-                    //battleAudioSource.Stop();
-                    //battleAudioSource.clip = playerWinSFX;
-                    //battleAudioSource.time = 0;
-                    //battleAudioSource.Play();
                 }
                 break;
 
@@ -141,19 +147,10 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerLose();
                     PlaySFX(playerLoseSFX);
-                    //battleAudioSource.Stop();
-                    //battleAudioSource.clip = playerLoseSFX;
-                    //battleAudioSource.time = 0;
-                    //battleAudioSource.Play();
                 }
                 break;
         }
     }
-
-    //public void ChangeState(State _state)
-    //{
-    //    state = _state;
-    //}
 
     void SetHpBoxes()
     {
@@ -208,7 +205,6 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerWin", 1);
         PlayerPrefs.Save();
 
-        //SceneManager.LoadScene("Museum_ExhibitionRoom2");
         Invoke("ExitBattleScene", 1);
     }
 
@@ -226,7 +222,6 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
-        //SceneManager.LoadScene("Museum_Lobby");
         Invoke("ExitBattleScene", 2);
     }
 

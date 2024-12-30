@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     public int playerHp;
     private int playerMaxHp = 100; //임의 설정
-    //private int playerMaxHp = 30; //임의 설정
+    //private int playerMaxHp = 30; //Test용 임의 설정
 
     private int attackDamage = 1; //피 1칸씩 깔 거임
 
@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
     public void PlayerTurnStart()
     {
         Debug.Log("PlayerTurnStart() 실행");
-        //battleManager.contentText.text = "어떤 행동을 할까?";
         StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
         battleManager.buttons.gameObject.SetActive(true);
         battleManager.partText.gameObject.SetActive(false);
@@ -61,6 +60,30 @@ public class Player : MonoBehaviour
 
     public void AttackButton()
     {
+        if (battleManager == null)
+        {
+            Debug.LogError("BattleManager is not assigned.");
+            return;
+        }
+
+        if (enemy == null)
+        {
+            Debug.LogError("Enemy is not assigned.");
+            return;
+        }
+
+        if (enemy.parts == null || enemy.parts.Count == 0)
+        {
+            Debug.LogError("Enemy parts list is not initialized or empty.");
+            return;
+        }
+
+        if (enemy.isDestroyed == null || enemy.isDestroyed.Count != enemy.parts.Count)
+        {
+            Debug.LogError("Enemy isDestroyed list is not initialized or mismatched with parts.");
+            return;
+        }
+
         battleManager.contentText.text = "공격 부위 선택";
         battleManager.buttons.gameObject.SetActive(false);
 
@@ -191,12 +214,9 @@ public class Player : MonoBehaviour
             battleManager.buttons.SetActive(false);
 
             enemy.Melpomene_Redemption();
-            //enemy.Invoke("EnemyTurnStart", 2);
-            //battleManager.ChangeState(BattleManager.State.ENEMYTURN);
-            //PlayerTurnEnd();
-            //enemy.Invoke("EnemyTurnEnd", 2);
-            //battleManager.state = BattleManager.State.ENEMYTURN;
+
             Invoke("ToStateEnemyTurn", 2);
+
             battleManager.isPlayerTurnStarted = false;
         }
         else
@@ -230,7 +250,6 @@ public class Player : MonoBehaviour
 
         battleManager.contentText.text = "";
 
-        //battleManager.PlaySFX(battleManager.playerAttackSFX);
         battleManager.battleAudioSource.Stop();
         battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
         battleManager.battleAudioSource.time = 0;
@@ -247,7 +266,7 @@ public class Player : MonoBehaviour
     void PlayerTurnEnd()
     {
         Debug.Log("PlayerTurnEnd() 실행");
-        if (enemy.name == "Aphrodite" && enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, "Body")]) //아프로디테 && 몸통 파괴
+        if (enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
         {
             battleManager.state = BattleManager.State.WIN;
         }
