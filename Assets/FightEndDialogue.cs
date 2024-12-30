@@ -15,7 +15,7 @@ public class FightEndDialogue : MonoBehaviour
 
         if(PlayerPrefs.GetInt("PlayerLose", 0) == 1)
         {
-            PlayerPrefs.SetInt("PlayerLose", 0);
+            StartCoroutine(ResetLoseSignal());
             RetrySound.Play();
             npc.dialogueFileName = "FightEnd_dialogue";
             npc.explainNum = "1";
@@ -23,10 +23,24 @@ public class FightEndDialogue : MonoBehaviour
         }
         else if (PlayerPrefs.GetInt("PlayerRun", 0) == 1)
         {
-            PlayerPrefs.SetInt("PlayerRun", 0);
+            StartCoroutine(ResetRunSignal());
             npc.dialogueFileName = "FightEnd_dialogue";
             npc.explainNum = "2";
             npc.StartDialogue();
         }
+    }
+
+    IEnumerator ResetLoseSignal()
+    {
+        yield return new WaitForEndOfFrame();
+        PlayerPrefs.SetInt("PlayerLose", 0);
+        PlayerPrefs.Save();
+    }
+
+    IEnumerator ResetRunSignal()
+    {
+        yield return new WaitForEndOfFrame();
+        PlayerPrefs.SetInt("PlayerRun", 0);
+        PlayerPrefs.Save();
     }
 }

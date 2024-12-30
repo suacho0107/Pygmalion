@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
             if (activeInteract == true)
             {
                 //Vector2 rayOg = new Vector2(rigid.position.x, rigid.position.y + 0.7f);
-                RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+                RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("InteractObj"));
 
                 if (rayHit.collider != null)
                 {
@@ -82,7 +82,7 @@ public class PlayerMove : MonoBehaviour
 
         if(PlayerPrefs.GetInt("PlayerWin", 0) == 1)
         {
-            PlayerPrefs.SetInt("PlayerWin", 0);
+            StartCoroutine(ResetWinSignal());
             FindSpawnPoint();
             MoveToSpawnPoint();
             //NPC npc = FindObjectOfType<NPC>();
@@ -256,8 +256,8 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        Debug.DrawRay(rigid.position, dirVec * 1f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1f, LayerMask.GetMask("InteractObj"));
+        Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("InteractObj"));
 
         if (rayHit.collider != null)
         {
@@ -383,5 +383,12 @@ public class PlayerMove : MonoBehaviour
             transform.position = spawnPoint.position;
             Debug.Log("플레이어 스폰포인트로 이동");
         }
+    }
+
+    IEnumerator ResetWinSignal()
+    {
+        yield return new WaitForEndOfFrame();
+        PlayerPrefs.SetInt("PlayerWin", 0);
+        PlayerPrefs.Save();
     }
 }

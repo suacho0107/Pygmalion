@@ -22,6 +22,11 @@ public class StatueAudio : MonoBehaviour
         }
     }
 
+    //public void SoundButton()
+    //{
+    //    PlaySound(enterFight);
+    //}
+
     private void PlaySound(AudioClip clip)
     {
         if(clip != null)
@@ -45,6 +50,7 @@ public class StatueAudio : MonoBehaviour
     public void PlayEnterFight()
     {
         PlaySound(enterFight);
+        Debug.Log("enterFight play");
     }
 
     //public void PlayRetry()
@@ -56,5 +62,10 @@ public class StatueAudio : MonoBehaviour
     {
         VolumeDown();
         PlaySound(destroyed);
+    }
+
+    public void StopPlay()
+    {
+        audioSource.Stop();
     }
 }

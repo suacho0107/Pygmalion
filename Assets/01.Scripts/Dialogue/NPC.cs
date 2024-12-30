@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Runtime.Serialization.Formatters;
+using static UnityEditor.Progress;
 
 public class NPC : MonoBehaviour
 {
@@ -34,15 +36,17 @@ public class NPC : MonoBehaviour
     public bool isFin = false;
     public bool result = false;
 
-    bool test1;
-    bool test2;
-    bool test3;
-    bool test4;
+    public bool test1;
+    public bool test2;
+    public bool test3;
+    public bool test4;
 
     public bool isSpriteChanged = false;
 
     string filePath;
     string currentName;
+
+    public int _FileIndex;
     #endregion
 
     [SerializeField] public string dialogueFileName;
@@ -66,7 +70,8 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
-        if(tutorial && csv != null)// 미술관장 tutorial V
+        #region Tutorial NPC
+        if (tutorial && csv != null)// 미술관장 tutorial V
         {
             // 미술관장과의 첫 대화가 끝나면 isInteract == true;
             if(isInteract)
@@ -80,12 +85,26 @@ public class NPC : MonoBehaviour
 
                 if (isTutoDialogueChanged)
                 {
-                    if (!isTutoFin && statueScore.statueCount == 1)
+                    if (!isTutoFin)
                     {
-                        Debug.Log("!isTutoFin, 튜토2로 변경");
-                        ChangeDialogueFileName("Tutorial2_dialogue");
+                        if (statueScore.statueCount == 0)
+                        {
+                            ChangeDialogueFileName("Check0_dialogue");
+                        }
+                        else if(statueScore.statueCount == 1)
+                        {
+                            ChangeDialogueFileName("Tutorial2_dialogue");
+                        }
+                        else if (statueScore.statueCount > 1 && statueScore.statueCount < 6) // 튜토 진행 안내 없을 시 튜토 마무리 대화 생략
+                        {
+                            ChangeDialogueFileName("Check2_dialogue");
+                        }
+                        else if (statueScore.statueCount >= 6)
+                        {
+                            ChangeDialogueFileName("Check3_dialogue");
+                        }
                     }
-                    if (isTutoFin)
+                    else
                     {
                         if (statueScore.statueCount == 1)
                         {
@@ -95,7 +114,7 @@ public class NPC : MonoBehaviour
                         {
                             ChangeDialogueFileName("Check2_dialogue");
                         }
-                        else if (statueScore.statueCount == 6)
+                        else if (statueScore.statueCount >= 6)
                         {
                             ChangeDialogueFileName("Check3_dialogue");
                         }
@@ -103,67 +122,65 @@ public class NPC : MonoBehaviour
                 }
             }
         }
+        #endregion
 
-        //if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
-        //{
-        //    if (isInteract)
-        //    {
-        //        ChangeDialogueFileName("Guard_Check0_dialogue");
-
-        //        if (statueScore.statueCount == 1)
-        //        {
-        //            ChangeDialogueFileName("Guard_Check1_dialogue");
-        //        }
-        //        else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
-        //        {
-        //            ChangeDialogueFileName("Guard_Check2_dialogue");
-        //        }
-        //        else if (statueScore.statueCount == 5)
-        //        {
-        //            ChangeDialogueFileName("Guard_Check3_dialogue");
-        //        }
-        //    }
-        //}
-
-        if(SceneManager.GetActiveScene().name == "Museum_Lobby")
+        #region Library Guard
+        if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
-            Judge();
-        }
-        else
-        {
-            if (statueScore != null)
+            if (isInteract)
             {
-                Debug.Log("statueScore != null");
-                //string sceneName = SceneManager.GetActiveScene().name;
-                if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
+                ChangeDialogueFileName("Guard_Check0_dialogue");
+
+                if (statueScore.statueCount == 1)
                 {
-                    Debug.Log("기본대사 -> 판별");
-                    ChangeDialogueFile(1);
-                    Judge();
+                    ChangeDialogueFileName("Guard_Check1_dialogue");
                 }
-                else
+                else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
                 {
-                    Debug.Log("판별");
-                    Judge();
+                    ChangeDialogueFileName("Guard_Check2_dialogue");
                 }
-                //if (sceneName.StartsWith("Museum"))
-                //{
-                //    if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
-                //    {
-                //        Debug.Log("기본대사 -> 판별");
-                //        ChangeDialogueFile(1);
-                //        Judge();
-                //    }
-                //    else
-                //    {
-                //        Debug.Log("판별");
-                //        Judge();
-                //    }
-                //}
-                //else if (sceneName.StartsWith("Library"))
-                //{
-                //    Judge();
-                //}
+                else if (statueScore.statueCount == 5)
+                {
+                    ChangeDialogueFileName("Guard_Check3_dialogue");
+                }
+            }
+        }
+        #endregion
+
+        #region Library Libraryian
+
+        #endregion
+        
+        if (isStatue)
+        {
+            if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+            {
+                Judge();
+            }
+            else
+            {
+                if (statueScore != null)
+                {
+                    string sceneName = SceneManager.GetActiveScene().name;
+                    
+                    if (sceneName.StartsWith("Museum"))
+                    {
+                        if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
+                        {
+                            Debug.Log("기본대사 -> 판별");
+                            ChangeDialogueFile(1);
+                            Judge();
+                        }
+                        else
+                        {
+                            Judge();
+                        }
+                    }
+                    else if (sceneName.StartsWith("Library"))
+                    {
+                        Judge();
+                    }
+                }
             }
         }
     }
@@ -194,214 +211,189 @@ public class NPC : MonoBehaviour
             }
         }
     }
+    
 
     public void Judge()
     {
+        //Debug.Log("Judge 넘어감");
         string sceneName = SceneManager.GetActiveScene().name;
 
         if (sceneName.StartsWith("Museum"))
         {
+            _FileIndex = 3;
             if (currentIndex == 1 || currentIndex == 2)
             {
                 explainNum = null;
             }
-
-            if (isStatue && isChecked)
-            {
-                isChecked = true;
-
-                if (!isJudged)
-                {
-                    ChangeDialogueFile(2);
-                }
-
-                if (isEnemy && isJudged)
-                {
-                    if (isCorrect && !isFin && !test2)
-                    {// 건드린다 --> 정답 --> battleDialogue.csv --> 전투 진입(플레이어 선공)
-                        Debug.Log("건드린다 > 정답");
-                        isCorrect = true;
-                        statueAudio.PlayEnterFight();
-                        statueScore.fightCount += 1;
-                        statueScore.SaveScore();
-                        ChangeDialogueExplain(3, "1");
-                        test2 = true;
-                        StartCoroutine(DelayLoadScene(2.2f, "Battle"));
-                    }
-                    else if (!isCorrect && !isFin)
-                    {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
-                        Debug.Log("이상 없음 > 오답");
-                        if (!test2)
-                        {
-                            statueAudio.PlayPencil();
-                            statueScore.fightCount += 1;
-                            statueScore.SaveScore();
-                            test2 = true;
-                        }
-                        isCorrect = false;
-                        ChangeDialogueExplain(3, "1");
-                        StartCoroutine(PlaySound());
-                    }
-                    else if (isFin) // 전투 승리 시 조각상 무너짐 대화로?
-                    {
-                        ChangeDialogueFileName("Destroyed_dialogue");
-                        ChangeSprite();
-                        if (!test4)
-                        {
-                            statueAudio.PlayDestroyed();
-                            statueScore.statueCount += 1;
-                            statueScore.SaveScore();
-                            test4 = true;
-                        }
-                    }
-                }
-                else if (!isEnemy && isJudged && !isFin)
-                {
-                    if (isCorrect)
-                    {// 이상 없음 --> 정답 --> 기록 효과~ --> count++
-                        Debug.Log("이상 없음 > 정답");
-                        ChangeDialogueExplain(3, "3");
-                        statueAudio.PlayPencil();
-                        statueScore.statueCount += 1;
-                        statueScore.SaveScore();
-                        isCorrect = true;
-                        isFin = true;
-                        SaveNPCData();
-                    }
-                    else
-                    {// 건드린다 --> 오답 --> 조각상이 힘없이 무너져내린다... --> statueState.Destroyed
-                        Debug.Log("건드린다 > 오답");
-                        ChangeDialogueExplain(3, "2");
-                        ChangeSprite();
-                        statueAudio.PlayDestroyed();
-                        statueScore.statueCount += 1;
-                        statueScore.destroyedCount += 1;
-                        statueScore.SaveScore();
-                        isCorrect = false;
-                        isSpriteChanged = true;
-                        isFin = true;
-                        SaveNPCData();
-                        //statueController.sState = statueController.StatueState.Destroyed;
-                    }
-                }
-
-                if (isFin && result && !isEnemy)
-                {
-                    Debug.Log("result 출력");
-                    if (isCorrect == true) // statueDialogue: BattleDialogue.csv ID 3
-                    {
-                        Debug.Log("statueDialogue 출력");
-                        //currentIndex = 3;
-                        ChangeDialogueExplain(3, "3");
-                    }
-                    else // 무너져 있다: 공통 Destroyed.csv
-                    {
-                        ChangeDialogueFileName("Destroyed_dialogue");
-                    }
-                }
-            }
         }
         else
         {
+            _FileIndex = 2;
             if (currentIndex == 0 || currentIndex == 1)
             {
                 explainNum = null;
             }
+        }
 
-            if (isStatue && isChecked)
+        //LoadNPCData();
+
+        if (isStatue && isChecked)
+        {
+            //Debug.Log("조사 끝난 후 판별로 넘어가야");
+            isChecked = true;
+
+            if (!isJudged) // 조사 완료, 판별로 전환
             {
-                isChecked = true;
-
-                if (!isJudged)
+                //Debug.Log("조사 이후 판별");
+                ChangeDialogueFile(2);
+            }
+            else // 판별 선지 선택 후 결과 출력
+            {
+                if (!isFin) // 판별 완전 종료 전
                 {
-                    ChangeDialogueFile(1);
-                }
-
-                if (isEnemy && isJudged)
-                {
-                    if (isCorrect && !isFin && !test2)
-                    {// 건드린다 --> 정답 --> battleDialogue.csv --> 전투 진입(플레이어 선공)
-                        Debug.Log("건드린다 > 정답");
-                        isCorrect = true;
-                        statueAudio.PlayEnterFight();
-                        statueScore.fightCount += 1;
-                        statueScore.SaveScore();
-                        ChangeDialogueExplain(2, "1");
-                        test2 = true;
-                        StartCoroutine(DelayLoadScene(2.2f, "Battle"));
-                    }
-                    else if (!isCorrect && !isFin)
-                    {// 이상 없음 --> 오답 --> 기록 효과~ --> 전투 진입(적 선공)
-                        Debug.Log("이상 없음 > 오답");
-                        if (!test2)
+                    if (isEnemy) // 적
+                    {
+                        if (isCorrect) // 적, 정답
                         {
-                            statueAudio.PlayPencil();
-                            statueScore.fightCount += 1;
-                            statueScore.SaveScore();
-                            test2 = true;
+                            if (!test2)
+                            {
+                                Debug.Log("건드린다 > 정답");
+                                isCorrect = true;
+                                statueAudio.PlayEnterFight();
+                                statueScore.fightCount += 1;
+                                statueScore.SaveScore();
+                                ChangeDialogueExplain(_FileIndex, "1");
+                                test2 = true;
+                                //Debug.Log("test2 True");
+                                StartCoroutine(DelayLoadScene(2.2f, "Battle"));
+                            }
                         }
-                        isCorrect = false;
-                        ChangeDialogueExplain(3, "1");
-                        StartCoroutine(PlaySound());
-                    }
-                    else if (isFin) // 전투 승리 시 조각상 무너짐 대화로?
-                    {
-                        ChangeDialogueFileName("Destroyed_dialogue");
-                        ChangeSprite();
-                        if (!test4)
+                        else // 적, 오답
                         {
-                            statueAudio.PlayDestroyed();
-                            statueScore.statueCount += 1;
-                            statueScore.SaveScore();
-                            test4 = true;
+                            Debug.Log("이상 없음 > 오답");
+                            if (!test1 && !test2) // 전투 최초 진입
+                            {
+                                statueAudio.PlayPencil();
+                                ChangeDialogueExplain(_FileIndex, "1");
+                                StartCoroutine(PlaySound());
+                                statueScore.fightCount += 1;
+                                statueScore.SaveScore();
+                                test1 = true;
+                                test2 = true;
+                                //SaveNPCData();
+                                //Debug.Log("오답 최초 진입 test1, 2 True");
+                            }
+                            else if (test1 && !test2) // 전투 재진입
+                            {
+                                ChangeDialogueExplain(_FileIndex, "1");
+                                StartCoroutine(PlaySound());
+                                statueScore.fightCount += 1;
+                                statueScore.SaveScore();
+                                test2 = true;
+                                //Debug.Log("오답 재진입 test2 True");
+                                //SaveNPCData();
+                            }
+
+                            isCorrect = false;
+                            SaveNPCData();
+                            //Debug.Log("전투 진입 전 NPCData 저장");
+                        }
+                    }
+                    else // 적 아님
+                    {
+                        if (isCorrect) // 적 아님, 정답
+                        {
+                            Debug.Log("이상 없음 > 정답");
+                            if (!test3)
+                            {
+                                statueAudio.PlayPencil();
+                                statueScore.statueCount += 1;
+                                statueScore.SaveScore();
+                                test3 = true;
+                            }
+                            ChangeDialogueExplain(_FileIndex, "3");
+                            isCorrect = true;
+                            isFin = true;
+                            SaveNPCData();
+                        }
+                        else // 적 아님, 오답
+                        {
+                            if (!test3)
+                            {
+                                statueAudio.PlayDestroyed();
+                                ChangeDialogueExplain(_FileIndex, "2");
+                                statueScore.statueCount += 1;
+                                statueScore.destroyedCount += 1;
+                                statueScore.SaveScore();
+                                test3 = true;
+                            }
+                            Debug.Log("건드린다 > 오답");
+                            ChangeSprite();
+                            isCorrect = false;
+                            isSpriteChanged = true;
+                            isFin = true;
+                            SaveNPCData();
                         }
                     }
                 }
-                else if (!isEnemy && isJudged && !isFin)
+                else // 판별 종료(isFin)
                 {
-                    if (isCorrect)
-                    {// 이상 없음 --> 정답 --> 기록 효과~ --> count++
-                        Debug.Log("이상 없음 > 정답");
-                        ChangeDialogueExplain(2, "3");
-                        statueAudio.PlayPencil();
-                        statueScore.statueCount += 1;
-                        statueScore.SaveScore();
-                        isCorrect = true;
-                        isFin = true;
-                        SaveNPCData();
+                    if(!isEnemy) // 적 아님, 완전 종료
+                    {
+                        if (result)
+                        {
+                            if (isCorrect)
+                            {
+                                ChangeDialogueExplain(_FileIndex, "3");
+                                //Debug.Log("!isEnemy isCorrect");
+                            }
+                            else
+                            {
+                                ChangeDialogueFileName("Destroyed_dialogue");
+                                //_FileIndex = 4;
+                                //currentIndex = 4;
+                                //explainNum = "1";
+                                //ChangeDialogueExplain(_FileIndex, "1");
+                                //Debug.Log("!isEnemy !isCorrect");
+                            }
+                        }
                     }
-                    else
-                    {// 건드린다 --> 오답 --> 조각상이 힘없이 무너져내린다... --> statueState.Destroyed
-                        Debug.Log("건드린다 > 오답");
-                        ChangeDialogueExplain(2, "2");
-                        ChangeSprite();
-                        statueAudio.PlayDestroyed();
-                        statueScore.statueCount += 1;
-                        statueScore.destroyedCount += 1;
-                        statueScore.SaveScore();
-                        isCorrect = false;
-                        isSpriteChanged = true;
-                        isFin = true;
-                        SaveNPCData();
-                        //statueController.sState = statueController.StatueState.Destroyed;
-                    }
-                }
+                    else // 적
+                    {
+                        if (!result) // 무너져 내린다 출력
+                        {
+                            ChangeDialogueFile(5);
+                            Debug.Log("!result");
+                            
+                            ChangeSprite();
+                            //result = true;
+                            if (!test4 && isEnemy)
+                            {
+                                statueAudio.PlayDestroyed();
+                                statueScore.statueCount += 1;
+                                statueScore.SaveScore();
+                                StartCoroutine(TriggerDialogue(2f));
 
-                if (isFin && result && !isEnemy)
-                {
-                    Debug.Log("result 출력");
-                    if (isCorrect == true) // statueDialogue: BattleDialogue.csv ID 3
-                    {
-                        ChangeDialogueExplain(2, "3");
-                    }
-                    else // 무너져 있다: 공통 Destroyed.csv
-                    {
-                        ChangeDialogueFileName("Destroyed_dialogue");
+                                //ChangeDialogueFile(5);
+                                //SaveNPCData();
+                                //StartCoroutine(TriggerDialogue(0.1f));
+                                //WinDialogue();
+
+                                test4 = true;
+                                StartCoroutine(DelayResult());
+                                //result = true;
+                                //SaveNPCData();
+                            }
+                        }
+                        else // 무너져 있다 출력
+                        {
+                            //Debug.Log("result Destroyed");
+                            ChangeDialogueFileName("Destroyed_dialogue");
+                        }
                     }
                 }
             }
         }
-            
     }
 
     public void ChangeDialogueFileName(string _dialogueFileName)
@@ -420,10 +412,10 @@ public class NPC : MonoBehaviour
             dialogueFileName = dialogueFiles[currentIndex];
             selectFileName = selectFiles[currentIndex];
             currentName = dialogueFileName;
-            Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
-            if (isJudged && ((!isCorrect && !isEnemy) || (isCorrect && isEnemy)))
+            //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+            if (isJudged && ((!isCorrect && !isEnemy) || (isCorrect && isEnemy) || (!isCorrect && isEnemy)) && !isFin)
             {
-                StartCoroutine(TriggerDialogue());
+                StartCoroutine(TriggerDialogue(0.1f));
             }
         }
     }
@@ -439,10 +431,15 @@ public class NPC : MonoBehaviour
         }
     }
 
-    IEnumerator TriggerDialogue()
+    IEnumerator TriggerDialogue(float delay)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(delay);
+        if(isEnemy && isFin)
+        {
+            ChangeDialogueFileName("stage1_exhibit2_Item");
+        }
         StartDialogue();
+        Debug.Log("triggerDialogue");
     }
 
     IEnumerator DelayLoadScene(float delay, string sceneName)
@@ -451,13 +448,38 @@ public class NPC : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    IEnumerator DelayResult()
+    {
+        //ChangeDialogueFile(5);
+        //SaveNPCData();
+        //WinDialogue();
+
+        yield return new WaitForSeconds(4f);
+
+        //test4 = true;
+        result = true;
+        SaveNPCData();
+    }
+
     IEnumerator PlaySound()
     {
+        //if(isEnemy && !isCorrect)
+        //{
+        //    statueAudio.PlayEnterFight();
+        //}
+
         yield return new WaitForSeconds(1f);
         statueAudio.PlayEnterFight();
 
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
         StartCoroutine(DelayLoadScene(2.2f, "Battle"));
+    }
+
+    IEnumerator PlayReEnterSound()
+    {
+        statueAudio.PlayEnterFight();
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene("Battle");
     }
 
     public void SaveNPCData()
@@ -533,11 +555,18 @@ public class NPC : MonoBehaviour
         npcData = new NPCData();
     }
 
-    void ChangeSprite()
+    public void ChangeSprite()
     {
         if (spriteRenderer != null && destroyedSprite != null)
         {
             spriteRenderer.sprite = destroyedSprite;
         }
     }
+
+    //public void WinDialogue()
+    //{
+    //    //ChangeDialogueFileName("stage1_exhibit2_Item");
+    //    StartCoroutine(TriggerDialogue(0.1f));
+    //    Debug.Log("windialogue");
+    //}
 }
