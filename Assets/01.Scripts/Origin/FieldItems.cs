@@ -9,7 +9,10 @@ public class FieldItems : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        InventoryUI.instance.GetAnItem(itemID);
-        Destroy(this.gameObject);
+        if (collision.CompareTag("Player"))
+        {
+            InventoryUI.instance.GetAnItem(itemID);
+            Destroy(this.gameObject);
+        }
     }
 }

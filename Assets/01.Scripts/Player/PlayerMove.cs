@@ -160,11 +160,11 @@ public class PlayerMove : MonoBehaviour
             else if (hUp || vUp)
                 isHorizonMove = h != 0;
 
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    activeInven = true;
-            //    pState = PlayerState.Inventory;
-            //}
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                activeInven = true;
+                pState = PlayerState.Inventory;
+            }
 
             if (activeInteract == true)
             {

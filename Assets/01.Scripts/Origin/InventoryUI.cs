@@ -13,7 +13,7 @@ public class InventoryUI : MonoBehaviour
 
     private InventorySlot[] slots;          // 인벤토리 슬롯 리스트
 
-    private List<Item> InventoryItemList;   // 플레이어 소지템 리스트
+    private List<Item> inventoryItemList;   // 플레이어 소지템 리스트
 
     public Text Description_Text;           // 템 설명(아직 구현X)
 
@@ -22,6 +22,8 @@ public class InventoryUI : MonoBehaviour
     public int selectedItem;
 
     private bool activeItem;
+
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     public void RemoveSlot()
     {
@@ -36,10 +38,43 @@ public class InventoryUI : MonoBehaviour
     {
         RemoveSlot();
         selectedItem = 0;
-        for(int i = 0; i < InventoryItemList.Count; i++)
+        for(int i = 0; i < inventoryItemList.Count; i++)
         {
             slots[i].gameObject.SetActive(true);
-            slots[i].AddItem(InventoryItemList[i]);
+            slots[i].AddItem(inventoryItemList[i]);
+        }
+
+        SelectedItem();
+    }
+
+    public void SelectedItem()
+    {
+        Color color = slots[0].selected_Item.GetComponent<Image>().color;
+        color.a = 0f;
+        for (int i = 0; i < inventoryItemList.Count; i++)
+            slots[i].selected_Item.GetComponent<Image>().color = color;
+        StartCoroutine(SelectedItemEffectCoroutine());
+    }
+
+    IEnumerator SelectedItemEffectCoroutine()
+    {
+        while (activeItem)
+        {
+            Color color = slots[0].GetComponent<Image>().color;
+            while (color.a < 0.5f)
+            {
+                color.a += 0.03f;
+                slots[selectedItem].selected_Item.GetComponent<Image>().color = color;
+                yield return waitTime;
+            }
+            while (color.a > 0f)
+            {
+                color.a -= 0.03f;
+                slots[selectedItem].selected_Item.GetComponent<Image>().color = color;
+                yield return waitTime;
+            }
+
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -49,15 +84,15 @@ public class InventoryUI : MonoBehaviour
         {
             if(_itemID == ItemDB.itemList[i].itemID)
             {
-                for(int j = 0; j < InventoryItemList.Count; j++)
+                for(int j = 0; j < inventoryItemList.Count; j++)
                 {
-                    if (InventoryItemList[j].itemID == _itemID)
+                    if (inventoryItemList[j].itemID == _itemID)
                     {
-                        InventoryItemList[j].itemCount ++;
+                        inventoryItemList[j].itemCount ++;
                         return;
                     }
                 }
-                InventoryItemList.Add(ItemDB.itemList[i]);
+                inventoryItemList.Add(ItemDB.itemList[i]);
                 Debug.Log("아이템 추가");
                 return;
             }
@@ -71,12 +106,15 @@ public class InventoryUI : MonoBehaviour
         ItemDB = FindObjectOfType<ItemDatabase>();
         inventoryPanel.SetActive(activeInventory);
 
-        InventoryItemList = new List<Item>();
+        inventoryItemList = new List<Item>();
         // GridSlot의 자식객체 저장
         slots = tf.GetComponentsInChildren<InventorySlot>();
 
-        InventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
-        InventoryItemList.Add(new Item(10301, "손가락", "이게 뭐지?", "손가락", Item.ItemType.Quest));
+        inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
+        inventoryItemList.Add(new Item(10301, "손가락", "이게 뭐지?", "손가락", Item.ItemType.Quest));
+        inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
+        inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
+
     }
 
     void Update()
@@ -85,17 +123,31 @@ public class InventoryUI : MonoBehaviour
         {
             Debug.Log("Tab");
             activeInventory = !activeInventory;
+
             if (activeInventory == true)
             {
-                inventoryPanel.SetActive(activeInventory);
-                activeItem = !activeItem;
+                inventoryPanel.SetActive(true);
+                activeItem = true;
                 ShowItem();
                 selectedItem = 0;
-                if (activeItem)
+            }
+            else
+            {
+                inventoryPanel.SetActive(false);
+                activeItem = false;
+            }
+        }
+
+        if (activeInventory)
+        {
+            if (activeItem)
+            {
+                if (inventoryItemList.Count > 0)
                 {
                     if (Input.GetKeyDown(KeyCode.S))
                     {
-                        if (selectedItem < InventoryItemList.Count - 2)
+
+                        if (selectedItem < inventoryItemList.Count - 2)
                             selectedItem += 2;
                         else
                             selectedItem %= 2;
@@ -106,11 +158,11 @@ public class InventoryUI : MonoBehaviour
                             selectedItem -= 2;
                         else
                             // 현재 선택템이 최상단에 있을 경우 최하단으로 이동
-                            selectedItem = InventoryItemList.Count - 1 - selectedItem;
+                            selectedItem = inventoryItemList.Count - 1 - selectedItem;
                     }
                     else if (Input.GetKeyDown(KeyCode.D))
                     {
-                        if (selectedItem < InventoryItemList.Count - 1)
+                        if (selectedItem < inventoryItemList.Count - 1)
                             selectedItem++;
                         else
                             selectedItem = 0;
@@ -120,18 +172,13 @@ public class InventoryUI : MonoBehaviour
                         if (selectedItem > 0)
                             selectedItem--;
                         else
-                            selectedItem = InventoryItemList.Count - 1;
+                            selectedItem = inventoryItemList.Count - 1;
                     }
                     else if (Input.GetKeyDown(KeyCode.F))
                     {
                         // 아이템 사용 여부
                     }
                 }
-            }
-            else
-            {
-                inventoryPanel.SetActive(false);
-                activeItem = false;
             }
         }
     }
