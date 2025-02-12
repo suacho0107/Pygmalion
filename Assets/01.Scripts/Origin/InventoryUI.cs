@@ -15,7 +15,9 @@ public class InventoryUI : MonoBehaviour
 
     private List<Item> inventoryItemList;   // 플레이어 소지템 리스트
 
-    public Text Description_Text;           // 템 설명(아직 구현X)
+    public Text Description_Text;           // 템 설명
+
+    public Image Description_Icon;          // 템 설명창 아이콘
 
     public Transform tf;
 
@@ -49,10 +51,13 @@ public class InventoryUI : MonoBehaviour
 
     public void SelectedItem()
     {
+        StopAllCoroutines();
         Color color = slots[0].selected_Item.GetComponent<Image>().color;
         color.a = 0f;
         for (int i = 0; i < inventoryItemList.Count; i++)
             slots[i].selected_Item.GetComponent<Image>().color = color;
+        Description_Text.text = inventoryItemList[selectedItem].itemDescription;
+        Description_Icon.sprite = inventoryItemList[selectedItem].itemIcon;
         StartCoroutine(SelectedItemEffectCoroutine());
     }
 
@@ -133,6 +138,7 @@ public class InventoryUI : MonoBehaviour
             }
             else
             {
+                StopAllCoroutines();
                 inventoryPanel.SetActive(false);
                 activeItem = false;
             }
@@ -151,6 +157,7 @@ public class InventoryUI : MonoBehaviour
                             selectedItem += 2;
                         else
                             selectedItem %= 2;
+                        SelectedItem();
                     }
                     else if (Input.GetKeyDown(KeyCode.W))
                     {
@@ -159,6 +166,7 @@ public class InventoryUI : MonoBehaviour
                         else
                             // 현재 선택템이 최상단에 있을 경우 최하단으로 이동
                             selectedItem = inventoryItemList.Count - 1 - selectedItem;
+                        SelectedItem();
                     }
                     else if (Input.GetKeyDown(KeyCode.D))
                     {
@@ -166,6 +174,7 @@ public class InventoryUI : MonoBehaviour
                             selectedItem++;
                         else
                             selectedItem = 0;
+                        SelectedItem();
                     }
                     else if (Input.GetKeyDown(KeyCode.A))
                     {
@@ -173,6 +182,7 @@ public class InventoryUI : MonoBehaviour
                             selectedItem--;
                         else
                             selectedItem = inventoryItemList.Count - 1;
+                        SelectedItem();
                     }
                     else if (Input.GetKeyDown(KeyCode.F))
                     {

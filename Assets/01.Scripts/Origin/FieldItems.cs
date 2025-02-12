@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class FieldItems : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class FieldItems : MonoBehaviour
         {
             InventoryUI.instance.GetAnItem(itemID);
             Destroy(this.gameObject);
+
+            string message = $"[{gameObject.name}]¿ª(∏¶) »πµÊ«ﬂ¥Ÿ.";
+
+            DialogueManager dm = FindObjectOfType<DialogueManager>();
+            dm.ShowMessage(message);
         }
     }
 }

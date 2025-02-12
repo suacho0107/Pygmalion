@@ -37,6 +37,9 @@ public class DialogueManager : MonoBehaviour
     bool isExplain = false; //설명대사인지 구분
     bool isPopup = false;
 
+    bool isMessage = false; // CSV파일 없는 짧은 대사 출력
+    string message;
+
     int lineCount = 0; //대화 카운트
     int contextCount = 0; //대사 카운트
 
@@ -84,80 +87,86 @@ public class DialogueManager : MonoBehaviour
                 isNext = false;
                 dialogueText.text = "";
 
-                //skipNum이 있으면
-                if (!string.IsNullOrEmpty(dialogues[lineCount].skipNum[contextCount]))
+                if (isMessage)  // CSV파일 없는 짧은 대사 출력 시(아이템 습득 등)
                 {
-                    int skipLine;
-                    if (int.TryParse(dialogues[lineCount].skipNum[contextCount], out skipLine))
-                    {
-                        lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
-                        contextCount = 0;
-                    }
+                    EndMessage();
                 }
-
-                //eventNum이 있으면: 선지대화
-                if (!string.IsNullOrEmpty(dialogues[lineCount].eventNum[contextCount]))
+                else            // 기본(CSV파일 사용 대화)
                 {
-                    if (!string.IsNullOrEmpty(npc.selectFileName)) //selectFileName 유무 확인
+                    //skipNum이 있으면
+                    if (!string.IsNullOrEmpty(dialogues[lineCount].skipNum[contextCount]))
                     {
-                        interactionEvent.LoadSelect(npc.selectFileName);
-
-                        if (interactionEvent.Select != null && interactionEvent.Select.selects.Length > 0)
+                        int skipLine;
+                        if (int.TryParse(dialogues[lineCount].skipNum[contextCount], out skipLine))
                         {
-                            //한 대화에 선지대사 2번인 거 고쳐보려다 일단 말았음
-                            //int eNum =  int.Parse(dialogues[lineCount].eventNum[contextCount]);
-                            //Debug.Log("ShowSelect 전: " + interactionEvent.Select.selects);
-                            ShowSelect(interactionEvent.Select.selects);
+                            lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
+                            contextCount = 0;
+                        }
+                    }
+
+                    //eventNum이 있으면: 선지대화
+                    if (!string.IsNullOrEmpty(dialogues[lineCount].eventNum[contextCount]))
+                    {
+                        if (!string.IsNullOrEmpty(npc.selectFileName)) //selectFileName 유무 확인
+                        {
+                            interactionEvent.LoadSelect(npc.selectFileName);
+
+                            if (interactionEvent.Select != null && interactionEvent.Select.selects.Length > 0)
+                            {
+                                //한 대화에 선지대사 2번인 거 고쳐보려다 일단 말았음
+                                //int eNum =  int.Parse(dialogues[lineCount].eventNum[contextCount]);
+                                //Debug.Log("ShowSelect 전: " + interactionEvent.Select.selects);
+                                ShowSelect(interactionEvent.Select.selects);
+                            }
+                            else
+                            {
+                                Debug.LogWarning("Selects could not be loaded or are empty.");
+                            }
                         }
                         else
                         {
-                            Debug.LogWarning("Selects could not be loaded or are empty.");
+                            Debug.LogWarning("npc.selectFileName 공백");
                         }
                     }
-                    else
+                    else //eventNum이 없으면: 선지 없는 그냥 대화
                     {
-                        Debug.LogWarning("npc.selectFileName 공백");
-                    }
-                }
-                else //eventNum이 없으면: 선지 없는 그냥 대화
-                {
-                    if (++contextCount < dialogues[lineCount].contexts.Length) //line의 contexts.Length 미만이면
-                    {
-                        StartCoroutine(DialogueWriter()); //같은 name 밑의 context만 변경
-                    }
-                    else //line을 넘겨야 하면
-                    {
-                        if (!isExplain) //설명문이 아니면 line도 넘김
+                        if (++contextCount < dialogues[lineCount].contexts.Length) //line의 contexts.Length 미만이면
                         {
-                            contextCount = 0;
-                            if (++lineCount < dialogues.Length)
+                            StartCoroutine(DialogueWriter()); //같은 name 밑의 context만 변경
+                        }
+                        else //line을 넘겨야 하면
+                        {
+                            if (!isExplain) //설명문이 아니면 line도 넘김
                             {
-                                StartCoroutine(DialogueWriter()); //name과 context 모두 변경
+                                contextCount = 0;
+                                if (++lineCount < dialogues.Length)
+                                {
+                                    StartCoroutine(DialogueWriter()); //name과 context 모두 변경
+                                }
+                                else
+                                {
+                                    EndDialogue();
+                                }
                             }
-                            else
+                            else //설명문이면 걍 끝내
                             {
                                 EndDialogue();
                             }
                         }
-                        else //설명문이면 걍 끝내
-                        {
-                            EndDialogue();
-                        }
-
                     }
                 }
-
-
             }
         }
     }
 
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
+        //Debug.Log("ShowDialogue");
         isDialogue = true;
         dialogueText.text = "";
         nameText.text = "";
         dialogues = _dialogues;
+        playerMove.pState = PlayerMove.PlayerState.Interaction;
 
         if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
         {
@@ -221,6 +230,23 @@ public class DialogueManager : MonoBehaviour
         selects = _selects;
 
         StartCoroutine(SelectWriter());
+    }
+
+    public void ShowMessage(string _message)
+    {
+        isDialogue = true;
+        isMessage = true;
+
+        //playerMove.pState = PlayerMove.PlayerState.Interaction;
+        playerMove.ActiveInteract = true;
+
+        dialogueText.text = "";
+        message = _message;
+
+        dialoguePanel.SetActive(true);
+        namePanel.SetActive(false);
+
+        StartCoroutine(MessageWriter());
     }
 
     public void OnSelectButtonClicked(int selectedIndex, int currentIndex) // 판별 매개변수 추가(currentIndex)
@@ -322,6 +348,23 @@ public class DialogueManager : MonoBehaviour
         UIManager.u_instance.SetUIState(Define.UI.UIState.End);
     }
 
+    void EndMessage()
+    {
+        isDialogue = false;
+        contextCount = 0;
+        lineCount = 0;
+        dialogues = null;
+        isNext = false;
+        isExplain = false;
+        isMessage = false;
+
+        playerMove.ActiveInteract = false;
+
+        dialoguePanel.SetActive(false);
+        namePanel.SetActive(false);
+        playerMove.ActiveInteract = false; // 추가 코드
+    }
+
     void EndDialogue()
     {
         //초기화
@@ -332,9 +375,10 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true; // 미술관장
-        //Debug.Log("endDialogue1");
 
-        if(npc.dialogueFileName == "Tutorial2_dialogue")
+        playerMove.ActiveInteract = false;
+
+        if (npc.dialogueFileName == "Tutorial2_dialogue")
         {
             npc.isTutoFin = true;
             //Debug.Log("endDialogue2");
@@ -455,6 +499,7 @@ public class DialogueManager : MonoBehaviour
     #region 팝업 이미지 구현
     IEnumerator DialogueWriter()
     {
+        Debug.Log("DialogueWriter");
         if (dialogues[lineCount].name != "") //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
@@ -519,5 +564,19 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator MessageWriter()
+    {
+        string replaceText = message;
+
+        //context 출력
+        for (int i = 0; i < replaceText.Length; i++)
+        {
+            dialogueText.text += replaceText[i];
+            yield return new WaitForSeconds(0.03f);
+        }
+
+        isNext = true;
     }
 }

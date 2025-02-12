@@ -40,6 +40,9 @@ public class PlayerMove : MonoBehaviour
             activeInteract = value;
             if (activeInteract == true)
             {
+                anim.SetInteger("vAxisRaw", 0);
+                anim.SetInteger("hAxisRaw", 0);
+
                 //Vector2 rayOg = new Vector2(rigid.position.x, rigid.position.y + 0.7f);
                 RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("InteractObj"));
 
@@ -102,6 +105,8 @@ public class PlayerMove : MonoBehaviour
     {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
+
+        //Debug.Log("h: " + h + " , v: " + v);
 
         isHorizonMove = Mathf.Abs(h) > Mathf.Abs(v);
 
@@ -166,7 +171,7 @@ public class PlayerMove : MonoBehaviour
                 pState = PlayerState.Inventory;
             }
 
-            if (activeInteract == true)
+            if (ActiveInteract == true)
             {
                 pState = PlayerState.Interaction;
             }
@@ -222,10 +227,18 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("Interaction W");
             }
 
-            if (activeInteract == false)
+            if (ActiveInteract == false)
             {
                 pState = PlayerState.Move;
                 keyDown = false;
+            }
+
+            anim.SetInteger("vAxisRaw", 0);
+            anim.SetInteger("hAxisRaw", 0);
+
+            if (WalkSound.isPlaying)
+            {
+                WalkSound.Stop();
             }
         }
 
