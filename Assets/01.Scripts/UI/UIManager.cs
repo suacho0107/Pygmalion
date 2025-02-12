@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
 
     private UI.UIState currentState;
 
+    [Header("Test")]
     public int checkCount_test = 0;
     public bool isTutorialRian1 = false;
     public bool isTutorialRian2 = false;
@@ -68,17 +69,18 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        // 리로드용 테스트 함수
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            LoadScene();
+            LoadStartScene();
         }
     }
 
-    private void LoadScene()
+    private void LoadStartScene()
     {
         string sceneName = "Start";
 
-        if (!string.IsNullOrEmpty(sceneName)) // 씬 이름이 설정되어 있는지 확인
+        if (!string.IsNullOrEmpty(sceneName))
         {
             SceneManager.LoadScene(sceneName);
         }
@@ -341,6 +343,7 @@ public class UIManager : MonoBehaviour
         }
         #endregion
     }
+
 
     #endregion
 }

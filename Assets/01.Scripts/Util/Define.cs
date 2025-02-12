@@ -21,6 +21,7 @@ namespace Define
             Company,
             Global,
             Museum,
+            Battle,
         }
     }
 }
