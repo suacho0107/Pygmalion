@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> Images;
+    [SerializeField] List<GameObject> Portraits;
+
     [SerializeField] GameObject dialoguePanel;
+    [SerializeField] GameObject descriptionPanel;
     [SerializeField] GameObject namePanel;
 
     [SerializeField] Text dialogueText;
+    [SerializeField] Text descriptionText;
     [SerializeField] Text nameText;
 
     [SerializeField] Button selectBtn1;
@@ -64,6 +68,7 @@ public class DialogueManager : MonoBehaviour
         }
         
         dialoguePanel.SetActive(false);
+        descriptionPanel.SetActive(false);
         namePanel.SetActive(false);
 
         selectBtn1.gameObject.SetActive(false);
@@ -84,6 +89,7 @@ public class DialogueManager : MonoBehaviour
             {
                 isNext = false;
                 dialogueText.text = "";
+                descriptionText.text = "";
 
                 //skipNum이 있으면
                 if (!string.IsNullOrEmpty(dialogues[lineCount].skipNum[contextCount]))
@@ -157,6 +163,7 @@ public class DialogueManager : MonoBehaviour
     {
         isDialogue = true;
         dialogueText.text = "";
+        descriptionText.text = "";
         nameText.text = "";
         dialogues = _dialogues;
 
@@ -382,8 +389,14 @@ public class DialogueManager : MonoBehaviour
         npc.SaveNPCData();
 
         dialoguePanel.SetActive(false);
+        descriptionPanel.SetActive(false);
         namePanel.SetActive(false);
-        playerMove.ActiveInteract = false; // 추가 코드
+        playerMove.ActiveInteract = false;
+
+        foreach (var portrait in Portraits)
+        {
+            portrait.SetActive(false);
+        }
 
         // 결과 UI 출력
         if (npc.dialogueFileName == "Check3_dialogue")
@@ -439,7 +452,7 @@ public class DialogueManager : MonoBehaviour
         }
         else //name 없으면
         {
-            dialoguePanel.SetActive(true);
+            descriptionPanel.SetActive(true);
             namePanel.SetActive(false);
         }
 
@@ -449,10 +462,26 @@ public class DialogueManager : MonoBehaviour
 
         nameText.text = dialogues[lineCount].name; //name 출력
 
+        // 초상화 출력
+        foreach (var portrait in Portraits)
+        {
+            portrait.SetActive(false);
+        }
+
+        for (int i = 0; i < Portraits.Count; i++)
+        {
+            if (Portraits[i].name == nameText.text)
+            {
+                Portraits[i].SetActive(true);
+                break;
+            }
+        }
+
         //context 출력
         for (int i = 0; i < replaceText.Length; i++)
         {
             dialogueText.text += replaceText[i];
+            descriptionText.text += replaceText[i];
             yield return new WaitForSeconds(0.03f);
         }
 
@@ -465,33 +494,70 @@ public class DialogueManager : MonoBehaviour
         Button[] buttons = { selectBtn1, selectBtn2, selectBtn3, selectBtn4 };
         Text[] texts = { selectText1, selectText2, selectText3, selectText4 };
 
-        for (int i = 0; i < selects.Length; i++)
+        if (dialogues[lineCount].name == "")
         {
-            if (selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
+            for (int i = 0; i < selects.Length; i++)
             {
-                for (int j = 0; j < selects[i].contexts.Length; j++)
+                if (selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
                 {
-                    if (i < buttons.Length) // 배열 범위 내인지 확인
+                    for (int j = 0; j < selects[i].contexts.Length; j++)
                     {
-                        buttons[j].gameObject.SetActive(true);
-                        texts[j].gameObject.SetActive(true);
-
-                        string replaceText = selects[i].contexts[j].Replace("#", ",");
-
-                        for (int k = 0; k < replaceText.Length; k++)
+                        if (i < buttons.Length) // 배열 범위 내인지 확인
                         {
-                            texts[j].text += replaceText[k];
-                            yield return new WaitForSeconds(0.03f);
+                            buttons[j].gameObject.SetActive(true);
+                            texts[j].gameObject.SetActive(true);
+
+                            string replaceText = selects[i].contexts[j].Replace("#", ",");
+
+                            for (int k = 0; k < replaceText.Length; k++)
+                            {
+                                texts[j].text += replaceText[k];
+                                yield return new WaitForSeconds(0.03f);
+                            }
+
+                            string selectedMoveNum = selects[i].moveNum[j];
+                            int selectedMoveNumInt;
+                            int.TryParse(selectedMoveNum, out selectedMoveNumInt);
+
+                            int currentSelectNum = j;// 판별 추가 코드
+
+                            buttons[j].onClick.RemoveAllListeners();
+                            buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
                         }
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < selects.Length; i++)
+            {
+                if (selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
+                {
+                    for (int j = 0; j < selects[i].contexts.Length; j++)
+                    {
+                        if (i < buttons.Length) // 배열 범위 내인지 확인
+                        {
+                            buttons[j+2].gameObject.SetActive(true);
+                            texts[j+2].gameObject.SetActive(true);
 
-                        string selectedMoveNum = selects[i].moveNum[j];
-                        int selectedMoveNumInt;
-                        int.TryParse(selectedMoveNum, out selectedMoveNumInt);
+                            string replaceText = selects[i].contexts[j].Replace("#", ",");
 
-                        int currentSelectNum = j;// 판별 추가 코드
+                            for (int k = 0; k < replaceText.Length; k++)
+                            {
+                                texts[j+2].text += replaceText[k];
+                                yield return new WaitForSeconds(0.03f);
+                            }
 
-                        buttons[j].onClick.RemoveAllListeners();
-                        buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
+                            string selectedMoveNum = selects[i].moveNum[j];
+                            int selectedMoveNumInt;
+                            int.TryParse(selectedMoveNum, out selectedMoveNumInt);
+
+                            int currentSelectNum = j;// 판별 추가 코드
+
+                            buttons[j+2].onClick.RemoveAllListeners();
+                            buttons[j+2].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
+                        }
                     }
                 }
             }
