@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 using System.IO;
 using UnityEngine.SceneManagement;
 
@@ -26,7 +25,7 @@ public class BattleManager : MonoBehaviour
     public GameObject blackBoard;
 
     public GameObject Aphrodite;
-    public GameObject Reading_Child;
+    public GameObject ReadingChild;
     public GameObject Melpomene;
 
     public AudioSource battleAudioSource;
@@ -47,7 +46,7 @@ public class BattleManager : MonoBehaviour
     public bool isPlayerTurnStarted = false;
     public bool isPlayerRun = false;
     public bool isEnemyTurnStarted = false;
-    bool isBattleEnd = false;
+    private bool isBattleEnd = false;
     private bool isCoroutineRunning = false;
     private bool isSFXPlaying = false;
 
@@ -72,8 +71,10 @@ public class BattleManager : MonoBehaviour
         LoadFightData();
 
         //if문 돌려서 알맞은 적 SetActive(true);
-        Aphrodite.SetActive(true);
-        enemy = Aphrodite.GetComponent<Enemy>();
+        //Aphrodite.SetActive(true);
+        ReadingChild.SetActive(true);
+        //enemy = Aphrodite.GetComponent<Enemy>();
+        enemy = ReadingChild.GetComponent<Enemy>();
 
         Debug.Log($"Enemy set to: {enemy}");
     }
@@ -83,7 +84,6 @@ public class BattleManager : MonoBehaviour
     {
         //전투 진입 시 Setting
         player.SetPlayerHp();
-        //Debug.Log("BattleManager_Start_SetPlayerHp()-SetEnemy()");
         enemy.StartSetEnemy();
         SetHpBoxes();
 
@@ -95,8 +95,6 @@ public class BattleManager : MonoBehaviour
 
         state = State.PLAYERTURN_START;
         PlaySFX(battleStartSFX);
-
-
     }
 
     // Update is called once per frame
@@ -179,6 +177,38 @@ public class BattleManager : MonoBehaviour
             {
                 hpBoxesList[i].SetActive(false); // 나머지는 비활성화
             }
+        }
+    }
+
+    public void Damage(string _object, int _attackpower, Part part = null)
+    {
+        if(player.isConfused)
+        {
+            if(_object == "enemy")
+            {
+                _object = "player";
+            }
+        }
+
+        if (_object == "player")
+        {
+            //if (part == null) //처음부터 대상이 player
+            //{
+            player.playerHp -= _attackpower;
+            player.UpdatePlayerHp();
+            //}
+            //else //isConfused로 대상이 player로 변경된 경우
+            //{
+            //    player.playerHp -= _attackpower;
+            //    player.UpdatePlayerHp();
+            //}
+        }
+        else if (_object == "enemy" && part != null)
+        {
+            float attackpower = (float)_attackpower * enemy.increaseAttackPower;
+            _attackpower = (int)attackpower;
+            part.partHp -= _attackpower;
+            enemy.UpdateEnemyHp();
         }
     }
 

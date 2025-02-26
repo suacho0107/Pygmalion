@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     public bool firstEnemyTurn1;
     public bool firstEnemyTurn2;
 
+    public float increaseAttackPower;
+
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -54,6 +56,7 @@ public class Enemy : MonoBehaviour
         enemyMaxHp = 0;
         firstEnemyTurn1 = true;
         firstEnemyTurn2 = true;
+        increaseAttackPower = 1.0f;
 
         // `Part` 컴포넌트 가져오기
         List<Part> tempParts = new List<Part>();
@@ -265,6 +268,11 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Aphrodite_Dance()");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 황홀한 춤을 춰 당신을 크게 매료시킵니다.\n방어력이 감소합니다."));
+
+        if (increaseAttackPower != 1.2f)
+        {
+            increaseAttackPower = 1.2f;
+        }
     }
     private void Aphrodite_Throw()
     {
@@ -277,30 +285,29 @@ public class Enemy : MonoBehaviour
         battleManager.battleAudioSource.time = 0;
         battleManager.battleAudioSource.Play();
 
-        player.playerHp -= 15;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", 15);
     }
 
     private void ReadingChild_Stroyteller()
     {
         Debug.Log("ReadingChild_Stroyteller()");
         StartCoroutine(battleManager.ContentTextWriter(" 타고난 이야기꾼인 조각상은 흥미로운 이야기를 들려줍니다.\n당신은 환상에 휘말립니다."));
+
+        player.isConfused = true;
     }
     private void ReadingChild_BookShelf(int _damage)
     {
         Debug.Log($"ReadingChild_BookShelf({_damage})");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 책에서 페이지를 뽑아 날카로운 종이의 칼날을 휘두릅니다."));
 
-        player.playerHp -= _damage; //LArm, RArm 같은 스킬, 데미지 차이
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", _damage); //LArm, RArm 같은 스킬, 데미지 차이
     }
     private void ReadingChild_Kick()
     {
         Debug.Log("ReadingChild_Kick()");
         StartCoroutine(battleManager.ContentTextWriter(" 아무것도 남지 않은 조각상이 당신을 힘껏 걷어찹니다."));
 
-        player.playerHp -= 20;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", 20);
     }
 
     private void Melpomene_Shout()
@@ -308,8 +315,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("Melpomene_Shout()");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 비극을 외쳐, 그 울림이 당신에게 강력한 정신적 충격을 줍니다.\n방어력이 감소합니다."));
 
-        player.playerHp -= 30;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", 30);
     }
 
     private void Melpomene_Narrative(int _damage)
@@ -317,16 +323,14 @@ public class Enemy : MonoBehaviour
         Debug.Log("Melpomene_Narrative()");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 당신의 비극적인 운명을 노래합니다.\n운명의 저주가 당신을 천천히 갉아먹습니다."));
 
-        player.playerHp -= _damage;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", _damage);
     }
     public void Melpomene_Redemption()
     {
         Debug.Log("Melpomene_Redemption()");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 알 수 없는 힘으로 당신을 구속합니다.")); //첫 글자 누락, 일단 공백으로 임시 해결
 
-        player.playerHp -= 5;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", 5);
     }
 
     private void Melpomene_Bat() //Player가 Run 선택 시 발동
@@ -334,8 +338,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("Melpomene_Bat()");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 손에 든 커다란 방망이를 휘두릅니다."));
 
-        player.playerHp -= 15;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", 15);
     }
 
     private void Melpomene_Slap()
@@ -343,8 +346,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("Melpomene_Slap()");
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 당신의 뺨을 후려칩니다.\n그다지 타격은 없으나 비극적인 기분이 느껴집니다."));
 
-        player.playerHp -= 5;
-        player.UpdatePlayerHp();
+        battleManager.Damage("player", 5);
     }
 
     private void EnemyTurnEnd()
@@ -367,7 +369,6 @@ public class Enemy : MonoBehaviour
 
                 EnemyTurnStart(); //EnemyTurn 재시작
             }
-            //else if (player.isConfu 이런 식으로 혼란 구현
             else
             {
                 Debug.Log("Change State to PLAYERTURN_START");

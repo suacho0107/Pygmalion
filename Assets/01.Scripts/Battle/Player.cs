@@ -255,9 +255,7 @@ public class Player : MonoBehaviour
         battleManager.battleAudioSource.time = 0;
         battleManager.battleAudioSource.Play();
 
-
-        part.partHp -= attackDamage; //attackDamage만큼 partHp 차감
-        enemy.UpdateEnemyHp();
+        battleManager.Damage("enemy", attackDamage, part); //attackDamage만큼 partHp 차감
 
         //PlayerTurnEnd();
         Invoke("PlayerTurnEnd", 1);
@@ -266,6 +264,9 @@ public class Player : MonoBehaviour
     void PlayerTurnEnd()
     {
         Debug.Log("PlayerTurnEnd() 실행");
+
+        isConfused = false;
+
         if (enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
         {
             battleManager.state = BattleManager.State.WIN;
