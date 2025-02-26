@@ -232,7 +232,7 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(SelectWriter());
     }
 
-    public void ShowMessage(string _message)
+    public void ShowMessage(string _message, string _name = null)
     {
         isDialogue = true;
         isMessage = true;
@@ -242,9 +242,19 @@ public class DialogueManager : MonoBehaviour
 
         dialogueText.text = "";
         message = _message;
+        string name = _name;
 
-        dialoguePanel.SetActive(true);
-        namePanel.SetActive(false);
+        if (name != null) //대사에 name 있으면
+        {
+            dialoguePanel.SetActive(true);
+            namePanel.SetActive(true);
+            nameText.text = name;
+        }
+        else //name 없으면
+        {
+            dialoguePanel.SetActive(true);
+            namePanel.SetActive(false);
+        }
 
         StartCoroutine(MessageWriter());
     }
@@ -576,7 +586,6 @@ public class DialogueManager : MonoBehaviour
             dialogueText.text += replaceText[i];
             yield return new WaitForSeconds(0.03f);
         }
-
         isNext = true;
     }
 }

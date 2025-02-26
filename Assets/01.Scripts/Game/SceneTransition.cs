@@ -11,29 +11,55 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] SceneData sceneData;
     [SerializeField] string nextScene;
 
+    public NPC npc; // 미술관장 NPC 직접 할당
+    bool enter = false;
+    
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            // Scriptable Object에 nextPos 저장
-            playerPos.nextPosition = nextPos;
-            playerPos.isChecked = true;
-
-            // 방문 횟수 증가
-            int sceneIndex = GetSceneIndex(nextScene);
-            if (sceneIndex != -1)
+            if(npc == null || npc.isTutoFin) // 미술관장 등 NPC null
             {
-                sceneData.scenes[sceneIndex].visitCount++;
-                Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
+                // Scriptable Object에 nextPos 저장
+                playerPos.nextPosition = nextPos;
+                playerPos.isChecked = true;
+
+                // 방문 횟수 증가
+                int sceneIndex = GetSceneIndex(nextScene);
+                if (sceneIndex != -1)
+                {
+                    sceneData.scenes[sceneIndex].visitCount++;
+                    Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
+                }
+                else
+                {
+                    Debug.LogError("SceneData not found for scene: " + nextScene);
+                }
+
+                UpdateUIManagerState(nextScene);
+
+                SceneManager.LoadScene(nextScene);
             }
             else
             {
-                Debug.LogError("SceneData not found for scene: " + nextScene);
+                if (!enter)
+                {
+                    enter = true;
+                    string message = "미술관을 구경하고 싶은 그대의 마음은 알겠지만, 우선 아래에 있는 조각상부터 해봐주세요!";
+
+                    DialogueManager dm = FindObjectOfType<DialogueManager>();
+                    dm.ShowMessage(message, "미술관장");
+                }
             }
+        }
+    }
 
-            UpdateUIManagerState(nextScene);
-
-            SceneManager.LoadScene(nextScene);
+    private void OnTriggerExit2D(Collider2D collision) // 트리거 초기화
+    {
+        if (collision.CompareTag("Player"))
+        {
+            enter = false;
+            Debug.Log("enter false");
         }
     }
 
