@@ -209,7 +209,16 @@ public class PlayerMove : MonoBehaviour
 
         void pStateInteraction()
         {
-            //Debug.Log("pState = Interaction");
+            rigid.velocity = Vector2.zero;
+
+            anim.SetInteger("vAxisRaw", 0);
+            anim.SetInteger("hAxisRaw", 0);
+
+            if (WalkSound.isPlaying)
+            {
+                WalkSound.Stop();
+            }
+
             if (hDown && h == -1)
             {
                 Debug.Log("Interaction A");
@@ -233,9 +242,6 @@ public class PlayerMove : MonoBehaviour
                 keyDown = false;
             }
 
-            anim.SetInteger("vAxisRaw", 0);
-            anim.SetInteger("hAxisRaw", 0);
-
             if (WalkSound.isPlaying)
             {
                 WalkSound.Stop();
@@ -244,6 +250,16 @@ public class PlayerMove : MonoBehaviour
 
         void pStateInventory()
         {
+            rigid.velocity = Vector2.zero;
+
+            anim.SetInteger("vAxisRaw", 0);
+            anim.SetInteger("hAxisRaw", 0);
+
+            if (WalkSound.isPlaying)
+            {
+                WalkSound.Stop();
+            }
+
             Debug.Log("pState = Inventory");
             if (hDown && h == -1)
             {

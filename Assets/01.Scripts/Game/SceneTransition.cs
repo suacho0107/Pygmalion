@@ -59,7 +59,6 @@ public class SceneTransition : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             enter = false;
-            Debug.Log("enter false");
         }
     }
 
