@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class InventoryUI : MonoBehaviour
     private bool activeItem;
 
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
+
+    string filePath = "/inventoryItemList.json";
 
     public void RemoveSlot()
     {
@@ -94,15 +97,41 @@ public class InventoryUI : MonoBehaviour
                     if (inventoryItemList[j].itemID == _itemID)
                     {
                         inventoryItemList[j].itemCount ++;
+                        SaveInventory();
                         return;
                     }
                 }
                 inventoryItemList.Add(ItemDB.itemList[i]);
+                SaveInventory();
                 Debug.Log("아이템 추가");
                 return;
             }
         }
         Debug.LogError("데이터베이스에 없는 아이템");
+    }
+
+    public void SaveInventory()
+    {
+        ListJSON.SaveList(inventoryItemList, filePath);
+    }
+
+    public void LoadInventory()
+    {
+        inventoryItemList = ListJSON.LoadList<Item>(filePath);
+        if (inventoryItemList == null || inventoryItemList.Count == 0)
+        {
+            inventoryItemList = new List<Item>();
+            DefaultItmes();
+            SaveInventory();
+        }
+    }
+
+    void DefaultItmes()
+    {
+        inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
+        inventoryItemList.Add(new Item(10301, "손가락", "이게 뭐지?", "손가락", Item.ItemType.Quest));
+        inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
+        inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
     }
 
     void Start()
@@ -115,11 +144,7 @@ public class InventoryUI : MonoBehaviour
         // GridSlot의 자식객체 저장
         slots = tf.GetComponentsInChildren<InventorySlot>();
 
-        inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(10301, "손가락", "이게 뭐지?", "손가락", Item.ItemType.Quest));
-        inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
-        inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
-
+        LoadInventory();
     }
 
     void Update()
@@ -141,6 +166,7 @@ public class InventoryUI : MonoBehaviour
                 StopAllCoroutines();
                 inventoryPanel.SetActive(false);
                 activeItem = false;
+                SaveInventory();
             }
         }
 
