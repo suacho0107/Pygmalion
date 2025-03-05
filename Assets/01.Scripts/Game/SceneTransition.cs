@@ -83,6 +83,10 @@ public class SceneTransition : MonoBehaviour
             {
                 Debug.Log("삭제");
                 GetComponent<DeleteAllData>().DeleteAllJsonFiles();
+                if (FieldItemManager.Instance != null)
+                {
+                    FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
+                }
             }
             if (UIManager.u_instance != null)
             {

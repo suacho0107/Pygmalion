@@ -509,7 +509,7 @@ public class DialogueManager : MonoBehaviour
     #region 팝업 이미지 구현
     IEnumerator DialogueWriter()
     {
-        Debug.Log("DialogueWriter");
+        //Debug.Log("DialogueWriter");
         if (dialogues[lineCount].name != "") //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
