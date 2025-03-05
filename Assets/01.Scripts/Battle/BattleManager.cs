@@ -9,20 +9,12 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
+    BattleUI battleUI;
     Player player;
     Enemy enemy;
     Part part;
 
     public NPCData npcData = new NPCData();
-
-    public Text contentText;
-    public Text partText;
-    public GameObject buttons;
-    public GameObject hpBoxes;
-    List<GameObject> hpBoxesList = new List<GameObject>();
-    public Sprite hpBoxFull;
-    public Sprite hpBoxEmpty;
-    public GameObject blackBoard;
 
     public GameObject Aphrodite;
     public GameObject ReadingChild;
@@ -63,6 +55,7 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+        battleUI = FindObjectOfType<BattleUI>();
         player = FindObjectOfType<Player>();
         //enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
@@ -85,9 +78,9 @@ public class BattleManager : MonoBehaviour
         //전투 진입 시 Setting
         player.SetPlayerHp();
         enemy.StartSetEnemy();
-        SetHpBoxes();
+        battleUI.SetHpBoxes();
 
-        blackBoard.SetActive(false);
+        battleUI.blackBoard.SetActive(false);
 
         //HpBar
         player.UpdatePlayerHp();
@@ -148,37 +141,7 @@ public class BattleManager : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    void SetHpBoxes()
-    {
-        for (int i = 0; i < hpBoxes.transform.childCount; i++)
-        {
-            hpBoxesList.Add(hpBoxes.transform.GetChild(i).gameObject);
-            Debug.Log($"hpBoxesList에 추가: ${hpBoxes.transform.GetChild(i)}");
-            hpBoxes.transform.GetChild(i).gameObject.SetActive(false); //비활성화로 초기화
-        }
-    }
-
-    public void UpdateHpBoxes()
-    {
-        Debug.Log("UpdateHpBoxes() 실행");
-        hpBoxes.SetActive(true);
-
-        // 필요한 hpBoxes만 활성화
-        for (int i = 0; i < hpBoxesList.Count; i++)
-        {
-            if (i < enemy.partComponents[FindListIndex(enemy.parts, enemy.currentPart)].partMaxHp)
-            {
-                hpBoxesList[i].SetActive(true); // partMaxHp만큼만 활성화
-                hpBoxesList[i].GetComponent<Image>().sprite = (i < enemy.partComponents[FindListIndex(enemy.parts, enemy.currentPart)].partHp) ? hpBoxFull : hpBoxEmpty;
-            }
-            else
-            {
-                hpBoxesList[i].SetActive(false); // 나머지는 비활성화
-            }
-        }
-    }
+    }    
 
     public void Damage(string _object, int _attackpower, Part part = null)
     {
@@ -212,18 +175,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public int FindListIndex(List<string> list, string element)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (list[i] == element)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     void PlayerWin()
     {
         Debug.Log("PlayerWin() 실행");
@@ -242,7 +193,7 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("PlayerLose() 실행");
 
-        blackBoard.SetActive(true);
+        battleUI.blackBoard.SetActive(true);
         StartCoroutine(ContentTextWriter("눈앞이 흐려진다..."));
         //구현예정
 
@@ -305,11 +256,11 @@ public class BattleManager : MonoBehaviour
         }
 
         isCoroutineRunning = true;
-        contentText.text = "";
+        battleUI.contentText.text = "";
 
         for (int i = 0; i < origintext.Length; i++)
         {
-            contentText.text += origintext[i];
+            battleUI.contentText.text += origintext[i];
             yield return new WaitForSeconds(0.03f);
         }
 

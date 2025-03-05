@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    BattleUI battleUI;
     BattleManager battleManager;
     Player player;
 
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
+        battleUI = FindObjectOfType<BattleUI>();
         player = FindObjectOfType<Player>();
     }
     // Start is called before the first frame update
@@ -167,22 +169,22 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("EnemyTurnStart()");
 
-        battleManager.contentText.text = "";
-        battleManager.partText.text = "";
-        battleManager.hpBoxes.gameObject.SetActive(false);
+        battleUI.contentText.text = "";
+        battleUI.partText.text = "";
+        battleUI.hpBoxes.gameObject.SetActive(false);
 
         if (enemyName == "Aphrodite") //아프로디테
         {
             List<Action> Aphrodite_skills = new List<Action>();
-            AddSkill(Aphrodite_skills, "Head", isDestroyed[battleManager.FindListIndex(parts, "Head")], 0.2f, Aphrodite_Charm);
-            AddSkill(Aphrodite_skills, "Body", isDestroyed[battleManager.FindListIndex(parts, "Body")], 0.2f, Aphrodite_Dance);
+            AddSkill(Aphrodite_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.2f, Aphrodite_Charm);
+            AddSkill(Aphrodite_skills, "Body", isDestroyed[battleUI.FindListIndex(parts, "Body")], 0.2f, Aphrodite_Dance);
 
             if (Aphrodite_skills.Count > 0)
             {
                 int index = Random.Range(0, Aphrodite_skills.Count);
                 Aphrodite_skills[index]();
             }
-            else if (!isDestroyed[battleManager.FindListIndex(parts, "LArm")])
+            else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
             {
                 Aphrodite_Throw();
             }
@@ -190,11 +192,11 @@ public class Enemy : MonoBehaviour
         }
         else if (enemyName == "ReadingChild") //책 읽는 아이
         {
-            if (isDestroyed[battleManager.FindListIndex(parts, "RArm")])
+            if (isDestroyed[battleUI.FindListIndex(parts, "RArm")])
             {
-                if (isDestroyed[battleManager.FindListIndex(parts, "LArm")])
+                if (isDestroyed[battleUI.FindListIndex(parts, "LArm")])
                 {
-                    if (isDestroyed[battleManager.FindListIndex(parts, "Head")])
+                    if (isDestroyed[battleUI.FindListIndex(parts, "Head")])
                     {
                         ReadingChild_Kick();
                     }
@@ -226,14 +228,14 @@ public class Enemy : MonoBehaviour
                 firstEnemyTurn1 = false;
             }
 
-            if (isDestroyed[battleManager.FindListIndex(parts, "Mask")] && isDestroyed[battleManager.FindListIndex(parts, "Head")] && firstEnemyTurn2 && Random.value < 0.4f)
+            if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && firstEnemyTurn2 && Random.value < 0.4f)
             {
                 Melpomene_Narrative(10);
                 firstEnemyTurn2 = false;
             }
 
-            AddSkill(Melpomene_skills, "Mask", isDestroyed[battleManager.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
-            AddSkill(Melpomene_skills, "Mask", isDestroyed[battleManager.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
+            AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
+            AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
 
             if(Melpomene_skills.Count >0)
             {
@@ -352,14 +354,14 @@ public class Enemy : MonoBehaviour
     private void EnemyTurnEnd()
     {
         Debug.Log("EnemyTurnEnd()");
-        battleManager.contentText.text = "";
+        battleUI.contentText.text = "";
         battleManager.isEnemyTurnStarted = false;
         battleManager.isPlayerRun = false;
 
         //여기 로직 다시 보기
         if (player.playerHp > 0) //Player 생존
         {
-            if (isDestroyed[battleManager.FindListIndex(parts, mainPart)]) //공략 부위 파괴 시
+            if (isDestroyed[battleUI.FindListIndex(parts, mainPart)]) //공략 부위 파괴 시
             {
                 battleManager.state = BattleManager.State.WIN;
             }  

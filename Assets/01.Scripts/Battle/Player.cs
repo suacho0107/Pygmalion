@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    BattleUI battleUI;
     BattleManager battleManager;
     Enemy enemy;
     Part part;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
+        battleUI = FindObjectOfType<BattleUI>();
         enemy = FindObjectOfType<Enemy>();
         //part = FindObjectOfType<Part>();
     }
@@ -53,9 +55,9 @@ public class Player : MonoBehaviour
     {
         Debug.Log("PlayerTurnStart() 실행");
         StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
-        battleManager.buttons.gameObject.SetActive(true);
-        battleManager.partText.gameObject.SetActive(false);
-        battleManager.hpBoxes.gameObject.SetActive(false);
+        battleUI.buttons.gameObject.SetActive(true);
+        battleUI.partText.gameObject.SetActive(false);
+        battleUI.hpBoxes.gameObject.SetActive(false);
     }
 
     public void AttackButton()
@@ -84,17 +86,17 @@ public class Player : MonoBehaviour
             return;
         }
 
-        battleManager.contentText.text = "공격 부위 선택";
-        battleManager.buttons.gameObject.SetActive(false);
+        battleUI.contentText.text = "공격 부위 선택";
+        battleUI.buttons.gameObject.SetActive(false);
 
         enemy.currentPart = enemy.parts[0]; //currentPart 초기화
-        battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart);
+        battleUI.partText.text = enemy.ReplacePartText(enemy.currentPart);
         if(enemy.enemyName == "Melpomene" && enemy.currentPart == "Head" && !enemy.isDestroyed[FindListIndex(enemy.parts, "Mask")])
         {
-            battleManager.partText.color = Color.grey;
+            battleUI.partText.color = Color.grey;
         }
-        battleManager.partText.gameObject.SetActive(true);
-        battleManager.UpdateHpBoxes();
+        battleUI.partText.gameObject.SetActive(true);
+        battleUI.UpdateHpBoxes();
 
         battleManager.state = BattleManager.State.PLAYERTURN_ATTACK;
     }
@@ -110,18 +112,18 @@ public class Player : MonoBehaviour
             if (++i < enemy.parts.Count) //++i가 가능하면
             {
                 enemy.currentPart = enemy.parts[i];
-                battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart); //이거 밑으로 빼야 하나? 상관 없나?
+                battleUI.partText.text = enemy.ReplacePartText(enemy.currentPart); //이거 밑으로 빼야 하나? 상관 없나?
 
                 //isDestroyed 여부 판별
                 if (enemy.isDestroyed[i])
                 {
-                    battleManager.partText.color = Color.grey;
+                    battleUI.partText.color = Color.grey;
                 }
                 else
                 {
-                    battleManager.partText.color = Color.white;
+                    battleUI.partText.color = Color.white;
                 }
-                battleManager.UpdateHpBoxes();
+                battleUI.UpdateHpBoxes();
             }
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
@@ -133,19 +135,19 @@ public class Player : MonoBehaviour
             if (--i >= 0) //++i가 가능하면
             {
                 enemy.currentPart = enemy.parts[i];
-                battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart); //이거 밑으로 빼야 하나? 상관 없나?
+                battleUI.partText.text = enemy.ReplacePartText(enemy.currentPart); //이거 밑으로 빼야 하나? 상관 없나?
 
                 //isDestroyed 여부 판별
                 if (enemy.isDestroyed[i])
                 {
 
-                    battleManager.partText.color = Color.grey;
+                    battleUI.partText.color = Color.grey;
                 }
                 else
                 {
-                    battleManager.partText.color = Color.white;
+                    battleUI.partText.color = Color.white;
                 }
-                battleManager.UpdateHpBoxes();
+                battleUI.UpdateHpBoxes();
             }
         }
         //else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -163,7 +165,7 @@ public class Player : MonoBehaviour
             {
                 if (enemy.enemyName == "Melpomene" && enemy.currentPart == "Head" && !enemy.isDestroyed[FindListIndex(enemy.parts, "Mask")])
                 {
-                    battleManager.partText.color = Color.grey;
+                    battleUI.partText.color = Color.grey;
                     return;
                 }
                 else
@@ -209,9 +211,9 @@ public class Player : MonoBehaviour
     {
         battleManager.isPlayerRun = true;
 
-        if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, "Body")]) //멜포메네
+        if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, "Body")]) //멜포메네
         {
-            battleManager.buttons.SetActive(false);
+            battleUI.buttons.SetActive(false);
 
             enemy.Melpomene_Redemption();
 
@@ -222,8 +224,8 @@ public class Player : MonoBehaviour
         else
         {
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-            battleManager.contentText.text = "";
-            battleManager.buttons.SetActive(false);
+            battleUI.contentText.text = "";
+            battleUI.buttons.SetActive(false);
 
             battleManager.PlaySFX(battleManager.playerRunSFX);
             ////이것만 소리 안 나서 그냥 냅다 실행하기
@@ -248,7 +250,7 @@ public class Player : MonoBehaviour
     {
         Debug.Log("PlayerAttack(enemy, part) 실행");
 
-        battleManager.contentText.text = "";
+        battleUI.contentText.text = "";
 
         battleManager.battleAudioSource.Stop();
         battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
@@ -267,7 +269,7 @@ public class Player : MonoBehaviour
 
         isConfused = false;
 
-        if (enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
+        if (enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
         {
             battleManager.state = BattleManager.State.WIN;
         }

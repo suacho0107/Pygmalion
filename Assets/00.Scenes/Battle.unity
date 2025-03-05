@@ -1479,6 +1479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 784835000}
   - component: {fileID: 784834999}
+  - component: {fileID: 784835002}
   - component: {fileID: 784835001}
   m_Layer: 0
   m_Name: BattleManager
@@ -1517,13 +1518,6 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  contentText: {fileID: 1305348740}
-  partText: {fileID: 778210552}
-  buttons: {fileID: 656938321}
-  hpBoxes: {fileID: 1158286537}
-  hpBoxFull: {fileID: 21300000, guid: 7079e577cb7a5e74691ec533430d0f6a, type: 3}
-  hpBoxEmpty: {fileID: 21300000, guid: 0ffcab12e18beb64a9868deb85ac0539, type: 3}
-  blackBoard: {fileID: 1998445116}
   Aphrodite: {fileID: 951223773}
   ReadingChild: {fileID: 1296148224}
   Melpomene: {fileID: 2079226784}
@@ -1651,6 +1645,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &784835002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784834998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f95fb2fa7eead44ebfac4d18a33240b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contentText: {fileID: 1305348740}
+  partText: {fileID: 778210552}
+  buttons: {fileID: 656938321}
+  hpBoxes: {fileID: 1158286537}
+  hpBoxEmpty: {fileID: 21300000, guid: 0ffcab12e18beb64a9868deb85ac0539, type: 3}
+  hpBoxFull: {fileID: 21300000, guid: 7079e577cb7a5e74691ec533430d0f6a, type: 3}
+  blackBoard: {fileID: 1998445116}
 --- !u!1 &824697524
 GameObject:
   m_ObjectHideFlags: 0
