@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 547722789}
-  csv: {fileID: 0}
+  csv: {fileID: 547722790}
   statueScore: {fileID: 1327760292}
   npcData:
     isChecked: 0
@@ -1575,15 +1575,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   destroyedSprite: {fileID: 0}
   isStatue: 0
-  isNPC: 0
   isChecked: 0
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
   isOfficeTuto: 0
   isFin: 0
   result: 0
@@ -1633,7 +1629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcs:
   - {fileID: 2065348657}
-  - {fileID: 2143907462}
+  - {fileID: 2143907468}
 --- !u!61 &547722792
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1803,15 +1799,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   destroyedSprite: {fileID: 0}
   isStatue: 0
-  isNPC: 0
   isChecked: 0
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
   isOfficeTuto: 0
   isFin: 0
   result: 0
@@ -3389,7 +3381,7 @@ PrefabInstance:
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: npc
       value: 
-      objectReference: {fileID: 2143907462}
+      objectReference: {fileID: 0}
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: nextPos.x
       value: 6.6
@@ -6753,7 +6745,7 @@ PrefabInstance:
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: npc
       value: 
-      objectReference: {fileID: 2143907462}
+      objectReference: {fileID: 0}
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: nextPos.x
       value: -5
@@ -8656,7 +8648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcs:
   - {fileID: 2065348657}
-  - {fileID: 2143907462}
+  - {fileID: 2143907468}
 --- !u!114 &1726397087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8714,15 +8706,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   destroyedSprite: {fileID: 0}
   isStatue: 0
-  isNPC: 0
   isChecked: 0
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
   isOfficeTuto: 0
   isFin: 0
   result: 0
@@ -10176,15 +10164,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 909144929}
   destroyedSprite: {fileID: 21300000, guid: b286a37ac0789bd438e3ba2666fc8b67, type: 3}
   isStatue: 1
-  isNPC: 0
   isChecked: 0
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
   isOfficeTuto: 0
   isFin: 0
   result: 0
@@ -10214,7 +10198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcs:
   - {fileID: 2065348657}
-  - {fileID: 2143907462}
+  - {fileID: 2143907468}
 --- !u!114 &2065348663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10240,10 +10224,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2143907465}
   - component: {fileID: 2143907464}
-  - component: {fileID: 2143907462}
   - component: {fileID: 2143907461}
   - component: {fileID: 2143907466}
   - component: {fileID: 2143907467}
+  - component: {fileID: 2143907468}
   m_Layer: 6
   m_Name: Stage1_NPC1
   m_TagString: Untagged
@@ -10271,67 +10255,6 @@ MonoBehaviour:
     name: 
     line: {x: 0, y: 0}
     selects: []
---- !u!114 &2143907462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2143907460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 0}
-  interactionEvent: {fileID: 2143907461}
-  csv: {fileID: 2143907466}
-  statueScore: {fileID: 1327760292}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isSpriteChanged: 0
-    test1: 0
-    test2: 0
-    test3: 0
-    test4: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
-  spriteRenderer: {fileID: 2143907464}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 1
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 1
-  isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
-  _FileIndex: 0
-  dialogueFileName: Check3_dialogue
-  selectFileName: 
-  explainNum: 
-  dialogueFiles: []
-  selectFiles: []
-  currentIndex: 0
 --- !u!212 &2143907464
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10413,7 +10336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcs:
   - {fileID: 2065348657}
-  - {fileID: 2143907462}
+  - {fileID: 2143907468}
 --- !u!70 &2143907467
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -10430,3 +10353,64 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -1.3}
   m_Size: {x: 4, y: 5}
   m_Direction: 0
+--- !u!114 &2143907468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143907460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a90b0d9af2d32048b9690b811707927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 1412360803}
+  interactionEvent: {fileID: 2143907461}
+  csv: {fileID: 2143907466}
+  statueScore: {fileID: 1327760292}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    test1: 0
+    test2: 0
+    test3: 0
+    test4: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+  spriteRenderer: {fileID: 0}
+  destroyedSprite: {fileID: 0}
+  isStatue: 0
+  isChecked: 0
+  isJudged: 0
+  isEnemy: 0
+  isCorrect: 0
+  isInteract: 0
+  isOfficeTuto: 0
+  isFin: 0
+  result: 0
+  test1: 0
+  test2: 0
+  test3: 0
+  test4: 0
+  isSpriteChanged: 0
+  _FileIndex: 0
+  dialogueFileName: 
+  selectFileName: 
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
+  isNPC: 1
+  tutorial: 1
+  isTutoDialogueChanged: 0
+  isTutoFin: 0

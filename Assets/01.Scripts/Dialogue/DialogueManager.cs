@@ -27,6 +27,8 @@ public class DialogueManager : MonoBehaviour
 
     InteractionEvent interactionEvent;
     NPC npc; //= currentNPCZ
+    StageNPC stageNpc;
+    Statue statue;
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     StatueScore statueScore;
     MuseumLobbyCSV csv;
@@ -76,6 +78,8 @@ public class DialogueManager : MonoBehaviour
 
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
         statueScore = FindObjectOfType<StatueScore>();
+        stageNpc = FindObjectOfType<StageNPC>();
+        statue = FindObjectOfType<Statue>();
     }
 
     private void Update()
@@ -172,7 +176,7 @@ public class DialogueManager : MonoBehaviour
         {
             // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
             // imageImage.SetActive(true);
-            if (!npc.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
+            if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제
             {
                 if (explainIndex >= 0 && explainIndex < Images.Count)
                 {
@@ -262,17 +266,17 @@ public class DialogueManager : MonoBehaviour
     public void OnSelectButtonClicked(int selectedIndex, int currentIndex) // 판별 매개변수 추가(currentIndex)
     {
         //Debug.Log("누른 버튼:" + currentIndex);
-        if (npc.isStatue)
+        if (statue.isStatue)
         {
-            if(!npc.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
+            if(!statue.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
             {
                 if(currentIndex == 0)
                 {
                     statueScore.checkedCount += 1;
                     statueScore.SaveScore();
 
-                    npc.isChecked = true;
-                    npc.SaveNPCData();
+                    statue.isChecked = true;
+                    statue.SaveNPCData();
                 }
             }
             else // 두 번째 상호작용(판별): 선지 4개 출력
@@ -282,28 +286,28 @@ public class DialogueManager : MonoBehaviour
                     statueScore.checkedCount += 1;
                     statueScore.SaveScore();
 
-                    npc.isChecked = true;
-                    npc.SaveNPCData();
+                    statue.isChecked = true;
+                    statue.SaveNPCData();
                 }
                 else if(currentIndex == 1)
                 {
                     //statueScore.checkedCount += 1;
                     //statueScore.SaveScore();
 
-                    if (npc.isEnemy)
+                    if (statue.isEnemy)
                     {// 건드린다 --> 정답
-                        npc.isJudged = true;
-                        npc.isCorrect = true;
-                        npc.currentIndex = 3;
-                        npc.explainNum = "1";
+                        statue.isJudged = true;
+                        statue.isCorrect = true;
+                        statue.currentIndex = 3;
+                        statue.explainNum = "1";
                         //statueScore.fightCount += 1;
                         //statueScore.SaveScore();
                         //npc.SaveNPCData();
                     }
                     else
                     {// 건드린다 --> 오답
-                        npc.isJudged = true;
-                        npc.isCorrect = false;
+                        statue.isJudged = true;
+                        statue.isCorrect = false;
                         //npc.SaveNPCData();
                     }
                 }
@@ -312,20 +316,20 @@ public class DialogueManager : MonoBehaviour
                     //statueScore.checkedCount += 1;
                     //statueScore.SaveScore();
 
-                    if (npc.isEnemy)
+                    if (statue.isEnemy)
                     {// 이상 없음 --> 오답
-                        npc.isJudged = true;
-                        npc.isCorrect = false;
-                        npc.explainNum = "2";
+                        statue.isJudged = true;
+                        statue.isCorrect = false;
+                        statue.explainNum = "2";
                         //statueScore.fightCount += 1;
                         //statueScore.SaveScore();      //NPC 스크립트에서 변경
                         //npc.SaveNPCData();
                     }
                     else
                     {// 이상 없음 --> 정답
-                        npc.isJudged = true;
-                        npc.isCorrect = true;
-                        npc.explainNum = "3";
+                        statue.isJudged = true;
+                        statue.isCorrect = true;
+                        statue.explainNum = "3";
                         //npc.SaveNPCData();
                     }
                 }
@@ -390,23 +394,23 @@ public class DialogueManager : MonoBehaviour
 
         if (npc.dialogueFileName == "Tutorial2_dialogue")
         {
-            npc.isTutoFin = true;
+            stageNpc.isTutoFin = true;
             //Debug.Log("endDialogue2");
         }
 
-        if (!npc.isEnemy && npc.isFin && !npc.result)
+        if (!statue.isEnemy && statue.isFin && !statue.result)
         {
-            if (npc.currentIndex == 3)
+            if (statue.currentIndex == 3)
             {
-                if (npc.isCorrect == true)
+                if (statue.isCorrect == true)
                 {
                     //npc.ChangeDialogueExplain(3, "3");
-                    npc.result = true;
+                    statue.result = true;
                 }
                 else
                 {
                     //npc.ChangeDialogueFileName("Destroyed_dialogue");
-                    npc.result = true;
+                    statue.result = true;
                 }
             }
         }

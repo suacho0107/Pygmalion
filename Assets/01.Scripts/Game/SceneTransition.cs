@@ -11,14 +11,14 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] SceneData sceneData;
     [SerializeField] string nextScene;
 
-    public NPC npc; // 미술관장 NPC 직접 할당
+    public StageNPC stageNpc; // 미술관장 NPC 직접 할당
     bool enter = false;
     
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            if(npc == null || npc.isTutoFin) // 미술관장 등 NPC null
+            if(stageNpc == null || stageNpc.isTutoFin) // 미술관장 등 NPC null
             {
                 // Scriptable Object에 nextPos 저장
                 playerPos.nextPosition = nextPos;
