@@ -12,7 +12,7 @@ public class Statue : NPC
     public SpriteRenderer spriteRenderer;
     public Sprite destroyedSprite; // 무너진 조각상 스프라이트
 
-    public bool isStatue = false;
+    public bool isStatue = true;
     public bool isChecked = false;
     public bool isJudged = false;
     public bool isEnemy = false;
@@ -352,6 +352,7 @@ public class Statue : NPC
 
     public new void LoadNPCData()
     {
+        Debug.Log(gameObject.name + "Statue LoadData");
         isChecked = npcData.isChecked;
         isJudged = npcData.isJudged;
         isCorrect = npcData.isCorrect;

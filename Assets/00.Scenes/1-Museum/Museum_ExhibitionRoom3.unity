@@ -494,26 +494,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 
@@ -938,26 +921,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 
@@ -3539,26 +3505,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 
@@ -3894,26 +3843,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 
@@ -8874,26 +8806,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 
@@ -10074,26 +9989,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 
@@ -11134,7 +11032,7 @@ MonoBehaviour:
     name: 
     line: {x: 0, y: 0}
     selects: []
---- !u!114 &2117041323
+--- !u!114 &2117041324
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11143,7 +11041,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 2117041321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcs:
+  - {fileID: 2117041327}
+--- !u!212 &2117041325 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8041798209513320479, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
+  m_PrefabInstance: {fileID: 2117041320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2117041326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117041321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a2e7c645610d846a8b49d212ba338c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
+  enterFight: {fileID: 8300000, guid: e90fd590dac6e7e4da20a78265c817d1, type: 3}
+  destroyed: {fileID: 8300000, guid: 46129038dbb387c47a1d28382addbff8, type: 3}
+--- !u!114 &2117041327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117041321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7166f815189f4089b6c26b934f3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
@@ -11168,19 +11100,23 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+  isInteract: 0
+  isObject: 0
+  isOfficeTuto: 0
+  _FileIndex: 0
+  dialogueFileName: 
+  selectFileName: 
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
   spriteRenderer: {fileID: 2117041325}
   destroyedSprite: {fileID: 21300000, guid: b286a37ac0789bd438e3ba2666fc8b67, type: 3}
   isStatue: 1
-  isNPC: 0
   isChecked: 0
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
-  tutorial: 0
-  isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  isOfficeTuto: 0
   isFin: 0
   result: 0
   test1: 0
@@ -11188,47 +11124,6 @@ MonoBehaviour:
   test3: 0
   test4: 0
   isSpriteChanged: 0
-  _FileIndex: 0
-  dialogueFileName: stage1_exhibit3_dialogue
-  selectFileName: 
-  explainNum: 1
-  dialogueFiles: []
-  selectFiles: []
-  currentIndex: 0
---- !u!114 &2117041324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117041321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcs:
-  - {fileID: 2117041323}
---- !u!212 &2117041325 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8041798209513320479, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
-  m_PrefabInstance: {fileID: 2117041320}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2117041326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117041321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a2e7c645610d846a8b49d212ba338c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
-  enterFight: {fileID: 8300000, guid: e90fd590dac6e7e4da20a78265c817d1, type: 3}
-  destroyed: {fileID: 8300000, guid: 46129038dbb387c47a1d28382addbff8, type: 3}
 --- !u!1001 &2144277952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12978,26 +12873,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 0
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_exhibit3_dialogue
   selectFileName: 

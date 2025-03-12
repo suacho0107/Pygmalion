@@ -165,7 +165,6 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
-        //Debug.Log("ShowDialogue");
         isDialogue = true;
         dialogueText.text = "";
         nameText.text = "";
@@ -240,8 +239,6 @@ public class DialogueManager : MonoBehaviour
     {
         isDialogue = true;
         isMessage = true;
-
-        //playerMove.pState = PlayerMove.PlayerState.Interaction;
         playerMove.ActiveInteract = true;
 
         dialogueText.text = "";
@@ -265,7 +262,6 @@ public class DialogueManager : MonoBehaviour
 
     public void OnSelectButtonClicked(int selectedIndex, int currentIndex) // 판별 매개변수 추가(currentIndex)
     {
-        //Debug.Log("누른 버튼:" + currentIndex);
         if (statue.isStatue)
         {
             if(!statue.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
@@ -277,6 +273,7 @@ public class DialogueManager : MonoBehaviour
 
                     statue.isChecked = true;
                     statue.SaveNPCData();
+                    Debug.Log("isChecked");
                 }
             }
             else // 두 번째 상호작용(판별): 선지 4개 출력
@@ -291,46 +288,32 @@ public class DialogueManager : MonoBehaviour
                 }
                 else if(currentIndex == 1)
                 {
-                    //statueScore.checkedCount += 1;
-                    //statueScore.SaveScore();
-
                     if (statue.isEnemy)
                     {// 건드린다 --> 정답
                         statue.isJudged = true;
                         statue.isCorrect = true;
                         statue.currentIndex = 3;
                         statue.explainNum = "1";
-                        //statueScore.fightCount += 1;
-                        //statueScore.SaveScore();
-                        //npc.SaveNPCData();
                     }
                     else
                     {// 건드린다 --> 오답
                         statue.isJudged = true;
                         statue.isCorrect = false;
-                        //npc.SaveNPCData();
                     }
                 }
                 else if(currentIndex == 2)
                 {
-                    //statueScore.checkedCount += 1;
-                    //statueScore.SaveScore();
-
                     if (statue.isEnemy)
                     {// 이상 없음 --> 오답
                         statue.isJudged = true;
                         statue.isCorrect = false;
                         statue.explainNum = "2";
-                        //statueScore.fightCount += 1;
-                        //statueScore.SaveScore();      //NPC 스크립트에서 변경
-                        //npc.SaveNPCData();
                     }
                     else
                     {// 이상 없음 --> 정답
                         statue.isJudged = true;
                         statue.isCorrect = true;
                         statue.explainNum = "3";
-                        //npc.SaveNPCData();
                     }
                 }
             }
@@ -414,53 +397,7 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-        //if (npc.isStatue && npc.isEnemy && npc.isChecked && npc.isJudged && PlayerPrefs.GetInt("PlayerWin", 0) == 1)
-        //{
-        //    npc.result = true;
-        //}
-
-        #region 전투 승리 시 결과 출력(수정 전)
-        //if (npc.isStatue && npc.isChecked && npc.isJudged && PlayerPrefs.GetInt("PlayerWin", 0) == 1)
-        //{
-        //    if(npc.isEnemy)
-        //    {
-        //        npc.result = true;
-        //    }
-        //    else
-        //    {
-        //        if(npc.currentIndex == 3)
-        //        {
-        //            if (npc.isCorrect == true)
-        //            {
-        //                npc.ChangeDialogueExplain(3, "3");
-        //                npc.result = true;
-        //            }
-        //            else
-        //            {
-        //                npc.ChangeDialogueExplain(4, "1");
-        //                npc.result = true;
-        //            }
-        //        }
-        //        //if (npc.isCorrect)
-        //        //{
-        //        //    if (npc.currentIndex == 3)
-        //        //    {
-        //        //        npc.result = true;
-        //        //        Debug.Log("result True 테스트 완료 시 삭제할 로그");
-        //        //    }
-        //        //}
-        //        //else
-        //        //{
-        //        //    if (npc.currentIndex == 3)
-        //        //    {
-        //        //        npc.result = true;
-        //        //        Debug.Log("result True 테스트 완료 시 삭제할 로그");
-        //        //    }
-        //        //}
-        //    }
-        //}
-        #endregion
-        npc.SaveNPCData();
+        SaveData();
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
@@ -506,8 +443,7 @@ public class DialogueManager : MonoBehaviour
         selectBtn4.gameObject.SetActive(false);
         selectText3.gameObject.SetActive(false);
         selectText4.gameObject.SetActive(false);
-        
-        npc.SaveNPCData();
+        SaveData();
     }
 
     #region 팝업 이미지 구현
@@ -591,5 +527,21 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(0.03f);
         }
         isNext = true;
+    }
+
+    void SaveData()
+    {
+        if (npc is StageNPC stageNpcInstance)
+        {
+            stageNpcInstance.SaveNPCData();
+        }
+        else if (npc is Statue statueInstance)
+        {
+            statueInstance.SaveNPCData();
+        }
+        else if(npc is NPC npcInstance)
+        {
+            npcInstance.SaveNPCData();
+        }
     }
 }

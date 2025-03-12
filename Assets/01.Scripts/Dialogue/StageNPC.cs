@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class StageNPC : NPC
 {
-    public bool isNPC;
+    bool isNPC = true;
     public bool tutorial = false;
 
     public bool isTutoDialogueChanged = false;
@@ -112,6 +112,7 @@ public class StageNPC : NPC
 
     public new void LoadNPCData()
     {
+        Debug.Log(gameObject.name + "StageNPC LoadData");
         isTutoDialogueChanged = npcData.isTutoDialogueChanged;
         isTutoFin = npcData.isTutoFin;
 

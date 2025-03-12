@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 547722789}
-  csv: {fileID: 547722790}
+  csv: {fileID: 0}
   statueScore: {fileID: 1327760292}
   npcData:
     isChecked: 0
@@ -1572,22 +1572,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
   isInteract: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_lobby_dialogue
   selectFileName: 
@@ -1615,21 +1602,6 @@ MonoBehaviour:
     name: 
     line: {x: 0, y: 0}
     selects: []
---- !u!114 &547722790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 547722786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcs:
-  - {fileID: 2065348657}
-  - {fileID: 2143907468}
 --- !u!61 &547722792
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1668,6 +1640,7 @@ GameObject:
   - component: {fileID: 575501429}
   - component: {fileID: 575501433}
   - component: {fileID: 575501432}
+  - component: {fileID: 575501434}
   m_Layer: 6
   m_Name: "\uBE44\uC0C1\uB300\uD53C\uB3C4"
   m_TagString: Untagged
@@ -1796,29 +1769,42 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
   isInteract: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_lobby_dialogue
   selectFileName: 
-  explainNum: 1
+  explainNum: 
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
+--- !u!61 &575501434
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575501428}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.2109375, y: 1.3398438}
+    newSize: {x: 1.1054688, y: 0.6699219}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.2109375, y: 1.3398438}
+  m_EdgeRadius: 0
 --- !u!1001 &582834807
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7521,7 +7507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03304acc027630479567e0908587515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc: {fileID: 2065348657}
+  npc: {fileID: 0}
 --- !u!82 &1412360806
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8626,7 +8612,6 @@ GameObject:
   - component: {fileID: 1726397089}
   - component: {fileID: 1726397088}
   - component: {fileID: 1726397087}
-  - component: {fileID: 1726397086}
   m_Layer: 6
   m_Name: Exit
   m_TagString: Untagged
@@ -8634,21 +8619,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1726397086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726397085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcs:
-  - {fileID: 2065348657}
-  - {fileID: 2143907468}
 --- !u!114 &1726397087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8683,7 +8653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 1726397087}
-  csv: {fileID: 1726397086}
+  csv: {fileID: 0}
   statueScore: {fileID: 0}
   npcData:
     isChecked: 0
@@ -8703,22 +8673,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
   isInteract: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: stage1_lobby_dialogue
   selectFileName: 
@@ -10127,7 +10084,7 @@ MonoBehaviour:
     name: 
     line: {x: 0, y: 0}
     selects: []
---- !u!114 &2065348657
+--- !u!114 &2065348662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10136,7 +10093,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 2065348645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcs:
+  - {fileID: 2065348668}
+  - {fileID: 2143907468}
+--- !u!114 &2065348663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065348645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a2e7c645610d846a8b49d212ba338c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
+  enterFight: {fileID: 8300000, guid: e90fd590dac6e7e4da20a78265c817d1, type: 3}
+  destroyed: {fileID: 8300000, guid: 46129038dbb387c47a1d28382addbff8, type: 3}
+--- !u!114 &2065348668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065348645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7166f815189f4089b6c26b934f3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
@@ -10161,6 +10148,16 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+  isInteract: 0
+  isObject: 0
+  isOfficeTuto: 0
+  _FileIndex: 0
+  dialogueFileName: 
+  selectFileName: 
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
   spriteRenderer: {fileID: 909144929}
   destroyedSprite: {fileID: 21300000, guid: b286a37ac0789bd438e3ba2666fc8b67, type: 3}
   isStatue: 1
@@ -10168,8 +10165,6 @@ MonoBehaviour:
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
-  isInteract: 0
-  isOfficeTuto: 0
   isFin: 0
   result: 0
   test1: 0
@@ -10177,43 +10172,6 @@ MonoBehaviour:
   test3: 0
   test4: 0
   isSpriteChanged: 0
-  _FileIndex: 0
-  dialogueFileName: 
-  selectFileName: 
-  explainNum: 1
-  dialogueFiles: []
-  selectFiles: []
-  currentIndex: 0
---- !u!114 &2065348662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065348645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcs:
-  - {fileID: 2065348657}
-  - {fileID: 2143907468}
---- !u!114 &2065348663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065348645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a2e7c645610d846a8b49d212ba338c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
-  enterFight: {fileID: 8300000, guid: e90fd590dac6e7e4da20a78265c817d1, type: 3}
-  destroyed: {fileID: 8300000, guid: 46129038dbb387c47a1d28382addbff8, type: 3}
 --- !u!1 &2143907460
 GameObject:
   m_ObjectHideFlags: 0
@@ -10335,7 +10293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcs:
-  - {fileID: 2065348657}
+  - {fileID: 2065348668}
   - {fileID: 2143907468}
 --- !u!70 &2143907467
 CapsuleCollider2D:
@@ -10365,7 +10323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a90b0d9af2d32048b9690b811707927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 1412360803}
+  dialogueManager: {fileID: 0}
   interactionEvent: {fileID: 2143907461}
   csv: {fileID: 2143907466}
   statueScore: {fileID: 1327760292}
@@ -10387,22 +10345,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
   isInteract: 0
+  isObject: 0
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
   _FileIndex: 0
   dialogueFileName: 
   selectFileName: 
@@ -10410,7 +10355,6 @@ MonoBehaviour:
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
-  isNPC: 1
   tutorial: 1
   isTutoDialogueChanged: 0
   isTutoFin: 0

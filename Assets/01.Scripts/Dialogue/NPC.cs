@@ -15,6 +15,7 @@ public class NPC : MonoBehaviour
     public NPCData npcData = new NPCData();
     
     public bool isInteract = false;
+    [SerializeField] private bool isObject = false;
 
     public bool isOfficeTuto = false;
     bool isDialogueChanged = false;
@@ -80,35 +81,41 @@ public class NPC : MonoBehaviour
             currentIndex = _currentIndex;
             dialogueFileName = dialogueFiles[currentIndex];
             selectFileName = selectFiles[currentIndex];
-            Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+            //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
         }
     }
     public virtual void SaveNPCData()
     {
-        npcData.isDialogueChanged = isDialogueChanged;
-        npcData.currentIndex = currentIndex;
-        npcData.dialogueFileName = dialogueFileName;
-        npcData.selectFileName = selectFileName;
-        npcData.isInteract = isInteract;
+        if (!isObject)
+        {
+            npcData.isDialogueChanged = isDialogueChanged;
+            npcData.currentIndex = currentIndex;
+            npcData.dialogueFileName = dialogueFileName;
+            npcData.selectFileName = selectFileName;
+            npcData.isInteract = isInteract;
 
-        string json = JsonUtility.ToJson(npcData);
-        File.WriteAllText(filePath, json);
-        Debug.Log("데이터 저장");
+            string json = JsonUtility.ToJson(npcData);
+            File.WriteAllText(filePath, json);
+            Debug.Log(gameObject.name + " 데이터 저장");
+        }
     }
 
     protected virtual void LoadNPCData()
     {
-        if (File.Exists(filePath))
+        if(!isObject)
         {
-            string json = File.ReadAllText(filePath);
-            npcData = JsonUtility.FromJson<NPCData>(json);
-            Debug.Log("데이터 로드");
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+                npcData = JsonUtility.FromJson<NPCData>(json);
+                Debug.Log("데이터 로드");
 
-            isDialogueChanged = npcData.isDialogueChanged;
-            currentIndex = npcData.currentIndex;
-            dialogueFileName = npcData.dialogueFileName;
-            selectFileName = npcData.selectFileName;
-            isInteract = npcData.isInteract;
+                isDialogueChanged = npcData.isDialogueChanged;
+                currentIndex = npcData.currentIndex;
+                dialogueFileName = npcData.dialogueFileName;
+                selectFileName = npcData.selectFileName;
+                isInteract = npcData.isInteract;
+            }
         }
     }
 
