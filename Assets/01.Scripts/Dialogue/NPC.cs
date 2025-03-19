@@ -18,12 +18,12 @@ public class NPC : MonoBehaviour
     [SerializeField] private bool isObject = false;
 
     public bool isOfficeTuto = false;
-    bool isDialogueChanged = false;
+    public bool isDialogueChanged = false;
 
-    string filePath;
-    protected string currentName;
+    public string filePath;
+    //protected string currentName; // @@@@@@@@@@@@@@@@@@@@@@@@@ 필요한가?
 
-    public int _FileIndex;
+    //public int _FileIndex;
     #endregion
 
     [SerializeField] public string dialogueFileName;
@@ -36,7 +36,7 @@ public class NPC : MonoBehaviour
     protected virtual void Awake()
     {
         filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
-        //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X
+        //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X @@@@@@@@@@@@
     }
 
     public void StartDialogue()
@@ -70,21 +70,28 @@ public class NPC : MonoBehaviour
     public void ChangeDialogueFileName(string _dialogueFileName)
     {
         dialogueFileName = _dialogueFileName;
-        currentName = dialogueFileName;
+        //currentName = dialogueFileName;
         //Debug.Log(dialogueFileName);
     }
 
     public void ChangeDialogueFile(int _currentIndex)
     {
-        if (currentIndex < dialogueFiles.Length - 1)
-        {
-            currentIndex = _currentIndex;
-            dialogueFileName = dialogueFiles[currentIndex];
-            selectFileName = selectFiles[currentIndex];
-            //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
-        }
+        currentIndex = _currentIndex;
+        dialogueFileName = dialogueFiles[currentIndex];
+        selectFileName = selectFiles[currentIndex];
+        //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+
+        #region 수정 전, 배열 마지막 파일이면 작동 X
+        //if (currentIndex < dialogueFiles.Length - 1)
+        //{
+        //    currentIndex = _currentIndex;
+        //    dialogueFileName = dialogueFiles[currentIndex];
+        //    selectFileName = selectFiles[currentIndex];
+        //    //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+        //}
+        #endregion
     }
-    public virtual void SaveNPCData()
+    public void SaveNPCData()
     {
         if (!isObject)
         {
@@ -96,11 +103,11 @@ public class NPC : MonoBehaviour
 
             string json = JsonUtility.ToJson(npcData);
             File.WriteAllText(filePath, json);
-            Debug.Log(gameObject.name + " 데이터 저장");
+            Debug.Log(gameObject.name + " / NPC 데이터 저장");
         }
     }
 
-    protected virtual void LoadNPCData()
+    public void LoadNPCData()
     {
         if(!isObject)
         {
@@ -108,7 +115,7 @@ public class NPC : MonoBehaviour
             {
                 string json = File.ReadAllText(filePath);
                 npcData = JsonUtility.FromJson<NPCData>(json);
-                Debug.Log("데이터 로드");
+                Debug.Log(gameObject.name + " / NPC 데이터 로드");
 
                 isDialogueChanged = npcData.isDialogueChanged;
                 currentIndex = npcData.currentIndex;

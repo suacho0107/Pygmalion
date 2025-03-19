@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +16,7 @@ public class StageNPC : NPC
     protected override void Awake()
     {
         base.Awake();
-        LoadNPCData();
+        LoadStageNPCData();
     }
 
     private void Update()
@@ -30,7 +31,7 @@ public class StageNPC : NPC
                 {
                     csv.npcs[0].ChangeDialogueFile(1); // 조각상(npcs[0])의 대화 파일 변경
                     isTutoDialogueChanged = true;
-                    SaveNPCData();
+                    SaveStageNPCData();
                 }
 
                 if (isTutoDialogueChanged)
@@ -45,13 +46,9 @@ public class StageNPC : NPC
                         {
                             ChangeDialogueFileName("Tutorial2_dialogue");
                         }
-                        else if (statueScore.statueCount > 1 && statueScore.statueCount < 6) // 튜토 진행 안내 없을 시 튜토 마무리 대화 생략
+                        else
                         {
-                            ChangeDialogueFileName("Check2_dialogue");
-                        }
-                        else if (statueScore.statueCount >= 6)
-                        {
-                            ChangeDialogueFileName("Check3_dialogue");
+                            Debug.LogError("튜토 미완료");
                         }
                     }
                     else
@@ -102,20 +99,46 @@ public class StageNPC : NPC
         #endregion
     }
 
-    public new void SaveNPCData()
+    public void TutorialFin()
+    {
+        isTutoFin = true;
+        Debug.Log("TutorialFin 실행");
+    }
+
+    public void SaveStageNPCData()
     {
         npcData.isTutoDialogueChanged = isTutoDialogueChanged;
         npcData.isTutoFin = isTutoFin;
 
-        base.SaveNPCData();
+        npcData.isDialogueChanged = isDialogueChanged;
+        npcData.currentIndex = currentIndex;
+        npcData.dialogueFileName = dialogueFileName;
+        npcData.selectFileName = selectFileName;
+        npcData.isInteract = isInteract;
+
+        string json = JsonUtility.ToJson(npcData);
+        File.WriteAllText(filePath, json);
+
+        Debug.Log(gameObject.name + " 데이터 저장");
+        Debug.Log("미술관장 isTutoFin: " + isTutoFin);
     }
 
-    public new void LoadNPCData()
+    public void LoadStageNPCData()
     {
-        Debug.Log(gameObject.name + "StageNPC LoadData");
-        isTutoDialogueChanged = npcData.isTutoDialogueChanged;
-        isTutoFin = npcData.isTutoFin;
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            npcData = JsonUtility.FromJson<NPCData>(json);
 
-        base.LoadNPCData();
+            isDialogueChanged = npcData.isDialogueChanged;
+            currentIndex = npcData.currentIndex;
+            dialogueFileName = npcData.dialogueFileName;
+            selectFileName = npcData.selectFileName;
+            isInteract = npcData.isInteract;
+            isTutoDialogueChanged = npcData.isTutoDialogueChanged;
+            isTutoFin = npcData.isTutoFin;
+        }
+
+        Debug.Log(gameObject.name + " 데이터 로드");
     }
 }

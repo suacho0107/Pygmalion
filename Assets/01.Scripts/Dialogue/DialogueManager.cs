@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,14 +52,36 @@ public class DialogueManager : MonoBehaviour
 
         interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
 
-        if (npc != null)
+        if(npc is StageNPC)
         {
-            interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
+            stageNpc = npc as StageNPC;
+            statue = null;
+        }
+        else if(npc is Statue)
+        {
+            statue = npc as Statue;
+            stageNpc = null;
+        }
+        else if(npc is NPC)
+        {
+            stageNpc = null;
+            statue = null;
         }
         else
         {
+            npc = null;
+            stageNpc= null;
+            statue = null;
             Debug.LogError("SetNPC: NPC is null.");
         }
+        //if (npc != null)
+        //{
+        //    interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
+        //}
+        //else
+        //{
+        //    Debug.LogError("SetNPC: NPC is null.");
+        //}
     }
     
     private void Start()
@@ -262,17 +285,17 @@ public class DialogueManager : MonoBehaviour
 
     public void OnSelectButtonClicked(int selectedIndex, int currentIndex) // 판별 매개변수 추가(currentIndex)
     {
-        if (statue.isStatue)
+        if(npc is Statue selectedStatue)
         {
-            if(!statue.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
+            if (!selectedStatue.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
             {
-                if(currentIndex == 0)
+                if (currentIndex == 0)
                 {
                     statueScore.checkedCount += 1;
                     statueScore.SaveScore();
 
-                    statue.isChecked = true;
-                    statue.SaveNPCData();
+                    selectedStatue.isChecked = true;
+                    selectedStatue.SaveStatueData();
                     Debug.Log("isChecked");
                 }
             }
@@ -283,41 +306,99 @@ public class DialogueManager : MonoBehaviour
                     statueScore.checkedCount += 1;
                     statueScore.SaveScore();
 
-                    statue.isChecked = true;
-                    statue.SaveNPCData();
+                    selectedStatue.isChecked = true;
+                    selectedStatue.SaveStatueData();
                 }
-                else if(currentIndex == 1)
+                else if (currentIndex == 1)
                 {
-                    if (statue.isEnemy)
+                    if (selectedStatue.isEnemy)
                     {// 건드린다 --> 정답
-                        statue.isJudged = true;
-                        statue.isCorrect = true;
-                        statue.currentIndex = 3;
-                        statue.explainNum = "1";
+                        selectedStatue.isJudged = true;
+                        selectedStatue.isCorrect = true;
+                        selectedStatue.currentIndex = 3;
+                        selectedStatue.explainNum = "1";
                     }
                     else
                     {// 건드린다 --> 오답
-                        statue.isJudged = true;
-                        statue.isCorrect = false;
+                        selectedStatue.isJudged = true;
+                        selectedStatue.isCorrect = false;
                     }
                 }
-                else if(currentIndex == 2)
+                else if (currentIndex == 2)
                 {
-                    if (statue.isEnemy)
+                    if (selectedStatue.isEnemy)
                     {// 이상 없음 --> 오답
-                        statue.isJudged = true;
-                        statue.isCorrect = false;
-                        statue.explainNum = "2";
+                        selectedStatue.isJudged = true;
+                        selectedStatue.isCorrect = false;
+                        selectedStatue.explainNum = "2";
                     }
                     else
                     {// 이상 없음 --> 정답
-                        statue.isJudged = true;
-                        statue.isCorrect = true;
-                        statue.explainNum = "3";
+                        selectedStatue.isJudged = true;
+                        selectedStatue.isCorrect = true;
+                        selectedStatue.explainNum = "3";
                     }
                 }
             }
         }
+        #region 수정 전
+        //if (statue.isStatue)
+        //{
+        //    if(!statue.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
+        //    {
+        //        if(currentIndex == 0)
+        //        {
+        //            statueScore.checkedCount += 1;
+        //            statueScore.SaveScore();
+
+        //            statue.isChecked = true;
+        //            statue.SaveNPCData();
+        //            Debug.Log("isChecked");
+        //        }
+        //    }
+        //    else // 두 번째 상호작용(판별): 선지 4개 출력
+        //    {
+        //        if (currentIndex == 0)
+        //        {
+        //            statueScore.checkedCount += 1;
+        //            statueScore.SaveScore();
+
+        //            statue.isChecked = true;
+        //            statue.SaveNPCData();
+        //        }
+        //        else if(currentIndex == 1)
+        //        {
+        //            if (statue.isEnemy)
+        //            {// 건드린다 --> 정답
+        //                statue.isJudged = true;
+        //                statue.isCorrect = true;
+        //                statue.currentIndex = 3;
+        //                statue.explainNum = "1";
+        //            }
+        //            else
+        //            {// 건드린다 --> 오답
+        //                statue.isJudged = true;
+        //                statue.isCorrect = false;
+        //            }
+        //        }
+        //        else if(currentIndex == 2)
+        //        {
+        //            if (statue.isEnemy)
+        //            {// 이상 없음 --> 오답
+        //                statue.isJudged = true;
+        //                statue.isCorrect = false;
+        //                statue.explainNum = "2";
+        //            }
+        //            else
+        //            {// 이상 없음 --> 정답
+        //                statue.isJudged = true;
+        //                statue.isCorrect = true;
+        //                statue.explainNum = "3";
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion
 
         int targetLineCount = (int)selectedIndex - 1;
 
@@ -375,39 +456,48 @@ public class DialogueManager : MonoBehaviour
 
         playerMove.ActiveInteract = false;
 
-        if (npc.dialogueFileName == "Tutorial2_dialogue")
+        if(npc is StageNPC selectedNPC)
         {
-            stageNpc.isTutoFin = true;
-            //Debug.Log("endDialogue2");
-        }
-
-        if (!statue.isEnemy && statue.isFin && !statue.result)
-        {
-            if (statue.currentIndex == 3)
+            // 미술관장
+            if (selectedNPC.dialogueFileName == "Tutorial2_dialogue")
             {
-                if (statue.isCorrect == true)
-                {
-                    //npc.ChangeDialogueExplain(3, "3");
-                    statue.result = true;
-                }
-                else
-                {
-                    //npc.ChangeDialogueFileName("Destroyed_dialogue");
-                    statue.result = true;
-                }
+                selectedNPC.TutorialFin();
             }
         }
+
+        if(npc is Statue selectedStatue)
+        {
+            selectedStatue.CheckResult();
+            //if (!selectedStatue.isEnemy && selectedStatue.isFin && !selectedStatue.result)
+            //{
+            //    if (selectedStatue.currentIndex == 3)
+            //    {
+            //        Debug.Log("selected Statue currentIndex = 3");
+            //        if (selectedStatue.isCorrect == true)
+            //        {
+            //            //npc.ChangeDialogueExplain(3, "3");
+            //            selectedStatue.result = true;
+            //        }
+            //        else
+            //        {
+            //            //npc.ChangeDialogueFileName("Destroyed_dialogue");
+            //            selectedStatue.result = true;
+            //        }
+            //    }
+            //}
+
+            // 판별 결과 UI 출력
+            if (npc.dialogueFileName == "Check3_dialogue")
+            {
+                Invoke("SetUIStateEnd", 1.5f);
+            }
+        }
+        
         SaveData();
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
         playerMove.ActiveInteract = false; // 추가 코드
-
-        // 결과 UI 출력
-        if (npc.dialogueFileName == "Check3_dialogue")
-        {
-            Invoke("SetUIStateEnd", 1.5f);
-        }
 
         // 튜토: 리안 업무지시
         if (npc.dialogueFileName == "Office-2-1_Rian_dialogue")
@@ -443,7 +533,7 @@ public class DialogueManager : MonoBehaviour
         selectBtn4.gameObject.SetActive(false);
         selectText3.gameObject.SetActive(false);
         selectText4.gameObject.SetActive(false);
-        SaveData();
+        //SaveData();
     }
 
     #region 팝업 이미지 구현
@@ -533,11 +623,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (npc is StageNPC stageNpcInstance)
         {
-            stageNpcInstance.SaveNPCData();
+            stageNpcInstance.SaveStageNPCData();
         }
         else if (npc is Statue statueInstance)
         {
-            statueInstance.SaveNPCData();
+            statueInstance.SaveStatueData();
         }
         else if(npc is NPC npcInstance)
         {
