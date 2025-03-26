@@ -23,7 +23,7 @@ public class Statue : NPC
     public bool result = false;
 
     public bool test1;
-    public bool test2;
+    public bool enterFight;
     public bool test3;
     public bool test4;
 
@@ -124,44 +124,35 @@ public class Statue : NPC
                 {
                     if (isCorrect) // 적, 정답
                     {
-                        if (!test2)
+                        if (!enterFight)
                         {
                             Debug.Log("건드린다 > 정답");
                             isCorrect = true;
                             statueAudio.PlayEnterFight();
+                            ChangeDialogueExplain(_FileIndex, "1");
                             statueScore.fightCount += 1;
                             statueScore.SaveScore();
-                            ChangeDialogueExplain(_FileIndex, "1");
-                            test2 = true;
+                            enterFight = true;
                             //SaveNPCData();          // @@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                            //Debug.Log("test2 True");
+                            //Debug.Log("enterFight True");
                             StartCoroutine(DelayLoadScene(2.2f, "Battle"));
                         }
                     }
                     else // 적, 오답
                     {
                         Debug.Log("이상 없음 > 오답");
-                        if (!test1 && !test2) // 전투 최초 진입
+                        if (!test1 && !enterFight) // 오답 전투 최초 진입: 기록 효과음 재생
                         {
                             statueAudio.PlayPencil();
-                            ChangeDialogueExplain(_FileIndex, "1");
-                            StartCoroutine(PlaySound());
-                            statueScore.fightCount += 1;
-                            statueScore.SaveScore();
+                            EnterFight();
                             test1 = true;
-                            test2 = true;
                             //SaveNPCData();          // @@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                            //SaveNPCData();
-                            //Debug.Log("오답 최초 진입 test1, 2 True");
+                            //Debug.Log("오답 최초 진입 test1, enterFight True");
                         }
-                        else if (test1 && !test2) // 전투 재진입
+                        else if (test1 && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
                         {
-                            ChangeDialogueExplain(_FileIndex, "1");
-                            StartCoroutine(PlaySound());
-                            statueScore.fightCount += 1;
-                            statueScore.SaveScore();
-                            test2 = true;
-                            //Debug.Log("오답 재진입 test2 True");
+                            EnterFight();
+                            //Debug.Log("오답 재진입 enterFight True");
                             //SaveNPCData();
                         }
 
@@ -210,6 +201,15 @@ public class Statue : NPC
         }
     }
 
+    void EnterFight()
+    {
+        ChangeDialogueExplain(_FileIndex, "1");
+        StartCoroutine(PlaySound());
+        statueScore.fightCount += 1;
+        statueScore.SaveScore();
+        enterFight = true;
+    }
+
     void Result()
     {
         if (!isEnemy) // 적 아님, 완전 종료
@@ -223,7 +223,7 @@ public class Statue : NPC
                 }
                 else
                 {
-                    ChangeDialogueFileName("Destroyed_dialogue");
+                    ChangeDialogueExplain(_FileIndex + 1, "1");
                     //_FileIndex = 4;
                     //currentIndex = 4;
                     //explainNum = "1";
@@ -261,8 +261,8 @@ public class Statue : NPC
             }
             else // 무너져 있다 출력
             {
-                //Debug.Log("result Destroyed");
-                ChangeDialogueFileName("Destroyed_dialogue");
+                ChangeSprite();
+                ChangeDialogueExplain(_FileIndex + 1, "1");
             }
         }
     }
@@ -392,7 +392,7 @@ public class Statue : NPC
         npcData.result = result;
         npcData.isSpriteChanged = isSpriteChanged;
         npcData.test1 = test1;
-        npcData.test2 = test2;
+        npcData.enterFight = enterFight;
         npcData.test3 = test3;
         npcData.test4 = test4;
 
@@ -432,7 +432,7 @@ public class Statue : NPC
                 ChangeSprite();
             }
             test1 = npcData.test1;
-            test2 = npcData.test2;
+            enterFight = npcData.enterFight;
             test3 = npcData.test3;
             test4 = npcData.test4;
 

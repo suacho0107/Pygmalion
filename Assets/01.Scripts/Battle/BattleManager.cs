@@ -40,6 +40,7 @@ public class BattleManager : MonoBehaviour
     public string currentPart; //Select 시 partText
 
     public bool isWin;
+    bool _enterFight;
     string filePath;
 
     public State state;
@@ -120,6 +121,7 @@ public class BattleManager : MonoBehaviour
             case State.PLAYERTURN_RUN:
                 if (!isPlayerRun)
                 {
+                    PlayerRun();
                     player.Run();
                 }
                 break;
@@ -200,6 +202,7 @@ public class BattleManager : MonoBehaviour
         //구현예정
 
         isWin = true;
+        _enterFight = true;
         SaveFightData();
 
         PlayerPrefs.SetInt("PlayerWin", 1);
@@ -217,12 +220,23 @@ public class BattleManager : MonoBehaviour
         //구현예정
 
         isWin = false;
+        _enterFight = false;
         SaveFightData();
 
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
         Invoke("ExitBattleScene", 2);
+    }
+
+    void PlayerRun() // 추가 코드
+    {
+        isWin = false;
+        _enterFight = false;
+        SaveFightData();
+        
+        PlayerPrefs.SetInt("PlayerRun", 1);
+        PlayerPrefs.Save();
     }
 
     public void PlaySFX(AudioClip audioClip)
@@ -290,6 +304,7 @@ public class BattleManager : MonoBehaviour
     public void SaveFightData()
     {
         npcData.isFin = isWin;
+        npcData.enterFight = _enterFight;
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
@@ -306,5 +321,6 @@ public class BattleManager : MonoBehaviour
         }
 
         isWin = npcData.isFin;
+        _enterFight = npcData.enterFight;
     }
 }
