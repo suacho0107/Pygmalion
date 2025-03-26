@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Progress;
 
 public class StageNPC : NPC
 {
@@ -13,6 +14,8 @@ public class StageNPC : NPC
     public bool isTutoFin = false;
     //bool isDialogueChanged = false;
 
+    //bool once;
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,57 +25,78 @@ public class StageNPC : NPC
     private void Update()
     {
         #region Tutorial NPC
-        if (tutorial && csv != null)// 미술관장 tutorial V
+        if (SceneManager.GetActiveScene().name == "Museum_Lobby")
         {
-            // 미술관장과의 첫 대화가 끝나면 isInteract == true;
-            if (isInteract)
+            if (tutorial && csv != null)// 미술관장 tutorial V
             {
-                if (!isTutoDialogueChanged)
+                // 미술관장과의 첫 대화가 끝나면 isInteract == true;
+                if (isInteract)
                 {
-                    csv.npcs[0].ChangeDialogueFile(1); // 조각상(npcs[0])의 대화 파일 변경
-                    isTutoDialogueChanged = true;
-                    SaveStageNPCData();
-                }
-
-                if (isTutoDialogueChanged)
-                {
-                    if (!isTutoFin)
+                    if (!isTutoDialogueChanged)
                     {
-                        if (statueScore.statueCount == 0)
+                        csv.npcs[0].ChangeDialogueFile(1); // 조각상(npcs[0])의 대화 파일 변경
+                        isTutoDialogueChanged = true;
+                        SaveStageNPCData();
+                    }
+
+                    if (isTutoDialogueChanged)
+                    {
+                        if (!isTutoFin)
                         {
-                            ChangeDialogueFileName("Check0_dialogue");
-                        }
-                        else if (statueScore.statueCount == 1)
-                        {
-                            ChangeDialogueFileName("Tutorial2_dialogue");
+                            if (statueScore.statueCount == 0)
+                            {
+                                ChangeDialogueFileName("Check0_dialogue");
+                            }
+                            else if (statueScore.statueCount == 1)
+                            {
+                                ChangeDialogueFileName("Tutorial2_dialogue");
+                            }
+                            else
+                            {
+                                Debug.LogError("튜토 미완료");
+                            }
                         }
                         else
                         {
-                            Debug.LogError("튜토 미완료");
-                        }
-                    }
-                    else
-                    {
-                        if (statueScore.statueCount == 1)
-                        {
-                            ChangeDialogueFileName("Check1_dialogue");
-                        }
-                        else if (statueScore.statueCount > 1 && statueScore.statueCount < 6)
-                        {
-                            ChangeDialogueFileName("Check2_dialogue");
-                        }
-                        else if (statueScore.statueCount >= 6)
-                        {
-                            ChangeDialogueFileName("Check3_dialogue");
+                            if (statueScore.statueCount == 1)
+                            {
+                                ChangeDialogueFileName("Check1_dialogue");
+                            }
+                            else if (statueScore.statueCount > 1 && statueScore.statueCount < 6)
+                            {
+                                ChangeDialogueFileName("Check2_dialogue");
+                            }
+                            else if (statueScore.statueCount >= 6)
+                            {
+                                ChangeDialogueFileName("Check3_dialogue");
+                            }
                         }
                     }
                 }
             }
         }
         #endregion
+        #region Museum Guard
+        else if (SceneManager.GetActiveScene().name == "Museum_Garden")
+        {
+            if (isInteract)
+            {
+                //ChangeDialogueFile(1);
+            }
 
+            if (InventoryUI.instance.HasItem(10401))
+            {
+                ChangeDialogueFile(1);
+            }
+
+            if (InventoryUI.instance.HasItem(10402))
+            {
+                ChangeDialogueFile(2);
+            }
+        }
+        #endregion
         #region Library Guard
-        if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
+        else if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
             if (isInteract)
             {
@@ -105,6 +129,8 @@ public class StageNPC : NPC
         Debug.Log("TutorialFin 실행");
     }
 
+    
+
     public void SaveStageNPCData()
     {
         npcData.isTutoDialogueChanged = isTutoDialogueChanged;
@@ -120,7 +146,7 @@ public class StageNPC : NPC
         File.WriteAllText(filePath, json);
 
         Debug.Log(gameObject.name + " 데이터 저장");
-        Debug.Log("미술관장 isTutoFin: " + isTutoFin);
+        //Debug.Log("미술관장 isTutoFin: " + isTutoFin);
     }
 
     public void LoadStageNPCData()

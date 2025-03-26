@@ -89,7 +89,7 @@ public class Statue : NPC
         //Debug.Log("Judge 넘어감");
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName.StartsWith("Museum")) // && !isChecked && !isJudged) @@@@@@@@@@@@@@@@@@@@@@@@@@
+        if (sceneName.StartsWith("Museum")) // && !isChecked && !isJudged)
         {
             _FileIndex = 3;
             if (currentIndex == 1 || currentIndex == 2)
@@ -133,7 +133,6 @@ public class Statue : NPC
                             statueScore.fightCount += 1;
                             statueScore.SaveScore();
                             enterFight = true;
-                            //SaveNPCData();          // @@@@@@@@@@@@@@@@@@@@@@@@@@@@
                             //Debug.Log("enterFight True");
                             StartCoroutine(DelayLoadScene(2.2f, "Battle"));
                         }
@@ -146,14 +145,12 @@ public class Statue : NPC
                             statueAudio.PlayPencil();
                             EnterFight();
                             test1 = true;
-                            //SaveNPCData();          // @@@@@@@@@@@@@@@@@@@@@@@@@@@@
                             //Debug.Log("오답 최초 진입 test1, enterFight True");
                         }
                         else if (test1 && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
                         {
                             EnterFight();
                             //Debug.Log("오답 재진입 enterFight True");
-                            //SaveNPCData();
                         }
 
                         isCorrect = false;
@@ -224,10 +221,6 @@ public class Statue : NPC
                 else
                 {
                     ChangeDialogueExplain(_FileIndex + 1, "1");
-                    //_FileIndex = 4;
-                    //currentIndex = 4;
-                    //explainNum = "1";
-                    //ChangeDialogueExplain(_FileIndex, "1");
                     //Debug.Log("!isEnemy !isCorrect");
                 }
             }
@@ -248,15 +241,8 @@ public class Statue : NPC
                     statueScore.SaveScore();
                     StartCoroutine(TriggerDialogue(2f));
 
-                    //ChangeDialogueFile(5);
-                    //SaveNPCData();
-                    //StartCoroutine(TriggerDialogue(0.1f));
-                    //WinDialogue();
-
                     test4 = true;
                     StartCoroutine(DelayResult());
-                    //result = true;
-                    //SaveNPCData();
                 }
             }
             else // 무너져 있다 출력
@@ -303,24 +289,6 @@ public class Statue : NPC
         {
             StartCoroutine(TriggerDialogue(0.1f));
         }
-        #region 수정 전, 배열 마지막 파일이면 작동 X
-        //if (currentIndex < dialogueFiles.Length - 1)
-        //{
-        //    dialogueFileName = dialogueFiles[currentIndex];
-        //    selectFileName = selectFiles[currentIndex];
-        //    currentName = dialogueFileName;
-        //    //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
-        //    if (isJudged && ((!isCorrect && !isEnemy) || (isCorrect && isEnemy) || (!isCorrect && isEnemy)) && !isFin)
-        //    {
-        //        StartCoroutine(TriggerDialogue(0.1f));
-        //    }
-        //    //else
-        //    //{
-        //    //    interactionEvent.LoadDialogue(currentName, explainNum);
-        //    //    Debug.Log("interactionEvent LoadDialogue");
-        //    //}
-        //}
-        #endregion
         Debug.Log("ChangeDialogueExplain(" + dialogueFileName + ", " + explainNum + ")");
     }
 
@@ -343,9 +311,6 @@ public class Statue : NPC
 
     IEnumerator DelayResult()
     {
-        //ChangeDialogueFile(5);
-        //SaveNPCData();
-        //WinDialogue();
 
         yield return new WaitForSeconds(4f);
 
@@ -440,67 +405,3 @@ public class Statue : NPC
         }
     }
 }
-
-//public JudgeState judgeState;
-//public enum JudgeState
-//{
-//    Normal,
-//    Judging,
-//    Destroyed
-//}
-
-//private void Update()
-//{
-//    switch (judgeState)
-//    {
-//        case JudgeState.Normal:
-//            Normal();
-//            break;
-//        case JudgeState.Judging:
-//            Judging();
-//            break;
-//        case JudgeState.Destroyed:
-//            Destroyed();
-//            break;
-//    }
-//}
-
-//void Normal()
-//{
-//    if (isFin && isCorrect)
-//    {
-//        ChangeDialogueExplain(3, "3");
-//    }
-//    else
-//    {
-
-//    }
-//}
-
-//void Judging()
-//{
-//    if (isFin) // 판별 및 전투 완료 시
-//    {
-//        if (!isEnemy && isCorrect)
-//        {
-//            judgeState = JudgeState.Normal;
-//        }
-//        else
-//        {
-//            judgeState = JudgeState.Destroyed;
-//        }
-//    }
-//    else
-//    {
-//        if (isEnemy)
-//        {
-
-//        }
-//    }
-//}
-
-//void Destroyed()
-//{
-//    ChangeDialogueFileName("Destroyed_dialogue");
-//    ChangeSprite();
-//}

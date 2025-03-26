@@ -1118,7 +1118,7 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
@@ -1127,7 +1127,8 @@ MonoBehaviour:
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: stage1_garden_dialogue
   selectFileName: 
   explainNum: 1
@@ -3272,7 +3273,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 28, y: 16, z: 0}
@@ -3312,7 +3313,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 28, y: 17, z: 0}
@@ -3332,7 +3333,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 26, y: 18, z: 0}
@@ -3402,7 +3403,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 25, y: 20, z: 0}
@@ -3472,7 +3473,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 28, y: 21, z: 0}
@@ -3482,7 +3483,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 25, y: 22, z: 0}
@@ -3642,7 +3643,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 25, y: 26, z: 0}
@@ -4229,7 +4230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03304acc027630479567e0908587515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc: {fileID: 0}
 --- !u!114 &736166023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4754,7 +4754,9 @@ GameObject:
   - component: {fileID: 845847612}
   - component: {fileID: 845847615}
   - component: {fileID: 845847616}
-  m_Layer: 0
+  - component: {fileID: 845847617}
+  - component: {fileID: 845847618}
+  m_Layer: 6
   m_Name: Stage1_NPC2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4857,9 +4859,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
-  interactionEvent: {fileID: 1346697864}
-  csv: {fileID: 0}
-  statueScore: {fileID: 0}
+  interactionEvent: {fileID: 845847618}
+  csv: {fileID: 845847617}
+  statueScore: {fileID: 805022808}
   npcData:
     isChecked: 0
     isJudged: 0
@@ -4872,7 +4874,7 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
@@ -4881,7 +4883,8 @@ MonoBehaviour:
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: 
   selectFileName: 
   explainNum: 
@@ -4891,6 +4894,41 @@ MonoBehaviour:
   tutorial: 0
   isTutoDialogueChanged: 0
   isTutoFin: 0
+--- !u!114 &845847617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845847611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcs:
+  - {fileID: 1346697868}
+  - {fileID: 845847616}
+--- !u!114 &845847618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845847611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
 --- !u!1001 &858573541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9376,6 +9414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcs:
   - {fileID: 1346697868}
+  - {fileID: 845847616}
 --- !u!114 &1346697867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9419,7 +9458,7 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
@@ -9428,7 +9467,8 @@ MonoBehaviour:
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: 
   selectFileName: 
   explainNum: 
@@ -9445,10 +9485,11 @@ MonoBehaviour:
   isFin: 0
   result: 0
   test1: 0
-  test2: 0
+  enterFight: 0
   test3: 0
   test4: 0
   isSpriteChanged: 0
+  _FileIndex: 0
 --- !u!1 &1419322760
 GameObject:
   m_ObjectHideFlags: 0

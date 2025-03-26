@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using Unity.Mathematics;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -108,6 +109,20 @@ public class InventoryUI : MonoBehaviour
             }
         }
         Debug.LogError("데이터베이스에 없는 아이템");
+    }
+    public void GetQuestItem(int _itemID)
+    {
+        GetAnItem(_itemID);
+
+        string message = $"[{gameObject.name}]을(를) 획득했다.";
+
+        DialogueManager dm = FindObjectOfType<DialogueManager>();
+        dm.ShowMessage(message);
+    }
+
+    public bool HasItem(int _itemID)
+    {
+        return inventoryItemList.Exists(item => item.itemID == _itemID);
     }
 
     public void SaveInventory()

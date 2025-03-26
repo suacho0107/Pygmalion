@@ -341,64 +341,6 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-        #region 수정 전
-        //if (statue.isStatue)
-        //{
-        //    if(!statue.isChecked) // 첫 번째 상호작용(조사): 선지 2개 출력
-        //    {
-        //        if(currentIndex == 0)
-        //        {
-        //            statueScore.checkedCount += 1;
-        //            statueScore.SaveScore();
-
-        //            statue.isChecked = true;
-        //            statue.SaveNPCData();
-        //            Debug.Log("isChecked");
-        //        }
-        //    }
-        //    else // 두 번째 상호작용(판별): 선지 4개 출력
-        //    {
-        //        if (currentIndex == 0)
-        //        {
-        //            statueScore.checkedCount += 1;
-        //            statueScore.SaveScore();
-
-        //            statue.isChecked = true;
-        //            statue.SaveNPCData();
-        //        }
-        //        else if(currentIndex == 1)
-        //        {
-        //            if (statue.isEnemy)
-        //            {// 건드린다 --> 정답
-        //                statue.isJudged = true;
-        //                statue.isCorrect = true;
-        //                statue.currentIndex = 3;
-        //                statue.explainNum = "1";
-        //            }
-        //            else
-        //            {// 건드린다 --> 오답
-        //                statue.isJudged = true;
-        //                statue.isCorrect = false;
-        //            }
-        //        }
-        //        else if(currentIndex == 2)
-        //        {
-        //            if (statue.isEnemy)
-        //            {// 이상 없음 --> 오답
-        //                statue.isJudged = true;
-        //                statue.isCorrect = false;
-        //                statue.explainNum = "2";
-        //            }
-        //            else
-        //            {// 이상 없음 --> 정답
-        //                statue.isJudged = true;
-        //                statue.isCorrect = true;
-        //                statue.explainNum = "3";
-        //            }
-        //        }
-        //    }
-        //}
-        #endregion
 
         int targetLineCount = (int)selectedIndex - 1;
 
@@ -463,28 +405,15 @@ public class DialogueManager : MonoBehaviour
             {
                 selectedNPC.TutorialFin();
             }
+            else if(selectedNPC.dialogueFileName == "Museum-Guard1_dialogue")
+            {
+                InventoryUI.instance.GetQuestItem(10402);
+            }
         }
 
         if(npc is Statue selectedStatue)
         {
             selectedStatue.CheckResult();
-            //if (!selectedStatue.isEnemy && selectedStatue.isFin && !selectedStatue.result)
-            //{
-            //    if (selectedStatue.currentIndex == 3)
-            //    {
-            //        Debug.Log("selected Statue currentIndex = 3");
-            //        if (selectedStatue.isCorrect == true)
-            //        {
-            //            //npc.ChangeDialogueExplain(3, "3");
-            //            selectedStatue.result = true;
-            //        }
-            //        else
-            //        {
-            //            //npc.ChangeDialogueFileName("Destroyed_dialogue");
-            //            selectedStatue.result = true;
-            //        }
-            //    }
-            //}
 
             // 판별 결과 UI 출력
             if (npc.dialogueFileName == "Check3_dialogue")
