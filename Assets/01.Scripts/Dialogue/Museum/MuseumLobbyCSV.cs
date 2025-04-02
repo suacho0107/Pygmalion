@@ -11,7 +11,31 @@ public class MuseumLobbyCSV : MonoBehaviour
     {
         if (npcs.Length > 0)
         {
-            if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+            if (SceneManager.GetActiveScene().name == "Company_Lobby")
+            {
+                npcs[0].dialogueFiles = new string[] { "Office-1-2_dialogue" };
+                npcs[0].selectFiles = new string[] { "" };
+                npcs[0].currentIndex = 0;
+                npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+            }
+            else if (SceneManager.GetActiveScene().name == "Company_Office")
+            {
+                npcs[0].dialogueFiles = new string[] { "Office-1-2_dialogue" };
+                npcs[0].selectFiles = new string[] { "" };
+                npcs[0].currentIndex = 0;
+                npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+            }
+            else if (SceneManager.GetActiveScene().name == "Company_TutorialOffice")
+            {
+                npcs[0].dialogueFiles = new string[] { "Office-2-1_dialogue" };
+                npcs[0].selectFiles = new string[] { "" };
+                npcs[0].currentIndex = 0;
+                npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+            }
+            else if (SceneManager.GetActiveScene().name == "Museum_Lobby")
             {
                 npcs[0].dialogueFiles = new string[] { "stage1_lobby_dialogue", "Stage1LobbyStatue1_dialogue", "Stage1LobbyStatue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
                 npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };

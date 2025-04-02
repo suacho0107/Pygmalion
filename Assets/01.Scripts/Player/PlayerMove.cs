@@ -32,6 +32,8 @@ public class PlayerMove : MonoBehaviour
     public bool activeInven;
     bool keyDown = false; // 키 중복 입력 방지
 
+    public bool IsMoved { set; get; } = true;  // 이동 가능 여부
+
     public bool ActiveInteract
     {
         get { return activeInteract; }
@@ -75,7 +77,9 @@ public class PlayerMove : MonoBehaviour
     {
         WalkSound = GetComponent<AudioSource>();
         WalkSound.Stop();
+
         pState = PlayerState.Move;
+
         frontAnim.SetActive(true);
         backAnim.SetActive(false);
         leftAnim.SetActive(false);
@@ -135,70 +139,73 @@ public class PlayerMove : MonoBehaviour
 
         void pStateMove()
         {
-            Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
-
-            if (moveVec != Vector2.zero)
+            if (IsMoved == true)
             {
-                if (!WalkSound.isPlaying)
+                Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
+
+                if (moveVec != Vector2.zero)
                 {
-                    WalkSound.Play();
+                    if (!WalkSound.isPlaying)
+                    {
+                        WalkSound.Play();
+                    }
                 }
-            }
-            else
-            {
-                if (WalkSound.isPlaying)
+                else
                 {
-                    WalkSound.Stop();
+                    if (WalkSound.isPlaying)
+                    {
+                        WalkSound.Stop();
+                    }
                 }
-            }
 
-            // Debug.Log("pState = Move");
-            if (hDown)
-                isHorizonMove = true;
-            else if (vDown)
-                isHorizonMove = false;
-            else if (hUp || vUp)
-                isHorizonMove = h != 0;
+                // Debug.Log("pState = Move");
+                if (hDown)
+                    isHorizonMove = true;
+                else if (vDown)
+                    isHorizonMove = false;
+                else if (hUp || vUp)
+                    isHorizonMove = h != 0;
 
-            //if (Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    activeInven = true;
-            //    pState = PlayerState.Inventory;
-            //}
+                //if (Input.GetKeyDown(KeyCode.Tab))
+                //{
+                //    activeInven = true;
+                //    pState = PlayerState.Inventory;
+                //}
 
-            if (activeInteract == true)
-            {
-                pState = PlayerState.Interaction;
-            }
+                if (activeInteract == true)
+                {
+                    pState = PlayerState.Interaction;
+                }
 
-            if (anim.GetInteger("hAxisRaw") != h)
-            {
-                anim.SetBool("isChange", true);
-                anim.SetInteger("hAxisRaw", (int)h);
-            }
-            else if (anim.GetInteger("vAxisRaw") != v)
-            {
-                anim.SetBool("isChange", true);
-                anim.SetInteger("vAxisRaw", (int)v);
-            }
-            else
-            {
-                anim.SetBool("isChange", false);
-            }
+                if (anim.GetInteger("hAxisRaw") != h)
+                {
+                    anim.SetBool("isChange", true);
+                    anim.SetInteger("hAxisRaw", (int)h);
+                }
+                else if (anim.GetInteger("vAxisRaw") != v)
+                {
+                    anim.SetBool("isChange", true);
+                    anim.SetInteger("vAxisRaw", (int)v);
+                }
+                else
+                {
+                    anim.SetBool("isChange", false);
+                }
 
-            // Ray Direction
-            if (vDown && v == 1)
+                // Ray Direction
+                if (vDown && v == 1)
                 {
                     dirVec = Vector3.up;
                 }
-            else if (vDown && v == -1)
+                else if (vDown && v == -1)
                 {
                     dirVec = Vector3.down;
                 }
-            else if (hDown && isHorizonMove)
+                else if (hDown && isHorizonMove)
                 {
                     dirVec = (h == -1) ? Vector3.left : Vector3.right;
                 }
+            }
             
         }
 
@@ -275,12 +282,15 @@ public class PlayerMove : MonoBehaviour
     {
         if (pState == PlayerState.Move)
         {
-            Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
-            rigid.velocity = moveVec * moveSpeed;
-
-            if (moveVec == Vector2.zero)
+            if (IsMoved)
             {
-                WalkSound.Stop();
+                Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
+                rigid.velocity = moveVec * moveSpeed;
+
+                if (moveVec == Vector2.zero)
+                {
+                    WalkSound.Stop();
+                }
             }
         }
 

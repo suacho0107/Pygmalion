@@ -16,20 +16,35 @@ public class RequestNPC : NPC
     [SerializeField] private Text locationText;
 
     public CompanyOfficeCSV csv2;
-
+    public bool isStartTutorial { get; private set; } = false;
     private bool isStartRequest = true;
     public  bool isAcceptRequest = false;
     private bool isRoutineStarted = false;
     private bool canSend = false;
 
+    private TutorialController tutorialController;
+
     private void Start()
     {
-        replyChat.SetActive(false);
+        if (replyChat != null)
+        {
+            replyChat.SetActive(false);
+        }
+
+        tutorialController = FindAnyObjectByType<TutorialController>();
     }
 
     void LateUpdate()
     {
-        if (csv2 != null)
+        if (tutorialController != null && !isStartTutorial)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isStartTutorial = true;
+                StartDialogue();
+            }
+        }
+        else if (csv2 != null)
         {
             // ÀÇ·Ú Á¢¼ö
             if (isStartRequest)

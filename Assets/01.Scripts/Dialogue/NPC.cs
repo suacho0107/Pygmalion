@@ -66,7 +66,7 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
-        if(tutorial && csv != null)// 미술관장 tutorial V
+        if (tutorial && csv != null)// 미술관장 tutorial V
         {
             // 미술관장과의 첫 대화가 끝나면 isInteract == true;
             if(isInteract)
@@ -171,6 +171,7 @@ public class NPC : MonoBehaviour
     public void StartDialogue()
     {
         DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
+
         if (dialogueManager != null)
         {
             dialogueManager.SetNPC(this);
@@ -183,7 +184,6 @@ public class NPC : MonoBehaviour
         InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
         if (interactionEvent != null)
         {
-
             if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면 전달
             {
                 interactionEvent.LoadDialogue(dialogueFileName, explainNum);
@@ -408,7 +408,6 @@ public class NPC : MonoBehaviour
     {
         dialogueFileName = _dialogueFileName;
         currentName = dialogueFileName;
-        //Debug.Log(dialogueFileName);
     }
 
     public void ChangeDialogueExplain(int _currentIndex, string _explainNum)
@@ -420,7 +419,8 @@ public class NPC : MonoBehaviour
             dialogueFileName = dialogueFiles[currentIndex];
             selectFileName = selectFiles[currentIndex];
             currentName = dialogueFileName;
-            Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+            currentName = dialogueFileName;
+            // Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
             if (isJudged && ((!isCorrect && !isEnemy) || (isCorrect && isEnemy)))
             {
                 StartCoroutine(TriggerDialogue());
@@ -435,7 +435,7 @@ public class NPC : MonoBehaviour
             currentIndex = _currentIndex;
             dialogueFileName = dialogueFiles[currentIndex];
             selectFileName = selectFiles[currentIndex];
-            Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
+            // Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
         }
     }
 

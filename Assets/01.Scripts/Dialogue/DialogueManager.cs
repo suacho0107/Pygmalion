@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,8 @@ public class DialogueManager : MonoBehaviour
     public PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     StatueScore statueScore;
     MuseumLobbyCSV csv;
+
+    public bool isEnd = false;
 
     bool isDialogue = false;
     bool isNext = false; //특정 키 입력 대기
@@ -154,7 +157,11 @@ public class DialogueManager : MonoBehaviour
                     }
                 }
 
-
+                // 튜토리얼 대사 카운트
+                if (interactionEvent != null)
+                {
+                    interactionEvent.AdvanceDialogue();
+                }
             }
         }
     }
@@ -338,9 +345,9 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true; // 미술관장
-        Debug.Log("endDialogue1");
+        isEnd = true;
 
-        if(npc.dialogueFileName == "Tutorial2_dialogue")
+        if (npc.dialogueFileName == "Tutorial2_dialogue")
         {
             npc.isTutoFin = true;
             Debug.Log("endDialogue2");
