@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Progress;
 
 public class Statue : NPC
 {
@@ -60,7 +61,7 @@ public class Statue : NPC
                     {
                         if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
                         {
-                            Debug.Log("기본대사 -> 판별");
+                            //Debug.Log("기본대사 -> 판별");
                             ChangeDialogueFile(1);
                             Judge();
                         }
@@ -289,7 +290,7 @@ public class Statue : NPC
         {
             StartCoroutine(TriggerDialogue(0.1f));
         }
-        Debug.Log("ChangeDialogueExplain(" + dialogueFileName + ", " + explainNum + ")");
+        //Debug.Log("ChangeDialogueExplain(" + dialogueFileName + ", " + explainNum + ")");
     }
 
     IEnumerator TriggerDialogue(float delay)
@@ -297,7 +298,11 @@ public class Statue : NPC
         yield return new WaitForSeconds(delay);
         if (isEnemy && isFin)
         {
+            explainNum = null;
             ChangeDialogueFileName("stage1_exhibit2_Item");
+            InventoryUI.instance.GetAnItem(10301);
+            dialogueManager = FindObjectOfType<DialogueManager>();
+            dialogueManager.ItemPopup();
         }
         StartDialogue();
         Debug.Log("triggerDialogue");
@@ -371,7 +376,7 @@ public class Statue : NPC
         File.WriteAllText(filePath, json);
 
         Debug.Log(gameObject.name + " 데이터 저장");
-        Debug.Log("조각상 result: " + result);
+        //Debug.Log("조각상 result: " + result);
     }
 
     public void LoadStatueData()

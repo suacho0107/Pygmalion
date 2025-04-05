@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] List<GameObject> Images;
     [SerializeField] GameObject dialoguePanel;
     [SerializeField] GameObject namePanel;
+    [SerializeField] GameObject ItemImage;
 
     [SerializeField] Text dialogueText;
     [SerializeField] Text nameText;
@@ -98,6 +99,11 @@ public class DialogueManager : MonoBehaviour
         selectBtn2.gameObject.SetActive(false);
         selectBtn3.gameObject.SetActive(false);
         selectBtn4.gameObject.SetActive(false);
+
+        if(ItemImage != null)
+        {
+            ItemImage.SetActive(false);
+        }
 
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
         statueScore = FindObjectOfType<StatueScore>();
@@ -426,6 +432,12 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
+        
+        if(ItemImage !=  null)
+        {
+            ItemImage.SetActive(false);
+        }
+        
         playerMove.ActiveInteract = false; // 추가 코드
 
         // 튜토: 리안 업무지시
@@ -546,6 +558,11 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(0.03f);
         }
         isNext = true;
+    }
+
+    public void ItemPopup()
+    {
+        ItemImage.SetActive(true);
     }
 
     void SaveData()

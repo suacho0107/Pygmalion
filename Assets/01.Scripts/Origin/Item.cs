@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,7 +9,7 @@ public class Item
     public string itemDescription;
     public string itemIconName;
     public int itemCount;
-    public Sprite itemIcon;
+    [NonSerialized] public Sprite itemIcon;
     public ItemType itemType;
 
     public enum ItemType

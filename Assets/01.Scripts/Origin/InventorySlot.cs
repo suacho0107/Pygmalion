@@ -26,7 +26,7 @@ public class InventorySlot : MonoBehaviour
     public void RemoveItem()
     {
         itemName_Text.text = "";
-        itemName_Text.text = "";
+        itemCount_Text.text = "";
         icon.sprite = null;
     }
 }

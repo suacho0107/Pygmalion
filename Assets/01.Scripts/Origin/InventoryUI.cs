@@ -139,12 +139,18 @@ public class InventoryUI : MonoBehaviour
             DefaultItmes();
             SaveInventory();
         }
+        else
+        {
+            foreach (var item in inventoryItemList)
+            {
+                item.itemIcon = Resources.Load("ItemIcon/" + item.itemIconName, typeof(Sprite)) as Sprite;
+            }
+        }
     }
 
     void DefaultItmes()
     {
-        inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(10301, "손가락", "이게 뭐지?", "손가락", Item.ItemType.Quest));
+        //inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
         inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
         inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
     }
