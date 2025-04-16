@@ -16,7 +16,7 @@ public class StartManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("Company_Lobby");
+            SceneManager.LoadScene("Company_TutorialLobby");
         }
     }
 }

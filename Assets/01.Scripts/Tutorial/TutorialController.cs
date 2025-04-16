@@ -69,6 +69,7 @@ public class TutorialController : MonoBehaviour
         if (!nextSceneName.Equals(""))
         {
             playerPosition.nextPosition = nextPos;
+            playerPosition.isChecked = true;
             SceneManager.LoadScene(nextSceneName);
         }
     }

@@ -1294,6 +1294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Images: []
+  Portraits: []
   dialoguePanel: {fileID: 1192056510}
   descriptionPanel: {fileID: 1192056508}
   namePanel: {fileID: 1192056506}
@@ -1309,6 +1310,7 @@ MonoBehaviour:
   selectText3: {fileID: 1192056499}
   selectText4: {fileID: 1192056497}
   playerMove: {fileID: 0}
+  isEnd: 0
 --- !u!114 &231348665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,8 +2061,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 81557753}
-  - {fileID: 1192056496}
   - {fileID: 1825612099}
+  - {fileID: 1192056496}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15162,11 +15164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3724425436037398597, guid: f1de56e1a53d50742a8dcb64e46a6466, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 3724425436037398597, guid: f1de56e1a53d50742a8dcb64e46a6466, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.75
+      value: -6.55
       objectReference: {fileID: 0}
     - target: {fileID: 3724425436037398597, guid: f1de56e1a53d50742a8dcb64e46a6466, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16209,7 +16211,7 @@ RectTransform:
   m_Children:
   - {fileID: 2112123827}
   m_Father: {fileID: 352203759}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

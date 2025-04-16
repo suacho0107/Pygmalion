@@ -7,8 +7,8 @@ public class RequestNPC : NPC
 {
     [Header("업무 의뢰서")]
     [SerializeField] private PlayerDesk playerDesk;
+    [SerializeField] private GameObject sendChat;
     [SerializeField] private GameObject replyChat;
-    [SerializeField] private GameObject targetUI;
     [SerializeField] private Button replyButton;
     [SerializeField] private Text interactText;
     [SerializeField] private Text profileText;
@@ -17,12 +17,10 @@ public class RequestNPC : NPC
 
     public CompanyOfficeCSV csv2;
     public bool isStartTutorial { get; private set; } = false;
-    private bool isStartRequest = true;
+    private bool isStartRequest = false;
     public  bool isAcceptRequest = false;
     private bool isRoutineStarted = false;
     private bool canSend = false;
-
-    private TutorialController tutorialController;
 
     private void Start()
     {
@@ -30,22 +28,18 @@ public class RequestNPC : NPC
         {
             replyChat.SetActive(false);
         }
-
-        tutorialController = FindAnyObjectByType<TutorialController>();
     }
 
     void LateUpdate()
     {
-        if (tutorialController != null && !isStartTutorial)
+        if (csv2 != null)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (sendChat.activeSelf)
             {
-                isStartTutorial = true;
-                StartDialogue();
+                if (Input.GetKeyDown(KeyCode.Space))
+                    isStartRequest = true;
             }
-        }
-        else if (csv2 != null)
-        {
+
             // 의뢰 접수
             if (isStartRequest)
             {
@@ -110,8 +104,6 @@ public class RequestNPC : NPC
 
             UIManager.u_instance.UpdateStartUI();
             Debug.Log($"RequestNPC: {locationText}");
-            // UIManager.u_instance.UpdateUIText(locationText);
-            // Debug.Log($"장소 텍스트 변경: {locationText}");
         }
     }
 

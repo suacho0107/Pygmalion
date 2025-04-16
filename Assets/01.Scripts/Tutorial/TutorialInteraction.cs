@@ -7,7 +7,9 @@ public class TutorialInteraction : TutorialBase
     [SerializeField]
     private GameObject  interactionObject;
     [SerializeField]
-    private bool        isTriggerOn = false;
+    private bool        isInteractOn = false;
+
+    private bool        isTrigger = false;
 
     public override void Enter()
     {
@@ -15,14 +17,19 @@ public class TutorialInteraction : TutorialBase
 
     public override void Execute(TutorialController controller)
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Space))
         {
-            if (isTriggerOn)
+            isTrigger = true;
+
+            if (isInteractOn)
             {
+                Debug.Log("true");
+                isInteractOn = false;
                 interactionObject.gameObject.SetActive(true);
             }
             else
             {
+                Debug.Log("false");
                 interactionObject.gameObject.SetActive(false);
             }
             controller.SetNextTutorial();
@@ -31,5 +38,6 @@ public class TutorialInteraction : TutorialBase
 
     public override void Exit()
     {
+        isTrigger = false;
     }
 }
