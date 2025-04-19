@@ -36,17 +36,20 @@ public class BattleManager : MonoBehaviour
     public State state;
 
     public bool isPlayerTurnStarted = false;
-    public bool isPlayerRun = false;
+    public bool isPlayerAttacking = false;
+    public bool isPartSelecting = false; //PLAYERTURN_ATTACK에서 공격할 Part 선택 시
+    public bool isPlayerRunning = false;
     public bool isEnemyTurnStarted = false;
     private bool isBattleEnd = false;
-    private bool isCoroutineRunning = false;
+
+    private bool isCoroutineRunning = false; //Coroutine Control
     private bool isSFXPlaying = false;
 
     public enum State
     {
         PLAYERTURN_START,
         PLAYERTURN_ATTACK,
-        //PLAYERTURN_INVENTORY, //현재 미사용, Inventory 추가 시 사용 예정
+        //PLAYERTURN_INVENTORY, //미사용, Inventory 추가 시 사용 예정
         PLAYERTURN_RUN,
         ENEMYTURN,
         WIN,
@@ -57,19 +60,17 @@ public class BattleManager : MonoBehaviour
     {
         battleUI = FindObjectOfType<BattleUI>();
         player = FindObjectOfType<Player>();
-        //enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
 
         //if문 돌려서 알맞은 적 SetActive(true);
-        //Aphrodite.SetActive(true);
-        ReadingChild.SetActive(true);
-        //enemy = Aphrodite.GetComponent<Enemy>();
-        enemy = ReadingChild.GetComponent<Enemy>();
-
-        Debug.Log($"Enemy set to: {enemy}");
+        Aphrodite.SetActive(true);
+        //ReadingChild.SetActive(true);
+        enemy = Aphrodite.GetComponent<Enemy>();
+        //enemy = ReadingChild.GetComponent<Enemy>();
+        Debug.Log($"Enemy set to: {enemy}"); //Delete
     }
 
     // Start is called before the first frame update
@@ -77,8 +78,9 @@ public class BattleManager : MonoBehaviour
     {
         //전투 진입 시 Setting
         player.SetPlayerHp();
-        enemy.StartSetEnemy();
-        battleUI.SetHpBoxes();
+        enemy.SetEnemy();
+        battleUI.SetDialogueButtons();
+        battleUI.SetPartButtons();
 
         battleUI.blackBoard.SetActive(false);
 
@@ -105,11 +107,14 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case State.PLAYERTURN_ATTACK:
-                player.SelectAttackPart();
+                if (!isPlayerAttacking)
+                {
+                    player.SelectAttackPart();
+                }
                 break;
 
             case State.PLAYERTURN_RUN:
-                if (!isPlayerRun)
+                if (!isPlayerRunning)
                 {
                     player.Run();
                 }
@@ -169,6 +174,12 @@ public class BattleManager : MonoBehaviour
         else if (_object == "enemy" && part != null)
         {
             float attackpower = (float)_attackpower * enemy.increaseAttackPower;
+
+            if (player.isConfused)
+            {
+                attackpower *= 10;
+            }
+
             _attackpower = (int)attackpower;
             part.partHp -= _attackpower;
             enemy.UpdateEnemyHp();

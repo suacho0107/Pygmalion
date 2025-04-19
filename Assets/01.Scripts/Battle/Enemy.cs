@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
     {
 
     }
-    public void StartSetEnemy() // 최초 전투 진입 시에만 실행
+    public void SetEnemy() // 최초 전투 진입 시에만 실행
     {
         Debug.Log("StartSetEnemy() 실행");
 
@@ -168,12 +168,10 @@ public class Enemy : MonoBehaviour
     public void EnemyTurnStart()
     {
         Debug.Log("EnemyTurnStart()");
-
         battleUI.contentText.text = "";
-        battleUI.partText.text = "";
-        battleUI.hpBoxes.gameObject.SetActive(false);
 
-        if (enemyName == "Aphrodite") //아프로디테
+        //아프로디테
+        if (enemyName == "Aphrodite")
         {
             List<Action> Aphrodite_skills = new List<Action>();
             AddSkill(Aphrodite_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.2f, Aphrodite_Charm);
@@ -190,35 +188,37 @@ public class Enemy : MonoBehaviour
             }
             Invoke("EnemyTurnEnd", 2);
         }
-        else if (enemyName == "ReadingChild") //책 읽는 아이
+
+        //책 읽는 아이
+        else if (enemyName == "ReadingChild")
         {
-            if (isDestroyed[battleUI.FindListIndex(parts, "RArm")])
-            {
-                if (isDestroyed[battleUI.FindListIndex(parts, "LArm")])
-                {
-                    if (isDestroyed[battleUI.FindListIndex(parts, "Head")])
-                    {
-                        ReadingChild_Kick();
-                    }
-                    else
-                    {
-                        ReadingChild_Stroyteller();
-                    }
-                }
-                else
-                {
-                    ReadingChild_BookShelf(15);
-                }
-            }
-            else
+            List<Action> ReadingChild_skills = new List<Action>();
+
+            if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
             {
                 ReadingChild_BookShelf(20);
             }
+            else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
+            {
+                ReadingChild_BookShelf(15);
+            }
+            else
+            {
+                AddSkill(ReadingChild_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.5f, ReadingChild_Stroyteller);
+                AddSkill(ReadingChild_skills, "RLeg", isDestroyed[battleUI.FindListIndex(parts, "RLeg")], 0.5f, ReadingChild_Kick);
 
-            //혼란 시스템 추가 예정
+                if (ReadingChild_skills.Count > 0)
+                {
+                    int index = Random.Range(0, ReadingChild_skills.Count);
+                    ReadingChild_skills[index]();
+                }
+            }
+
             Invoke("EnemyTurnEnd", 2);
         }
-        else if (enemyName == "Melpomene") //멜포메네
+
+        //멜포메네
+        else if (enemyName == "Melpomene")
         {
             List<Action> Melpomene_skills = new List<Action>();
 
@@ -356,7 +356,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("EnemyTurnEnd()");
         battleUI.contentText.text = "";
         battleManager.isEnemyTurnStarted = false;
-        battleManager.isPlayerRun = false;
+        battleManager.isPlayerRunning = false;
 
         //여기 로직 다시 보기
         if (player.playerHp > 0) //Player 생존
