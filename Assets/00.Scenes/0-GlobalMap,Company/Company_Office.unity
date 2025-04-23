@@ -4979,7 +4979,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &725560011
 Transform:
   m_ObjectHideFlags: 0
@@ -11560,7 +11560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1358860537
 Transform:
   m_ObjectHideFlags: 0
@@ -12711,7 +12711,9 @@ MonoBehaviour:
   selectFiles: []
   currentIndex: 0
   playerDesk: {fileID: 269502222}
-  sendChat: {fileID: 699507105}
+  sendChat:
+  - {fileID: 1168911266}
+  - {fileID: 699507105}
   replyChat: {fileID: 159775218}
   replyButton: {fileID: 1161758264}
   interactText: {fileID: 1920165565}
@@ -12719,6 +12721,7 @@ MonoBehaviour:
   locationText: {fileID: 730101700}
   csv2: {fileID: 1657761208}
   isAcceptRequest: 0
+  canSend: 0
 --- !u!1 &1684791191
 GameObject:
   m_ObjectHideFlags: 0
@@ -15614,8 +15617,6 @@ MonoBehaviour:
   - {fileID: 1390826021975916493}
   - {fileID: 1390826021144677908}
   - {fileID: 673241192}
-  - {fileID: 725560012}
-  - {fileID: 1358860538}
   - {fileID: 502581304}
   - {fileID: 440304962}
   - {fileID: 1783187271}

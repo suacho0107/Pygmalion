@@ -36,6 +36,7 @@ public class TutorialTrigger : TutorialBase
     {
         // Trigger 오브젝트 비활성화
         triggerObject.gameObject.SetActive(false);
+        //playerMove.IsMoved = false;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
