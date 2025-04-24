@@ -59,19 +59,35 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    private void DialogueButtonInputHandler()
+    private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성
     {
         //상하 이동
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (currentDialogueButtonIndex > 0)
+            if (currentDialogueButtonIndex == 2)
             {
-                currentDialogueButtonIndex--;
+                currentDialogueButtonIndex -= 2;
             }
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (currentDialogueButtonIndex < dialogueButtonList.Count - 1)
+            if (currentDialogueButtonIndex == 0)
+            {
+                currentDialogueButtonIndex += 2;
+            }
+        }
+
+        //좌우 이동
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (currentDialogueButtonIndex % 2 == 1)
+            {
+                currentDialogueButtonIndex--;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (currentDialogueButtonIndex == 0)
             {
                 currentDialogueButtonIndex++;
             }
@@ -84,14 +100,19 @@ public class BattleUI : MonoBehaviour
 
             if (selectedButtonText == "공격한다")
             {
-                dialogueButtons.SetActive(false);
                 player.AttackButton();
+            }
+            else if (selectedButtonText == "소지품을 확인한디")
+            {
+                player.InventoryButton();
+                //InventoryButton() 함수 내용 작성 필요
             }
             else if (selectedButtonText == "도망친다")
             {
-                dialogueButtons.SetActive(false);
                 player.RunButton();
             }
+
+            dialogueButtons.SetActive(false);
         }
 
         HighlightDialogueButton();
@@ -102,108 +123,96 @@ public class BattleUI : MonoBehaviour
         //상하 이동
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (currentPartButtonIndex % 2 == 1)
-            {
-                currentPartButtonIndex--;
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (currentPartButtonIndex % 2 == 0)
-            {
-                if (isThereButton(currentPartPageIndex, currentPartButtonIndex, 1))
-                {
-                    currentPartButtonIndex++;
-                }
-            }
-        }
-
-        //좌우&페이지 이동
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            //if (currentPartButtonIndex <= 1)
-            if (currentPartButtonIndex == 0 || currentPartButtonIndex == 1)
-            {
-                if (currentPartPageIndex > 0)
-                {
-                    currentPartPageIndex--;
-                    currentPartButtonIndex += 2;
-
-                    UpdatePartButtons();
-                }
-            }
-            //else if (currentPartButtonIndex >= 2)
-            else if (currentPartButtonIndex == 2 || currentPartButtonIndex == 3)
+            if (currentPartButtonIndex == 2 || currentPartButtonIndex == 3)
             {
                 currentPartButtonIndex -= 2;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            //if (currentPartButtonIndex <= 1)
-            if (currentPartButtonIndex == 0)
-            {
-                if(isThereButton(currentPartPageIndex, currentPartButtonIndex, 2))
-                {
-                    currentPartButtonIndex += 2;
-                }
-            }
-            else if (currentPartButtonIndex == 1)
+            if (currentPartButtonIndex == 0 || currentPartButtonIndex == 1)
             {
                 if (isThereButton(currentPartPageIndex, currentPartButtonIndex, 2))
                 {
                     currentPartButtonIndex += 2;
                 }
             }
-            //else if (currentPartButtonIndex >= 2)
-            else if (currentPartButtonIndex == 2)
+        }
+
+        //좌우 이동
+        else if(Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (currentPartButtonIndex % 2 == 0)
             {
-                if ((currentPartPageIndex + 1) * 4 < enemy.parts.Count)
+                if (currentPartPageIndex > 0)
                 {
-                    currentPartPageIndex++;
-                    currentPartButtonIndex -= 2;
+                    currentPartPageIndex--;
+                    currentPartButtonIndex++;
 
                     UpdatePartButtons();
                 }
             }
-            else if (currentPartButtonIndex == 3)
+            else
             {
-                currentPartPageIndex++;
-
+                currentPartButtonIndex--;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (currentPartButtonIndex % 2 == 0)
+            {
                 if (isThereButton(currentPartPageIndex, currentPartButtonIndex, 2))
                 {
-                    currentPartButtonIndex -= 2;
+                    currentPartButtonIndex++;
                 }
-                else
+            }
+            else if (currentPartButtonIndex % 2 == 1)
+            {
+                if ((currentPartPageIndex + 1) * 4 < enemy.parts.Count)
                 {
-                    currentPartButtonIndex -= 3;
-                }
+                    if (currentPartButtonIndex == 1)
+                    {
+                        currentPartPageIndex++;
+                        currentPartButtonIndex--;
 
-                UpdatePartButtons();
-            }            
+                        UpdatePartButtons();
+                    }
+                    else if (currentPartButtonIndex == 3)
+                    {
+                        currentPartPageIndex++;
+
+                        if (isThereButton(currentPartPageIndex, currentPartButtonIndex, -1))
+                        {
+                            currentPartButtonIndex--;
+                        }
+                        else
+                        {
+                            currentPartButtonIndex = 0;
+                        }
+
+                        UpdatePartButtons();
+                    }
+                }
+            }
         }
 
-        //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             int selectedPartIndex = currentPartPageIndex * 4 + currentPartButtonIndex;
 
-            if(selectedPartIndex < enemy.partComponents.Count)
+            if (selectedPartIndex < enemy.partComponents.Count)
             {
-                if (enemy.partComponents[selectedPartIndex].partHp <= 0)
+                if (enemy.isDestroyed[selectedPartIndex])
                 {
                     Debug.Log("This part is already destroyed"); //Delete
-                    return;
                 }
 
-                //partButtons.SetActive(false); //PlayerAttack으로 옮길수도
-                Debug.Log("partButtons SetActive false;");
                 player.PlayerAttack(enemy.partComponents[selectedPartIndex]);
                 battleManager.isPartSelecting = false;
 
                 //초기화
                 currentPartPageIndex = 0;
-                currentPartButtonIndex = 0;
+                currentPartPageIndex = 0;
             }
         }
 
@@ -223,7 +232,7 @@ public class BattleUI : MonoBehaviour
 
         int lastButtonIndex = enemy.parts.Count - pageIndex * 4;
 
-        return targetButtonIndex < lastButtonIndex;
+        return targetButtonIndex < lastButtonIndex;        
     }
 
 
