@@ -173,46 +173,15 @@ public class Enemy : MonoBehaviour
         //아프로디테
         if (enemyName == "Aphrodite")
         {
-            List<Action> Aphrodite_skills = new List<Action>();
-            AddSkill(Aphrodite_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.2f, Aphrodite_Charm);
-            AddSkill(Aphrodite_skills, "Body", isDestroyed[battleUI.FindListIndex(parts, "Body")], 0.2f, Aphrodite_Dance);
+            Aphrodite_Skill();
 
-            if (Aphrodite_skills.Count > 0)
-            {
-                int index = Random.Range(0, Aphrodite_skills.Count);
-                Aphrodite_skills[index]();
-            }
-            else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
-            {
-                Aphrodite_Throw();
-            }
             Invoke("EnemyTurnEnd", 2);
         }
 
         //책 읽는 아이
         else if (enemyName == "ReadingChild")
         {
-            List<Action> ReadingChild_skills = new List<Action>();
-
-            if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
-            {
-                ReadingChild_BookShelf(20);
-            }
-            else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
-            {
-                ReadingChild_BookShelf(15);
-            }
-            else
-            {
-                AddSkill(ReadingChild_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.5f, ReadingChild_Stroyteller);
-                AddSkill(ReadingChild_skills, "RLeg", isDestroyed[battleUI.FindListIndex(parts, "RLeg")], 0.5f, ReadingChild_Kick);
-
-                if (ReadingChild_skills.Count > 0)
-                {
-                    int index = Random.Range(0, ReadingChild_skills.Count);
-                    ReadingChild_skills[index]();
-                }
-            }
+            ReadingChild_Skill();
 
             Invoke("EnemyTurnEnd", 2);
         }
@@ -220,33 +189,81 @@ public class Enemy : MonoBehaviour
         //멜포메네
         else if (enemyName == "Melpomene")
         {
-            List<Action> Melpomene_skills = new List<Action>();
+            Melpomene_Skill();
 
-            if (firstEnemyTurn1 && Random.value < 0.4f)
-            {
-                Melpomene_Narrative(15);
-                firstEnemyTurn1 = false;
-            }
-
-            if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && firstEnemyTurn2 && Random.value < 0.4f)
-            {
-                Melpomene_Narrative(10);
-                firstEnemyTurn2 = false;
-            }
-
-            AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
-            AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
-
-            if(Melpomene_skills.Count >0)
-            {
-                int index = Random.Range(0, Melpomene_skills.Count);
-                Melpomene_skills[index]();
-            }
-            else
-            {
-                Melpomene_Bat();
-            }
             Invoke("EnemyTurnEnd", 2);
+        }
+    }
+
+    private void Aphrodite_Skill()
+    {
+        List<Action> Aphrodite_skills = new List<Action>();
+        AddSkill(Aphrodite_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.2f, Aphrodite_Charm);
+        AddSkill(Aphrodite_skills, "Body", isDestroyed[battleUI.FindListIndex(parts, "Body")], 0.2f, Aphrodite_Dance);
+
+        if (Aphrodite_skills.Count > 0)
+        {
+            int index = Random.Range(0, Aphrodite_skills.Count);
+            Aphrodite_skills[index]();
+        }
+        else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
+        {
+            Aphrodite_Throw();
+        }
+    }
+
+    private void ReadingChild_Skill()
+    {
+        List<Action> ReadingChild_skills = new List<Action>();
+
+        if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
+        {
+            ReadingChild_BookShelf(20);
+        }
+        else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
+        {
+            ReadingChild_BookShelf(15);
+        }
+        else
+        {
+            AddSkill(ReadingChild_skills, "Head", isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.5f, ReadingChild_Stroyteller);
+            AddSkill(ReadingChild_skills, "RLeg", isDestroyed[battleUI.FindListIndex(parts, "RLeg")], 0.5f, ReadingChild_Kick);
+
+            if (ReadingChild_skills.Count > 0)
+            {
+                int index = Random.Range(0, ReadingChild_skills.Count);
+                ReadingChild_skills[index]();
+            }
+        }
+    }
+
+    private void Melpomene_Skill()
+    {
+        List<Action> Melpomene_skills = new List<Action>();
+
+        if (firstEnemyTurn1 && Random.value < 0.4f)
+        {
+            Melpomene_Narrative(15);
+            firstEnemyTurn1 = false;
+        }
+
+        if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && firstEnemyTurn2 && Random.value < 0.4f)
+        {
+            Melpomene_Narrative(10);
+            firstEnemyTurn2 = false;
+        }
+
+        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
+        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
+
+        if (Melpomene_skills.Count > 0)
+        {
+            int index = Random.Range(0, Melpomene_skills.Count);
+            Melpomene_skills[index]();
+        }
+        else
+        {
+            Melpomene_Bat();
         }
     }
 
@@ -327,6 +344,7 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", _damage);
     }
+
     public void Melpomene_Redemption()
     {
         Debug.Log("Melpomene_Redemption()");
