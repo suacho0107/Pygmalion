@@ -1220,7 +1220,6 @@ GameObject:
   - component: {fileID: 198553283}
   - component: {fileID: 198553282}
   - component: {fileID: 198553287}
-  - component: {fileID: 198553286}
   - component: {fileID: 198553285}
   m_Layer: 6
   m_Name: "\uD0A4\uC624\uC2A4\uD06C"
@@ -1342,21 +1341,6 @@ MonoBehaviour:
     name: 
     line: {x: 0, y: 0}
     selects: []
---- !u!114 &198553286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198553281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cadaf8cdc15135488ac980593d12fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcs:
-  - {fileID: 944810716}
-  - {fileID: 198553287}
 --- !u!114 &198553287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1385,35 +1369,20 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
+    questEnd: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
-  _FileIndex: 0
-  dialogueFileName: 
-  selectFileName: 
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: kiosk_dialogue
+  selectFileName: kiosk_select
   explainNum: 
   dialogueFiles: []
   selectFiles: []
@@ -1560,6 +1529,7 @@ MonoBehaviour:
   Images: []
   dialoguePanel: {fileID: 894991950}
   namePanel: {fileID: 731927866}
+  ItemImage: {fileID: 0}
   dialogueText: {fileID: 505419995}
   nameText: {fileID: 1331014384}
   selectBtn1: {fileID: 1651815594}
@@ -2610,7 +2580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5071,6 +5041,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 1479535065}
   activeInventory: 0
   Description_Text: {fileID: 0}
+  Description_Icon: {fileID: 0}
   tf: {fileID: 298606526}
   selectedItem: 0
 --- !u!1 &856398911
@@ -5608,7 +5579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5854,8 +5825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcs:
-  - {fileID: 944810716}
-  - {fileID: 198553287}
+  - {fileID: 944810718}
 --- !u!114 &944810715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5876,7 +5846,12 @@ MonoBehaviour:
     name: 
     line: {x: 0, y: 0}
     selects: []
---- !u!114 &944810716
+--- !u!212 &944810717 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8041798209513320479, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
+  m_PrefabInstance: {fileID: 944810712}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &944810718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5885,7 +5860,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 944810713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Script: {fileID: 11500000, guid: aaf7166f815189f4089b6c26b934f3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
@@ -5904,44 +5879,39 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 944810717}
-  destroyedSprite: {fileID: 21300000, guid: b286a37ac0789bd438e3ba2666fc8b67, type: 3}
-  isStatue: 1
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
+    questEnd: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 0
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: 
   selectFileName: 
   explainNum: 
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
---- !u!212 &944810717 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8041798209513320479, guid: b6c28bac8a0c5284c8134d027c9d93c2, type: 3}
-  m_PrefabInstance: {fileID: 944810712}
-  m_PrefabAsset: {fileID: 0}
+  spriteRenderer: {fileID: 944810717}
+  destroyedSprite: {fileID: 21300000, guid: b286a37ac0789bd438e3ba2666fc8b67, type: 3}
+  isStatue: 1
+  isChecked: 0
+  isJudged: 0
+  isEnemy: 0
+  isCorrect: 0
+  isFin: 0
+  result: 0
+  test1: 0
+  enterFight: 0
+  test3: 0
+  test4: 0
+  isSpriteChanged: 0
+  _FileIndex: 0
 --- !u!1 &981305192
 GameObject:
   m_ObjectHideFlags: 0
@@ -6113,7 +6083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11797,7 +11767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12389,7 +12359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13621,7 +13591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

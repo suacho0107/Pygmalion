@@ -414,6 +414,7 @@ public class DialogueManager : MonoBehaviour
             else if(selectedNPC.dialogueFileName == "Museum-Guard1_dialogue")
             {
                 InventoryUI.instance.GetQuestItem(10402);
+                selectedNPC.questEnd = true;
             }
         }
 
@@ -563,6 +564,18 @@ public class DialogueManager : MonoBehaviour
     public void ItemPopup()
     {
         ItemImage.SetActive(true);
+    }
+
+    public bool DialogueTrue()
+    {
+        if(isDialogue) return true;
+        else return false;
+    }
+
+    public bool MessageTrue()
+    {
+        if (isMessage) return true;
+        else return false;
     }
 
     void SaveData()

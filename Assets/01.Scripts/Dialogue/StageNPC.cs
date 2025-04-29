@@ -12,6 +12,8 @@ public class StageNPC : NPC
 
     public bool isTutoDialogueChanged = false;
     public bool isTutoFin = false;
+
+    public bool questEnd = false;
     //bool isDialogueChanged = false;
 
     //bool once;
@@ -87,11 +89,20 @@ public class StageNPC : NPC
             if (InventoryUI.instance.HasItem(10401))
             {
                 ChangeDialogueFile(1);
+                //InventoryUI.instance.RemoveInventoryItem(10401);
+                if(dialogueManager == null)
+                {
+                    dialogueManager = FindObjectOfType<DialogueManager>();
+                }
+                if (!dialogueManager.MessageTrue() && dialogueManager.DialogueTrue())
+                {
+                    InventoryUI.instance.RemoveInventoryItem(10401);
+                }
             }
 
-            if (InventoryUI.instance.HasItem(10402))
+            if (questEnd)
             {
-                ChangeDialogueFile(2);
+                ChangeDialogueFileName("Museum-Guard2_dialogue");
             }
         }
         #endregion
@@ -135,6 +146,7 @@ public class StageNPC : NPC
     {
         npcData.isTutoDialogueChanged = isTutoDialogueChanged;
         npcData.isTutoFin = isTutoFin;
+        npcData.questEnd = questEnd;
 
         npcData.isDialogueChanged = isDialogueChanged;
         npcData.currentIndex = currentIndex;
@@ -163,6 +175,7 @@ public class StageNPC : NPC
             isInteract = npcData.isInteract;
             isTutoDialogueChanged = npcData.isTutoDialogueChanged;
             isTutoFin = npcData.isTutoFin;
+            questEnd = npcData.questEnd;
         }
 
         Debug.Log(gameObject.name + " 데이터 로드");

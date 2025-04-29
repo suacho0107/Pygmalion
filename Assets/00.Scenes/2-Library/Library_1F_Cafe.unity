@@ -971,7 +971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1058,6 +1058,7 @@ MonoBehaviour:
   Images: []
   dialoguePanel: {fileID: 1187271960}
   namePanel: {fileID: 1640010653}
+  ItemImage: {fileID: 0}
   dialogueText: {fileID: 1240320471}
   nameText: {fileID: 1408657967}
   selectBtn1: {fileID: 104054006}
@@ -1115,7 +1116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1906,7 +1907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1981,6 +1982,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 1083450620}
   activeInventory: 0
   Description_Text: {fileID: 0}
+  Description_Icon: {fileID: 0}
   tf: {fileID: 1256262534}
   selectedItem: 0
 --- !u!1001 &607074893
@@ -3659,33 +3661,18 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 0
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
+    questEnd: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 1
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  test1: 0
-  test2: 0
-  test3: 0
-  test4: 0
-  isSpriteChanged: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: Stage2_1F_dialogue
   selectFileName: 
   explainNum: 9
@@ -5662,7 +5649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6023,7 +6010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6644,7 +6631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7142,7 +7129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

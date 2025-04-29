@@ -125,6 +125,16 @@ public class InventoryUI : MonoBehaviour
         return inventoryItemList.Exists(item => item.itemID == _itemID);
     }
 
+    public void RemoveInventoryItem(int _itemID)
+    {
+        Item itemToRemove = inventoryItemList.Find(item => item.itemID == _itemID);
+
+        if(itemToRemove != null)
+        {
+            inventoryItemList.Remove(itemToRemove);
+        }
+    }
+
     public void SaveInventory()
     {
         ListJSON.SaveList(inventoryItemList, filePath);

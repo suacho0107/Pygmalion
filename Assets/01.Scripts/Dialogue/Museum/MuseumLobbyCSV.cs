@@ -111,11 +111,11 @@ public class MuseumLobbyCSV : MonoBehaviour
                 npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                 npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
 
-                npcs[1].dialogueFiles = new string[] { "kiosk_dialogue" };
-                npcs[1].selectFiles = new string[] { "kiosk_select" };
-                npcs[1].currentIndex = 0;
-                npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
-                npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
+                //npcs[1].dialogueFiles = new string[] { "kiosk_dialogue" };
+                //npcs[1].selectFiles = new string[] { "kiosk_select" };
+                //npcs[1].currentIndex = 0;
+                //npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
+                //npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
             }
         }
     }
