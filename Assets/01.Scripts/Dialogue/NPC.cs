@@ -82,7 +82,7 @@ public class NPC : MonoBehaviour
                 {
                     if (!isTutoFin && statueScore.statueCount == 1)
                     {
-                        Debug.Log("!isTutoFin, 튜토2로 변경");
+                        // Debug.Log("!isTutoFin, 튜토2로 변경");
                         ChangeDialogueFileName("Tutorial2_dialogue");
                     }
                     if (isTutoFin)
@@ -133,17 +133,17 @@ public class NPC : MonoBehaviour
         {
             if (statueScore != null)
             {
-                Debug.Log("statueScore != null");
+                // Debug.Log("statueScore != null");
                 //string sceneName = SceneManager.GetActiveScene().name;
                 if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
                 {
-                    Debug.Log("기본대사 -> 판별");
+                    // Debug.Log("기본대사 -> 판별");
                     ChangeDialogueFile(1);
                     Judge();
                 }
                 else
                 {
-                    Debug.Log("판별");
+                    // Debug.Log("판별");
                     Judge();
                 }
                 //if (sceneName.StartsWith("Museum"))

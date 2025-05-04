@@ -39,9 +39,9 @@ public class DialogueManager : MonoBehaviour
     public bool isEnd = false;
 
     bool isDialogue = false;
-    bool isNext = false; //특정 키 입력 대기
+    bool isNext = false;        //특정 키 입력 대기
     bool isSelect = false;
-    bool isExplain = false; //설명대사인지 구분
+    bool isExplain = false;     //설명대사인지 구분
     bool isPopup = false;
 
     int lineCount = 0; //대화 카운트
@@ -409,19 +409,6 @@ public class DialogueManager : MonoBehaviour
         if (npc.dialogueFileName == "Check3_dialogue")
         {
             Invoke("SetUIStateEnd", 1.5f);
-        }
-
-        // 튜토: 리안 업무지시
-        if (npc.dialogueFileName == "Office-2-1_Rian_dialogue")
-        {
-            UIManager.u_instance.isTutorialRian1 = true;
-            Debug.Log("Office-2-1_Rian_dialogue");
-        }
-
-        if (npc.dialogueFileName == "Office-2-2_dialogue")
-        {
-            UIManager.u_instance.isTutorialRian2 = true;
-            Debug.Log("Office-2-2_Rian_dialogue");
         }
 
         // 모든 이미지 비활성화

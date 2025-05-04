@@ -22,12 +22,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject catch_UIEnd;        // 적발한 조각상
     [SerializeField] private GameObject destroy_UIEnd;      // 파손한 조각상
     [SerializeField] private GameObject efficiency_UIEnd;   // 업무 효율
-    [SerializeField] private GameObject grade_UIEnd;        // 평가 등급
 
     private UI.UIState currentState;
 
     [Header("Test")]
-    public int checkCount_test = 0;
     public bool isTutorialRian1 = false;
     public bool isTutorialRian2 = false;
     public bool isTutorialEnd = false;
@@ -37,7 +35,6 @@ public class UIManager : MonoBehaviour
     private int destroyedCount;
     private string efficiency;
     float workEfficiency;   // 지역변수 임시 정의
-    private string grade;
 
     void Awake()
     {
@@ -120,15 +117,13 @@ public class UIManager : MonoBehaviour
         catch_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).gameObject;
         destroy_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
         efficiency_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).gameObject;
-        grade_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).gameObject;
+        // grade_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).gameObject;
 
         // 할당 후 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
         if (UIStart != null) UIStart.SetActive(false);
         if (UIWork != null) UIWork.SetActive(false);
         if (UIEnd != null) UIEnd.SetActive(false);
-
-        Debug.Log("모든 UI 오브젝트가 비활성화되었습니다.");
     }
 
     public void SetUIState(UI.UIState newState)
@@ -197,13 +192,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateStartUI()
     {
-        // 자료구조(딕셔너리orEnum) 정의 후 상태 및 순서에 따라 6개의 장소 중 하나를 출력
-        // UI 뿐 아니라 업무지시서의 "장소"에도 같은 내용이 표기되어야 함
-
-        // 1번 Start에서 출력 후 EndUI 출력되는 시점에 인덱스 1 증가시켜 다음 장소로 업데이트
-
-        // 혹은 위 함수의 매개변수를 인덱스로 설정
-
         Text _textUIStart = textUIStart.GetComponent<Text>();
 
         if (_textUIStart != null)
@@ -214,23 +202,17 @@ public class UIManager : MonoBehaviour
 
     void UpdateEndUI()
     {
-        // 결과창 정보 기입
-        // 조각상 조사 횟수(check_UIEnd) | 적발한 조각상(catch_UIEnd) | 파손한 조각상(destroy_UIEnd) | 업무효율(efficiency_UIEnd)
-        // 평가등급(grade_UIEnd)
-
         Text _check_UIEnd = check_UIEnd.GetComponent<Text>();
         Text _catch_UIEnd = catch_UIEnd.GetComponent<Text>();
         Text _destroy_UIEnd = destroy_UIEnd.GetComponent<Text>();
         Text _efficiency_UIEnd = efficiency_UIEnd.GetComponent<Text>();
-        Text _grade_UIEnd = grade_UIEnd.GetComponent<Text>();
+        //Text _grade_UIEnd = grade_UIEnd.GetComponent<Text>();
 
         StatueScore statueScore = FindObjectOfType<StatueScore>();
 
         #region 조각상 조사 횟수(check_UIEnd)
         if (_check_UIEnd != null)
         {
-            //Debug.Log($"조각상 조사 횟수: {UIManager.u_instance.checkCount_test}");
-            
             checkCount = statueScore.statueCount;
             _check_UIEnd.text = checkCount.ToString();
         }
@@ -243,7 +225,6 @@ public class UIManager : MonoBehaviour
         #region 적발한 조각상(catch_UIEnd)
         if (_catch_UIEnd != null)
         {
-            Debug.Log($"조각상 적발 횟수: {statueScore.fightCount}");
             fightCount = statueScore.fightCount;
             _catch_UIEnd.text = fightCount.ToString();
         }
@@ -256,8 +237,6 @@ public class UIManager : MonoBehaviour
         #region 파손한 조각상(destroy_UIEnd)
         if (_destroy_UIEnd != null)
         {
-            Debug.Log($"조각상 파괴 횟수: {statueScore.destroyedCount}");
-
             destroyedCount = statueScore.destroyedCount;
             _destroy_UIEnd.text = destroyedCount.ToString();
         }
@@ -306,7 +285,7 @@ public class UIManager : MonoBehaviour
         #endregion
 
         #region 평가등급(grade_UIEnd)
-        if (_grade_UIEnd != null)
+        if (UIEnd != null)
         {
             // 판별 정확도
             float catchAccurarcy = destroyedCount / 5;
@@ -316,26 +295,24 @@ public class UIManager : MonoBehaviour
 
             if (totalGrade < 1)
             {
-                efficiency = "A";
+                UIEnd.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(true);
             }
             else if (totalGrade >= 1 && totalGrade < 1.3)
             {
-                efficiency = "B";
+                UIEnd.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(true);
             }
             else if (totalGrade >= 1.3 && totalGrade < 1.7)
             {
-                efficiency = "C";
+                UIEnd.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(true);
             }
             else if (totalGrade >= 1.7 && totalGrade < 2.2)
             {
-                efficiency = "D";
+                UIEnd.transform.GetChild(0).GetChild(1).GetChild(3).gameObject.SetActive(true);
             }
             else
             {
-                efficiency = "E";
+                UIEnd.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
             }
-
-            _grade_UIEnd.text = efficiency;
         }
         else
         {
