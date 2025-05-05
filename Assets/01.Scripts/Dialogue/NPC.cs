@@ -42,6 +42,7 @@ public class NPC : MonoBehaviour
     public void StartDialogue()
     {
         DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
+
         if (dialogueManager != null)
         {
             dialogueManager.SetNPC(this);
@@ -54,7 +55,6 @@ public class NPC : MonoBehaviour
         InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
         if (interactionEvent != null)
         {
-
             if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면 전달
             {
                 interactionEvent.LoadDialogue(dialogueFileName, explainNum);

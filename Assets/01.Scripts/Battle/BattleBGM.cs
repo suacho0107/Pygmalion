@@ -26,7 +26,8 @@ public class BattleBGM : MonoBehaviour
     {
         audioSource.Stop();
         audioSource.loop = true;
-        audioSource.volume = 0.4f;
+        // audioSource.volume = 0.4f;
+        audioSource.volume = 0f;
         audioSource.time = 0;
         audioSource.Play();
     }
