@@ -554,12 +554,15 @@ public class DialogueManager : MonoBehaviour
 
                             int currentSelectNum = j;// 판별 추가 코드
 
-                        buttons[j].onClick.RemoveAllListeners();
-                        buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
+                            buttons[j].onClick.RemoveAllListeners();
+                            buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
+                        }
                     }
                 }
             }
         }
+
+        
     }
 
     IEnumerator MessageWriter()
@@ -582,7 +585,7 @@ public class DialogueManager : MonoBehaviour
 
     public bool DialogueTrue()
     {
-        if(isDialogue) return true;
+        if (isDialogue) return true;
         else return false;
     }
 
@@ -602,7 +605,7 @@ public class DialogueManager : MonoBehaviour
         {
             statueInstance.SaveStatueData();
         }
-        else if(npc is NPC npcInstance)
+        else if (npc is NPC npcInstance)
         {
             npcInstance.SaveNPCData();
         }
