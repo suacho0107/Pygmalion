@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    BattleUI battleUI;
     BattleManager battleManager;
     Enemy enemy;
-    Part part;
 
     public int playerHp;
     private int playerMaxHp = 100; //임의 설정
@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
+        battleUI = FindObjectOfType<BattleUI>();
         enemy = FindObjectOfType<Enemy>();
-        //part = FindObjectOfType<Part>();
     }
 
     // Start is called before the first frame update
@@ -53,13 +53,12 @@ public class Player : MonoBehaviour
     {
         Debug.Log("PlayerTurnStart() 실행");
         StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
-        battleManager.buttons.gameObject.SetActive(true);
-        battleManager.partText.gameObject.SetActive(false);
-        battleManager.hpBoxes.gameObject.SetActive(false);
+        battleUI.dialogueButtons.gameObject.SetActive(true);
     }
 
     public void AttackButton()
     {
+        //Debugging, 삭졔
         if (battleManager == null)
         {
             Debug.LogError("BattleManager is not assigned.");
@@ -84,113 +83,23 @@ public class Player : MonoBehaviour
             return;
         }
 
-        battleManager.contentText.text = "공격 부위 선택";
-        battleManager.buttons.gameObject.SetActive(false);
 
-        enemy.currentPart = enemy.parts[0]; //currentPart 초기화
-        battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart);
-        if(enemy.enemyName == "Melpomene" && enemy.currentPart == "Head" && !enemy.isDestroyed[FindListIndex(enemy.parts, "Mask")])
-        {
-            battleManager.partText.color = Color.grey;
-        }
-        battleManager.partText.gameObject.SetActive(true);
-        battleManager.UpdateHpBoxes();
+        battleUI.dialogueButtons.gameObject.SetActive(false);
 
         battleManager.state = BattleManager.State.PLAYERTURN_ATTACK;
     }
 
     public void SelectAttackPart()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) //오른쪽 방향키
-        {
-            //Debug.Log("→ 입력");
-            int i = FindListIndex(enemy.parts, enemy.currentPart);
-            Debug.Log($"FindListIndex(parts, currentPart): {i}");
+        battleManager.isPlayerAttacking = true;
 
-            if (++i < enemy.parts.Count) //++i가 가능하면
-            {
-                enemy.currentPart = enemy.parts[i];
-                battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart); //이거 밑으로 빼야 하나? 상관 없나?
+        battleUI.contentText.text = "공격 부위 선택";
 
-                //isDestroyed 여부 판별
-                if (enemy.isDestroyed[i])
-                {
-                    battleManager.partText.color = Color.grey;
-                }
-                else
-                {
-                    battleManager.partText.color = Color.white;
-                }
-                battleManager.UpdateHpBoxes();
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            //Debug.Log("← 입력");
-            int i = FindListIndex(enemy.parts, enemy.currentPart);
-            Debug.Log($"FindListIndex(parts, currentPart): {i}");
+        //battleUI.currentPartButtonIndex = 0; //초기화
+        battleUI.UpdatePartButtons();
+        battleUI.partButtons.SetActive(true);
 
-            if (--i >= 0) //++i가 가능하면
-            {
-                enemy.currentPart = enemy.parts[i];
-                battleManager.partText.text = enemy.ReplacePartText(enemy.currentPart); //이거 밑으로 빼야 하나? 상관 없나?
-
-                //isDestroyed 여부 판별
-                if (enemy.isDestroyed[i])
-                {
-
-                    battleManager.partText.color = Color.grey;
-                }
-                else
-                {
-                    battleManager.partText.color = Color.white;
-                }
-                battleManager.UpdateHpBoxes();
-            }
-        }
-        //else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            int i = FindListIndex(enemy.parts, enemy.currentPart);
-
-            if(enemy.isDestroyed[i]) //파괴되어있으면
-            {
-                //아무 일도 안 일어나고... 초기로 돌아가거나 SelectPart로 돌아가게?
-                //대사 넣을거면 어딘가로 돌아가긴 해야겠다.
-                Debug.Log($"${enemy.currentPart} isDestroyed[${i}] == true");
-            }
-            else
-            {
-                if (enemy.enemyName == "Melpomene" && enemy.currentPart == "Head" && !enemy.isDestroyed[FindListIndex(enemy.parts, "Mask")])
-                {
-                    battleManager.partText.color = Color.grey;
-                    return;
-                }
-                else
-                {
-                    PlayerAttack(enemy.partComponents[i]);
-                }
-            }
-        }
-    }
-
-    //string List의 요소 이름을 매개변수로 List의 Index 반환
-    private int FindListIndex(List<string> _list, string _element)
-    {
-        if(_list == null) //예외처리
-        {
-            return -1;
-        }
-
-        for (int i = 0; i < _list.Count; i++)
-        {
-            if (_list[i] == _element)
-            {
-                return i;
-            }
-        }
-        //한 바퀴 돌았는데도 못 찾으면
-        return -1;
+        battleManager.isPartSelecting = true;
     }
 
     public void InventoryButton()
@@ -207,12 +116,10 @@ public class Player : MonoBehaviour
     
     public void Run()
     {
-        battleManager.isPlayerRun = true;
+        battleManager.isPlayerRunning = true;
 
-        if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, "Body")]) //멜포메네
+        if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, "Body")]) //멜포메네
         {
-            battleManager.buttons.SetActive(false);
-
             enemy.Melpomene_Redemption();
 
             Invoke("ToStateEnemyTurn", 2);
@@ -222,8 +129,7 @@ public class Player : MonoBehaviour
         else
         {
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-            battleManager.contentText.text = "";
-            battleManager.buttons.SetActive(false);
+            battleUI.contentText.text = "";
 
             battleManager.PlaySFX(battleManager.playerRunSFX);
             ////이것만 소리 안 나서 그냥 냅다 실행하기
@@ -246,16 +152,15 @@ public class Player : MonoBehaviour
     {
         Debug.Log("PlayerAttack(enemy, part) 실행");
 
-        battleManager.contentText.text = "";
+        battleUI.partButtons.SetActive(false);
+        battleUI.contentText.text = $"{enemy.ReplacePartText(part.name)}을/를 공격했다.";
 
         battleManager.battleAudioSource.Stop();
         battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
         battleManager.battleAudioSource.time = 0;
         battleManager.battleAudioSource.Play();
 
-
-        part.partHp -= attackDamage; //attackDamage만큼 partHp 차감
-        enemy.UpdateEnemyHp();
+        battleManager.Damage("enemy", attackDamage, part); //attackDamage만큼 partHp 차감
 
         //PlayerTurnEnd();
         Invoke("PlayerTurnEnd", 1);
@@ -264,7 +169,10 @@ public class Player : MonoBehaviour
     void PlayerTurnEnd()
     {
         Debug.Log("PlayerTurnEnd() 실행");
-        if (enemy.isDestroyed[battleManager.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
+
+        isConfused = false;
+
+        if (enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
         {
             battleManager.state = BattleManager.State.WIN;
         }
@@ -274,5 +182,6 @@ public class Player : MonoBehaviour
         }
 
         battleManager.isPlayerTurnStarted = false;
+        battleManager.isPlayerAttacking = false;
     }
 }
