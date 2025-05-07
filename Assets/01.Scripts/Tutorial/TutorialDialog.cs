@@ -16,6 +16,8 @@ public class TutorialDialog : TutorialBase
 
     public override void Enter()
     {
+        Debug.Log("Enter: TutorialDialog");
+
         npc = GetComponent<NPC>();
         player = FindObjectOfType<PlayerMove>();
         dialogManager = FindObjectOfType<DialogueManager>();

@@ -411,6 +411,7 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         isExplain = false;
         npc.isInteract = true; // 미술관장
+        isEnd = true;
 
         playerMove.ActiveInteract = false;
 
@@ -454,6 +455,11 @@ public class DialogueManager : MonoBehaviour
         foreach (var image in Images)
         {
             image.SetActive(false);
+        }
+
+        foreach (var portrait in Portraits)
+        {
+            portrait.SetActive(false);
         }
     }
 
