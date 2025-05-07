@@ -774,7 +774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03304acc027630479567e0908587515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc: {fileID: 0}
 --- !u!114 &234241760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,9 +824,13 @@ MonoBehaviour:
   - {fileID: 1354578921}
   - {fileID: 1354578920}
   - {fileID: 1354578919}
-  dialoguePanel: {fileID: 921901015}
+  Portraits: []
+  dialoguePanel: {fileID: 1600863830}
+  descriptionPanel: {fileID: 921901015}
   namePanel: {fileID: 1471741628}
-  dialogueText: {fileID: 1185210840}
+  ItemImage: {fileID: 0}
+  dialogueText: {fileID: 1600863829}
+  descriptionText: {fileID: 1185210840}
   nameText: {fileID: 878750155}
   selectBtn1: {fileID: 771501316}
   selectBtn2: {fileID: 1538596989}
@@ -838,6 +841,7 @@ MonoBehaviour:
   selectText3: {fileID: 2100650828}
   selectText4: {fileID: 1892738457}
   playerMove: {fileID: 0}
+  isEnd: 0
 --- !u!4 &234241763
 Transform:
   m_ObjectHideFlags: 0
@@ -2796,6 +2800,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1600863828}
   - {fileID: 921901016}
   - {fileID: 1471741629}
   - {fileID: 771501313}
@@ -2843,7 +2848,7 @@ RectTransform:
   m_Children:
   - {fileID: 231489390}
   m_Father: {fileID: 713005372}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3391,16 +3396,18 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questEnd: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 5
@@ -3445,7 +3452,7 @@ GameObject:
   - component: {fileID: 921901018}
   - component: {fileID: 921901017}
   m_Layer: 5
-  m_Name: Image_DialoguePanel
+  m_Name: Image_DescriptionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3465,7 +3472,7 @@ RectTransform:
   m_Children:
   - {fileID: 1185210838}
   m_Father: {fileID: 713005372}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6332,16 +6339,18 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questEnd: 0
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 1
@@ -6358,10 +6367,11 @@ MonoBehaviour:
   isFin: 0
   result: 0
   test1: 0
-  test2: 0
+  enterFight: 0
   test3: 0
   test4: 0
   isSpriteChanged: 0
+  _FileIndex: 0
 --- !u!1 &1061321574
 GameObject:
   m_ObjectHideFlags: 0
@@ -7240,7 +7250,7 @@ RectTransform:
   m_Children:
   - {fileID: 878750153}
   m_Father: {fileID: 713005372}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7420,16 +7430,18 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questEnd: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 7
@@ -7572,7 +7584,7 @@ RectTransform:
   m_Children:
   - {fileID: 165813492}
   m_Father: {fileID: 713005372}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7815,6 +7827,124 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
+--- !u!1001 &1600863827
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 713005372}
+    m_Modifications:
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1250
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 280
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439737310955727407, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+      propertyPath: m_Name
+      value: Image_DialoguePanel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+--- !u!224 &1600863828 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7439737310955727406, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+  m_PrefabInstance: {fileID: 1600863827}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1600863829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7439737311162997161, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+  m_PrefabInstance: {fileID: 1600863827}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1600863830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7439737310955727407, guid: d8d2afdaf0a23314b8892d0a03be8bea, type: 3}
+  m_PrefabInstance: {fileID: 1600863827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1620309619
 GameObject:
   m_ObjectHideFlags: 0
@@ -8157,16 +8287,18 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questEnd: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 4
@@ -8391,7 +8523,7 @@ RectTransform:
   m_Children:
   - {fileID: 1892738459}
   m_Father: {fileID: 713005372}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9256,7 +9388,7 @@ RectTransform:
   m_Children:
   - {fileID: 2100650826}
   m_Father: {fileID: 713005372}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9600,16 +9732,18 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questEnd: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
-  _FileIndex: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: stage1_exhibit1_dialogue
   selectFileName: 
   explainNum: 6
