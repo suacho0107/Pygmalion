@@ -11,14 +11,15 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] SceneData sceneData;
     [SerializeField] string nextScene;
 
-    public StageNPC stageNpc; // 미술관장 NPC 직접 할당
+    public StageNPC stageNpc; // StageNPC 직접 할당
+    public NPC npc; // NPC
     bool enter = false;
     
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            if(stageNpc == null || stageNpc.isTutoFin) // 미술관장 등 NPC null
+            if (stageNpc == null && npc == null) // 기본: 미술관장 등 NPC null
             {
                 // Scriptable Object에 nextPos 저장
                 playerPos.nextPosition = nextPos;
@@ -40,7 +41,7 @@ public class SceneTransition : MonoBehaviour
 
                 SceneManager.LoadScene(nextScene);
             }
-            else
+            else if (stageNpc != null && !stageNpc.isTutoFin) // 미술관장
             {
                 if (!enter)
                 {
@@ -49,6 +50,20 @@ public class SceneTransition : MonoBehaviour
 
                     DialogueManager dm = FindObjectOfType<DialogueManager>();
                     dm.ShowMessage(message, "미술관장");
+                }
+            }
+            else if (npc != null) // 그 외 상호작용
+            {
+                if (SceneManager.GetActiveScene().name == "Library_1F" && !InventoryUI.instance.HasItem(20102)) // 도서관 열쇠
+                {
+                    if (!enter)
+                    {
+                        enter = true;
+                        string message = "굳게 잠겨 있다. 열쇠가 어딘가에 있을 것 같은데...";
+
+                        DialogueManager dm = FindObjectOfType<DialogueManager>();
+                        dm.ShowMessage(message);
+                    }
                 }
             }
         }
