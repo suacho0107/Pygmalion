@@ -163,7 +163,7 @@ public class Statue : NPC
                 {
                     if (isCorrect) // 적 아님, 정답
                     {
-                        Debug.Log("이상 없음 > 정답");
+                        //Debug.Log("이상 없음 > 정답");
                         if (!test3)
                         {
                             statueAudio.PlayPencil();
@@ -231,7 +231,7 @@ public class Statue : NPC
             if (!result) // 무너져 내린다 출력
             {
                 ChangeDialogueFile(5);
-                Debug.Log("!result");
+                //Debug.Log("!result");
 
                 ChangeSprite();
                 //result = true;
@@ -375,7 +375,7 @@ public class Statue : NPC
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
 
-        Debug.Log(gameObject.name + " 데이터 저장");
+        //Debug.Log(gameObject.name + " 데이터 저장");
         //Debug.Log("조각상 result: " + result);
     }
 

@@ -448,6 +448,8 @@ public class DialogueManager : MonoBehaviour
         
         if(ItemImage !=  null)
         {
+            // 추가 - 플레이어 움직임 제한 해제
+            playerMove.IsMoved = true;
             ItemImage.SetActive(false);
         }
 
@@ -460,6 +462,12 @@ public class DialogueManager : MonoBehaviour
         foreach (var portrait in Portraits)
         {
             portrait.SetActive(false);
+        }
+
+        // 결과 UI 출력 - 1. 미술관 대화 파일
+        if (npc.dialogueFileName == "Check3_dialogue")
+        {
+            Invoke("SetUIStateEnd", 1.5f);
         }
     }
 
@@ -619,6 +627,8 @@ public class DialogueManager : MonoBehaviour
 
     public void ItemPopup()
     {
+        // 추가 - 플레이어 움직임 제한
+        playerMove.IsMoved = false;
         ItemImage.SetActive(true);
     }
 
