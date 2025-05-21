@@ -187,7 +187,7 @@ public class InventoryUI : MonoBehaviour
     {        
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            Debug.Log("Tab");
+            //Debug.Log("Tab");
             activeInventory = !activeInventory;
 
             if (activeInventory == true)
