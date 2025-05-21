@@ -209,11 +209,13 @@ public class UIManager : MonoBehaviour
         //Text _grade_UIEnd = grade_UIEnd.GetComponent<Text>();
 
         StatueScore statueScore = FindObjectOfType<StatueScore>();
+        // PlayerPref에서 데이터 불러와 결과보고서 변수에 저장한 뒤 출력
+
 
         #region 조각상 조사 횟수(check_UIEnd)
         if (_check_UIEnd != null)
         {
-            checkCount = statueScore.statueCount;
+            checkCount = PlayerPrefs.GetInt("StatueCount");
             _check_UIEnd.text = checkCount.ToString();
         }
         else
@@ -225,7 +227,7 @@ public class UIManager : MonoBehaviour
         #region 적발한 조각상(catch_UIEnd)
         if (_catch_UIEnd != null)
         {
-            fightCount = statueScore.fightCount;
+            fightCount = PlayerPrefs.GetInt("fightCount");
             _catch_UIEnd.text = fightCount.ToString();
         }
         else
@@ -237,7 +239,7 @@ public class UIManager : MonoBehaviour
         #region 파손한 조각상(destroy_UIEnd)
         if (_destroy_UIEnd != null)
         {
-            destroyedCount = statueScore.destroyedCount;
+            destroyedCount = PlayerPrefs.GetInt("destroyedCount");
             _destroy_UIEnd.text = destroyedCount.ToString();
         }
         else

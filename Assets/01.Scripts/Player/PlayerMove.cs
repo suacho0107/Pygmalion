@@ -267,7 +267,7 @@ public class PlayerMove : MonoBehaviour
                 WalkSound.Stop();
             }
 
-            Debug.Log("pState = Inventory");
+            // Debug.Log("pState = Inventory");
             if (hDown && h == -1)
             {
                 Debug.Log("Inventory A");
