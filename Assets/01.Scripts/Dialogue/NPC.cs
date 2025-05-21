@@ -74,6 +74,11 @@ public class NPC : MonoBehaviour
         //Debug.Log(dialogueFileName);
     }
 
+    public void ChangeExplainNum(string _explainNum)
+    {
+        explainNum = _explainNum;
+    }
+
     public void ChangeDialogueFile(int _currentIndex)
     {
         currentIndex = _currentIndex;

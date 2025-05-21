@@ -281,6 +281,7 @@ public class DialogueManager : MonoBehaviour
         playerMove.ActiveInteract = true;
 
         dialogueText.text = "";
+        descriptionText.text = "";
         message = _message;
         string name = _name;
 
@@ -292,7 +293,7 @@ public class DialogueManager : MonoBehaviour
         }
         else //name 없으면
         {
-            dialoguePanel.SetActive(true);
+            descriptionPanel.SetActive(true);
             namePanel.SetActive(false);
         }
 
@@ -398,6 +399,7 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
+        descriptionPanel.SetActive(false);
         playerMove.ActiveInteract = false; // 추가 코드
     }
 
@@ -619,8 +621,16 @@ public class DialogueManager : MonoBehaviour
         //context 출력
         for (int i = 0; i < replaceText.Length; i++)
         {
-            dialogueText.text += replaceText[i];
-            yield return new WaitForSeconds(0.03f);
+            if(namePanel.activeSelf)
+            {
+                dialogueText.text += replaceText[i];
+                yield return new WaitForSeconds(0.03f);
+            }
+            else
+            {
+                descriptionText.text += replaceText[i];
+                yield return new WaitForSeconds(0.03f);
+            }
         }
         isNext = true;
     }
