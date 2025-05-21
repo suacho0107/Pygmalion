@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject UIEnd;
 
     [Header("Text")]
-    [SerializeField] private GameObject textUIStart;
+    [SerializeField] public GameObject location_UIStart;
 
     [SerializeField] private GameObject check_UIEnd;        // 조사한 조각상
     [SerializeField] private GameObject catch_UIEnd;        // 적발한 조각상
@@ -25,17 +25,13 @@ public class UIManager : MonoBehaviour
 
     private UI.UIState currentState;
 
-    [Header("Test")]
-    public bool isTutorialRian1 = false;
-    public bool isTutorialRian2 = false;
-    public bool isTutorialEnd = false;
+    private int     checkCount;
+    private int     fightCount;
+    private int     destroyedCount;
+    private string  efficiency;
+    private float   workEfficiency;
 
-    private int checkCount;
-    private int fightCount;
-    private int destroyedCount;
-    private string efficiency;
-    float workEfficiency;   // 지역변수 임시 정의
-
+    public  int     stageIndex = 0;
     void Awake()
     {
         // 싱글톤 초기화
@@ -52,10 +48,6 @@ public class UIManager : MonoBehaviour
 
         // 초기 상태 설정
         UpdateUI();
-
-        // 초기 상태 설정 - Enum: Ready
-        // awake에서 Ready로 출력하는건 회사씬에서만 o
-        // 튜토리얼 넘어가는 단계에서 지정해줘야 함(상사와 대화 후)
     }
 
     private void Start()
@@ -112,12 +104,11 @@ public class UIManager : MonoBehaviour
         UIEnd = UIEnd != null ? UIEnd : uiCanvas.transform.Find("UIEnd")?.gameObject;
 
         // Text 변수 할당
-        textUIStart = UIStart.transform.GetChild(0).GetChild(0).gameObject;
+        location_UIStart = UIStart.transform.GetChild(0).GetChild(0).gameObject;
         check_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).gameObject;
         catch_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).gameObject;
         destroy_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
         efficiency_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).gameObject;
-        // grade_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).gameObject;
 
         // 할당 후 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
@@ -180,7 +171,7 @@ public class UIManager : MonoBehaviour
     /// 리스트 정의: 업무 장소(1~6)
     /// SceneTransition에서 키 값으로 lobby 씬 이름 값을 넘겨주면
     /// </summary>
-    private List<string> locations = new List<string>
+    public List<string> locations = new List<string>
     {
         "미술관",
         "도서관",
@@ -192,11 +183,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateStartUI()
     {
-        Text _textUIStart = textUIStart.GetComponent<Text>();
+        Text _textUIStart = location_UIStart.GetComponent<Text>();
 
         if (_textUIStart != null)
         {
-            _textUIStart.text = locations[0];
+            _textUIStart.text = locations[stageIndex];
         }
     }
 

@@ -6,13 +6,16 @@ using UnityEngine.UI;
 public class RequestNPC : NPC
 {
     [Header("¾÷¹« ÀÇ·Ú¼­")]
-    [SerializeField] private PlayerDesk playerDesk;
-    [SerializeField] public GameObject[] sendChat;
-    [SerializeField] private GameObject replyChat;
-    [SerializeField] private Button replyButton;
-    [SerializeField] private Text interactText;
-    [SerializeField] private Text profileText;
-    [SerializeField] private Text locationText;
+    [SerializeField] private    PlayerDesk      playerDesk;
+
+    [SerializeField] public     GameObject[]    sendChat;
+    [SerializeField] private    GameObject      replyChat;
+
+    [SerializeField] private    Button          replyButton;
+
+    [SerializeField] private    Text            interactText;
+    [SerializeField] private    Text            profileText;
+    [SerializeField] public     Text            locationText;
 
     public Button       ReplyButton => replyButton;
     public Text         InteractText => interactText;
@@ -23,6 +26,8 @@ public class RequestNPC : NPC
     public bool isAcceptRequest = false;
     public bool canSend = false;
 
+    public int  locationIndex;
+
     private IRequestState currentState;
 
     private void Start()
@@ -31,6 +36,8 @@ public class RequestNPC : NPC
         {
             replyChat.SetActive(false);
         }
+
+        locationText.text = UIManager.u_instance.locations[UIManager.u_instance.stageIndex];
 
         ChangeState(new RequestReadyState());
     }
@@ -56,10 +63,6 @@ public class RequestNPC : NPC
             isAcceptRequest = true;
             replyButton.interactable = false;
             playerDesk.startON = true;
-
-            UIManager.u_instance.UpdateStartUI();
-
-            Debug.Log($"RequestNPC: {locationText}");
 
             ChangeState(new RequestEndState());
         }

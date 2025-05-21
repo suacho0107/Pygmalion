@@ -14,6 +14,8 @@ public class WorkSheet : MonoBehaviour
     public void SpawnCompany()
     {
         UIManager.u_instance.SetUIState(Define.UI.UIState.Ready);
+        // location µî·Ï
+        UIManager.u_instance.stageIndex++;
 
         playerPos.nextPosition = spawnPos;
         playerPos.isChecked = true;

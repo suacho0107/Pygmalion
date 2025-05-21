@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RequestReadyState : IRequestState
 {
-    private RequestNPC request;
+    private RequestNPC  request;
+
     private int currentChatIndex = 0;
 
     public void Enter(RequestNPC request)
@@ -15,9 +17,11 @@ public class RequestReadyState : IRequestState
     public void Update()
     {
         if (request.csv2 == null) return;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             request.sendChat[currentChatIndex].SetActive(true);
+
             currentChatIndex++;
         }
 
