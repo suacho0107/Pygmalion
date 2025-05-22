@@ -337,7 +337,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 350357335039465683}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &120097729
 BoxCollider2D:
@@ -1568,6 +1568,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2262102055519491533, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+      propertyPath: fadeTime
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262102055519491535, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
 --- !u!114 &860525197 stripped
@@ -1742,6 +1750,50 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6170030388432308588, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
   m_PrefabInstance: {fileID: 860525196}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &884047229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 884047230}
+  - component: {fileID: 884047231}
+  m_Layer: 0
+  m_Name: 02_TutorialDelay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &884047230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884047229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 350357335039465683}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &884047231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884047229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1057687682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3057,7 +3109,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 350357335039465683}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1569209175
 MonoBehaviour:
@@ -3998,6 +4050,7 @@ MonoBehaviour:
   nextPos: {x: 3, y: 5.7, z: 0}
   tutorials:
   - {fileID: 350357334029735547}
+  - {fileID: 884047231}
   - {fileID: 120097732}
   - {fileID: 1569209175}
   nextSceneName: Company_Office
@@ -4031,6 +4084,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 350357334029735544}
+  - {fileID: 884047230}
   - {fileID: 120097728}
   - {fileID: 1569209174}
   m_Father: {fileID: 0}
