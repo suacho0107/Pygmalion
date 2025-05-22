@@ -62,14 +62,14 @@ public class BattleUI : MonoBehaviour
     private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성
     {
         //상하 이동
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             if (currentDialogueButtonIndex == 2)
             {
                 currentDialogueButtonIndex -= 2;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (currentDialogueButtonIndex == 0)
             {
@@ -78,14 +78,14 @@ public class BattleUI : MonoBehaviour
         }
 
         //좌우 이동
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             if (currentDialogueButtonIndex % 2 == 1)
             {
                 currentDialogueButtonIndex--;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             if (currentDialogueButtonIndex == 0)
             {
@@ -121,14 +121,14 @@ public class BattleUI : MonoBehaviour
     private void PartButtonInputHandler()
     {
         //상하 이동
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             if (currentPartButtonIndex == 2 || currentPartButtonIndex == 3)
             {
                 currentPartButtonIndex -= 2;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (currentPartButtonIndex == 0 || currentPartButtonIndex == 1)
             {
@@ -140,7 +140,7 @@ public class BattleUI : MonoBehaviour
         }
 
         //좌우 이동
-        else if(Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             if (currentPartButtonIndex % 2 == 0)
             {
@@ -157,7 +157,7 @@ public class BattleUI : MonoBehaviour
                 currentPartButtonIndex--;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (currentPartButtonIndex % 2 == 0)
             {
