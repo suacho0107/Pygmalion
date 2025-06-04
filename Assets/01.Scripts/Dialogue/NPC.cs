@@ -42,6 +42,7 @@ public class NPC : MonoBehaviour
     //private void Start()
     //{
     //    ResetNPCData();
+    //    FieldItemManager.Instance.ResetFieldItems();
     //}
 
     public void StartDialogue()

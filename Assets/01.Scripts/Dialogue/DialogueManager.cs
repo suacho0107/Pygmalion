@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -288,12 +289,14 @@ public class DialogueManager : MonoBehaviour
         if (name != null) //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
+            descriptionPanel.SetActive(false);
             namePanel.SetActive(true);
             nameText.text = name;
         }
         else //name 없으면
         {
             descriptionPanel.SetActive(true);
+            dialoguePanel.SetActive(false);
             namePanel.SetActive(false);
         }
 
@@ -395,8 +398,6 @@ public class DialogueManager : MonoBehaviour
         isExplain = false;
         isMessage = false;
 
-        playerMove.ActiveInteract = false;
-
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
         descriptionPanel.SetActive(false);
@@ -417,17 +418,19 @@ public class DialogueManager : MonoBehaviour
 
         playerMove.ActiveInteract = false;
 
-        if(npc is StageNPC selectedNPC)
+        if (SceneManager.GetActiveScene().name.StartsWith("Museum")) // 미술관 NPC
         {
-            // 미술관장
-            if (selectedNPC.dialogueFileName == "Tutorial2_dialogue")
+            if (npc is StageNPC selectedNPC)
             {
-                selectedNPC.TutorialFin();
-            }
-            else if(selectedNPC.dialogueFileName == "Museum-Guard1_dialogue")
-            {
-                InventoryUI.instance.GetQuestItem(10402);
-                selectedNPC.questEnd = true;
+                if (selectedNPC.dialogueFileName == "Tutorial2_dialogue") // 미술관장
+                {
+                    selectedNPC.TutorialFin();
+                }
+                else if (selectedNPC.dialogueFileName == "Museum-Guard1_dialogue") // 경비원
+                {
+                    InventoryUI.instance.GetAnItem(10402);
+                    selectedNPC.questEnd = true;
+                }
             }
         }
 
@@ -497,11 +500,13 @@ public class DialogueManager : MonoBehaviour
         if (dialogues[lineCount].name != "") //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
+            descriptionPanel.SetActive(false);
             namePanel.SetActive(true);
         }
         else //name 없으면
         {
             descriptionPanel.SetActive(true);
+            dialoguePanel.SetActive(false);
             namePanel.SetActive(false);
         }
 
