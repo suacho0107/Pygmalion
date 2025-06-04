@@ -36,8 +36,13 @@ public class NPC : MonoBehaviour
     protected virtual void Awake()
     {
         filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
-        //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X @@@@@@@@@@@@
+        //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X
     }
+
+    //private void Start()
+    //{
+    //    ResetNPCData();
+    //}
 
     public void StartDialogue()
     {
@@ -85,16 +90,6 @@ public class NPC : MonoBehaviour
         dialogueFileName = dialogueFiles[currentIndex];
         selectFileName = selectFiles[currentIndex];
         //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
-
-        #region 수정 전, 배열 마지막 파일이면 작동 X
-        //if (currentIndex < dialogueFiles.Length - 1)
-        //{
-        //    currentIndex = _currentIndex;
-        //    dialogueFileName = dialogueFiles[currentIndex];
-        //    selectFileName = selectFiles[currentIndex];
-        //    //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
-        //}
-        #endregion
     }
     public void SaveNPCData()
     {

@@ -25,5 +25,6 @@ public class NPCData
     public bool isTutoDialogueChanged;
     public bool isTutoFin;
     public bool questEnd;
+    public bool unlock;
     //public string judgeState;
 }

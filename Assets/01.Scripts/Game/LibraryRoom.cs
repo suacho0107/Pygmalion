@@ -2,9 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class LibraryRoom : NPC
 {
+    public bool unlock = false;
+    bool saved;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        LoadData();
+        saved = false;
+    }
+
     void Update()
     {
         if (SceneManager.GetActiveScene().name == "Library_1F") // 회의실
@@ -14,15 +25,25 @@ public class LibraryRoom : NPC
             {
                 isInteract = false;
                 //Debug.Log("explainNum " + explainNum);
-            }// isObject 체크 풀어서 NPCData 저장 -> isInteract 한 번 된 후로는 BoxCollider2D 비활성화해서 상호작용키 없이도 이동 가능하도록
+            }
 
             ChangeDialogueFileName("Stage2_1F_dialogue");
-            //dialogueFileName = "Stage2_1F_dialogue";
             if (InventoryUI.instance.HasItem(20102))
             {
-                //Debug.Log("HasItem 20102");
                 ChangeExplainNum("11");
-                if (isInteract)
+                if (isInteract && !unlock)
+                {
+                    gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    unlock = true;
+
+                    if (!saved)
+                    {
+                        SaveData();
+                        saved = true;
+                    }
+                }
+
+                if (unlock)
                 {
                     gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 }
@@ -31,20 +52,45 @@ public class LibraryRoom : NPC
         }
         else if (SceneManager.GetActiveScene().name == "Library_B1F") // 열람실
         {
-            if (!InventoryUI.instance.HasItem(20101))   // 열쇠 미소지 시 !isInteract(최초 상호작용 위해)
+            if (InventoryUI.instance.HasItem(20101))
             {
-                //Debug.Log("미소지");
-                isInteract = false;
-            }
-            else // 열쇠 소지 후 최초 상호작용 시 isInteract
-            {
-                //Debug.Log("소지");
                 ChangeExplainNum("2");
-                if (isInteract)
+
+                dialogueManager = FindObjectOfType<DialogueManager>();
+                if (dialogueManager.isEnd)
                 {
-                    //gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    unlock = true;
+
+                    if (!saved)
+                    {
+                        SaveData();
+                        saved = true;
+                    }
                 }
             }
+        }
+    }
+
+    void SaveData()
+    {
+        npcData.isInteract = isInteract;
+        npcData.unlock = unlock;
+
+        string json = JsonUtility.ToJson(npcData);
+        File.WriteAllText(filePath, json);
+        Debug.Log(gameObject.name + " / 데이터 저장");
+    }
+
+    void LoadData()
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            npcData = JsonUtility.FromJson<NPCData>(json);
+            Debug.Log(gameObject.name + " / 데이터 로드");
+
+            isInteract = npcData.isInteract;
+            unlock = npcData.unlock;
         }
     }
 }
