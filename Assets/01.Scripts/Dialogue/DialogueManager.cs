@@ -55,6 +55,8 @@ public class DialogueManager : MonoBehaviour
     int lineCount = 0; //대화 카운트
     int contextCount = 0; //대사 카운트
 
+    public int selectedNum; // 선지 별 NPC 상호작용
+
     public void SetNPC(NPC _npc)
     {
         npc = _npc; //NPC 인스턴스 설정
@@ -362,6 +364,14 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        if(npc is StageNPC selectedNPC) // 선지 별 NPC 상호작용
+        {
+            if(currentIndex == 0) selectedNum = 1;
+            else if(currentIndex == 1) selectedNum = 2;
+            else if(currentIndex == 2) selectedNum = 3;
+            else if(currentIndex == 3) selectedNum = 4;
+        }
+
         int targetLineCount = (int)selectedIndex - 1;
 
         if (targetLineCount >= 0 && targetLineCount < dialogues.Length) //targetLineCount가 0 이상이고, dialogues 안에 있으면
@@ -426,11 +436,11 @@ public class DialogueManager : MonoBehaviour
                 {
                     selectedNPC.TutorialFin();
                 }
-                else if (selectedNPC.dialogueFileName == "Museum-Guard1_dialogue") // 경비원
-                {
-                    InventoryUI.instance.GetAnItem(10402);
-                    selectedNPC.questEnd = true;
-                }
+                //else if (selectedNPC.dialogueFileName == "Museum-Guard1_dialogue") // 경비원 StageNPC로 이동
+                //{
+                //    InventoryUI.instance.GetAnItem(10402);
+                //    selectedNPC.questEnd = true;
+                //}
             }
         }
 

@@ -69,6 +69,7 @@ public class FieldItemManager : MonoBehaviour
     public void ResetFieldItems()
     {
         collectedItems.Clear();
+        SaveCollectedItems();
     }
 }
 
