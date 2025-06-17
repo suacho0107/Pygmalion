@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     private float   workEfficiency;
 
     public  int     stageIndex = 0;
+
     void Awake()
     {
         // 싱글톤 초기화
@@ -67,6 +68,8 @@ public class UIManager : MonoBehaviour
 
     private void LoadStartScene()
     {
+        SetUIState(UI.UIState.Ready);
+
         string sceneName = "Start";
 
         if (!string.IsNullOrEmpty(sceneName))
@@ -159,7 +162,7 @@ public class UIManager : MonoBehaviour
 
             case UI.UIState.End:
                 if (UIEnd != null) UIEnd.SetActive(true);
-                UpdateEndUI();
+                //UpdateEndUI();
                 break;
         }
 
@@ -190,130 +193,6 @@ public class UIManager : MonoBehaviour
             _textUIStart.text = locations[stageIndex];
         }
     }
-
-    void UpdateEndUI()
-    {
-        Text _check_UIEnd = check_UIEnd.GetComponent<Text>();
-        Text _catch_UIEnd = catch_UIEnd.GetComponent<Text>();
-        Text _destroy_UIEnd = destroy_UIEnd.GetComponent<Text>();
-        Text _efficiency_UIEnd = efficiency_UIEnd.GetComponent<Text>();
-        //Text _grade_UIEnd = grade_UIEnd.GetComponent<Text>();
-
-        StatueScore statueScore = FindObjectOfType<StatueScore>();
-        // PlayerPref에서 데이터 불러와 결과보고서 변수에 저장한 뒤 출력
-
-
-        #region 조각상 조사 횟수(check_UIEnd)
-        if (_check_UIEnd != null)
-        {
-            checkCount = PlayerPrefs.GetInt("StatueCount");
-            _check_UIEnd.text = checkCount.ToString();
-        }
-        else
-        {
-            Debug.Log("값이 할당되지 않았습니다.");
-        }
-        #endregion
-
-        #region 적발한 조각상(catch_UIEnd)
-        if (_catch_UIEnd != null)
-        {
-            fightCount = PlayerPrefs.GetInt("fightCount");
-            _catch_UIEnd.text = fightCount.ToString();
-        }
-        else
-        {
-            Debug.Log("값이 할당되지 않았습니다.");
-        }
-        #endregion
-
-        #region 파손한 조각상(destroy_UIEnd)
-        if (_destroy_UIEnd != null)
-        {
-            destroyedCount = PlayerPrefs.GetInt("destroyedCount");
-            _destroy_UIEnd.text = destroyedCount.ToString();
-        }
-        else
-        {
-            Debug.Log("값이 할당되지 않았습니다.");
-        }
-        #endregion
-
-        #region 업무효율(efficiency_UIEnd)
-        if (_efficiency_UIEnd != null)
-        {
-            // 업무 효율(조사 효율, 전투 효율)
-            float investigationEfficiency = checkCount / 12;
-            float battleEfficiency = fightCount / 1;
-            workEfficiency = investigationEfficiency + battleEfficiency;
-
-            // 등급 산출 및 출력
-            if (workEfficiency < 1)
-            {
-                efficiency = "탁월";
-            }
-            else if (workEfficiency >= 1 && workEfficiency < 1.5)
-            {
-                efficiency = "우수";
-            }
-            else if (workEfficiency >= 1.5 && workEfficiency < 2)
-            {
-                efficiency = "충족";
-            }
-            else if (workEfficiency >= 2 && workEfficiency < 2.5)
-            {
-                efficiency = "개선 필요";
-            }
-            else
-            {
-                efficiency = "미흡";
-            }
-
-            _efficiency_UIEnd.text = efficiency;
-        }
-        else
-        {
-            Debug.Log("값이 할당되지 않았습니다.");
-        }
-        #endregion
-
-        #region 평가등급(grade_UIEnd)
-        if (UIEnd != null)
-        {
-            // 판별 정확도
-            float catchAccurarcy = destroyedCount / 5;
-
-            // 총 평가등급(=업무 효율 + 판별 정확도)
-            float totalGrade = workEfficiency + catchAccurarcy;
-
-            if (totalGrade < 1)
-            {
-                UIEnd.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(true);
-            }
-            else if (totalGrade >= 1 && totalGrade < 1.3)
-            {
-                UIEnd.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(true);
-            }
-            else if (totalGrade >= 1.3 && totalGrade < 1.7)
-            {
-                UIEnd.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(true);
-            }
-            else if (totalGrade >= 1.7 && totalGrade < 2.2)
-            {
-                UIEnd.transform.GetChild(0).GetChild(1).GetChild(3).gameObject.SetActive(true);
-            }
-            else
-            {
-                UIEnd.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            Debug.Log("값이 할당되지 않았습니다.");
-        }
-        #endregion
-    }
-
 
     #endregion
 }

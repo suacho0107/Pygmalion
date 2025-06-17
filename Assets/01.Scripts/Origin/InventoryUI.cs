@@ -6,11 +6,15 @@ using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using Unity.Mathematics;
 
+// End 시점에 결과보고서 등급에 따라 성과급 부여
+
 public class InventoryUI : MonoBehaviour
 {
     public static InventoryUI instance;
     private ItemDatabase ItemDB;
     public GameObject inventoryPanel;
+    public GameObject currencyPanel;
+
     public bool activeInventory = false;
 
     private InventorySlot[] slots;          // 인벤토리 슬롯 리스트
@@ -18,6 +22,7 @@ public class InventoryUI : MonoBehaviour
     private List<Item> inventoryItemList;   // 플레이어 소지템 리스트
 
     public Text Description_Text;           // 템 설명
+    public Text Currency_Text;
 
     public Image Description_Icon;          // 템 설명창 아이콘
 
@@ -174,6 +179,7 @@ public class InventoryUI : MonoBehaviour
         instance = this;
         ItemDB = FindObjectOfType<ItemDatabase>();
         inventoryPanel.SetActive(activeInventory);
+        currencyPanel.SetActive(activeInventory);
 
         inventoryItemList = new List<Item>();
         // GridSlot의 자식객체 저장
@@ -193,14 +199,18 @@ public class InventoryUI : MonoBehaviour
             if (activeInventory == true)
             {
                 inventoryPanel.SetActive(true);
+                currencyPanel.SetActive(true);
                 activeItem = true;
                 ShowItem();
                 selectedItem = 0;
+
+                Currency_Text.text = DataManager.Instance.currency.ToString();
             }
             else
             {
                 StopAllCoroutines();
                 inventoryPanel.SetActive(false);
+                currencyPanel.SetActive(false);
                 activeItem = false;
                 SaveInventory();
             }

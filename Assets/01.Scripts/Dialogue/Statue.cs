@@ -140,7 +140,7 @@ public class Statue : NPC
                     }
                     else // 적, 오답
                     {
-                        Debug.Log("이상 없음 > 오답");
+                        //Debug.Log("이상 없음 > 오답");
                         if (!test1 && !enterFight) // 오답 전투 최초 진입: 기록 효과음 재생
                         {
                             statueAudio.PlayPencil();
@@ -187,7 +187,7 @@ public class Statue : NPC
                             statueScore.SaveScore();
                             test3 = true;
                         }
-                        Debug.Log("건드린다 > 오답");
+                        //Debug.Log("건드린다 > 오답");
                         ChangeSprite();
                         isCorrect = false;
                         isSpriteChanged = true;
