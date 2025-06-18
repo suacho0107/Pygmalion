@@ -32,17 +32,18 @@ public class DialogueManager_Jiyun : MonoBehaviour
     //public Text selectText3;
     //public Text selectText4;
 
-    Dialogue[] dialogues;
-    Select[] selects;
+    public Dialogue[] dialogues;
+    public Select[] selects;
 
+
+    DialogueUI_Jiyun dialogueUI;
     InteractionEvent interactionEvent;
+    PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     NPC npc; //= currentNPCZ
     StageNPC stageNpc;
     Statue statue;
-    PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     StatueScore statueScore;
     MuseumLobbyCSV csv;
-    DialogueUI_Jiyun dialogueUI;
 
     public bool isEnd = false;
     public bool isDialogue = false;
@@ -57,73 +58,40 @@ public class DialogueManager_Jiyun : MonoBehaviour
     //private int lineCount = 0; //대화 카운트
     //private int contextCount = 0; //대사 카운트
 
-    public void SetNPC(NPC _npc)
+    void Awake()
     {
-        npc = _npc; //NPC 인스턴스 설정
-
-        interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
-
-        if (npc is StageNPC)
-        {
-            stageNpc = npc as StageNPC;
-            statue = null;
-        }
-        else if (npc is Statue)
-        {
-            statue = npc as Statue;
-            stageNpc = null;
-        }
-        else if (npc is NPC)
-        {
-            stageNpc = null;
-            statue = null;
-        }
-        else
-        {
-            npc = null;
-            stageNpc = null;
-            statue = null;
-            Debug.LogError("SetNPC: NPC is null.");
-        }
-        //if (npc != null)
-        //{
-        //    interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
-        //}
-        //else
-        //{
-        //    Debug.LogError("SetNPC: NPC is null.");
-        //}
+        dialogueUI = FindObjectOfType<DialogueUI_Jiyun>();
+        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
+        stageNpc = FindObjectOfType<StageNPC>();
+        statue = FindObjectOfType<Statue>();
+        statueScore = FindObjectOfType<StatueScore>();
     }
 
-    private void Start()
+    void Start()
     {
-        foreach (var image in dialogueUI.Images)
-        {
-            image.gameObject.SetActive(false);
-        }
-
-        dialogueUI.dialoguePanel.SetActive(false);
-        dialogueUI.descriptionPanel.SetActive(false);
-        dialogueUI.namePanel.SetActive(false);
-
-        dialogueUI.selectBtn1.gameObject.SetActive(false);
-        dialogueUI.selectBtn2.gameObject.SetActive(false);
-        dialogueUI.selectBtn3.gameObject.SetActive(false);
-        dialogueUI.selectBtn4.gameObject.SetActive(false);
-
         if (dialogueUI.ItemImage != null)
         {
             dialogueUI.ItemImage.SetActive(false);
         }
 
-        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
-        statueScore = FindObjectOfType<StatueScore>();
-        stageNpc = FindObjectOfType<StageNPC>();
-        statue = FindObjectOfType<Statue>();
-        dialogueUI = FindObjectOfType<DialogueUI_Jiyun>();
+        foreach (var image in dialogueUI.Images)
+        {
+            image.gameObject.SetActive(false);
+        } 
+
+        dialogueUI.dialoguePanel.SetActive(false);
+        //dialogueUI.descriptionPanel.SetActive(false);
+        dialogueUI.namePanel.SetActive(false);
+
+        dialogueUI.selectButtons.SetActive(false);
+        //dialogueUI.selectBtn1.gameObject.SetActive(false);
+        //dialogueUI.selectBtn2.gameObject.SetActive(false);
+        //dialogueUI.selectBtn3.gameObject.SetActive(false);
+        //dialogueUI.selectBtn4.gameObject.SetActive(false);
+
     }
 
-    private void Update()
+    void Update()
     {
         if (isDialogue && isNext && !isSelect)
         {
@@ -205,98 +173,36 @@ public class DialogueManager_Jiyun : MonoBehaviour
         }
     }
 
-
-    /*
-    private void DialogueButtonInputHandler()
+    public void SetNPC(NPC _npc)
     {
-        int previousIndex = currentDialogueButtonIndex;
+        npc = _npc; //NPC 인스턴스 설정
 
-        // 상하 이동 (2열 기준)
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
+
+        if (npc is StageNPC)
         {
-            if (currentDialogueButtonIndex - 2 >= 0)
-            {
-                currentDialogueButtonIndex -= 2;
-            }
+            stageNpc = npc as StageNPC;
+            statue = null;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (npc is Statue)
         {
-            if (currentDialogueButtonIndex + 2 < dialogueButtonList.Count)
-            {
-                currentDialogueButtonIndex += 2;
-            }
+            stageNpc = null;
+            statue = npc as Statue;
         }
-
-        // 좌우 이동 (같은 행 내에서만 이동)
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (npc is NPC)
         {
-            if (currentDialogueButtonIndex % 2 == 1)
-            {
-                currentDialogueButtonIndex -= 1;
-            }
+            stageNpc = null;
+            statue = null;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else
         {
-            if (currentDialogueButtonIndex % 2 == 0 &&
-                currentDialogueButtonIndex + 1 < dialogueButtonList.Count)
-            {
-                currentDialogueButtonIndex += 1;
-            }
-        }
-
-        // 선택
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (currentDialogueButtonIndex < dialogueButtonList.Count)
-            {
-                string selectedButtonText = dialogueButtonList[currentDialogueButtonIndex].GetComponentInChildren<Text>().text;
-
-                if (selectedButtonText == "공격한다")
-                {
-                    player.AttackButton();
-                }
-                else if (selectedButtonText == "소지품을 확인한디")
-                {
-                    player.InventoryButton();
-                }
-                else if (selectedButtonText == "도망친다")
-                {
-                    player.RunButton();
-                }
-
-                dialogueButtons.SetActive(false);
-            }
-        }
-
-        if (previousIndex != currentDialogueButtonIndex)
-        {
-            HighlightDialogueButton();
+            npc = null;
+            stageNpc = null;
+            statue = null;
+            Debug.LogError("SetNPC: NPC is null.");
         }
     }
-
-    private bool isThereButton(int pageIndex, int buttonIndex, int increraseButtonIndex)
-    {
-        int targetButtonIndex = buttonIndex + increraseButtonIndex;
-
-        if (targetButtonIndex > 3)
-        {
-            targetButtonIndex -= 4;
-        }
-
-        int lastButtonIndex = enemy.parts.Count - pageIndex * 4;
-
-        return targetButtonIndex < lastButtonIndex;        
-    }
-
-    private void HighlightDialogueButton()
-    {
-        for (int i = 0; i < dialogueButtonList.Count; i++)
-        {
-            Image image = dialogueButtonList[i].GetComponent<Image>();
-            image.sprite = (i == currentDialogueButtonIndex) ? ButtonHighlighted : ButtonDefault;
-        }
-    }
-    */
+    
 
     //public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     //{

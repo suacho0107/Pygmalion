@@ -5,53 +5,61 @@ using UnityEngine.UI;
 
 public class DialogueUI_Jiyun : MonoBehaviour
 {
-    DialogueManager_Jiyun dialogueManager;
+    [SerializeField] DialogueManager_Jiyun dialogueManager;
     InteractionEvent interactionEvent;
+    PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     NPC npc; //= currentNPCZ
     StageNPC stageNpc;
     Statue statue;
-    PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
     StatueScore statueScore;
     MuseumLobbyCSV csv;
-
-    Dialogue[] dialogues;
-    Select[] selects;
 
     public List<GameObject> Images;
     public List<GameObject> Portraits;
 
     public GameObject dialoguePanel;
-    public GameObject descriptionPanel;
+    //public GameObject descriptionPanel;
     public GameObject namePanel;
     public GameObject ItemImage;
 
     public Text dialogueText;
     public Text descriptionText;
-    public Text nameText;
+    private Text nameText;
 
-    private List<GameObject> selectButtonList = new List<GameObject>();
     public GameObject selectButtons;
-    public Button selectBtn1;
-    public Button selectBtn2;
-    public Button selectBtn3;
-    public Button selectBtn4;
+    private List<GameObject> selectButtonList = new List<GameObject>();
+    private List<Text> selectTextList = new List<Text>();
 
-    private List<GameObject> selectTextList = new List<GameObject>();
-    public Text selectText1;
-    public Text selectText2;
-    public Text selectText3;
-    public Text selectText4;
+    private int currentSelectIndex = 0;
+
+    private int currentSelectButtonIndex = 0;
+    private List<int> moveNumList = new List<int>();
+
+    public bool isSelecting = false;
 
     public int lineCount = 0; //대화 카운트
     public int contextCount = 0; //대사 카운트
 
+    public Sprite ButtonDefault;
+    public Sprite ButtonHighlighted;
 
-    private void Awake()
+
+    void Awake()
     {
-        
-        dialogueManager = FindObjectOfType<DialogueManager_Jiyun>();
-        npc = FindObjectOfType<NPC>();
+        //dialogueManager = FindObjectOfType<DialogueManager_Jiyun>();
+        dialogueManager = GetComponent<DialogueManager_Jiyun>();
+        if (dialogueManager != null)
+        {
+            Debug.Log($"DialogueManager_Jiyun 할당: {dialogueManager.gameObject.name}");
+        }
+        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
+        stageNpc = FindObjectOfType<StageNPC>();
+        statue = FindObjectOfType<Statue>();
+        statueScore = FindObjectOfType<StatueScore>();
+        nameText = namePanel.GetComponentInChildren<Text>();
+        Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}");
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,16 +69,130 @@ public class DialogueUI_Jiyun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isSelecting)
+        {
+            SelectButtonInputHandler();
+        }
+    }
+
+    private void SelectButtonInputHandler()
+    {
+        //상하 이동
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        {
+            if (currentSelectButtonIndex == 2 || currentSelectButtonIndex == 3)
+            {
+                currentSelectButtonIndex -= 2;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        {
+            if (currentSelectButtonIndex == 0 || currentSelectButtonIndex == 1)
+            {
+                if (isThereButton(currentSelectButtonIndex, 2))
+                {
+                    currentSelectButtonIndex += 2;
+                }
+            }
+        }
+
+        //좌우 이동
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            if (currentSelectButtonIndex % 2 == 1)
+            {
+                currentSelectButtonIndex--;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            if (currentSelectButtonIndex % 2 == 0)
+            {
+                currentSelectButtonIndex++;
+            }
+        }
+
+        //선택
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (currentSelectButtonIndex < selectButtonList.Count) //버튼 범위 안에 있는지 확인
+            {
+                //OnSelectButtonClicked(selectedIndex, currentSelectButtonIndex);
+
+                currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
+
+                // currentSelectButtonIndex 는 UI 선택지 인덱스
+
+                // 실제 선택지 이동 번호 가져오기
+                string moveNumStr = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
+
+                if (int.TryParse(moveNumStr, out int selectedIndex))
+                {
+                    OnSelectButtonClicked(selectedIndex, currentSelectButtonIndex);
+                }
+                else
+                {
+                    Debug.LogError("moveNum 파싱 실패");
+                }
+
+                //초기화
+                currentSelectButtonIndex = 0;
+            }
+        }
+
+        Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
+
+        HighlightSelectButton();
+    }
+
+    private bool isThereButton(int buttonIndex, int increraseButtonIndex)
+    {
+        int targetButtonIndex = buttonIndex + increraseButtonIndex;
+
+        return targetButtonIndex < 4;
+    }
+
+    private void HighlightSelectButton()
+    {
+        for (int i = 0; i < selectButtonList.Count; i++)
+        {
+            Image image = selectButtonList[i].GetComponent<Image>();
+            image.sprite = (i == currentSelectButtonIndex) ? ButtonHighlighted : ButtonDefault;
+        }
+    }
+
+
+
+
+    public void SetSelectButtons()
+    {
+        selectButtonList.Clear(); //중복추가 방지
+        selectTextList.Clear(); //중복추가 방지
+
+        for (int i = 0; i < selectButtons.transform.childCount; i++)
+        {
+            GameObject selectButton = selectButtons.transform.GetChild(i).gameObject;
+            Text selectText = selectButton.transform.GetChild(0).GetComponent<Text>();
+
+            selectButtonList.Add(selectButton);
+            selectTextList.Add(selectText);
+        }
+
+        currentSelectButtonIndex = 0;
+        //HighlightDialogueButton();
     }
 
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
+
+        Debug.Log("ShowDialogue() 실행");
+
+        //초기화 및 Setting
         dialogueManager.isDialogue = true;
         dialogueText.text = "";
         descriptionText.text = "";
         nameText.text = "";
-        dialogues = _dialogues;
+        dialogueManager.dialogues = _dialogues;
         playerMove.pState = PlayerMove.PlayerState.Interaction;
 
         if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
@@ -91,7 +213,7 @@ public class DialogueUI_Jiyun : MonoBehaviour
             int explainLine;
             if (int.TryParse(explainNum, out explainLine))
             {
-                if (explainLine > 0 && explainLine <= dialogues.Length)
+                if (explainLine > 0 && explainLine <= dialogueManager.dialogues.Length)
                 {
                     lineCount = explainLine - 1; //explainLine번째 line으로 이동; 근데 왜 -1인진 모르겠음... 그냥 잘 돌아감
                     contextCount = 0;
@@ -128,11 +250,12 @@ public class DialogueUI_Jiyun : MonoBehaviour
             return;
         }
 
-        selectText1.text = "";
-        selectText2.text = "";
-        selectText3.text = "";
-        selectText4.text = "";
-        selects = _selects;
+        for (int i = 0; i < selectTextList.Count; i++)
+        {
+            selectTextList[i].text = "";
+        }
+
+        dialogueManager.selects = _selects;
 
         StartCoroutine(SelectWriter());
     }
@@ -223,7 +346,7 @@ public class DialogueUI_Jiyun : MonoBehaviour
 
         int targetLineCount = (int)selectedIndex - 1;
 
-        if (targetLineCount >= 0 && targetLineCount < dialogues.Length) //targetLineCount가 0 이상이고, dialogues 안에 있으면
+        if (targetLineCount >= 0 && targetLineCount < dialogueManager.dialogues.Length) //targetLineCount가 0 이상이고, dialogues 안에 있으면
         {
             lineCount = targetLineCount; //lineCount 강제 변경
             contextCount = 0; //contextCount 초기화
@@ -252,7 +375,7 @@ public class DialogueUI_Jiyun : MonoBehaviour
         dialogueManager.isDialogue = false;
         contextCount = 0;
         lineCount = 0;
-        dialogues = null;
+        dialogueManager.dialogues = null;
         dialogueManager.isNext = false;
         dialogueManager.isExplain = false;
         dialogueManager.isMessage = false;
@@ -270,7 +393,7 @@ public class DialogueUI_Jiyun : MonoBehaviour
         dialogueManager.isDialogue = false;
         contextCount = 0;
         lineCount = 0;
-        dialogues = null;
+        dialogueManager.dialogues = null;
         dialogueManager.isNext = false;
         dialogueManager.isExplain = false;
         npc.isInteract = true; // 미술관장
@@ -306,7 +429,7 @@ public class DialogueUI_Jiyun : MonoBehaviour
         dialogueManager.SaveData();
 
         dialoguePanel.SetActive(false);
-        descriptionPanel.SetActive(false);
+        //descriptionPanel.SetActive(false);
         namePanel.SetActive(false);
 
         if (ItemImage != null)
@@ -329,40 +452,46 @@ public class DialogueUI_Jiyun : MonoBehaviour
     void EndSelect()
     {
         dialogueManager.isSelect = false;
-        selects = null;
+        dialogueManager.selects = null;
 
-        selectBtn1.gameObject.SetActive(false);
-        selectBtn2.gameObject.SetActive(false);
-        selectText1.gameObject.SetActive(false);
-        selectText2.gameObject.SetActive(false);
+        selectButtons.SetActive(false);
+        //selectBtn1.gameObject.SetActive(false);
+        //selectBtn2.gameObject.SetActive(false);
+        //selectText1.gameObject.SetActive(false);
+        //selectText2.gameObject.SetActive(false);
 
-        selectBtn3.gameObject.SetActive(false);
-        selectBtn4.gameObject.SetActive(false);
-        selectText3.gameObject.SetActive(false);
-        selectText4.gameObject.SetActive(false);
+        //selectBtn3.gameObject.SetActive(false);
+        //selectBtn4.gameObject.SetActive(false);
+        //selectText3.gameObject.SetActive(false);
+        //selectText4.gameObject.SetActive(false);
         //SaveData();
     }
 
     #region 팝업 이미지 구현
     public IEnumerator DialogueWriter()
     {
+        Text contextText;
+        
+
         //Debug.Log("DialogueWriter");
-        if (dialogues[lineCount].name != "") //대사에 name 있으면
+        if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
             namePanel.SetActive(true);
+            contextText = dialogueText;
         }
         else //name 없으면
         {
-            descriptionPanel.SetActive(true);
+            //descriptionPanel.SetActive(true);
             namePanel.SetActive(false);
+            contextText = descriptionText;
         }
 
-        string replaceText = dialogues[lineCount].contexts[contextCount];
+        string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
         replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
         replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
 
-        nameText.text = dialogues[lineCount].name; //name 출력
+        nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
 
         // 초상화 출력
         foreach (var portrait in Portraits)
@@ -382,8 +511,7 @@ public class DialogueUI_Jiyun : MonoBehaviour
         //context 출력
         for (int i = 0; i < replaceText.Length; i++)
         {
-            dialogueText.text += replaceText[i];
-            descriptionText.text += replaceText[i];
+            contextText.text += replaceText[i];
             yield return new WaitForSeconds(0.03f);
         }
 
@@ -393,79 +521,132 @@ public class DialogueUI_Jiyun : MonoBehaviour
 
     IEnumerator SelectWriter()
     {
-        Button[] buttons = { selectBtn1, selectBtn2, selectBtn3, selectBtn4 };
-        Text[] texts = { selectText1, selectText2, selectText3, selectText4 };
+        int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2; //name 존재 여부 판단해서 매개변수 전달
 
-        if (dialogues[lineCount].name == "")
+        moveNumList.Clear(); //중복 방지
+        currentSelectButtonIndex = 0;
+
+        if (lineCount < dialogueManager.selects.Length)
         {
-            for (int i = 0; i < selects.Length; i++)
-            {
-                if (selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
-                {
-                    for (int j = 0; j < selects[i].contexts.Length; j++)
-                    {
-                        if (i < buttons.Length) // 배열 범위 내인지 확인
-                        {
-                            buttons[j].gameObject.SetActive(true);
-                            texts[j].gameObject.SetActive(true);
+            currentSelectIndex = lineCount;
 
-                            string replaceText = selects[i].contexts[j].Replace("#", ",");
-
-                            for (int k = 0; k < replaceText.Length; k++)
-                            {
-                                texts[j].text += replaceText[k];
-                                yield return new WaitForSeconds(0.03f);
-                            }
-
-                            string selectedMoveNum = selects[i].moveNum[j];
-                            int selectedMoveNumInt;
-                            int.TryParse(selectedMoveNum, out selectedMoveNumInt);
-
-                            int currentSelectNum = j;// 판별 추가 코드
-
-                            buttons[j].onClick.RemoveAllListeners();
-                            buttons[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
-                        }
-                    }
-                }
-            }
+            Select select = dialogueManager.selects[lineCount];
+            yield return StartCoroutine(WriteSelectOptions(select, offset));
+            isSelecting = true;
+            HighlightSelectButton();
         }
         else
         {
-            for (int i = 0; i < selects.Length; i++)
+            Debug.LogError("Select data is out of range.");
+        }
+    }
+
+    IEnumerator WriteSelectOptions(Select select, int offset)
+    {
+        for (int i = 0; i < select.contexts.Length && i < 4; i++) // 최대 4개까지
+        {
+            int buttonIndex = i + offset;
+
+            if (buttonIndex < selectButtonList.Count)
             {
-                if (selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
+                selectButtonList[buttonIndex].gameObject.SetActive(true);
+                selectTextList[buttonIndex].text = "";
+
+                string replacedText = select.contexts[i].Replace("#", ",");
+
+                for (int j = 0; j < replacedText.Length; j++)
                 {
-                    for (int j = 0; j < selects[i].contexts.Length; j++)
-                    {
-                        if (i < buttons.Length) // 배열 범위 내인지 확인
-                        {
-                            buttons[j + 2].gameObject.SetActive(true);
-                            texts[j + 2].gameObject.SetActive(true);
+                    selectTextList[buttonIndex].text += replacedText[j];
+                    yield return new WaitForSeconds(0.03f);
+                }
 
-                            string replaceText = selects[i].contexts[j].Replace("#", ",");
-
-                            for (int k = 0; k < replaceText.Length; k++)
-                            {
-                                texts[j + 2].text += replaceText[k];
-                                yield return new WaitForSeconds(0.03f);
-                            }
-
-                            string selectedMoveNum = selects[i].moveNum[j];
-                            int selectedMoveNumInt;
-                            int.TryParse(selectedMoveNum, out selectedMoveNumInt);
-
-                            int currentSelectNum = j;// 판별 추가 코드
-
-                            buttons[j + 2].onClick.RemoveAllListeners();
-                            buttons[j + 2].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
-                        }
-                    }
+                // moveNum 저장
+                if (i < select.moveNum.Length && int.TryParse(select.moveNum[i], out int moveNum))
+                {
+                    moveNumList.Add(moveNum);
+                }
+                else
+                {
+                    moveNumList.Add(0); // 기본값
                 }
             }
         }
-
     }
+
+
+    //IEnumerator SelectWriter()
+    //{
+
+    //    if (dialogueManager.dialogues[lineCount].name == "")
+    //    {
+    //        for (int i = 0; i < dialogueManager.selects.Length; i++)
+    //        {
+    //            if (dialogueManager.selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
+    //            {
+    //                for (int j = 0; j < dialogueManager.selects[i].contexts.Length; j++)
+    //                {
+    //                    if (j < selectButtonList.Count) // 배열 범위 내인지 확인
+    //                    {
+    //                        selectButtonList[j].gameObject.SetActive(true);
+    //                        //selectTextList[j].gameObject.SetActive(true);
+
+    //                        string replaceText = dialogueManager.selects[i].contexts[j].Replace("#", ",");
+
+    //                        for (int k = 0; k < replaceText.Length; k++)
+    //                        {
+    //                            selectTextList[j].text += replaceText[k];
+    //                            yield return new WaitForSeconds(0.03f);
+    //                        }
+
+    //                        string selectedMoveNum = dialogueManager.selects[i].moveNum[j];
+    //                        int selectedMoveNumInt;
+    //                        int.TryParse(selectedMoveNum, out selectedMoveNumInt);
+
+    //                        int currentSelectNum = j;// 판별 추가 코드
+
+    //                        selectButtonList[j].onClick.RemoveAllListeners();
+    //                        selectButtonList[j].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < dialogueManager.selects.Length; i++)
+    //        {
+    //            if (dialogueManager.selects[i].contexts.Length > 1) //선지가 2개 이상 존재하면
+    //            {
+    //                for (int j = 0; j < dialogueManager.selects[i].contexts.Length; j++)
+    //                {
+    //                    if (i < selectButtonList.Count) // 배열 범위 내인지 확인
+    //                    {
+    //                        selectButtonList[j + 2].gameObject.SetActive(true);
+    //                        //texts[j + 2].gameObject.SetActive(true);
+
+    //                        string replaceText = dialogueManager.selects[i].contexts[j].Replace("#", ",");
+
+    //                        for (int k = 0; k < replaceText.Length; k++)
+    //                        {
+    //                            selectTextList[j + 2].text += replaceText[k];
+    //                            yield return new WaitForSeconds(0.03f);
+    //                        }
+
+    //                        string selectedMoveNum = dialogueManager.selects[i].moveNum[j];
+    //                        int selectedMoveNumInt;
+    //                        int.TryParse(selectedMoveNum, out selectedMoveNumInt);
+
+    //                        int currentSelectNum = j;// 판별 추가 코드
+
+    //                        selectButtonList[j + 2].onClick.RemoveAllListeners();
+    //                        selectButtonList[j + 2].onClick.AddListener(() => OnSelectButtonClicked(selectedMoveNumInt, currentSelectNum)); // 판별 매개변수 추가
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //}
 
     IEnumerator MessageWriter()
     {
