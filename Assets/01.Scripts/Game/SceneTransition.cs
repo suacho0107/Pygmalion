@@ -22,92 +22,61 @@ public class SceneTransition : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!col.CompareTag("Player")) return;
-
-        if (stageNpc == null && npc == null) // 기본: 미술관장 등 NPC null
+        if (col.CompareTag("Player"))
         {
-            LoadNextScene();
-        }
-        else if (stageNpc != null)
-        {
-            if (SceneManager.GetActiveScene().name == "Museum_Lobby") // 미술관장
+            if (stageNpc == null && npc == null) // 기본: 미술관장 등 NPC null
             {
-                if (!stageNpc.isTutoFin)
-                {
-                    if (!enter)
-                    {
-                        enter = true;
-                        string message = "미술관을 구경하고 싶은 그대의 마음은 알겠지만, 우선 아래에 있는 조각상부터 해봐주세요!";
+                // Scriptable Object에 nextPos 저장
+                playerPos.nextPosition = nextPos;
+                playerPos.isChecked = true;
 
-                        DialogueManager dm = FindObjectOfType<DialogueManager>();
-                        dm.ShowMessage(message, "미술관장");
-                    }
+                // 방문 횟수 증가
+                int sceneIndex = GetSceneIndex(nextScene);
+                if (sceneIndex != -1)
+                {
+                    sceneData.scenes[sceneIndex].visitCount++;
+                    Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
                 }
                 else
                 {
-                    LoadNextScene();
+                    Debug.LogError("SceneData not found for scene: " + nextScene);
                 }
+
+            SetUIStateWork(nextScene);
+
+                SceneManager.LoadScene(nextScene);
             }
-        }
-        else if (npc != null) // 그 외 상호작용 ** 열쇠 상호작용은 NPC 시스템 활용
-        {
-            if (SceneManager.GetActiveScene().name == "Library_B1F") // 회의실
+            else if (stageNpc != null)
             {
-                if (npc.isInteract)
+                if (SceneManager.GetActiveScene().name == "Museum_Lobby") // 미술관 로비 미술관장
                 {
-                    LoadNextScene();
+                    if (!stageNpc.isTutoFin)
+                    {
+                        if (!enter)
+                        {
+                            enter = true;
+                            string message = "미술관을 구경하고 싶은 그대의 마음은 알겠지만, 우선 아래에 있는 조각상부터 해봐주세요!";
+
+                            DialogueManager dm = FindObjectOfType<DialogueManager>();
+                            dm.ShowMessage(message, "미술관장");
+                        }
+                    }
+                    else
+                    {
+                        LoadNextScene();
+                    }
                 }
             }
-            //if (SceneManager.GetActiveScene().name == "Library_1F" && !InventoryUI.instance.HasItem(20102)) // 도서관 열쇠
-            //{
-            //    if (!enter)
-            //    {
-            //        enter = true;
-            //        string message = "굳게 잠겨 있다. 열쇠가 어딘가에 있을 것 같은데...";
-
-            //        DialogueManager dm = FindObjectOfType<DialogueManager>();
-            //        dm.ShowMessage(message);
-            //    }
-            //}
-            //else if (SceneManager.GetActiveScene().name == "Library_B1F")
-            //{
-            //    if (!InventoryUI.instance.HasItem(20101))
-            //    {
-            //        if (!enter)
-            //        {
-            //            enter = true;
-            //            string message = "굳게 잠겨 있다. 열쇠를 어디서 구해야 하나...";
-
-            //            DialogueManager dm = FindObjectOfType<DialogueManager>();
-            //            dm.ShowMessage(message);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (!open)
-            //        {
-            //            if (!enter)
-            //            {
-            //                enter = true;
-            //                Debug.Log("enter true");
-            //                if (Input.GetKeyDown(KeyCode.F))
-            //                {
-            //                    Debug.Log("GetKeyDown");
-            //                    string message = "철컥. 열쇠를 넣고 돌리자 자물쇠가 열렸다.";
-
-            //                    DialogueManager dm = FindObjectOfType<DialogueManager>();
-            //                    dm.ShowMessage(message);
-            //                    open = true; // 이거 저장이 안 돼서 다른 맵 이동했다 오면 초기화될 텐데...
-            //                    LoadNextScene();
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            LoadNextScene();
-            //        }
-            //    }
-            //}
+            else if (npc != null) // 그 외 상호작용
+            {
+                if (SceneManager.GetActiveScene().name == "Library_B1F") // 도서관 B1 열람실
+                {
+                    if(!enter)
+                    {
+                        enter = true;
+                    }
+                }
+            }
         }
     }
 
@@ -119,7 +88,44 @@ public class SceneTransition : MonoBehaviour
         }
     }
 
-    private void LoadNextScene()
+    private void Update()
+    {
+        if (npc != null && SceneManager.GetActiveScene().name == "Library_B1F") // 도서관 B1 열람실
+        {
+            if (!InventoryUI.instance.HasItem(20101))
+            {
+                npc.isInteract = false;
+            }
+            else
+            {// 최초 상호작용 시 isInteract, 대사 출력
+                if (enter && Input.GetKeyDown(KeyCode.F) && !npc.isInteract)
+                {
+                    Debug.Log("GetKeyDown");
+                    npc.isInteract = true;
+                }
+            }
+
+            if (npc.isInteract && enter)
+            {
+                LibraryRoom libRoom = FindObjectOfType<LibraryRoom>();
+                if (!libRoom.unlock) // 최초 상호작용 시 대사 출력
+                {
+                    DialogueManager dm = FindObjectOfType<DialogueManager>();
+                    if (dm.isEnd)
+                    {
+                        Debug.Log("isInteract isEnd LoadScene");
+                        LoadNextScene();
+                    }
+                }
+                else // 최초 상호작용 이후 대사 출력 없이 이동
+                {
+                    LoadNextScene();
+                }
+            }
+        }
+    }
+
+    void LoadNextScene()
     {
         // Scriptable Object에 nextPos 저장
         playerPos.nextPosition = nextPos;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -53,6 +54,8 @@ public class DialogueManager : MonoBehaviour
 
     int lineCount = 0; //대화 카운트
     int contextCount = 0; //대사 카운트
+
+    public int selectedNum; // 선지 별 NPC 상호작용
 
     public void SetNPC(NPC _npc)
     {
@@ -288,12 +291,14 @@ public class DialogueManager : MonoBehaviour
         if (name != null) //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
+            descriptionPanel.SetActive(false);
             namePanel.SetActive(true);
             nameText.text = name;
         }
         else //name 없으면
         {
             descriptionPanel.SetActive(true);
+            dialoguePanel.SetActive(false);
             namePanel.SetActive(false);
         }
 
@@ -359,6 +364,14 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        if(npc is StageNPC selectedNPC) // 선지 별 NPC 상호작용
+        {
+            if(currentIndex == 0) selectedNum = 1;
+            else if(currentIndex == 1) selectedNum = 2;
+            else if(currentIndex == 2) selectedNum = 3;
+            else if(currentIndex == 3) selectedNum = 4;
+        }
+
         int targetLineCount = (int)selectedIndex - 1;
 
         if (targetLineCount >= 0 && targetLineCount < dialogues.Length) //targetLineCount가 0 이상이고, dialogues 안에 있으면
@@ -395,8 +408,6 @@ public class DialogueManager : MonoBehaviour
         isExplain = false;
         isMessage = false;
 
-        playerMove.ActiveInteract = false;
-
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
         descriptionPanel.SetActive(false);
@@ -417,17 +428,19 @@ public class DialogueManager : MonoBehaviour
 
         playerMove.ActiveInteract = false;
 
-        if(npc is StageNPC selectedNPC)
+        if (SceneManager.GetActiveScene().name.StartsWith("Museum")) // 미술관 NPC
         {
-            // 미술관장
-            if (selectedNPC.dialogueFileName == "Tutorial2_dialogue")
+            if (npc is StageNPC selectedNPC)
             {
-                selectedNPC.TutorialFin();
-            }
-            else if(selectedNPC.dialogueFileName == "Museum-Guard1_dialogue")
-            {
-                InventoryUI.instance.GetQuestItem(10402);
-                selectedNPC.questEnd = true;
+                if (selectedNPC.dialogueFileName == "Tutorial2_dialogue") // 미술관장
+                {
+                    selectedNPC.TutorialFin();
+                }
+                //else if (selectedNPC.dialogueFileName == "Museum-Guard1_dialogue") // 경비원 StageNPC로 이동
+                //{
+                //    InventoryUI.instance.GetAnItem(10402);
+                //    selectedNPC.questEnd = true;
+                //}
             }
         }
 
@@ -497,11 +510,13 @@ public class DialogueManager : MonoBehaviour
         if (dialogues[lineCount].name != "") //대사에 name 있으면
         {
             dialoguePanel.SetActive(true);
+            descriptionPanel.SetActive(false);
             namePanel.SetActive(true);
         }
         else //name 없으면
         {
             descriptionPanel.SetActive(true);
+            dialoguePanel.SetActive(false);
             namePanel.SetActive(false);
         }
 

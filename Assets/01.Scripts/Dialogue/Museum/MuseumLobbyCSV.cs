@@ -87,8 +87,8 @@ public class MuseumLobbyCSV : MonoBehaviour
                 npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                 npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
 
-                npcs[1].dialogueFiles = new string[] { "Museum-Guard0_dialogue", "Museum-Guard1_dialogue", "Museum-Guard2_dialogue" };
-                npcs[1].selectFiles = new string[] { "Museum-Guard0_select", "", "" };
+                npcs[1].dialogueFiles = new string[] { "Museum-Guard0_dialogue", "Museum-Guard1a_dialogue", "Museum-Guard1b_dialogue", "Museum-Guard1c_dialogue", "Museum-Guard1d_dialogue", "Museum-Guard2_dialogue" };
+                npcs[1].selectFiles = new string[] { "Museum-Guard0_select", "", "", "", "Museum-Guard1d_select", "" };
                 npcs[1].currentIndex = 0;
                 npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
                 npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];

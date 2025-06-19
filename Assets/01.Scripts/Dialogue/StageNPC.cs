@@ -13,6 +13,7 @@ public class StageNPC : NPC
     public bool isTutoDialogueChanged = false;
     public bool isTutoFin = false;
 
+    public bool questStart = false;
     public bool questEnd = false;
     //bool isDialogueChanged = false;
 
@@ -26,6 +27,12 @@ public class StageNPC : NPC
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            ResetNPCData();
+            FieldItemManager.Instance.ResetFieldItems();
+            Debug.Log("reset");
+        }
         #region Tutorial NPC
         if (SceneManager.GetActiveScene().name == "Museum_Lobby")
         {
@@ -81,24 +88,164 @@ public class StageNPC : NPC
         #region Museum Guard
         else if (SceneManager.GetActiveScene().name == "Museum_Garden")
         {
-            if (isInteract)
+            if (dialogueManager == null)
             {
-                //ChangeDialogueFile(1);
+                dialogueManager = FindObjectOfType<DialogueManager>();
             }
 
-            if (InventoryUI.instance.HasItem(10401))
+            if (!questEnd)
             {
-                ChangeDialogueFile(1);
-                //InventoryUI.instance.RemoveInventoryItem(10401);
-                if(dialogueManager == null)
-                {
-                    dialogueManager = FindObjectOfType<DialogueManager>();
+                if (!questStart)
+                {   // 최초 상호작용
+                    if (!isInteract)
+                    {
+                        if (InventoryUI.instance.HasItem(10401)) // 최초 상호작용, 퀘스트 시작 전 아이템 소지
+                        {
+                            ChangeDialogueFile(3);
+                            if (!dialogueManager.MessageTrue() && dialogueManager.DialogueTrue() && dialogueManager.isEnd) // 열쇠 습득 시 작동하지 않도록
+                            {// 여기가 작동을 안 함
+                                questEnd = true;
+                                InventoryUI.instance.GetAnItem(10402);
+                                InventoryUI.instance.RemoveInventoryItem(10401);
+                                SaveNPCData();
+                                dialogueManager.isEnd = false;
+                            }
+                        }
+                        else
+                        {
+                            if (dialogueManager.selectedNum == 1) // 퀘스트 수락
+                            {
+                                if (dialogueManager.isEnd)
+                                {
+                                    questStart = true;
+                                    if (InventoryUI.instance.HasItem(10401)) ChangeDialogueFile(1);
+                                    else ChangeDialogueFile(2);
+                                    SaveNPCData();
+                                    dialogueManager.isEnd = false;
+                                }
+                            }
+                            else
+                            {
+                                if (dialogueManager.isEnd)
+                                {
+                                    questStart = false;
+                                    ChangeDialogueFile(4);
+                                    SaveNPCData();
+                                    dialogueManager.isEnd = false;
+                                }
+                            }
+                        }
+                        
+                        //else                                  // 퀘스트 거절
+                        //{
+                        //    if (dialogueManager.isEnd)
+                        //    {
+                        //        questStart = false;
+                        //        if (InventoryUI.instance.HasItem(10401))
+                        //        {
+                        //            ChangeDialogueFile(3);
+                        //            questEnd = true;
+                        //            InventoryUI.instance.GetAnItem(10402);
+                        //        }
+                        //        else ChangeDialogueFile(4);
+                        //        dialogueManager.isEnd = false;
+                        //    }
+                        //}
+                    }
+                    else if (InventoryUI.instance.HasItem(10401)) // 최초 상호작용 X, 퀘스트 시작 전 템 소지
+                    {
+                        ChangeDialogueFile(3);
+                        if (!dialogueManager.MessageTrue() && dialogueManager.DialogueTrue() && dialogueManager.isEnd) // 열쇠 습득 시 작동하지 않도록
+                        {
+                            questEnd = true;
+                            InventoryUI.instance.GetAnItem(10402);
+                            InventoryUI.instance.RemoveInventoryItem(10401);
+                            SaveNPCData();
+                            dialogueManager.isEnd = false;
+                        }
+                    }
+                    else if (!InventoryUI.instance.HasItem(10401))
+                    {
+                        ChangeDialogueFile(4);
+
+                        if (dialogueManager.isEnd)
+                        {
+                            SaveNPCData();
+                            dialogueManager.isEnd = false;
+                        }
+
+                        if (dialogueManager.selectedNum == 1) // 퀘스트 수락
+                        {
+                            if (dialogueManager.isEnd)
+                            {
+                                questStart = true;
+                                SaveNPCData();
+                                dialogueManager.isEnd = false;
+                            }
+                        }
+                    }
+                    //// 퀘스트 거절, 최초 상호작용 이후
+                    //else if (dialogueFileName == "Museum-Guard1c_dialogue") // 퀘스트 거절, 템 소지
+                    //{
+                    //    if (dialogueManager.isEnd)
+                    //    {
+                    //        questEnd = true;
+                    //        InventoryUI.instance.GetAnItem(10402);
+                    //        InventoryUI.instance.RemoveInventoryItem(10401);
+                    //        dialogueManager.isEnd = false;
+                    //    }
+                    //}
+                    //else if(dialogueFileName == "Museum-Guard1d_dialogue") // 퀘스트 거절, 템 미소지
+                    //{
+                    //    if(dialogueManager.selectedNum == 1) // 퀘스트 수락
+                    //    {
+                    //        if (dialogueManager.isEnd)
+                    //        {
+                    //            questStart = true;
+                    //            dialogueManager.isEnd = false;
+                    //        }
+                    //    }
+                    //}
                 }
-                if (!dialogueManager.MessageTrue() && dialogueManager.DialogueTrue())
+                else // questStart
                 {
-                    InventoryUI.instance.RemoveInventoryItem(10401);
+                    if (InventoryUI.instance.HasItem(10401))
+                    {
+                        ChangeDialogueFile(1);
+                        if (!dialogueManager.MessageTrue() && dialogueManager.DialogueTrue() && dialogueManager.isEnd) // 열쇠 습득 시 작동하지 않도록
+                        {
+                            questEnd = true;
+                            InventoryUI.instance.GetAnItem(10402);
+                            InventoryUI.instance.RemoveInventoryItem(10401);
+                            SaveNPCData();
+                            dialogueManager.isEnd = false;
+                        }
+                    }
+                    else
+                    {
+                        ChangeDialogueFile(2);
+                        if (dialogueManager.isEnd)
+                        {
+                            SaveNPCData();
+                            dialogueManager.isEnd = false;
+                        }
+                    }
                 }
             }
+
+            //if (InventoryUI.instance.HasItem(10401))
+            //{
+            //    ChangeDialogueFile(1);
+            //    //InventoryUI.instance.RemoveInventoryItem(10401);
+            //    if(dialogueManager == null)
+            //    {
+            //        dialogueManager = FindObjectOfType<DialogueManager>();
+            //    }
+            //    if (!dialogueManager.MessageTrue() && dialogueManager.DialogueTrue())
+            //    {
+            //        InventoryUI.instance.RemoveInventoryItem(10401);
+            //    }
+            //}
 
             if (questEnd)
             {
@@ -137,11 +284,10 @@ public class StageNPC : NPC
     public void TutorialFin()
     {
         isTutoFin = true;
-        Debug.Log("TutorialFin 실행");
+        //Debug.Log("TutorialFin 실행");
     }
 
     
-
     public void SaveStageNPCData()
     {
         npcData.isTutoDialogueChanged = isTutoDialogueChanged;
