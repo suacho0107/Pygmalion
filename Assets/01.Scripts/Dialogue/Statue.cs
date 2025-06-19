@@ -265,13 +265,13 @@ public class Statue : NPC
                 {
                     //npc.ChangeDialogueExplain(3, "3");
                     result = true;
-                    Debug.Log("CheckResult 角青");
+                    //Debug.Log("CheckResult 角青");
                 }
                 else
                 {
                     //npc.ChangeDialogueFileName("Destroyed_dialogue");
                     result = true;
-                    Debug.Log("CheckResult 角青");
+                    //Debug.Log("CheckResult 角青");
                 }
             }
         }

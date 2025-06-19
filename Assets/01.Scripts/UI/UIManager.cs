@@ -18,11 +18,6 @@ public class UIManager : MonoBehaviour
     [Header("Text")]
     [SerializeField] public GameObject location_UIStart;
 
-    [SerializeField] private GameObject check_UIEnd;        // 조사한 조각상
-    [SerializeField] private GameObject catch_UIEnd;        // 적발한 조각상
-    [SerializeField] private GameObject destroy_UIEnd;      // 파손한 조각상
-    [SerializeField] private GameObject efficiency_UIEnd;   // 업무 효율
-
     private UI.UIState currentState;
 
     private int     checkCount;
@@ -47,19 +42,16 @@ public class UIManager : MonoBehaviour
         // 씬 로드 이벤트 등록
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        // 초기 상태 설정
         UpdateUI();
     }
 
     private void Start()
     {
-        // 첫 씬에서 UI 오브젝트 할당
         AssignUIObjects();
     }
 
     private void Update()
     {
-        // 리로드용 테스트 함수
         if (Input.GetKeyDown(KeyCode.Q))
         {
             LoadStartScene();
@@ -90,7 +82,6 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 새로운 씬이 로드될 때마다 UI 오브젝트 재할당
         AssignUIObjects();
 
         UpdateUI();
@@ -106,14 +97,8 @@ public class UIManager : MonoBehaviour
         UIWork = UIWork != null ? UIWork : uiCanvas.transform.Find("UIWork")?.gameObject;
         UIEnd = UIEnd != null ? UIEnd : uiCanvas.transform.Find("UIEnd")?.gameObject;
 
-        // Text 변수 할당
         location_UIStart = UIStart.transform.GetChild(0).GetChild(0).gameObject;
-        check_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).gameObject;
-        catch_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).gameObject;
-        destroy_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
-        efficiency_UIEnd = UIEnd.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).gameObject;
 
-        // 할당 후 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
         if (UIStart != null) UIStart.SetActive(false);
         if (UIWork != null) UIWork.SetActive(false);
@@ -122,7 +107,6 @@ public class UIManager : MonoBehaviour
 
     public void SetUIState(UI.UIState newState)
     {
-        // 상태 변경 및 UI 업데이트
         if (currentState != newState)
         {
             currentState = newState;
@@ -153,7 +137,7 @@ public class UIManager : MonoBehaviour
 
             case UI.UIState.Start:
                 if (UIStart != null) UIStart.SetActive(true);
-                UpdateStartUI();
+                //UpdateStartUI();
                 break;
 
             case UI.UIState.Work:
@@ -162,7 +146,6 @@ public class UIManager : MonoBehaviour
 
             case UI.UIState.End:
                 if (UIEnd != null) UIEnd.SetActive(true);
-                //UpdateEndUI();
                 break;
         }
 

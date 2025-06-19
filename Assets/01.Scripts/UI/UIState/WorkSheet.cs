@@ -125,7 +125,7 @@ public class WorkSheet : MonoBehaviour
             grade = 70;
 
         else
-            Debug.Log($"평가등급 계산 오류! workEff : {totalGrade}");
+            Debug.Log($"평가등급 계산 오류! totalGrade : {totalGrade}");
 
         return grade;
     }
