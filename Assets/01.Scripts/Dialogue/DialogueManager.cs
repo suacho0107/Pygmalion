@@ -366,10 +366,11 @@ public class DialogueManager : MonoBehaviour
 
         if(npc is StageNPC selectedNPC) // 선지 별 NPC 상호작용
         {
-            if(currentIndex == 0) selectedNum = 1;
-            else if(currentIndex == 1) selectedNum = 2;
-            else if(currentIndex == 2) selectedNum = 3;
-            else if(currentIndex == 3) selectedNum = 4;
+            if (currentIndex == 0) selectedNum = 1;
+            else if (currentIndex == 1) selectedNum = 2;
+            else if (currentIndex == 2) selectedNum = 3;
+            else if (currentIndex == 3) selectedNum = 4;
+            Debug.Log("currentIndex, selectedNum: " + currentIndex + ", " + selectedNum);
         }
 
         int targetLineCount = (int)selectedIndex - 1;
