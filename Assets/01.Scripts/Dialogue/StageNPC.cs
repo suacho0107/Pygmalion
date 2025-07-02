@@ -109,12 +109,12 @@ public class StageNPC : NPC
             Statue mel = (csv.npcs[0] as Statue);
             if(mel != null)
             {
-                Debug.Log(mel.name);
+                //Debug.Log(mel.name);
             }
 
             if (mel.result)//csv.npcs[0] as Statue)
             {
-                Debug.Log("mel");
+                //Debug.Log("mel");
                 ChangeDialogueFile(1);
             }
             else if (!isInteract)
@@ -124,6 +124,8 @@ public class StageNPC : NPC
             }
             else if (isInteract) // 재상호작용 시 반응 없게
             {
+                PlayerMove pm = FindObjectOfType<PlayerMove>();
+                pm.ActiveInteract = false;
                 dialogueFileName = "";
                 selectFileName = "";
             }

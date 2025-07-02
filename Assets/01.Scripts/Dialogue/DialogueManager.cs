@@ -370,7 +370,7 @@ public class DialogueManager : MonoBehaviour
             else if (currentIndex == 1) selectedNum = 2;
             else if (currentIndex == 2) selectedNum = 3;
             else if (currentIndex == 3) selectedNum = 4;
-            Debug.Log("currentIndex, selectedNum: " + currentIndex + ", " + selectedNum);
+            //Debug.Log("currentIndex, selectedNum: " + currentIndex + ", " + selectedNum);
         }
 
         int targetLineCount = (int)selectedIndex - 1;

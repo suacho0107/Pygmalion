@@ -21,7 +21,6 @@ public class NPC : MonoBehaviour
     public bool isDialogueChanged = false;
 
     public string filePath;
-    //protected string currentName; // @@@@@@@@@@@@@@@@@@@@@@@@@ 필요한가?
 
     //public int _FileIndex;
     #endregion
@@ -42,7 +41,7 @@ public class NPC : MonoBehaviour
     //private void Start()
     //{
     //    ResetNPCData();
-    //    FieldItemManager.Instance.ResetFieldItems();
+    //    //FieldItemManager.Instance.ResetFieldItems();
     //}
 
     public void StartDialogue()
