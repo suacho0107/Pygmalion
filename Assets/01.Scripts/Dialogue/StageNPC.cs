@@ -116,6 +116,9 @@ public class StageNPC : NPC
             {
                 //Debug.Log("mel");
                 ChangeDialogueFile(1);
+                Animator anim = GetComponent<Animator>();
+                anim.SetBool("melEnd", true);
+                //anim.Play("side idle");
             }
             else if (!isInteract)
             {
