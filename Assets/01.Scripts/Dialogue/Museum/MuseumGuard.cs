@@ -6,6 +6,8 @@ using System.IO;
 
 public class MuseumGuard : StageNPC
 {
+    public bool uncontacted = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -14,11 +16,33 @@ public class MuseumGuard : StageNPC
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Museum_Garden")
+        if (SceneManager.GetActiveScene().name.StartsWith("Museum_Garden"))
         {
             if (dialogueManager == null)
             {
                 dialogueManager = FindObjectOfType<DialogueManager>();
+            }
+
+            //Debug.Log("linecount: " + dialogueManager.LineCount());
+
+            // 주인공 알아차리는 대사 전 뒤돌아있기
+            if (InventoryUI.instance.HasItem(10401))
+            {
+                if (!isInteract && !dialogueManager.MessageTrue() && dialogueManager.DialogueTrue())
+                {
+                    uncontacted = false;
+                }
+            }
+            else
+            {
+                if (!isInteract && dialogueManager.LineCount() == 0)
+                {
+                    uncontacted = true;
+                }
+                else
+                {
+                    uncontacted = false;
+                }
             }
 
             if (!questEnd)

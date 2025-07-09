@@ -10,9 +10,12 @@ public class NPCAnim : MonoBehaviour
     public GameObject side;
     public GameObject tremble;
 
+    string sceneName;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        sceneName = SceneManager.GetActiveScene().name;
     }
 
     void Start()
@@ -25,7 +28,19 @@ public class NPCAnim : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Library_2F")
+        if (sceneName.StartsWith("Museum_Garden"))
+        {
+            MuseumGuard museumGuard = GetComponent<MuseumGuard>();
+            if (!museumGuard.uncontacted)
+            {
+                side.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else // 주인공 알아차리는 대사 전 뒤돌아있기
+            {
+                side.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
+        else if (sceneName.StartsWith("Library_2F"))
         {
             StageNPC stageNPC = GetComponent<StageNPC>();
             if (!stageNPC.isInteract)

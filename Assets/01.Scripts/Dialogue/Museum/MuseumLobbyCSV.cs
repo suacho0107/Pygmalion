@@ -14,7 +14,7 @@ public class MuseumLobbyCSV : MonoBehaviour
         {
             if (sceneName.StartsWith("Company"))
             {
-                if (sceneName == "Company_Lobby")
+                if (sceneName.StartsWith("Company_Lobby"))
                 {
                     npcs[0].dialogueFiles = new string[] { "Office-1-2_dialogue" };
                     npcs[0].selectFiles = new string[] { "" };
@@ -22,7 +22,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
-                else if (sceneName == "Company_Office")
+                else if (sceneName.StartsWith("Company_Office"))
                 {
                     npcs[0].dialogueFiles = new string[] { "Office-1-2_dialogue" };
                     npcs[0].selectFiles = new string[] { "" };
@@ -30,7 +30,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
-                else if (sceneName == "Company_TutorialOffice")
+                else if (sceneName.StartsWith("Company_TutorialOffice"))
                 {
                     npcs[0].dialogueFiles = new string[] { "Office-2-1_dialogue" };
                     npcs[0].selectFiles = new string[] { "" };
@@ -41,7 +41,7 @@ public class MuseumLobbyCSV : MonoBehaviour
             }
             else if (sceneName.StartsWith("Museum"))
             {
-                if (sceneName == "Museum_Lobby")
+                if (sceneName.StartsWith("Museum_Lobby"))
                 {
                     npcs[0].dialogueFiles = new string[] { "stage1_lobby_dialogue", "Stage1LobbyStatue1_dialogue", "Stage1LobbyStatue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
@@ -55,7 +55,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
                     npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
                 }
-                else if (sceneName == "Museum_ExhibitionRoom1")
+                else if (sceneName.StartsWith("Museum_ExhibitionRoom1"))
                 {
                     npcs[0].dialogueFiles = new string[] { "stage1_exhibit1_dialogue", "Stage1Exhibit1Statue2_dialogue", "Stage1Exhibit1Statue2_dialogue", "battle2_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
@@ -63,7 +63,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
-                else if (sceneName == "Museum_ExhibitionRoom2")
+                else if (sceneName.StartsWith("Museum_ExhibitionRoom2"))
                 {
                     npcs[0].dialogueFiles = new string[] { "stage1_exhibit2_dialogue", "Stage1Exhibit2Statue3_dialogue", "Stage1Exhibit2Statue3_dialogue", "battle3_dialogue", "Destroyed_dialogue", "stage1_exhibit2_Item" };
                     npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "", "" };
@@ -77,7 +77,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
                     npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
                 }
-                else if (sceneName == "Museum_ExhibitionRoom3")
+                else if (sceneName.StartsWith("Museum_ExhibitionRoom3"))
                 {
                     npcs[0].dialogueFiles = new string[] { "stage1_exhibit3_dialogue", "Stage1Exhibit3Statue6_dialogue", "Stage1Exhibit3Statue6_dialogue", "battle6_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
@@ -85,7 +85,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
-                else if (sceneName == "Museum_Garden")
+                else if (sceneName.StartsWith("Museum_Garden"))
                 {
                     npcs[0].dialogueFiles = new string[] { "stage1_garden_dialogue", "Stage1GardenStatue5_dialogue", "Stage1GardenStatue5_dialogue", "battle5_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
@@ -102,7 +102,7 @@ public class MuseumLobbyCSV : MonoBehaviour
             }
             else if (sceneName.StartsWith("Library"))
             {
-                if (sceneName == "Library_1F")
+                if (sceneName.StartsWith("Library_1F"))
                 {
                     npcs[0].dialogueFiles = new string[] { "Stage2_Library1F_Statue1_dialogue", "Stage2_Library1F_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "judge1_select", "judge2_select", "", "" };
@@ -116,7 +116,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
                     npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
                 }
-                else if (sceneName == "Library_2F")
+                else if (sceneName.StartsWith("Library_2F"))
                 {
                     npcs[0].dialogueFiles = new string[] { "Stage2_Library2F_Statue2_dialogue", "Stage2_Library2F_Statue2_dialogue", "Stage2_battle2_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "judge1_select", "judge2_select", "", "" };
@@ -142,7 +142,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[3].dialogueFileName = npcs[3].dialogueFiles[npcs[3].currentIndex];
                     npcs[3].selectFileName = npcs[3].selectFiles[npcs[3].currentIndex];
                 }
-                else if (sceneName == "Library_B1F")
+                else if (sceneName.StartsWith("Library_B1F"))
                 {
                     npcs[0].dialogueFiles = new string[] { "Stage2_LibraryB1F_Statue5_dialogue", "Stage2_LibraryB1F_Statue5_dialogue", "Stage2_battle5_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "judge1_select", "judge2_select", "", "" };
