@@ -14,6 +14,7 @@ public class InventoryUI : MonoBehaviour
     private ItemDatabase ItemDB;
     public GameObject inventoryPanel;
     public GameObject currencyPanel;
+    public GameObject inventoryBackground;
 
     public bool activeInventory = false;
 
@@ -180,6 +181,7 @@ public class InventoryUI : MonoBehaviour
         ItemDB = FindObjectOfType<ItemDatabase>();
         inventoryPanel.SetActive(activeInventory);
         currencyPanel.SetActive(activeInventory);
+        inventoryBackground.SetActive(activeInventory);
 
         inventoryItemList = new List<Item>();
         // GridSlot의 자식객체 저장
@@ -200,6 +202,7 @@ public class InventoryUI : MonoBehaviour
             {
                 inventoryPanel.SetActive(true);
                 currencyPanel.SetActive(true);
+                inventoryBackground.SetActive(true);
                 activeItem = true;
                 ShowItem();
                 selectedItem = 0;
@@ -211,6 +214,7 @@ public class InventoryUI : MonoBehaviour
                 StopAllCoroutines();
                 inventoryPanel.SetActive(false);
                 currencyPanel.SetActive(false);
+                inventoryBackground.SetActive(false);
                 activeItem = false;
                 SaveInventory();
             }
