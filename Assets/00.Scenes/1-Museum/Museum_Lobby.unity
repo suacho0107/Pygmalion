@@ -1556,6 +1556,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &439883332 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4325106457087117766, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+  m_PrefabInstance: {fileID: 136217956}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &477452549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,7 +1821,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -2015,7 +2022,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -6577,6 +6586,7 @@ MonoBehaviour:
   descriptionPanel: {fileID: 136217969}
   namePanel: {fileID: 136217968}
   ItemImage: {fileID: 0}
+  dialogueNext: {fileID: 439883332}
   dialogueText: {fileID: 136217967}
   descriptionText: {fileID: 136217966}
   nameText: {fileID: 136217965}
@@ -6590,6 +6600,7 @@ MonoBehaviour:
   selectText4: {fileID: 136217957}
   playerMove: {fileID: 0}
   isEnd: 0
+  selectedNum: 0
 --- !u!4 &1412360804
 Transform:
   m_ObjectHideFlags: 0
@@ -6939,7 +6950,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -7986,7 +7999,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
@@ -8235,7 +8250,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
@@ -8250,6 +8267,7 @@ MonoBehaviour:
   tutorial: 1
   isTutoDialogueChanged: 0
   isTutoFin: 0
+  questStart: 0
   questEnd: 0
 --- !u!4 &1271572828449670680
 Transform:

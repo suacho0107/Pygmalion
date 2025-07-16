@@ -1496,12 +1496,13 @@ MonoBehaviour:
   - {fileID: 1607891090}
   - {fileID: 1607891089}
   - {fileID: 1607891088}
-  - {fileID: 1607891087}
+  - {fileID: 0}
   - {fileID: 1607891086}
   dialoguePanel: {fileID: 1607891085}
   descriptionPanel: {fileID: 1607891084}
   namePanel: {fileID: 1607891083}
   ItemImage: {fileID: 0}
+  dialogueNext: {fileID: 1697320804}
   dialogueText: {fileID: 1607891082}
   descriptionText: {fileID: 1607891081}
   nameText: {fileID: 1607891080}
@@ -1515,6 +1516,7 @@ MonoBehaviour:
   selectText4: {fileID: 1607891072}
   playerMove: {fileID: 0}
   isEnd: 0
+  selectedNum: 0
 --- !u!4 &608767647
 Transform:
   m_ObjectHideFlags: 0
@@ -4753,11 +4755,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3359528936143656176, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
   m_PrefabInstance: {fileID: 1607891071}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1607891087 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 807739000657169736, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
-  m_PrefabInstance: {fileID: 1607891071}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1607891088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1627062670029336735, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
@@ -5009,6 +5006,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1697320804 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4325106457087117766, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+  m_PrefabInstance: {fileID: 1607891071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1734865946
 GameObject:
   m_ObjectHideFlags: 0
@@ -5870,8 +5872,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1544603316}
+  currencyPanel: {fileID: 0}
   activeInventory: 0
   Description_Text: {fileID: 0}
+  Currency_Text: {fileID: 0}
   Description_Icon: {fileID: 0}
   tf: {fileID: 402007221}
   selectedItem: 0
