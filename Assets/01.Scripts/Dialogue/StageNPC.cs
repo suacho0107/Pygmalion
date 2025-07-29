@@ -15,6 +15,8 @@ public class StageNPC : NPC
 
     public bool questStart = false;
     public bool questEnd = false;
+
+    string sceneName;
     //bool isDialogueChanged = false;
 
     //bool once;
@@ -25,10 +27,15 @@ public class StageNPC : NPC
         LoadStageNPCData();
     }
 
+    private void Start()
+    {
+        sceneName = SceneManager.GetActiveScene().name;// Library는 아직 따로 빼는 씬이 없어서 안 해도 될 듯
+    }
+
     private void Update()
     {
         #region Tutorial NPC
-        if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+        if (sceneName.StartsWith("Museum_Lobby"))
         {
             if (tutorial && csv != null)// 미술관장 tutorial V
             {

@@ -22,7 +22,7 @@ public class NPC : MonoBehaviour
 
     public string filePath;
 
-    //public int _FileIndex;
+    //public int FILEINDEX;
     #endregion
 
     [SerializeField] public string dialogueFileName;
