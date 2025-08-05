@@ -32,6 +32,8 @@ public class Statue : NPC
 
     public int _FileIndex;
 
+    string sceneName;
+
     protected override void Awake()
     {
         base.Awake();
@@ -41,13 +43,15 @@ public class Statue : NPC
     private void Start()
     {
         statueAudio = GetComponent<StatueAudio>();
+
+        sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
     {
         if (isStatue)
         {
-            if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+            if (sceneName.StartsWith("Museum_Lobby"))
             {
                 Judge();
             }
@@ -55,8 +59,6 @@ public class Statue : NPC
             {
                 if (statueScore != null)
                 {
-                    string sceneName = SceneManager.GetActiveScene().name;
-
                     if (sceneName.StartsWith("Museum"))
                     {
                         if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
@@ -88,7 +90,6 @@ public class Statue : NPC
     public void Judge()
     {
         //Debug.Log("Judge �Ѿ");
-        string sceneName = SceneManager.GetActiveScene().name;
 
         if (sceneName.StartsWith("Museum")) // && !isChecked && !isJudged)
         {
@@ -301,8 +302,9 @@ public class Statue : NPC
             explainNum = null;
             ChangeDialogueFileName("stage1_exhibit2_Item");
             InventoryUI.instance.GetAnItem(10301);
-            dialogueManager = FindObjectOfType<DialogueManager>();
-            dialogueManager.ItemPopup();
+            //dialogueManager = FindObjectOfType<DialogueManager>();
+            dialogueManager = FindObjectOfType<DialogueManager_Jiyun>();
+            dialogueUI.ItemPopup();
         }
         StartDialogue();
         Debug.Log("triggerDialogue");

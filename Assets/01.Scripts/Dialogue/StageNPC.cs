@@ -15,6 +15,8 @@ public class StageNPC : NPC
 
     public bool questStart = false;
     public bool questEnd = false;
+
+    string sceneName;
     //bool isDialogueChanged = false;
 
     //bool once;
@@ -23,6 +25,11 @@ public class StageNPC : NPC
     {
         base.Awake();
         LoadStageNPCData();
+    }
+
+    private void Start()
+    {
+        sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
@@ -34,7 +41,7 @@ public class StageNPC : NPC
             Debug.Log("reset");
         }
         #region Tutorial NPC
-        if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+        if (sceneName.StartsWith("Museum_Lobby"))
         {
             if (tutorial && csv != null)// 미술관장 tutorial V
             {
@@ -90,7 +97,9 @@ public class StageNPC : NPC
         {
             if (dialogueManager == null)
             {
-                dialogueManager = FindObjectOfType<DialogueManager>();
+                //dialogueManager = FindObjectOfType<DialogueManager>();
+                dialogueManager = FindObjectOfType<DialogueManager_Jiyun>();
+                dialogueUI = FindObjectOfType<DialogueUI_Jiyun>();
             }
 
             if (!questEnd)
@@ -113,7 +122,7 @@ public class StageNPC : NPC
                         }
                         else
                         {
-                            if (dialogueManager.selectedNum == 1) // 퀘스트 수락
+                            if (dialogueUI.currentSelectButtonIndex == 1) // 퀘스트 수락
                             {
                                 if (dialogueManager.isEnd)
                                 {
@@ -174,7 +183,7 @@ public class StageNPC : NPC
                             dialogueManager.isEnd = false;
                         }
 
-                        if (dialogueManager.selectedNum == 1) // 퀘스트 수락
+                        if (dialogueUI.currentSelectButtonIndex == 1) // 퀘스트 수락
                         {
                             if (dialogueManager.isEnd)
                             {
