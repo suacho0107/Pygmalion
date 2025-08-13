@@ -22,6 +22,7 @@ public class InventoryUI : MonoBehaviour
 
     private List<Item> inventoryItemList;   // 플레이어 소지템 리스트
 
+    public Text DescriptionName_text;       // 설명창 템 이름
     public Text Description_Text;           // 템 설명
     public Text Currency_Text;
 
@@ -66,6 +67,7 @@ public class InventoryUI : MonoBehaviour
         color.a = 0f;
         for (int i = 0; i < inventoryItemList.Count; i++)
             slots[i].selected_Item.GetComponent<Image>().color = color;
+        DescriptionName_text.text = inventoryItemList[selectedItem].itemName;
         Description_Text.text = inventoryItemList[selectedItem].itemDescription;
         Description_Icon.sprite = inventoryItemList[selectedItem].itemIcon;
         StartCoroutine(SelectedItemEffectCoroutine());
