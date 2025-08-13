@@ -32,6 +32,8 @@ public class DialogueUI_Jiyun : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dial
     public Text descriptionText;
     private Text nameText;
 
+    public GameObject dialogueNext;
+
     [Header("Select UI")]
     public GameObject selectButtons;
     private List<GameObject> selectButtonList = new List<GameObject>();
@@ -83,6 +85,15 @@ public class DialogueUI_Jiyun : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dial
         if (isSelecting)
         {
             SelectButtonInputHandler();
+        }
+
+        if (dialogueManager.isNext)
+        {
+            dialogueNext.SetActive(true);
+        }
+        else
+        {
+            dialogueNext.SetActive(false);
         }
     }
     #endregion
@@ -503,7 +514,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dial
     }
     #endregion
 
-    #region UI State ManageMenet
+    #region UI State Management
     void SetUIStateEnd()
     {
         UIManager.u_instance.SetUIState(Define.UI.UIState.End);
@@ -514,6 +525,14 @@ public class DialogueUI_Jiyun : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dial
     public void ItemPopup()
     {
         ItemImage.SetActive(true);
+    }
+    #endregion
+
+    #region NPC State Management
+    public int LineCount() // 대사에 맞춰서 NPC 상태 변경
+    {
+        int _lineCount = lineCount;
+        return _lineCount;
     }
     #endregion
 
