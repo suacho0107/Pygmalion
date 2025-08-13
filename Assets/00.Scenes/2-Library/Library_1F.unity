@@ -1403,7 +1403,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -1693,7 +1695,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -2165,7 +2169,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -2177,6 +2183,7 @@ MonoBehaviour:
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
+  unlock: 0
 --- !u!1 &550588578
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,7 +2314,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
@@ -2322,6 +2331,7 @@ MonoBehaviour:
   tutorial: 0
   isTutoDialogueChanged: 0
   isTutoFin: 0
+  questStart: 0
   questEnd: 0
 --- !u!1001 &569044430
 PrefabInstance:
@@ -4729,7 +4739,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -5206,7 +5218,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -5244,6 +5258,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25195312, y: 0.26757812}
   m_EdgeRadius: 0
+--- !u!1 &871626567 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4325106457087117766, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+  m_PrefabInstance: {fileID: 980433259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &900198360
 GameObject:
   m_ObjectHideFlags: 0
@@ -5883,7 +5902,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
@@ -6237,11 +6258,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3359528936143656176, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
   m_PrefabInstance: {fileID: 980433259}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &980433275 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 807739000657169736, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
-  m_PrefabInstance: {fileID: 980433259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &980433276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1627062670029336735, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
@@ -6433,7 +6449,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -6612,7 +6630,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -15837,12 +15857,13 @@ MonoBehaviour:
   - {fileID: 980433278}
   - {fileID: 980433277}
   - {fileID: 980433276}
-  - {fileID: 980433275}
+  - {fileID: 0}
   - {fileID: 980433274}
   dialoguePanel: {fileID: 980433273}
   descriptionPanel: {fileID: 980433272}
   namePanel: {fileID: 980433271}
   ItemImage: {fileID: 0}
+  dialogueNext: {fileID: 871626567}
   dialogueText: {fileID: 980433270}
   descriptionText: {fileID: 980433269}
   nameText: {fileID: 980433268}
@@ -15856,6 +15877,7 @@ MonoBehaviour:
   selectText4: {fileID: 980433260}
   playerMove: {fileID: 0}
   isEnd: 0
+  selectedNum: 0
 --- !u!4 &1510152961
 Transform:
   m_ObjectHideFlags: 0
@@ -15971,7 +15993,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 0
   isOfficeTuto: 0
@@ -16691,7 +16715,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -17074,7 +17100,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -17086,6 +17114,7 @@ MonoBehaviour:
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
+  unlock: 0
 --- !u!1 &1939099714
 GameObject:
   m_ObjectHideFlags: 0
@@ -17238,7 +17267,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0
@@ -18411,7 +18442,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0

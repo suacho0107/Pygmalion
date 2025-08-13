@@ -14,6 +14,7 @@ public class InventoryUI : MonoBehaviour
     private ItemDatabase ItemDB;
     public GameObject inventoryPanel;
     public GameObject currencyPanel;
+    public GameObject inventoryBackground;
 
     public bool activeInventory = false;
 
@@ -21,6 +22,7 @@ public class InventoryUI : MonoBehaviour
 
     private List<Item> inventoryItemList;   // 플레이어 소지템 리스트
 
+    public Text DescriptionName_text;       // 설명창 템 이름
     public Text Description_Text;           // 템 설명
     public Text Currency_Text;
 
@@ -65,6 +67,7 @@ public class InventoryUI : MonoBehaviour
         color.a = 0f;
         for (int i = 0; i < inventoryItemList.Count; i++)
             slots[i].selected_Item.GetComponent<Image>().color = color;
+        DescriptionName_text.text = inventoryItemList[selectedItem].itemName;
         Description_Text.text = inventoryItemList[selectedItem].itemDescription;
         Description_Icon.sprite = inventoryItemList[selectedItem].itemIcon;
         StartCoroutine(SelectedItemEffectCoroutine());
@@ -180,6 +183,7 @@ public class InventoryUI : MonoBehaviour
         ItemDB = FindObjectOfType<ItemDatabase>();
         inventoryPanel.SetActive(activeInventory);
         currencyPanel.SetActive(activeInventory);
+        inventoryBackground.SetActive(activeInventory);
 
         inventoryItemList = new List<Item>();
         // GridSlot의 자식객체 저장
@@ -200,6 +204,7 @@ public class InventoryUI : MonoBehaviour
             {
                 inventoryPanel.SetActive(true);
                 currencyPanel.SetActive(true);
+                inventoryBackground.SetActive(true);
                 activeItem = true;
                 ShowItem();
                 selectedItem = 0;
@@ -211,6 +216,7 @@ public class InventoryUI : MonoBehaviour
                 StopAllCoroutines();
                 inventoryPanel.SetActive(false);
                 currencyPanel.SetActive(false);
+                inventoryBackground.SetActive(false);
                 activeItem = false;
                 SaveInventory();
             }

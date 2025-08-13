@@ -30,7 +30,9 @@ public class Statue : NPC
 
     public bool isSpriteChanged = false;
 
-    public int _FileIndex;
+    int FILEINDEX; // currentIndex와 상관 없이 상수 정해두려고
+
+    string sceneName;
 
     protected override void Awake()
     {
@@ -41,13 +43,15 @@ public class Statue : NPC
     private void Start()
     {
         statueAudio = GetComponent<StatueAudio>();
+
+        sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
     {
         if (isStatue)
         {
-            if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+            if (sceneName.StartsWith("Museum_Lobby"))
             {
                 Judge();
             }
@@ -55,8 +59,6 @@ public class Statue : NPC
             {
                 if (statueScore != null)
                 {
-                    string sceneName = SceneManager.GetActiveScene().name;
-
                     if (sceneName.StartsWith("Museum"))
                     {
                         if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
@@ -88,11 +90,10 @@ public class Statue : NPC
     public void Judge()
     {
         //Debug.Log("Judge 넘어감");
-        string sceneName = SceneManager.GetActiveScene().name;
 
         if (sceneName.StartsWith("Museum")) // && !isChecked && !isJudged)
         {
-            _FileIndex = 3;
+            FILEINDEX = 3;
             if (currentIndex == 1 || currentIndex == 2)
             {
                 explainNum = null;
@@ -100,7 +101,7 @@ public class Statue : NPC
         }
         else
         {
-            _FileIndex = 2;
+            FILEINDEX = 2;
             if (currentIndex == 0 || currentIndex == 1)
             {
                 explainNum = null;
@@ -130,7 +131,7 @@ public class Statue : NPC
                             Debug.Log("건드린다 > 정답");
                             isCorrect = true;
                             statueAudio.PlayEnterFight();
-                            ChangeDialogueExplain(_FileIndex, "1");
+                            ChangeDialogueExplain(FILEINDEX, "1");
                             statueScore.fightCount += 1;
                             statueScore.SaveScore();
                             enterFight = true;
@@ -171,7 +172,7 @@ public class Statue : NPC
                             statueScore.SaveScore();
                             test3 = true;
                         }
-                        ChangeDialogueExplain(_FileIndex, "3");
+                        ChangeDialogueExplain(FILEINDEX, "3");
                         isCorrect = true;
                         isFin = true;
                         SaveStatueData();
@@ -181,7 +182,7 @@ public class Statue : NPC
                         if (!test3)
                         {
                             statueAudio.PlayDestroyed();
-                            ChangeDialogueExplain(_FileIndex, "2");
+                            ChangeDialogueExplain(FILEINDEX, "2");
                             statueScore.statueCount += 1;
                             statueScore.destroyedCount += 1;
                             statueScore.SaveScore();
@@ -201,7 +202,7 @@ public class Statue : NPC
 
     void EnterFight()
     {
-        ChangeDialogueExplain(_FileIndex, "1");
+        ChangeDialogueExplain(FILEINDEX, "1");
         StartCoroutine(PlaySound());
         statueScore.fightCount += 1;
         statueScore.SaveScore();
@@ -216,12 +217,12 @@ public class Statue : NPC
             {
                 if (isCorrect)
                 {
-                    ChangeDialogueExplain(_FileIndex, "3");
+                    ChangeDialogueExplain(FILEINDEX, "3");
                     //Debug.Log("!isEnemy isCorrect");
                 }
                 else
                 {
-                    ChangeDialogueExplain(_FileIndex + 1, "1");
+                    ChangeDialogueExplain(FILEINDEX + 1, "1");
                     //Debug.Log("!isEnemy !isCorrect");
                 }
             }
@@ -249,7 +250,7 @@ public class Statue : NPC
             else // 무너져 있다 출력
             {
                 ChangeSprite();
-                ChangeDialogueExplain(_FileIndex + 1, "1");
+                ChangeDialogueExplain(FILEINDEX + 1, "1");
             }
         }
     }

@@ -378,12 +378,13 @@ MonoBehaviour:
   - {fileID: 350917303}
   - {fileID: 350917302}
   - {fileID: 350917301}
-  - {fileID: 350917300}
+  - {fileID: 0}
   - {fileID: 350917299}
   dialoguePanel: {fileID: 350917298}
   descriptionPanel: {fileID: 350917297}
   namePanel: {fileID: 350917296}
   ItemImage: {fileID: 0}
+  dialogueNext: {fileID: 415267767}
   dialogueText: {fileID: 350917295}
   descriptionText: {fileID: 350917294}
   nameText: {fileID: 350917293}
@@ -397,6 +398,7 @@ MonoBehaviour:
   selectText4: {fileID: 350917285}
   playerMove: {fileID: 0}
   isEnd: 0
+  selectedNum: 0
 --- !u!4 &270790059
 Transform:
   m_ObjectHideFlags: 0
@@ -1133,11 +1135,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3359528936143656176, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
   m_PrefabInstance: {fileID: 350917284}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &350917300 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 807739000657169736, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
-  m_PrefabInstance: {fileID: 350917284}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &350917301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1627062670029336735, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
@@ -1214,6 +1211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
+--- !u!1 &415267767 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4325106457087117766, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+  m_PrefabInstance: {fileID: 350917284}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &461459310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2821,7 +2823,9 @@ MonoBehaviour:
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
+    questStart: 0
     questEnd: 0
+    unlock: 0
   isInteract: 0
   isObject: 1
   isOfficeTuto: 0

@@ -540,11 +540,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3359528936143656176, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
   m_PrefabInstance: {fileID: 234218651}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &234218667 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 807739000657169736, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
-  m_PrefabInstance: {fileID: 234218651}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &234218668 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1627062670029336735, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
@@ -3082,12 +3077,13 @@ MonoBehaviour:
   - {fileID: 234218670}
   - {fileID: 234218669}
   - {fileID: 234218668}
-  - {fileID: 234218667}
+  - {fileID: 0}
   - {fileID: 234218666}
   dialoguePanel: {fileID: 234218665}
   descriptionPanel: {fileID: 234218664}
   namePanel: {fileID: 234218663}
   ItemImage: {fileID: 0}
+  dialogueNext: {fileID: 1486667138}
   dialogueText: {fileID: 234218662}
   descriptionText: {fileID: 234218661}
   nameText: {fileID: 234218660}
@@ -3101,6 +3097,7 @@ MonoBehaviour:
   selectText4: {fileID: 234218652}
   playerMove: {fileID: 0}
   isEnd: 0
+  selectedNum: 0
 --- !u!4 &1372948572
 Transform:
   m_ObjectHideFlags: 0
@@ -3116,6 +3113,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1486667138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4325106457087117766, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+  m_PrefabInstance: {fileID: 234218651}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1543078387
 PrefabInstance:
   m_ObjectHideFlags: 0

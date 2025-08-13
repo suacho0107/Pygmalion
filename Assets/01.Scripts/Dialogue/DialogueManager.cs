@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] GameObject namePanel;
     [SerializeField] GameObject ItemImage;
 
+    [SerializeField] GameObject dialogueNext;
+
     [SerializeField] Text dialogueText;
     [SerializeField] Text descriptionText;
     [SerializeField] Text nameText;
@@ -124,6 +126,15 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
+        if(isNext)
+        {
+            dialogueNext.SetActive(true);
+        }
+        else
+        {
+            dialogueNext.SetActive(false);
+        }
+
         if (isDialogue && isNext && !isSelect)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -366,10 +377,11 @@ public class DialogueManager : MonoBehaviour
 
         if(npc is StageNPC selectedNPC) // 선지 별 NPC 상호작용
         {
-            if(currentIndex == 0) selectedNum = 1;
-            else if(currentIndex == 1) selectedNum = 2;
-            else if(currentIndex == 2) selectedNum = 3;
-            else if(currentIndex == 3) selectedNum = 4;
+            if (currentIndex == 0) selectedNum = 1;
+            else if (currentIndex == 1) selectedNum = 2;
+            else if (currentIndex == 2) selectedNum = 3;
+            else if (currentIndex == 3) selectedNum = 4;
+            //Debug.Log("currentIndex, selectedNum: " + currentIndex + ", " + selectedNum);
         }
 
         int targetLineCount = (int)selectedIndex - 1;
@@ -683,5 +695,11 @@ public class DialogueManager : MonoBehaviour
         {
             npcInstance.SaveNPCData();
         }
+    }
+
+    public int LineCount() // 대사에 맞춰서 NPC 상태 변경
+    {
+        int _lineCount = lineCount;
+        return _lineCount;
     }
 }

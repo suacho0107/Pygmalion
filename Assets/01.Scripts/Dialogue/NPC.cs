@@ -21,9 +21,8 @@ public class NPC : MonoBehaviour
     public bool isDialogueChanged = false;
 
     public string filePath;
-    //protected string currentName; // @@@@@@@@@@@@@@@@@@@@@@@@@ 필요한가?
 
-    //public int _FileIndex;
+    //public int FILEINDEX;
     #endregion
 
     [SerializeField] public string dialogueFileName;
@@ -39,11 +38,11 @@ public class NPC : MonoBehaviour
         //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X
     }
 
-    //private void Start()
-    //{
-    //    ResetNPCData();
-    //    FieldItemManager.Instance.ResetFieldItems();
-    //}
+    private void Start()
+    {
+        ResetNPCData();
+        //FieldItemManager.Instance.ResetFieldItems();
+    }
 
     public void StartDialogue()
     {
