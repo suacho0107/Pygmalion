@@ -12,8 +12,10 @@ public class FightEndDialogue : MonoBehaviour
     void Start()
     {
         RetrySound = GetComponent<AudioSource>();
+        DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
+        //ㄴ이거 원래if문 안에 dialogueUI.ShowMessage(message); 윗줄에 있었는데 여기로 옮겨도 문제가 없을까요? if문 안에서 돌아가야 하는 이유가 있나...?
 
-        if(PlayerPrefs.GetInt("PlayerLose", 0) == 1)
+        if (PlayerPrefs.GetInt("PlayerLose", 0) == 1)
         {
             StartCoroutine(ResetLoseSignal());
             RetrySound.Play();
@@ -22,9 +24,8 @@ public class FightEndDialogue : MonoBehaviour
             //npc.StartDialogue();
 
             string message = "얼른 끝내고 퇴근해야지...";
-
-            DialogueManager dm = FindObjectOfType<DialogueManager>();
-            dm.ShowMessage(message);
+            
+            dialogueUI.ShowMessage(message);
         }
         else if (PlayerPrefs.GetInt("PlayerRun", 0) == 1)
         {
@@ -35,8 +36,7 @@ public class FightEndDialogue : MonoBehaviour
 
             string message = "잠깐, 숨 좀 돌리고...";
 
-            DialogueManager dm = FindObjectOfType<DialogueManager>();
-            dm.ShowMessage(message);
+            dialogueUI.ShowMessage(message);
         }
     }
 

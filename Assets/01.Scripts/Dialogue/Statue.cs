@@ -302,8 +302,10 @@ public class Statue : NPC
             explainNum = null;
             ChangeDialogueFileName("stage1_exhibit2_Item");
             InventoryUI.instance.GetAnItem(10301);
-            dialogueManager = FindObjectOfType<DialogueManager>();
-            dialogueManager.ItemPopup();
+            //dialogueManager = FindObjectOfType<DialogueManager>();
+            //dialogueManager.ItemPopup();
+            dialogueUI = FindObjectOfType<DialogueUI>();
+            dialogueUI.ItemPopup();
         }
         StartDialogue();
         Debug.Log("triggerDialogue");

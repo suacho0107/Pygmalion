@@ -57,8 +57,8 @@ public class SceneTransition : MonoBehaviour
                             enter = true;
                             string message = "미술관을 구경하고 싶은 그대의 마음은 알겠지만, 우선 아래에 있는 조각상부터 해봐주세요!";
 
-                            DialogueManager dm = FindObjectOfType<DialogueManager>();
-                            dm.ShowMessage(message, "미술관장");
+                            DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
+                            dialogueUI.ShowMessage(message, "미술관장");
                         }
                     }
                     else

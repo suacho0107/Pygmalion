@@ -124,8 +124,10 @@ public class InventoryUI : MonoBehaviour
 
         string message = $"[{gameObject.name}]¿ª(∏¶) »πµÊ«ﬂ¥Ÿ.";
 
-        DialogueManager dm = FindObjectOfType<DialogueManager>();
-        dm.ShowMessage(message);
+        //DialogueManager dm = FindObjectOfType<DialogueManager>();
+        //dm.ShowMessage(message);
+        DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
+        dialogueUI.ShowMessage(message);
     }
 
     public bool HasItem(int _itemID)

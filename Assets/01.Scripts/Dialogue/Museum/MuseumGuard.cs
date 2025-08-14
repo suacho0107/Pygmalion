@@ -23,6 +23,11 @@ public class MuseumGuard : StageNPC
                 dialogueManager = FindObjectOfType<DialogueManager>();
             }
 
+            if(dialogueUI == null)
+            {
+                dialogueUI = FindObjectOfType<DialogueUI>();
+            }
+
             //Debug.Log("linecount: " + dialogueManager.LineCount());
 
             // 주인공 알아차리는 대사 전 뒤돌아있기
@@ -35,7 +40,7 @@ public class MuseumGuard : StageNPC
             }
             else
             {
-                if (!isInteract && dialogueManager.LineCount() == 0)
+                if (!isInteract && dialogueUI.LineCount() == 0)
                 {
                     uncontacted = true;
                 }
@@ -68,7 +73,7 @@ public class MuseumGuard : StageNPC
                         }
                         else // 최초 상호작용, 퀘스트 시작 전 아이템 미소지
                         {
-                            if (dialogueManager.selectedNum == 1) // 퀘스트 수락
+                            if (dialogueUI.currentSelectButtonIndex == 1) // 퀘스트 수락
                             {
                                 if (dialogueManager.isEnd)
                                 {
@@ -115,7 +120,7 @@ public class MuseumGuard : StageNPC
                             dialogueManager.isEnd = false;
                         }
 
-                        if (dialogueManager.selectedNum == 1) // 퀘스트 수락
+                        if (dialogueUI.currentSelectButtonIndex == 1) // 퀘스트 수락
                         {
                             questStart = true;
                             SaveMGuardData();

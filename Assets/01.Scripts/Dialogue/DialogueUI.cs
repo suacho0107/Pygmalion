@@ -1,15 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> DialogueUI·Î º¯°æ
+public class DialogueUI : MonoBehaviour //í•©ë³‘ í›„ DialogueUI_Jiyun -> DialogueUIë¡œ ë³€ê²½
 {
     #region References
     [Header("Managers &  References")]
-    [SerializeField] DialogueManager_Jiyun dialogueManager; //ÇÕº´ ÈÄ DialogueManager_Jiyun -> DialogueManager·Î º¯°æ
+    DialogueManager dialogueManager; //í•©ë³‘ í›„ DialogueManager_Jiyun -> DialogueManagerë¡œ ë³€ê²½
     InteractionEvent interactionEvent;
-    PlayerMove playerMove; //ÇÃ·¹ÀÌ¾î FSM°ú ¿¬°á, Ãß°¡ ÄÚµå
+    PlayerMove playerMove; //í”Œë ˆì´ì–´ FSMê³¼ ì—°ê²°, ì¶”ê°€ ì½”ë“œ
     NPC npc; //= currentNPCZ
     StageNPC stageNpc;
     Statue statue;
@@ -48,8 +48,8 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     public bool isSelecting = false;
 
     [Header("DialogueFlow Management")]
-    public int lineCount = 0; //´ëÈ­ Ä«¿îÆ®
-    public int contextCount = 0; //´ë»ç Ä«¿îÆ®
+    public int lineCount = 0; //ëŒ€í™” ì¹´ìš´íŠ¸
+    public int contextCount = 0; //ëŒ€ì‚¬ ì¹´ìš´íŠ¸
 
     [Header("Button Sprites")]
     public Sprite ButtonDefault;
@@ -60,17 +60,17 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     #region Unity Methods
     void Awake()
     {
-        dialogueManager = GetComponent<DialogueManager_Jiyun>(); //ÇÕº´ ÈÄ DialogueManager_Jiyun -> DialogueManager·Î º¯°æ
-        if (dialogueManager != null) //DialogueManager ¿¹¿ÜÃ³¸®
+        dialogueManager = GetComponent<DialogueManager>(); //í•©ë³‘ í›„ DialogueManager_Jiyun -> DialogueManagerë¡œ ë³€ê²½
+        if (dialogueManager != null) //DialogueManager ì˜ˆì™¸ì²˜ë¦¬
         {
-            Debug.Log($"DialogueManager_Jiyun ÇÒ´ç: {dialogueManager.gameObject.name}"); //ÇÕº´ ÈÄ DialogueManager_Jiyun -> DialogueManager·Î º¯°æ
+            Debug.Log($"DialogueManager_Jiyun í• ë‹¹: {dialogueManager.gameObject.name}"); //í•©ë³‘ í›„ DialogueManager_Jiyun -> DialogueManagerë¡œ ë³€ê²½
         }
-        playerMove = FindObjectOfType<PlayerMove>(); //ÇÃ·¹ÀÌ¾î FSM°ú ¿¬°á, Ãß°¡ ÄÚµå
+        playerMove = FindObjectOfType<PlayerMove>(); //í”Œë ˆì´ì–´ FSMê³¼ ì—°ê²°, ì¶”ê°€ ì½”ë“œ
         stageNpc = FindObjectOfType<StageNPC>();
         statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
         nameText = namePanel.GetComponentInChildren<Text>();
-        Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText Á¢±Ù È®ÀÎ
+        Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText ì ‘ê·¼ í™•ì¸
     }
 
     // Start is called before the first frame update
@@ -101,84 +101,84 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     #region Select Navigation
     private void SelectButtonInputHandler()
     {
-        //»óÇÏ ÀÌµ¿
+        //ìƒí•˜ ì´ë™
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            if (currentSelectButtonIndex == 1 || currentSelectButtonIndex == 3) //ÇÏ´Ü¿¡¼­
+            if (currentSelectButtonIndex == 2 || currentSelectButtonIndex == 3) //í•˜ë‹¨ì—ì„œ
             {
-                if (isThereButton(currentSelectButtonIndex, -1)) //»ó´Ü È®ÀÎ
-                {
-                    currentSelectButtonIndex -= 1;
-                }
-            }
-            Debug.Log($"ÇöÀç ¹öÆ° ÀÎµ¦½º: {currentSelectButtonIndex}");
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            if (currentSelectButtonIndex == 0 || currentSelectButtonIndex == 2) //»ó´Ü¿¡¼­
-            {
-                if (isThereButton(currentSelectButtonIndex, 1)) //ÇÏ´Ü È®ÀÎ
-                {
-                    currentSelectButtonIndex += 1;
-                }
-            }
-            Debug.Log($"ÇöÀç ¹öÆ° ÀÎµ¦½º: {currentSelectButtonIndex}");
-        }
-
-        //ÁÂ¿ì ÀÌµ¿
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            if (currentSelectButtonIndex == 2 || currentSelectButtonIndex == 3) //¿ìÃø¿¡¼­
-            {
-                if (isThereButton(currentSelectButtonIndex, -2)) //ÁÂÃø È®ÀÎ
+                if (isThereButton(currentSelectButtonIndex, -2)) //ìƒë‹¨ í™•ì¸
                 {
                     currentSelectButtonIndex -= 2;
                 }
             }
-
-            Debug.Log($"ÇöÀç ¹öÆ° ÀÎµ¦½º: {currentSelectButtonIndex}");
+            Debug.Log($"í˜„ì¬ ë²„íŠ¼ ì¸ë±ìŠ¤: {currentSelectButtonIndex}");
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
-            if (currentSelectButtonIndex == 0 || currentSelectButtonIndex == 1) //ÁÂÃø¿¡¼­
+            if (currentSelectButtonIndex == 0 || currentSelectButtonIndex == 1) //ìƒë‹¨ì—ì„œ
             {
-                if (isThereButton(currentSelectButtonIndex, 2)) //¿ìÃø È®ÀÎ
+                if (isThereButton(currentSelectButtonIndex, 2)) //í•˜ë‹¨ í™•ì¸
                 {
                     currentSelectButtonIndex += 2;
                 }
             }
-            Debug.Log($"ÇöÀç ¹öÆ° ÀÎµ¦½º: {currentSelectButtonIndex}"); //È®ÀÎ¿ë
+            Debug.Log($"í˜„ì¬ ë²„íŠ¼ ì¸ë±ìŠ¤: {currentSelectButtonIndex}");
         }
 
-        //¼±ÅÃ
+        //ì¢Œìš° ì´ë™
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            if (currentSelectButtonIndex == 1 || currentSelectButtonIndex == 3) //ìš°ì¸¡ì—ì„œ
+            {
+                if (isThereButton(currentSelectButtonIndex, -1)) //ì¢Œì¸¡ í™•ì¸
+                {
+                    currentSelectButtonIndex -= 1;
+                }
+            }
+
+            Debug.Log($"í˜„ì¬ ë²„íŠ¼ ì¸ë±ìŠ¤: {currentSelectButtonIndex}");
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            if (currentSelectButtonIndex == 0 || currentSelectButtonIndex == 2) //ì¢Œì¸¡ì—ì„œ
+            {
+                if (isThereButton(currentSelectButtonIndex, 1)) //ìš°ì¸¡ í™•ì¸
+                {
+                    currentSelectButtonIndex += 1;
+                }
+            }
+            Debug.Log($"í˜„ì¬ ë²„íŠ¼ ì¸ë±ìŠ¤: {currentSelectButtonIndex}"); //í™•ì¸ìš©
+        }
+
+        //ì„ íƒ
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentSelectButtonIndex < selectButtonList.Count)
             {
-                //name(Portarit)°¡ À¯¹« °è»ê
+                //name(Portarit)ê°€ ìœ ë¬´ ê³„ì‚°
                 int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
                 currentSelectButtonIndex -= offset;
 
                 currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
 
-                //currentSelectButtonIndexs´Â Select °úÁ¤ Áß UI¿¡¼­ »ç¿ëÇÏ´Â º¯¼ö
-                //½ÇÁ¦ moveNum °¡Á®¿Í¼­ int·Î º¯È¯
+                //currentSelectButtonIndexsëŠ” Select ê³¼ì • ì¤‘ UIì—ì„œ ì‚¬ìš©í•˜ëŠ” ë³€ìˆ˜
+                //ì‹¤ì œ moveNum ê°€ì ¸ì™€ì„œ intë¡œ ë³€í™˜
                 string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
 
                 if (int.TryParse(moveNumString, out int selectedIndex))
                 {
                     OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
                 }
-                else //¿¹¿ÜÃ³¸®
+                else //ì˜ˆì™¸ì²˜ë¦¬
                 {
-                    Debug.LogError("moveNum Parsing ½ÇÆĞ");
+                    Debug.LogError("moveNum Parsing ì‹¤íŒ¨");
                 }
 
-                //ÃÊ±âÈ­
+                //ì´ˆê¸°í™”
                 isSelecting = false;
                 currentSelectButtonIndex = 0;
             }
-            Debug.Log($"¼±ÅÃµÈ ¹öÆ° ÀÎµ¦½º: {currentSelectButtonIndex}"); //delete
+            Debug.Log($"ì„ íƒëœ ë²„íŠ¼ ì¸ë±ìŠ¤: {currentSelectButtonIndex}"); //delete
 
         }
         HighlightSelectButton();
@@ -202,13 +202,13 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         }
     }
 
-    public void OnSelectButtonSelected(int selectedIndex, int currentIndex) //ÆÇº° ¸Å°³º¯¼ö Ãß°¡(currentIndex)
+    public void OnSelectButtonSelected(int selectedIndex, int _currentSelectButtonIndex) //íŒë³„ ë§¤ê°œë³€ìˆ˜ ì¶”ê°€(currentIndex)
     {
         if (npc is Statue selectedStatue)
         {
-            if (!selectedStatue.isChecked) //Ã¹ ¹øÂ° »óÈ£ÀÛ¿ë(Á¶»ç): ¼±Áö 2°³ Ãâ·Â
+            if (!selectedStatue.isChecked) //ì²« ë²ˆì§¸ ìƒí˜¸ì‘ìš©(ì¡°ì‚¬): ì„ ì§€ 2ê°œ ì¶œë ¥
             {
-                if (currentIndex == 0)
+                if (_currentSelectButtonIndex == 0)
                 {
                     statueScore.checkedCount += 1;
                     statueScore.SaveScore();
@@ -218,9 +218,9 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
                     Debug.Log("isChecked");
                 }
             }
-            else //µÎ ¹øÂ° »óÈ£ÀÛ¿ë(ÆÇº°): ¼±Áö 4°³ Ãâ·Â
+            else //ë‘ ë²ˆì§¸ ìƒí˜¸ì‘ìš©(íŒë³„): ì„ ì§€ 4ê°œ ì¶œë ¥
             {
-                if (currentIndex == 0)
+                if (_currentSelectButtonIndex == 0)
                 {
                     statueScore.checkedCount += 1;
                     statueScore.SaveScore();
@@ -228,31 +228,31 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
                     selectedStatue.isChecked = true;
                     selectedStatue.SaveStatueData();
                 }
-                else if (currentIndex == 1)
+                else if (_currentSelectButtonIndex == 1)
                 {
                     if (selectedStatue.isEnemy)
-                    {//°Çµå¸°´Ù --> Á¤´ä
+                    {//ê±´ë“œë¦°ë‹¤ --> ì •ë‹µ
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = true;
                         selectedStatue.currentIndex = 3;
                         selectedStatue.explainNum = "1";
                     }
                     else
-                    {//°Çµå¸°´Ù --> ¿À´ä
+                    {//ê±´ë“œë¦°ë‹¤ --> ì˜¤ë‹µ
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = false;
                     }
                 }
-                else if (currentIndex == 2)
+                else if (_currentSelectButtonIndex == 2)
                 {
                     if (selectedStatue.isEnemy)
-                    {//ÀÌ»ó ¾øÀ½ --> ¿À´ä
+                    {//ì´ìƒ ì—†ìŒ --> ì˜¤ë‹µ
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = false;
                         selectedStatue.explainNum = "2";
                     }
                     else
-                    {//ÀÌ»ó ¾øÀ½ --> Á¤´ä
+                    {//ì´ìƒ ì—†ìŒ --> ì •ë‹µ
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = true;
                         selectedStatue.explainNum = "3";
@@ -262,14 +262,14 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         }
         int targetLineCount = (int)selectedIndex - 1;
 
-        if (targetLineCount >= 0 && targetLineCount < dialogueManager.dialogues.Length) //targetLineCount°¡ 0 ÀÌ»óÀÌ°í, dialogues ¾È¿¡ ÀÖÀ¸¸é
+        if (targetLineCount >= 0 && targetLineCount < dialogueManager.dialogues.Length) //targetLineCountê°€ 0 ì´ìƒì´ê³ , dialogues ì•ˆì— ìˆìœ¼ë©´
         {
-            lineCount = targetLineCount; //lineCount °­Á¦ º¯°æ
-            contextCount = 0; //contextCount ÃÊ±âÈ­
-            EndSelect(); //Select EndÇÏ±â
-            StartCoroutine(DialogueWriter()); //º¯°æÇÑ lineCount, contextCount·Î DialogueWriter ½ÇÇà
+            lineCount = targetLineCount; //lineCount ê°•ì œ ë³€ê²½
+            contextCount = 0; //contextCount ì´ˆê¸°í™”
+            EndSelect(); //Select Endí•˜ê¸°
+            StartCoroutine(DialogueWriter()); //ë³€ê²½í•œ lineCount, contextCountë¡œ DialogueWriter ì‹¤í–‰
         }
-        else if (selectedIndex == 0) //¼±Áö ¼±ÅÃ Á÷ÈÄ ´ëÈ­ Á¾·á
+        else if (selectedIndex == 0) //ì„ ì§€ ì„ íƒ ì§í›„ ëŒ€í™” ì¢…ë£Œ
         {
             EndSelect();
             EndDialogue();
@@ -285,9 +285,9 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     #region Dialogue
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
-        Debug.Log("ShowDialogue() ½ÇÇà"); //delete
+        Debug.Log("ShowDialogue() ì‹¤í–‰"); //delete
 
-        //ÃÊ±âÈ­ & Setting
+        //ì´ˆê¸°í™” & Setting
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
         playerMove.pState = PlayerMove.PlayerState.Interaction;
@@ -297,11 +297,11 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         nameText.text = "";
 
 
-        if (!string.IsNullOrEmpty(explainNum)) //explainNum ÀÖÀ¸¸é
+        if (!string.IsNullOrEmpty(explainNum)) //explainNum ìˆìœ¼ë©´
         {
-            // imageImage¸¦ º¸°ü ÁßÀÎ ÀÚ·á±¸Á¶¿¡ explainNum º¯¼ö¸¦ ÀÎµ¦½º·Î »ç¿ëÇØ ÀÌ¹ÌÁö ÇÒ´ç ÈÄ È°¼ºÈ­.
+            // imageImageë¥¼ ë³´ê´€ ì¤‘ì¸ ìë£Œêµ¬ì¡°ì— explainNum ë³€ìˆ˜ë¥¼ ì¸ë±ìŠ¤ë¡œ ì‚¬ìš©í•´ ì´ë¯¸ì§€ í• ë‹¹ í›„ í™œì„±í™”.
             // imageImage.SetActive(true);
-            if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue Á¶°Ç »èÁ¦, !statue.isStatue Ãß°¡
+            if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue ì¡°ê±´ ì‚­ì œ, !statue.isStatue ì¶”ê°€
             {
                 if (explainIndex >= 0 && explainIndex < Images.Count)
                 {
@@ -317,35 +317,35 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
             {
                 if (explainLine > 0 && explainLine <= dialogueManager.dialogues.Length)
                 {
-                    lineCount = explainLine - 1; //explainLine¹øÂ° lineÀ¸·Î ÀÌµ¿; ±Ùµ¥ ¿Ö -1ÀÎÁø ¸ğ¸£°ÚÀ½... ±×³É Àß µ¹¾Æ°¨
+                    lineCount = explainLine - 1; //explainLineë²ˆì§¸ lineìœ¼ë¡œ ì´ë™; ê·¼ë° ì™œ -1ì¸ì§„ ëª¨ë¥´ê² ìŒ... ê·¸ëƒ¥ ì˜ ëŒì•„ê°
                     contextCount = 0;
                 }
-                else //¿¹¿ÜÃ³¸®
+                else //ì˜ˆì™¸ì²˜ë¦¬
                 {
                     Debug.LogError("Invalid explainNum. Starting from the first dialogue.");
-                    lineCount = 0; //explainNumÀÌ Àß¸øµÈ °æ¿ì Ã¹ ¹øÂ° ´ëÈ­·Î ½ÃÀÛ
+                    lineCount = 0; //explainNumì´ ì˜ëª»ëœ ê²½ìš° ì²« ë²ˆì§¸ ëŒ€í™”ë¡œ ì‹œì‘
                 }
             }
-            else //¿¹¿ÜÃ³¸®
+            else //ì˜ˆì™¸ì²˜ë¦¬
             {
                 Debug.LogError("Failed to parse explainNum. Starting from the first dialogue.");
-                lineCount = 0; //explainNum ÆÄ½Ì ½ÇÆĞ ½Ã Ã¹ ¹øÂ° ´ëÈ­·Î ½ÃÀÛ
+                lineCount = 0; //explainNum íŒŒì‹± ì‹¤íŒ¨ ì‹œ ì²« ë²ˆì§¸ ëŒ€í™”ë¡œ ì‹œì‘
             }
 
 
         }
-        else //explainNum ¾øÀ¸¸é ±×³É Ã³À½ºÎÅÍ
+        else //explainNum ì—†ìœ¼ë©´ ê·¸ëƒ¥ ì²˜ìŒë¶€í„°
         {
             lineCount = 0;
         }
-        StartCoroutine(DialogueWriter()); //´ëÈ­ ½ÃÀÛ
+        StartCoroutine(DialogueWriter()); //ëŒ€í™” ì‹œì‘
     }
 
     public void EndDialogue()
     {
-        Debug.Log("EndDialogue() ½ÇÇà"); //delete
+        Debug.Log("EndDialogue() ì‹¤í–‰"); //delete
 
-        //ÃÊ±âÈ­
+        //ì´ˆê¸°í™”
         dialogueManager.dialogues = null;
         dialogueManager.isDialogue = false;
         dialogueManager.isExplain = false;
@@ -354,12 +354,12 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         playerMove.ActiveInteract = false;
         lineCount = 0;
         contextCount = 0;
-        //npc.isInteract = true; //¹Ì¼ú°üÀå
+        //npc.isInteract = true; //ë¯¸ìˆ ê´€ì¥
 
         if (npc is StageNPC selectedNPC)
         {
             selectedNPC.isInteract = true;
-            //¹Ì¼ú°üÀå
+            //ë¯¸ìˆ ê´€ì¥
             if (selectedNPC.dialogueFileName == "Tutorial2_dialogue")
             {
                 selectedNPC.TutorialFin();
@@ -376,7 +376,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
             selectedStatue.isInteract = true;
             selectedStatue.CheckResult();
 
-            //ÆÇº° °á°ú UI Ãâ·Â
+            //íŒë³„ ê²°ê³¼ UI ì¶œë ¥
             if (npc.dialogueFileName == "Check3_dialogue")
             {
                 Invoke("SetUIStateEnd", 1.5f);
@@ -393,7 +393,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
             ItemImage.SetActive(false);
         }
 
-        //¸ğµç ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
+        //ëª¨ë“  ì´ë¯¸ì§€ ë¹„í™œì„±í™”
         foreach (var image in Images)
         {
             image.SetActive(false);
@@ -409,7 +409,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     #region Message
     public void ShowMessage(string _message, string _name = null)
     {
-        //ÃÊ±âÈ­ & Setting
+        //ì´ˆê¸°í™” & Setting
         dialogueManager.isDialogue = true;
         dialogueManager.isMessage = true;
         playerMove.ActiveInteract = true;
@@ -418,13 +418,13 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         dialogueManager.message = _message;
         string name = _name;
 
-        if (name != null) //´ë»ç¿¡ name ÀÖÀ¸¸é
+        if (name != null) //ëŒ€ì‚¬ì— name ìˆìœ¼ë©´
         {
             dialoguePanel.SetActive(true);
             namePanel.SetActive(true);
             nameText.text = name;
         }
-        else //name ¾øÀ¸¸é
+        else //name ì—†ìœ¼ë©´
         {
             dialoguePanel.SetActive(true);
             namePanel.SetActive(false);
@@ -435,7 +435,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
 
     public void EndMessage()
     {
-        //ÃÊ±âÈ­
+        //ì´ˆê¸°í™”
         dialogueManager.dialogues = null;
         dialogueManager.isDialogue = false;
         dialogueManager.isExplain = false;
@@ -454,9 +454,9 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     #region Select UI
     public void SetSelectButtons()
     {
-        Debug.Log("SetSelectButtons() ½ÇÇà"); //delete
+        Debug.Log("SetSelectButtons() ì‹¤í–‰"); //delete
 
-        //Áßº¹Ãß°¡ ¹æÁö
+        //ì¤‘ë³µì¶”ê°€ ë°©ì§€
         selectButtonList.Clear();
         selectTextList.Clear();
 
@@ -489,7 +489,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
 
         lineCount = 0;
         
-        Debug.Log($"ShowSelect È£ÃâµÊ: lineCount = {lineCount}, _selects.Length = {_selects.Length}");
+        Debug.Log($"ShowSelect í˜¸ì¶œë¨: lineCount = {lineCount}, _selects.Length = {_selects.Length}");
 
 
         for (int i = 0; i < selectTextList.Count; i++)
@@ -504,7 +504,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
 
     void EndSelect()
     {
-        //ÃÊ±âÈ­
+        //ì´ˆê¸°í™”
         dialogueManager.selects = null;
         dialogueManager.isSelect = false;
 
@@ -529,7 +529,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     #endregion
 
     #region NPC State Management
-    public int LineCount() // ´ë»ç¿¡ ¸ÂÃç¼­ NPC »óÅÂ º¯°æ
+    public int LineCount() // ëŒ€ì‚¬ì— ë§ì¶°ì„œ NPC ìƒíƒœ ë³€ê²½
     {
         int _lineCount = lineCount;
         return _lineCount;
@@ -541,13 +541,13 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     {
         Text contextText;
 
-        if (dialogueManager.dialogues[lineCount].name != "") //´ë»ç¿¡ name ÀÖÀ¸¸é
+        if (dialogueManager.dialogues[lineCount].name != "") //ëŒ€ì‚¬ì— name ìˆìœ¼ë©´
         {
             dialoguePanel.SetActive(true);
             namePanel.SetActive(true);
             contextText = dialogueText;
         }
-        else //name ¾øÀ¸¸é
+        else //name ì—†ìœ¼ë©´
         {
             //descriptionPanel.SetActive(true);
             namePanel.SetActive(false);
@@ -555,12 +555,12 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         }
 
         string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
-        replaceText = replaceText.Replace("#", ","); //#À» ,·Î º¯È¯
-        replaceText = replaceText.Replace("@", "\n"); //*À» \nÀ¸·Î º¯È¯
+        replaceText = replaceText.Replace("#", ","); //#ì„ ,ë¡œ ë³€í™˜
+        replaceText = replaceText.Replace("@", "\n"); //*ì„ \nìœ¼ë¡œ ë³€í™˜
 
-        nameText.text = dialogueManager.dialogues[lineCount].name; //name Ãâ·Â
+        nameText.text = dialogueManager.dialogues[lineCount].name; //name ì¶œë ¥
 
-        // ÃÊ»óÈ­ Ãâ·Â
+        // ì´ˆìƒí™” ì¶œë ¥
         foreach (var portrait in Portraits)
         {
             portrait.SetActive(false);
@@ -575,7 +575,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
             }
         }
 
-        //context Ãâ·Â
+        //context ì¶œë ¥
         for (int i = 0; i < replaceText.Length; i++)
         {
             contextText.text += replaceText[i];
@@ -589,7 +589,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
     {
         string replaceText = dialogueManager.message;
 
-        //context Ãâ·Â
+        //context ì¶œë ¥
         for (int i = 0; i < replaceText.Length; i++)
         {
             dialogueText.text += replaceText[i];
@@ -598,14 +598,13 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
         dialogueManager.isNext = true;
     }
 
-
     IEnumerator SelectWriter()
     {
-        Debug.Log($"SelectWriter ½ÃÀÛ: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
+        Debug.Log($"SelectWriter ï¿½ï¿½ï¿½ï¿½: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
 
-        int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2; //name Á¸Àç ¿©ºÎ ÆÇ´ÜÇØ¼­ ¸Å°³º¯¼ö Àü´Ş
+        int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2; //name ì¡´ì¬ ì—¬ë¶€ íŒë‹¨í•´ì„œ ë§¤ê°œë³€ìˆ˜ ì „ë‹¬
 
-        moveNumList.Clear(); //Áßº¹ ¹æÁö
+        moveNumList.Clear(); //ì¤‘ë³µ ë°©ì§€
         //currentSelectButtonIndex = offset;
 
         if (lineCount < dialogueManager.selects.Length)
@@ -625,7 +624,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
 
     IEnumerator WriteSelectOptions(Select select, int offset)
     {
-        Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ½ÇÇà");
+        Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ï¿½ï¿½ï¿½ï¿½");
 
         SetSelectButtons();
 
@@ -635,7 +634,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
 
         Debug.Log($"select.contexts.Length = {select.contexts.Length}");
 
-        for (int i = 0; i < select.contexts.Length && i < 4; i++) // ÃÖ´ë 4°³±îÁö
+        for (int i = 0; i < select.contexts.Length && i < 4; i++) // ìµœëŒ€ 4ê°œê¹Œì§€
         {
             int buttonIndex = i + offset;
 
@@ -645,7 +644,7 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
                 selectButtonList[buttonIndex].gameObject.SetActive(true);
                 selectTextList[buttonIndex].text = "";
 
-                Debug.Log("SetActive ½ÇÇà");
+                Debug.Log("SetActive ì‹¤í–‰");
 
                 string replacedText = select.contexts[i].Replace("#", ",");
 
@@ -655,14 +654,14 @@ public class DialogueUI_Jiyun : MonoBehaviour //ÇÕº´ ÈÄ DialogueUI_Jiyun -> Dial
                     yield return new WaitForSeconds(0.03f);
                 }
 
-                //moveNum ÀúÀå
+                //moveNum ì €ì¥
                 if (i < select.moveNum.Length && int.TryParse(select.moveNum[i], out int moveNum))
                 {
                     moveNumList.Add(moveNum);
                 }
                 else
                 {
-                    moveNumList.Add(0); //±âº»°ª
+                    moveNumList.Add(0); //ê¸°ë³¸ê°’
                 }
             }
         }

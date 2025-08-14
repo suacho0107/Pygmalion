@@ -57,6 +57,7 @@ public class LibraryRoom : NPC
                 ChangeExplainNum("2");
 
                 dialogueManager = FindObjectOfType<DialogueManager>();
+
                 if (dialogueManager.isEnd)
                 {
                     unlock = true;

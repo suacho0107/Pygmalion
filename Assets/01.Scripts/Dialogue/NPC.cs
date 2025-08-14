@@ -9,6 +9,7 @@ public class NPC : MonoBehaviour
 {
     #region Set Values
     public DialogueManager dialogueManager;
+    public DialogueUI dialogueUI;
     public InteractionEvent interactionEvent; // 이 NPC와 연결된 InteractionEvent
     public MuseumLobbyCSV csv;
     public StatueScore statueScore;

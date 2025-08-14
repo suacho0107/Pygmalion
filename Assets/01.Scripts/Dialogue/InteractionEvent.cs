@@ -20,7 +20,8 @@ public class InteractionEvent : MonoBehaviour
     public void LoadDialogue(string _csvFileName, string explainNum = null)
     {
         DialogueParser dialogueParser = FindObjectOfType<DialogueParser>();
-        DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
+        //DialogueManager dialogueManager = FindObjectOfType<DialogueManager>(); //필요 없어서 일단 주석처리, 추후 삭제
+        DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
         TutorialDialog tutorialDialogParser = GetComponent<TutorialDialog>();
 
         if (dialogueParser != null)
@@ -34,15 +35,15 @@ public class InteractionEvent : MonoBehaviour
             dialogue.dialogues = dialogues; //파싱된 대화 데이터를 DialogueEvent에 할당
             lineCount = 0;
 
-            if (dialogueManager != null)
+            if (dialogueUI != null)
             {
                 if (!string.IsNullOrEmpty(explainNum))//explainNum 있으면 전달
                 {
-                    dialogueManager.ShowDialogue(dialogues, explainNum);
+                    dialogueUI.ShowDialogue(dialogues, explainNum);
                 }
                 else //explainNum 없으면 그냥
                 {
-                    dialogueManager.ShowDialogue(dialogues);
+                    dialogueUI.ShowDialogue(dialogues);
                 }
             }
         }
