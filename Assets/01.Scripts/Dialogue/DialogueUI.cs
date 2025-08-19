@@ -65,7 +65,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             Debug.Log($"DialogueManager_Jiyun 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         }
-        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
         stageNpc = FindObjectOfType<StageNPC>();
         statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
@@ -76,7 +75,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
     }
 
     // Update is called once per frame
