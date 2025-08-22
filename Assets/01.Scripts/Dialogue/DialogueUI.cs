@@ -51,6 +51,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     public int lineCount = 0; //대화 카운트
     public int contextCount = 0; //대사 카운트
 
+    [Header("DialoguePanel Sprites")]
+    public Sprite DialoguePanel;
+    public Sprite DescriptionPanel;
+
     [Header("Button Sprites")]
     public Sprite ButtonDefault;
     public Sprite ButtonHighlighted;
@@ -63,7 +67,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         dialogueManager = GetComponent<DialogueManager>(); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         if (dialogueManager != null) //DialogueManager 예외처리
         {
-            Debug.Log($"DialogueManager_Jiyun 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
+            Debug.Log($"DialogueManager 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         }
         stageNpc = FindObjectOfType<StageNPC>();
         statue = FindObjectOfType<Statue>();
@@ -539,9 +543,12 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     public IEnumerator DialogueWriter()
     {
         Text contextText;
+        Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
 
         if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
         {
+            //dialoguePanel.sprite
+            dialoguePanelImage.sprite = DialoguePanel;
             dialoguePanel.SetActive(true);
             namePanel.SetActive(true);
             contextText = dialogueText;
@@ -549,6 +556,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         else //name 없으면
         {
             //descriptionPanel.SetActive(true);
+            dialoguePanelImage.sprite = DescriptionPanel;
+            dialoguePanel.SetActive(true);
             namePanel.SetActive(false);
             contextText = descriptionText;
         }
