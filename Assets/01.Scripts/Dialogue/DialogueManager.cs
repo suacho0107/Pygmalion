@@ -42,8 +42,8 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
     {
         dialogueUI = FindObjectOfType<DialogueUI>();
         playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
-        stageNpc = FindObjectOfType<StageNPC>();
-        statue = FindObjectOfType<Statue>();
+        //stageNpc = FindObjectOfType<StageNPC>();
+        //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
     }
 
@@ -150,6 +150,7 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
     public void SetNPC(NPC _npc)
     {
         npc = _npc; //NPC 인스턴스 설정
+        dialogueUI.SetNPC(_npc);
 
         interactionEvent = npc.interactionEvent; //npc의 interactionEvent 가져오기
 
@@ -157,16 +158,19 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
         {
             stageNpc = npc as StageNPC;
             statue = null;
+            Debug.Log("** StageNPC **");
         }
         else if (npc is Statue)
         {
             stageNpc = null;
             statue = npc as Statue;
+            Debug.Log("** Statue **");
         }
         else if (npc is NPC)
         {
             stageNpc = null;
             statue = null;
+            Debug.Log("** NPC **");
         }
         else
         {

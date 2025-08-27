@@ -69,8 +69,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             Debug.Log($"DialogueManager 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         }
-        stageNpc = FindObjectOfType<StageNPC>();
-        statue = FindObjectOfType<Statue>();
+        //stageNpc = FindObjectOfType<StageNPC>();
+        //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
         nameText = namePanel.GetComponentInChildren<Text>();
         Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText 접근 확인
@@ -100,6 +100,11 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
     }
     #endregion
+
+    public void SetNPC(NPC _npc)
+    {
+        npc = _npc;
+    }
 
     #region Select Navigation
     private void SelectButtonInputHandler()
@@ -231,7 +236,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     selectedStatue.isChecked = true;
                     selectedStatue.SaveStatueData();
                 }
-                else if (_currentSelectButtonIndex == 1)
+                else if (_currentSelectButtonIndex == 2)
                 {
                     if (selectedStatue.isEnemy)
                     {//건드린다 --> 정답
@@ -246,7 +251,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                         selectedStatue.isCorrect = false;
                     }
                 }
-                else if (_currentSelectButtonIndex == 2)
+                else if (_currentSelectButtonIndex == 1)
                 {
                     if (selectedStatue.isEnemy)
                     {//이상 없음 --> 오답
