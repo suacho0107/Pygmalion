@@ -163,24 +163,54 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             if (currentSelectButtonIndex < selectButtonList.Count)
             {
-                //name(Portarit)가 유무 계산
-                int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
-                currentSelectButtonIndex -= offset;
+                // 🔹 UI 인덱스 → 실제 선택지 인덱스로 변환
+                // portrait(이름)가 있으면 선택지가 UI에서 2칸 뒤부터 시작한다고 가정
+                int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
+                int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
 
-                currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
-
-                //currentSelectButtonIndexs는 Select 과정 중 UI에서 사용하는 변수
-                //실제 moveNum 가져와서 int로 변환
-                string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
-
-                if (int.TryParse(moveNumString, out int selectedIndex))
+                // 🔹 유효 범위 검사
+                if (actualSelectIndex >= 0 && actualSelectIndex < dialogueManager.selects[currentSelectIndex].moveNum.Length)
                 {
-                    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
+                    string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[actualSelectIndex];
+
+                    if (int.TryParse(moveNumString, out int selectedIndex))
+                    {
+                        OnSelectButtonSelected(selectedIndex, actualSelectIndex);
+                    }
+                    else if (string.IsNullOrWhiteSpace(moveNumString))
+                    {
+                        EndSelect();
+                        EndDialogue();
+                    }
+                    else
+                    {
+                        //Debug.LogError("moveNum Parsing 실패");
+                        Debug.LogError($"moveNum Parsing 실패: '{moveNumString}' (Index: {actualSelectIndex})");
+                    }
                 }
-                else //예외처리
+                else
                 {
-                    Debug.LogError("moveNum Parsing 실패");
+                    Debug.LogWarning($"잘못된 선택 인덱스: {actualSelectIndex}");
                 }
+
+                ////name(Portarit)가 유무 계산
+                //int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
+                //currentSelectButtonIndex -= offset;
+
+                //currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
+
+                ////currentSelectButtonIndexs는 Select 과정 중 UI에서 사용하는 변수
+                ////실제 moveNum 가져와서 int로 변환
+                //string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
+
+                //if (int.TryParse(moveNumString, out int selectedIndex))
+                //{
+                //    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
+                //}
+                //else //예외처리
+                //{
+                //    Debug.LogError("moveNum Parsing 실패");
+                //}
 
                 //초기화
                 isSelecting = false;
