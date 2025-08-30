@@ -244,6 +244,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     {
         if (npc is Statue selectedStatue)
         {
+            Debug.Log("@@@@@@@@@@@statue selectedStatue@@@@@@@@@@");
             if (!selectedStatue.isChecked) //첫 번째 상호작용(조사): 선지 2개 출력
             {
                 if (_currentSelectButtonIndex == 0)
@@ -266,8 +267,9 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     selectedStatue.isChecked = true;
                     selectedStatue.SaveStatueData();
                 }
-                else if (_currentSelectButtonIndex == 2)
+                else if (_currentSelectButtonIndex == 1)
                 {
+                    Debug.Log("_currentSelectButtonIndex == 1");
                     if (selectedStatue.isEnemy)
                     {//건드린다 --> 정답
                         selectedStatue.isJudged = true;
@@ -277,12 +279,14 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     }
                     else
                     {//건드린다 --> 오답
+                        Debug.Log("건드린다 오답");
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = false;
                     }
                 }
-                else if (_currentSelectButtonIndex == 1)
+                else if (_currentSelectButtonIndex == 2)
                 {
+                    Debug.Log("_currentSelectButtonIndex == 2");
                     if (selectedStatue.isEnemy)
                     {//이상 없음 --> 오답
                         selectedStatue.isJudged = true;
@@ -291,6 +295,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     }
                     else
                     {//이상 없음 --> 정답
+                        Debug.Log("이상없음 정답");
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = true;
                         selectedStatue.explainNum = "3";
