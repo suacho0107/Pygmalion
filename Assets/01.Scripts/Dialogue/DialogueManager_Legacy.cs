@@ -132,6 +132,9 @@ public class DialogueManager_Legacy: MonoBehaviour
         }
         else
         {
+            if (dialogueNext == null)
+                return;
+
             dialogueNext.SetActive(false);
         }
 
