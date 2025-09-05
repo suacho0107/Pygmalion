@@ -344,12 +344,15 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
             // imageImage.SetActive(true);
-            if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
+            if (statue != null)
             {
-                if (explainIndex >= 0 && explainIndex < Images.Count)
+                if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
                 {
-                    Images[explainIndex - 1].SetActive(true);
-                    dialogueManager.isPopup = true;
+                    if (explainIndex >= 0 && explainIndex < Images.Count)
+                    {
+                        Images[explainIndex - 1].SetActive(true);
+                        dialogueManager.isPopup = true;
+                    }
                 }
             }
 
