@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
     /// 리스트 정의: 업무 장소(1~6)
     /// SceneTransition에서 키 값으로 lobby 씬 이름 값을 넘겨주면
     /// </summary>
-    public List<string> locations = new List<string>
+    public List<string> locationList = new List<string>
     {
         "미술관",
         "도서관",
@@ -173,7 +173,7 @@ public class UIManager : MonoBehaviour
 
         if (_textUIStart != null)
         {
-            _textUIStart.text = locations[stageIndex];
+            _textUIStart.text = locationList[stageIndex];
         }
     }
 

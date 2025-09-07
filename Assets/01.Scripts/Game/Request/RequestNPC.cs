@@ -37,7 +37,7 @@ public class RequestNPC : NPC
             replyChat.SetActive(false);
         }
 
-        locationText.text = UIManager.u_instance.locations[UIManager.u_instance.stageIndex];
+        locationText.text = UIManager.u_instance.locationList[UIManager.u_instance.stageIndex];
 
         ChangeState(new RequestReadyState());
     }

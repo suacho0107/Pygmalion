@@ -69,8 +69,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             Debug.Log($"DialogueManager 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         }
-        stageNpc = FindObjectOfType<StageNPC>();
-        statue = FindObjectOfType<Statue>();
+        //stageNpc = FindObjectOfType<StageNPC>();
+        //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
         nameText = namePanel.GetComponentInChildren<Text>();
         Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText 접근 확인
@@ -100,6 +100,11 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
     }
     #endregion
+
+    public void SetNPC(NPC _npc)
+    {
+        npc = _npc;
+    }
 
     #region Select Navigation
     private void SelectButtonInputHandler()
@@ -158,24 +163,54 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             if (currentSelectButtonIndex < selectButtonList.Count)
             {
-                //name(Portarit)가 유무 계산
-                int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
-                currentSelectButtonIndex -= offset;
+                // 🔹 UI 인덱스 → 실제 선택지 인덱스로 변환
+                // portrait(이름)가 있으면 선택지가 UI에서 2칸 뒤부터 시작한다고 가정
+                int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
+                int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
 
-                currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
-
-                //currentSelectButtonIndexs는 Select 과정 중 UI에서 사용하는 변수
-                //실제 moveNum 가져와서 int로 변환
-                string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
-
-                if (int.TryParse(moveNumString, out int selectedIndex))
+                // 🔹 유효 범위 검사
+                if (actualSelectIndex >= 0 && actualSelectIndex < dialogueManager.selects[currentSelectIndex].moveNum.Length)
                 {
-                    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
+                    string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[actualSelectIndex];
+
+                    if (int.TryParse(moveNumString, out int selectedIndex))
+                    {
+                        OnSelectButtonSelected(selectedIndex, actualSelectIndex);
+                    }
+                    else if (string.IsNullOrWhiteSpace(moveNumString))
+                    {
+                        EndSelect();
+                        EndDialogue();
+                    }
+                    else
+                    {
+                        //Debug.LogError("moveNum Parsing 실패");
+                        Debug.LogError($"moveNum Parsing 실패: '{moveNumString}' (Index: {actualSelectIndex})");
+                    }
                 }
-                else //예외처리
+                else
                 {
-                    Debug.LogError("moveNum Parsing 실패");
+                    Debug.LogWarning($"잘못된 선택 인덱스: {actualSelectIndex}");
                 }
+
+                ////name(Portarit)가 유무 계산
+                //int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
+                //currentSelectButtonIndex -= offset;
+
+                //currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
+
+                ////currentSelectButtonIndexs는 Select 과정 중 UI에서 사용하는 변수
+                ////실제 moveNum 가져와서 int로 변환
+                //string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
+
+                //if (int.TryParse(moveNumString, out int selectedIndex))
+                //{
+                //    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
+                //}
+                //else //예외처리
+                //{
+                //    Debug.LogError("moveNum Parsing 실패");
+                //}
 
                 //초기화
                 isSelecting = false;
@@ -209,6 +244,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     {
         if (npc is Statue selectedStatue)
         {
+            Debug.Log("@@@@@@@@@@@statue selectedStatue@@@@@@@@@@");
             if (!selectedStatue.isChecked) //첫 번째 상호작용(조사): 선지 2개 출력
             {
                 if (_currentSelectButtonIndex == 0)
@@ -233,6 +269,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
                 else if (_currentSelectButtonIndex == 1)
                 {
+                    Debug.Log("_currentSelectButtonIndex == 1");
                     if (selectedStatue.isEnemy)
                     {//건드린다 --> 정답
                         selectedStatue.isJudged = true;
@@ -242,12 +279,14 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     }
                     else
                     {//건드린다 --> 오답
+                        Debug.Log("건드린다 오답");
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = false;
                     }
                 }
                 else if (_currentSelectButtonIndex == 2)
                 {
+                    Debug.Log("_currentSelectButtonIndex == 2");
                     if (selectedStatue.isEnemy)
                     {//이상 없음 --> 오답
                         selectedStatue.isJudged = true;
@@ -256,6 +295,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     }
                     else
                     {//이상 없음 --> 정답
+                        Debug.Log("이상없음 정답");
                         selectedStatue.isJudged = true;
                         selectedStatue.isCorrect = true;
                         selectedStatue.explainNum = "3";
@@ -304,12 +344,15 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
             // imageImage.SetActive(true);
-            if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
+            if (statue != null)
             {
-                if (explainIndex >= 0 && explainIndex < Images.Count)
+                if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
                 {
-                    Images[explainIndex - 1].SetActive(true);
-                    dialogueManager.isPopup = true;
+                    if (explainIndex >= 0 && explainIndex < Images.Count)
+                    {
+                        Images[explainIndex - 1].SetActive(true);
+                        dialogueManager.isPopup = true;
+                    }
                 }
             }
 

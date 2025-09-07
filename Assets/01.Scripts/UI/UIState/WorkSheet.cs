@@ -24,13 +24,20 @@ public class WorkSheet : MonoBehaviour
 
     public int currency;
 
+    DataManager dataManager = null;
+
     private void Awake()
     {
+        dataManager = DataManager.Instance;
+
         UpdateEndUI();
     }
 
     private void UpdateEndUI()
     {
+        if (dataManager == null)
+            return;
+
         result = SetData();
 
         _check.text = statueCount.ToString();
@@ -38,33 +45,33 @@ public class WorkSheet : MonoBehaviour
         _destroy.text = destroyedCount.ToString();
         _efficiency.text = efficiency;
 
-        Debug.Log($"UpdateEndUI : {efficiency}");
+        //Debug.Log($"UpdateEndUI : {efficiency}");
 
         switch (result)
         {
             case 65:
                 gameObject.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
-                DataManager.Instance.AddCurrency(300);
+                dataManager.AddCurrency(300);
                 break;
 
             case 66:
                 gameObject.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
-                DataManager.Instance.AddCurrency(200);
+                dataManager.AddCurrency(200);
                 break;
 
             case 67:
                 gameObject.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);
-                DataManager.Instance.AddCurrency(150);
+                dataManager.AddCurrency(150);
                 break;
 
             case 68:
                 gameObject.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);
-                DataManager.Instance.AddCurrency(100);
+                dataManager.AddCurrency(100);
                 break;
 
             case 70:
                 gameObject.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
-                DataManager.Instance.AddCurrency(50);
+                dataManager.AddCurrency(50);
                 break;
 
             default:
