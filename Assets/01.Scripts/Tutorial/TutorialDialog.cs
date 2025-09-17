@@ -10,7 +10,7 @@ public class TutorialDialog : TutorialBase
 
     private NPC             npc;
     private PlayerMove      player;
-    private DialogueManager dialogManager;
+    private DialogueManager_Legacy dialogManager;
     
     private bool isDialogueStarted = false;
 
@@ -20,7 +20,7 @@ public class TutorialDialog : TutorialBase
 
         npc = GetComponent<NPC>();
         player = FindObjectOfType<PlayerMove>();
-        dialogManager = FindObjectOfType<DialogueManager>();
+        dialogManager = FindObjectOfType<DialogueManager_Legacy>();
 
         player.IsMoved = false;
         dialogManager.isEnd = false;

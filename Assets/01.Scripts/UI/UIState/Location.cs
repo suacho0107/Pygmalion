@@ -14,6 +14,9 @@ public class Location : MonoBehaviour
 
     private void UpdateStartUI()
     {
+        if (UIManager.u_instance == null)
+            return; 
+
         location.text = UIManager.u_instance.locationList[UIManager.u_instance.stageIndex];
     }
 

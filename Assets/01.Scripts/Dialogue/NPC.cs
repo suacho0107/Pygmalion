@@ -16,7 +16,7 @@ public class NPC : MonoBehaviour
     public NPCData npcData = new NPCData();
     
     public bool isInteract = false;
-    [SerializeField] private bool isObject = false;
+    [SerializeField] public bool isObject = false;
 
     public bool isOfficeTuto = false;
     public bool isDialogueChanged = false;

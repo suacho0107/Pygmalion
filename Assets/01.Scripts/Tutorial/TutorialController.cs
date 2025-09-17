@@ -54,7 +54,6 @@ public class TutorialController : MonoBehaviour
 
         Debug.Log($"튜토리얼 시작: {currentTutorial.gameObject.name}");
 
-        // 업데이트된 튜토리얼의 Enter() 메소드 호출
         currentTutorial.Enter();
     }
 

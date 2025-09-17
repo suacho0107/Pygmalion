@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class RequestNPC : NPC
 {
+    public static RequestNPC r_instance { get; private set; }
+
     [Header("업무 의뢰서")]
     [SerializeField] private    PlayerDesk      playerDesk;
 
@@ -25,6 +27,7 @@ public class RequestNPC : NPC
     public bool isStartTutorial { get; private set; } = false;
     public bool isAcceptRequest = false;
     public bool canSend = false;
+    public bool canOff = false;
 
     public int  locationIndex;
 
@@ -45,6 +48,27 @@ public class RequestNPC : NPC
     void LateUpdate()
     {
         currentState?.Update();
+    }
+
+    public new void SaveNPCData()
+    {
+        if (!isObject)
+        {
+            npcData.isDialogueChanged = isDialogueChanged;
+            npcData.currentIndex = currentIndex;
+            npcData.dialogueFileName = dialogueFileName;
+            npcData.selectFileName = selectFileName;
+            npcData.isInteract = isInteract;
+
+            if (dialogueFileName == "request1_dialogue")
+            {
+                canOff = true;
+            }
+
+            string json = JsonUtility.ToJson(npcData);
+            //File.WriteAllText(filePath, json);
+            Debug.Log(gameObject.name + " / NPC 데이터 저장");
+        }
     }
 
     public void ChangeState(IRequestState newState)

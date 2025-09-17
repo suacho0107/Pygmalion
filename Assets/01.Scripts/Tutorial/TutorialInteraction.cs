@@ -25,18 +25,18 @@ public class TutorialInteraction : TutorialBase
 
             if (isInteractOn)
             {
-                Debug.Log("true");
                 isInteractOn = false;
                 interactionObject.gameObject.SetActive(true);
                 playerMove.IsMoved = false;
             }
             else
             {
-                Debug.Log("false");
                 interactionObject.gameObject.SetActive(false);
                 playerMove.IsMoved = true;
             }
-            controller.SetNextTutorial();
+
+            //if (RequestNPC.r_instance.canOff)
+                controller.SetNextTutorial();
         }
     }
 

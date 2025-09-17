@@ -60,7 +60,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     public Sprite ButtonHighlighted;
     #endregion
 
-
     #region Unity Methods
     void Awake()
     {
@@ -168,6 +167,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
                 int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
 
+                Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
+
                 // 🔹 유효 범위 검사
                 if (actualSelectIndex >= 0 && actualSelectIndex < dialogueManager.selects[currentSelectIndex].moveNum.Length)
                 {
@@ -192,7 +193,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 {
                     Debug.LogWarning($"잘못된 선택 인덱스: {actualSelectIndex}");
                 }
-
+                #region 주석
                 ////name(Portarit)가 유무 계산
                 //int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
                 //currentSelectButtonIndex -= offset;
@@ -211,12 +212,13 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 //{
                 //    Debug.LogError("moveNum Parsing 실패");
                 //}
+                #endregion
 
                 //초기화
                 isSelecting = false;
                 currentSelectButtonIndex = 0;
             }
-            Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
+            //Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
 
         }
         HighlightSelectButton();

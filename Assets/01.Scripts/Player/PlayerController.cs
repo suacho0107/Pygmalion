@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log($"현재 위치: {transform.position}");
+        //Debug.Log($"현재 위치: {transform.position}");
     }
 
     void Update()

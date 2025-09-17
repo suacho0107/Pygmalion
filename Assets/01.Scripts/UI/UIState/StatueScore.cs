@@ -16,6 +16,7 @@ public class StatueScore : MonoBehaviour
     public int fightCount = 0;
 
     public int checkCount = 0;
+    public bool countedInScore;
 
     private void Start()
     {
