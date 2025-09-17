@@ -177,6 +177,7 @@ public class SceneTransition : MonoBehaviour
             if (UIManager.u_instance != null)
             {
                 UIManager.u_instance.SetUIState(Define.UI.UIState.Work);    // юс╫ц
+                //UIManager.u_instance.SetUIState(Define.UI.UIState.End);
             }
         }
     }

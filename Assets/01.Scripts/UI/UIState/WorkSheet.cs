@@ -13,33 +13,99 @@ public class WorkSheet : MonoBehaviour
     [SerializeField] Text           _destroy;
     [SerializeField] Text           _efficiency;
 
-    private int     checkStatueCount;
-    private int     totalCount;
-    private int     enemyCount;
     private int     statueCount;
     private int     fightCount;
     private int     destroyedCount;
+    private int     checkedCount;
+
     private int     result;
-
     private string  efficiency;
-
-    public int currency;
+    public int      currency;
 
     DataManager dataManager = null;
 
     private void Awake()
     {
         dataManager = DataManager.Instance;
-        checkStatueCount = PlayerPrefs.GetInt("StatueCount", statueCount);
+
+        //#region Test
+        //PlayerPrefs.SetInt("StatueCount", 6);
+        //PlayerPrefs.SetInt("fightCount", 2);
+        //PlayerPrefs.SetInt("destroyedCount", 1);
+        //PlayerPrefs.SetInt("checkedCount", 16);
+        //#endregion
+
+        //statueCount = PlayerPrefs.GetInt("StatueCount");
 
         UpdateEndUI();
     }
 
+    private int SetData()
+    {
+        int totalCount = 6;
+        int enemyCount = 1;     // TODO: totalCount(조각상 개수), enemyCount(적 개수) 모두 매개 변수화
+
+        statueCount     = PlayerPrefs.GetInt("StatueCount");
+        fightCount      = PlayerPrefs.GetInt("fightCount");
+        destroyedCount  = PlayerPrefs.GetInt("destroyedCount");
+        checkedCount    = PlayerPrefs.GetInt("checkedCount");
+
+        // 평가 항목
+        float checkEff  = checkedCount / (totalCount * 2);
+        float battleEff = fightCount / enemyCount;
+        float workEff   = checkEff + battleEff;
+
+        if (1 == workEff)
+            efficiency = "탁월";
+
+        else if (1 < workEff && 1.5 >= workEff)
+            efficiency = "우수";
+
+        else if (1.5 < workEff && 2 >= workEff)
+            efficiency = "충족";
+
+        else if (2 < workEff && 2.5 > workEff)
+            efficiency = "개선 필요";
+
+        else if (2.5 <= workEff)
+            efficiency = "미흡";
+
+        else
+            Debug.Log($"업무 효율 계산 오류! workEff : {workEff}");
+
+        //Debug.Log($"SetData : {efficiency}");
+
+        float accuracy = destroyedCount / (totalCount - enemyCount);
+        float totalGrade = workEff + accuracy;
+        int grade = 0;
+
+        if (1 > totalGrade)
+            grade = 65;
+
+        else if (1 <= totalGrade && 1.3 > totalGrade)
+            grade = 66;
+
+        else if (1.3 <= totalGrade && 1.7 > totalGrade)
+            grade = 67;
+
+        else if (1.7 < totalGrade && 2.2 > totalGrade)
+            grade = 68;
+
+        else if (2.2 <= totalGrade)
+            grade = 70;
+
+        else
+            Debug.Log($"평가등급 계산 오류! totalGrade : {totalGrade}");
+
+        return grade;
+    }
+
     private void UpdateEndUI()
     {
-        if (dataManager == null && checkStatueCount < 6)
+        if (dataManager == null || statueCount < 6)
             return;
 
+        // TODO: 스테이지별 조각상 개수와 적 조각상 개수를 업무 효율 계산식의 매개변수로 전달해줘야 함, SetData 함수의 매개변수로 전달
         result = SetData();
 
         _check.text = statueCount.ToString();
@@ -79,64 +145,6 @@ public class WorkSheet : MonoBehaviour
             default:
                 break;
         }
-    }
-
-    private int SetData()
-    {
-        totalCount = 6;
-        enemyCount = 1;
-
-        statueCount = PlayerPrefs.GetInt("StatueCount");
-        fightCount = PlayerPrefs.GetInt("fightCount");
-        destroyedCount = PlayerPrefs.GetInt("destroyedCount");
-
-        float checkEff = statueCount / (totalCount * 2);
-        float battleEff = fightCount / enemyCount;
-        float workEff = checkEff + battleEff;
-
-        if (1 == workEff)
-            efficiency = "탁월";
-
-        else if (1 < workEff && 1.5 >= workEff)
-            efficiency = "우수";
-
-        else if (1.5 < workEff && 2 >= workEff)
-            efficiency = "충족";
-
-        else if (2 < workEff && 2.5 > workEff)
-            efficiency = "개선 필요";
-
-        else if (2.5 <= workEff)
-            efficiency = "미흡";
-
-        else
-            Debug.Log($"업무 효율 계산 오류! workEff : {workEff}");
-
-        Debug.Log($"SetData : {efficiency}");
-
-        float accuracy = destroyedCount / (totalCount - enemyCount);
-        float totalGrade = workEff + accuracy;
-        int grade = 0;
-
-        if (1 > totalGrade)
-            grade = 65;
-
-        else if (1 <= totalGrade && 1.3 > totalGrade)
-            grade = 66;
-
-        else if (1.3 <= totalGrade && 1.7 > totalGrade)
-            grade = 67;
-
-        else if (1.7 < totalGrade && 2.2 > totalGrade)
-            grade = 68;
-
-        else if (2.2 <= totalGrade)
-            grade = 70;
-
-        else
-            Debug.Log($"평가등급 계산 오류! totalGrade : {totalGrade}");
-
-        return grade;
     }
 
     public void SpawnCompany()

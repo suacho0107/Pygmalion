@@ -72,7 +72,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
         nameText = namePanel.GetComponentInChildren<Text>();
-        Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText 접근 확인
+        //Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText 접근 확인
     }
 
     // Start is called before the first frame update
@@ -218,7 +218,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 isSelecting = false;
                 currentSelectButtonIndex = 0;
             }
-            //Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
 
         }
         HighlightSelectButton();
@@ -391,7 +390,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     public void EndDialogue()
     {
-        Debug.Log("EndDialogue() 실행"); //delete
+        //Debug.Log("EndDialogue() 실행"); //delete
 
         //초기화
         dialogueManager.dialogues = null;
