@@ -27,6 +27,9 @@ public class FieldItems : MonoBehaviour
 
     private void Start()
     {
+        if (null == FieldItemManager.Instance)
+            return;
+
         if (FieldItemManager.Instance.IsCollected(itemID))
         {
             Destroy(gameObject);

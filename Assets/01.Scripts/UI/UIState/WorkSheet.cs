@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,14 +29,12 @@ public class WorkSheet : MonoBehaviour
     {
         dataManager = DataManager.Instance;
 
-        //#region Test
-        //PlayerPrefs.SetInt("StatueCount", 6);
-        //PlayerPrefs.SetInt("fightCount", 2);
-        //PlayerPrefs.SetInt("destroyedCount", 1);
-        //PlayerPrefs.SetInt("checkedCount", 16);
-        //#endregion
-
-        //statueCount = PlayerPrefs.GetInt("StatueCount");
+        #region Test
+        PlayerPrefs.SetInt("StatueCount", 6);
+        PlayerPrefs.SetInt("fightCount", 2);
+        PlayerPrefs.SetInt("destroyedCount", 1);
+        PlayerPrefs.SetInt("checkedCount", 16);
+        #endregion
 
         UpdateEndUI();
     }
@@ -50,12 +49,13 @@ public class WorkSheet : MonoBehaviour
         destroyedCount  = PlayerPrefs.GetInt("destroyedCount");
         checkedCount    = PlayerPrefs.GetInt("checkedCount");
 
-        // 평가 항목
-        float checkEff  = checkedCount / (totalCount * 2);
-        float battleEff = fightCount / enemyCount;
-        float workEff   = checkEff + battleEff;
+        #region 업무 효율 계산식
+        double checkEff     = Math.Round((double)checkedCount / (totalCount * 2.0), 4);
+        double battleEff    = Math.Round((double)fightCount / (double)enemyCount, 4);
+        double workEff      = Math.Round((checkEff + battleEff) / 2.0, 4);
 
-        if (1 == workEff)
+        //Debug.Log($"( checkEff : {checkEff} + battleEff : {battleEff} ) / 2 = workEff : {workEff}");
+        if (1 >= workEff)
             efficiency = "탁월";
 
         else if (1 < workEff && 1.5 >= workEff)
@@ -73,10 +73,13 @@ public class WorkSheet : MonoBehaviour
         else
             Debug.Log($"업무 효율 계산 오류! workEff : {workEff}");
 
-        //Debug.Log($"SetData : {efficiency}");
+        #endregion
 
-        float accuracy = destroyedCount / (totalCount - enemyCount);
-        float totalGrade = workEff + accuracy;
+        #region 파손한 조각상
+        double accuracy = Math.Round((double)destroyedCount / (double)(totalCount - enemyCount), 4);
+        #endregion
+
+        double totalGrade = Math.Round(workEff + accuracy, 4);
         int grade = 0;
 
         if (1 > totalGrade)
@@ -102,6 +105,8 @@ public class WorkSheet : MonoBehaviour
 
     private void UpdateEndUI()
     {
+        statueCount = PlayerPrefs.GetInt("StatueCount");
+
         if (dataManager == null || statueCount < 6)
             return;
 

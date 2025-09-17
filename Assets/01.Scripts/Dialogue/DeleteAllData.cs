@@ -28,21 +28,21 @@ public class DeleteAllData : MonoBehaviour
             try
             {
                 File.Delete(file);
-                Debug.Log($"삭제됨: {file}");
+                //Debug.Log($"삭제됨: {file}");
             }
             catch (IOException e)
             {
-                Debug.LogError($"파일 삭제 중 오류 발생: {file} - {e.Message}");
+                //Debug.LogError($"파일 삭제 중 오류 발생: {file} - {e.Message}");
             }
         }
 
         if (jsonFiles.Length > 0)
         {
-            Debug.Log($"총 {jsonFiles.Length}개의 JSON 파일을 삭제했습니다.");
+            //Debug.Log($"총 {jsonFiles.Length}개의 JSON 파일을 삭제했습니다.");
         }
         else
         {
-            Debug.Log("삭제할 JSON 파일이 없습니다.");
+            //Debug.Log("삭제할 JSON 파일이 없습니다.");
         }
     }
 }

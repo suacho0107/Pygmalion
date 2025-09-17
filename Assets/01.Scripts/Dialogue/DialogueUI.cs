@@ -66,7 +66,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         dialogueManager = GetComponent<DialogueManager>(); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         if (dialogueManager != null) //DialogueManager 예외처리
         {
-            Debug.Log($"DialogueManager 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
+            //Debug.Log($"DialogueManager 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
         }
         //stageNpc = FindObjectOfType<StageNPC>();
         //statue = FindObjectOfType<Statue>();
@@ -118,7 +118,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex -= 2;
                 }
             }
-            Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
+            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
@@ -129,7 +129,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex += 2;
                 }
             }
-            Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
+            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
         }
 
         //좌우 이동
@@ -142,8 +142,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex -= 1;
                 }
             }
-
-            Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
+            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
@@ -154,7 +153,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex += 1;
                 }
             }
-            Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}"); //확인용
+            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}"); //확인용
         }
 
         //선택
@@ -167,7 +166,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
                 int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
 
-                Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
+                //Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
 
                 // 🔹 유효 범위 검사
                 if (actualSelectIndex >= 0 && actualSelectIndex < dialogueManager.selects[currentSelectIndex].moveNum.Length)
@@ -191,7 +190,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
                 else
                 {
-                    Debug.LogWarning($"잘못된 선택 인덱스: {actualSelectIndex}");
+                    //Debug.LogWarning($"잘못된 선택 인덱스: {actualSelectIndex}");
                 }
                 #region 주석
                 ////name(Portarit)가 유무 계산
@@ -245,7 +244,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     {
         if (npc is Statue selectedStatue)
         {
-            Debug.Log("@@@@@@@@@@@statue selectedStatue@@@@@@@@@@");
+            //Debug.Log("@@@@@@@@@@@statue selectedStatue@@@@@@@@@@");
             if (!selectedStatue.isChecked) //첫 번째 상호작용(조사): 선지 2개 출력
             {
                 if (_currentSelectButtonIndex == 0)
@@ -320,7 +319,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
         else
         {
-            Debug.LogError("Selected dialogue index is out of bounds. Ending dialogue.");
+            //Debug.LogError("Selected dialogue index is out of bounds. Ending dialogue.");
             EndDialogue();
         }
     }
@@ -329,7 +328,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Dialogue
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
-        Debug.Log("ShowDialogue() 실행"); //delete
+        //Debug.Log("ShowDialogue() 실행"); //delete
 
         //초기화 & Setting
         dialogueManager.dialogues = _dialogues;

@@ -35,11 +35,11 @@ public class SceneTransition : MonoBehaviour
                 if (sceneIndex != -1)
                 {
                     sceneData.scenes[sceneIndex].visitCount++;
-                    Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
+                    //Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
                 }
                 else
                 {
-                    Debug.LogError("SceneData not found for scene: " + nextScene);
+                    //Debug.LogError("SceneData not found for scene: " + nextScene);
                 }
 
             SetUIStateWork(nextScene);
@@ -100,7 +100,7 @@ public class SceneTransition : MonoBehaviour
             {// 최초 상호작용 시 isInteract, 대사 출력
                 if (enter && Input.GetKeyDown(KeyCode.F) && !npc.isInteract)
                 {
-                    Debug.Log("GetKeyDown");
+                    //Debug.Log("GetKeyDown");
                     npc.isInteract = true;
                 }
             }
@@ -113,7 +113,7 @@ public class SceneTransition : MonoBehaviour
                     DialogueManager dm = FindObjectOfType<DialogueManager>();
                     if (dm.isEnd)
                     {
-                        Debug.Log("isInteract isEnd LoadScene");
+                        //Debug.Log("isInteract isEnd LoadScene");
                         LoadNextScene();
                     }
                 }
@@ -136,11 +136,11 @@ public class SceneTransition : MonoBehaviour
         if (sceneIndex != -1)
         {
             sceneData.scenes[sceneIndex].visitCount++;
-            Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
+            //Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
         }
         else
         {
-            Debug.LogError("SceneData not found for scene: " + nextScene);
+            //Debug.LogError("SceneData not found for scene: " + nextScene);
         }
 
         SetUIStateWork(nextScene);
@@ -167,7 +167,7 @@ public class SceneTransition : MonoBehaviour
         {
             if(SceneManager.GetActiveScene().name == "GlobalMap" && sceneName == "Museum_Lobby")
             {
-                Debug.Log("삭제");
+                //Debug.Log("삭제");
                 GetComponent<DeleteAllData>().DeleteAllJsonFiles();
                 if (FieldItemManager.Instance != null)
                 {

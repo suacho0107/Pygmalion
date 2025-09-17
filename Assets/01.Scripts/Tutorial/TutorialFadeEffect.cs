@@ -12,7 +12,7 @@ public class TutorialFadeEffect : TutorialBase
 
     public override void Enter()
     {
-        Debug.Log("Enter: TutorialFadeEffect");
+        //Debug.Log("Enter: TutorialFadeEffect");
 
         if (isFadeIn == true)
         {
@@ -34,7 +34,7 @@ public class TutorialFadeEffect : TutorialBase
         if (isCompleted == true)
         {
             // 현재 튜토리얼 행동 종료
-            Debug.Log("Exit: TutorialFadeEffect");
+            //Debug.Log("Exit: TutorialFadeEffect");
             controller.SetNextTutorial();
         }
     }

@@ -37,7 +37,7 @@ public class TutorialController : MonoBehaviour
         // 현재 튜토리얼의 Exit() 메소드 호출
         if (currentTutorial != null)
         {
-            Debug.Log($"튜토리얼 종료: {currentTutorial.gameObject.name}");
+            //Debug.Log($"튜토리얼 종료: {currentTutorial.gameObject.name}");
             currentTutorial.Exit();
         }
 
@@ -49,10 +49,10 @@ public class TutorialController : MonoBehaviour
         }
 
         // 다음 튜토리얼 과정을 currentTutorial로 등록
-        currentIndex++;
+        ++currentIndex;
         currentTutorial = tutorials[currentIndex];
 
-        Debug.Log($"튜토리얼 시작: {currentTutorial.gameObject.name}");
+        //Debug.Log($"튜토리얼 시작: {currentTutorial.gameObject.name}");
 
         currentTutorial.Enter();
     }

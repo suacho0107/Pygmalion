@@ -10,17 +10,17 @@ public class TutorialDialog : TutorialBase
 
     private NPC             npc;
     private PlayerMove      player;
-    private DialogueManager_Legacy dialogManager;
+    private DialogueManager dialogManager;
     
     private bool isDialogueStarted = false;
 
     public override void Enter()
     {
-        Debug.Log("Enter: TutorialDialog");
+        //Debug.Log("Enter: TutorialDialog");
 
-        npc = GetComponent<NPC>();
-        player = FindObjectOfType<PlayerMove>();
-        dialogManager = FindObjectOfType<DialogueManager_Legacy>();
+        npc             = GetComponent<NPC>();
+        player          = FindObjectOfType<PlayerMove>();
+        dialogManager   = FindObjectOfType<DialogueManager>();
 
         player.IsMoved = false;
         dialogManager.isEnd = false;

@@ -166,7 +166,7 @@ public class StageNPC : NPC
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
 
-        Debug.Log(gameObject.name + " 데이터 저장");
+        //Debug.Log(gameObject.name + " 데이터 저장");
         //Debug.Log("미술관장 isTutoFin: " + isTutoFin);
     }
 
@@ -188,6 +188,6 @@ public class StageNPC : NPC
             questEnd = npcData.questEnd;
         }
 
-        Debug.Log(gameObject.name + " 데이터 로드");
+        //Debug.Log(gameObject.name + " 데이터 로드");
     }
 }

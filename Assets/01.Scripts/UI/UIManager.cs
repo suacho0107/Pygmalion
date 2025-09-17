@@ -92,17 +92,17 @@ public class UIManager : MonoBehaviour
         // UI Canvas 하위의 UI 오브젝트 할당
         GameObject uiCanvas = GameObject.FindWithTag("UICanvas");
 
-        UIReady = UIReady != null ? UIReady : uiCanvas.transform.Find("UIReady")?.gameObject;
-        UIStart = UIStart != null ? UIStart : uiCanvas.transform.Find("UIStart")?.gameObject;
-        UIWork = UIWork != null ? UIWork : uiCanvas.transform.Find("UIWork")?.gameObject;
-        UIEnd = UIEnd != null ? UIEnd : uiCanvas.transform.Find("UIEnd")?.gameObject;
+        UIReady = UIReady   != null ? UIReady   : uiCanvas.transform.Find("UIReady")?.gameObject;
+        UIStart = UIStart   != null ? UIStart   : uiCanvas.transform.Find("UIStart")?.gameObject;
+        UIWork  = UIWork    != null ? UIWork    : uiCanvas.transform.Find("UIWork")?.gameObject;
+        UIEnd   = UIEnd     != null ? UIEnd     : uiCanvas.transform.Find("UIEnd")?.gameObject;
 
         location_UIStart = UIStart.transform.GetChild(0).GetChild(0).gameObject;
 
         if (UIReady != null) UIReady.SetActive(false);
         if (UIStart != null) UIStart.SetActive(false);
-        if (UIWork != null) UIWork.SetActive(false);
-        if (UIEnd != null) UIEnd.SetActive(false);
+        if (UIWork  != null) UIWork.SetActive(false);
+        if (UIEnd   != null) UIEnd.SetActive(false);
     }
 
     public void SetUIState(UI.UIState newState)
@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
         if (currentState != newState)
         {
             currentState = newState;
-            Debug.Log($"UI 상태가 변경되었습니다: {currentState}");
+            //Debug.Log($"UI 상태가 변경되었습니다: {currentState}");
             UpdateUI();
         }
     }
@@ -125,8 +125,8 @@ public class UIManager : MonoBehaviour
         // 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
         if (UIStart != null) UIStart.SetActive(false);
-        if (UIWork != null) UIWork.SetActive(false);
-        if (UIEnd != null) UIEnd.SetActive(false);
+        if (UIWork  != null) UIWork.SetActive(false);
+        if (UIEnd   != null) UIEnd.SetActive(false);
 
         // 현재 상태에 따라 UI 활성화
         switch (currentState)
@@ -137,7 +137,6 @@ public class UIManager : MonoBehaviour
 
             case UI.UIState.Start:
                 if (UIStart != null) UIStart.SetActive(true);
-                //UpdateStartUI();
                 break;
 
             case UI.UIState.Work:
@@ -149,7 +148,7 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log($"UI 상태가 {currentState}로 전환되었습니다.");
+        //Debug.Log($"UI 상태가 {currentState}로 전환되었습니다.");
     }
 
     #region UI 업데이트
@@ -166,16 +165,6 @@ public class UIManager : MonoBehaviour
         "방송국",
         "병원",
     };
-
-    public void UpdateStartUI()
-    {
-        Text _textUIStart = location_UIStart.GetComponent<Text>();
-
-        if (_textUIStart != null)
-        {
-            _textUIStart.text = locationList[stageIndex];
-        }
-    }
 
     #endregion
 }
