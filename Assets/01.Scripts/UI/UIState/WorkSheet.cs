@@ -13,6 +13,7 @@ public class WorkSheet : MonoBehaviour
     [SerializeField] Text           _destroy;
     [SerializeField] Text           _efficiency;
 
+    private int     checkStatueCount;
     private int     totalCount;
     private int     enemyCount;
     private int     statueCount;
@@ -29,13 +30,14 @@ public class WorkSheet : MonoBehaviour
     private void Awake()
     {
         dataManager = DataManager.Instance;
+        checkStatueCount = PlayerPrefs.GetInt("StatueCount", statueCount);
 
         UpdateEndUI();
     }
 
     private void UpdateEndUI()
     {
-        if (dataManager == null)
+        if (dataManager == null && checkStatueCount < 6)
             return;
 
         result = SetData();
