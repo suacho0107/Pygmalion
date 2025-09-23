@@ -79,10 +79,10 @@ public class BattleManager : MonoBehaviour
         //if문 돌려서 알맞은 적 SetActive(true);
         //Aphrodite.SetActive(true);
         //enemy = Aphrodite.GetComponent<Enemy>();
-        ReadingChild.SetActive(true);
-        enemy = ReadingChild.GetComponent<Enemy>();
-        //Melpomene.SetActive(true);
-        //enemy = Melpomene.GetComponent<Enemy>();
+        //ReadingChild.SetActive(true);
+        //enemy = ReadingChild.GetComponent<Enemy>();
+        Melpomene.SetActive(true);
+        enemy = Melpomene.GetComponent<Enemy>();
         Debug.Log($"Enemy set to: {enemy}"); //Delete
     }
 
