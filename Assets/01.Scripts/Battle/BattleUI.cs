@@ -213,9 +213,11 @@ public class BattleUI : MonoBehaviour
                 {
                     Debug.Log("This part is already destroyed"); //Delete
                 }
-
-                player.PlayerAttack(enemy.partComponents[selectedPartIndex]);
-                battleManager.isPartSelecting = false;
+                else
+                {
+                    player.PlayerAttack(enemy.partComponents[selectedPartIndex]);
+                    battleManager.isPartSelecting = false;
+                }
 
                 //√ ±‚»≠
                 currentPartPageIndex = 0;
