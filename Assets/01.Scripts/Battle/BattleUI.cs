@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
+    #region References
     BattleManager battleManager;
     Player player;
     Enemy enemy;
+    #endregion
 
+    #region Variables
     public Text contentText;
 
     public GameObject dialogueButtons;
@@ -27,7 +30,9 @@ public class BattleUI : MonoBehaviour
     private int currentDialogueButtonIndex;
     private int currentPartPageIndex;
     public int currentPartButtonIndex;
+    #endregion
 
+    #region Unity Methods
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -58,7 +63,9 @@ public class BattleUI : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region ButtonInputHandlers
     private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성
     {
         //상하 이동
@@ -234,7 +241,7 @@ public class BattleUI : MonoBehaviour
 
         return targetButtonIndex < lastButtonIndex;        
     }
-
+    #endregion
 
     public void SetDialogueButtons()
     {

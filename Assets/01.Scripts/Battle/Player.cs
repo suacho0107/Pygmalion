@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    #region References
     BattleUI battleUI;
     BattleManager battleManager;
     Enemy enemy;
+    #endregion
 
+    #region Variables
     public int playerHp;
     private int playerMaxHp = 100; //임의 설정
     //private int playerMaxHp = 30; //Test용 임의 설정
@@ -19,7 +22,9 @@ public class Player : MonoBehaviour
 
     public bool isCharmed; //매혹
     public bool isConfused; //혼란
+    #endregion
 
+    #region Unity Methods
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -38,6 +43,7 @@ public class Player : MonoBehaviour
     {
         
     }
+    #endregion
 
     public void SetPlayerHp()
     {

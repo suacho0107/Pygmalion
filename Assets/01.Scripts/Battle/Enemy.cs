@@ -7,10 +7,13 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    #region References
     BattleUI battleUI;
     BattleManager battleManager;
     Player player;
+    #endregion
 
+    #region Variables
     public int enemyHp;
     private int enemyMaxHp;
 
@@ -24,11 +27,16 @@ public class Enemy : MonoBehaviour
     public string enemyName;
     public string mainPart;
 
+    public bool isMasked; //Melpomene: Mask 파괴 시 Head 공격 가능
+
+    // Melpomene_Narrative() 발동 조건으로 사용
     public bool firstEnemyTurn1;
     public bool firstEnemyTurn2;
 
     public float increaseAttackPower;
+    #endregion
 
+    #region Unity Methods
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -46,6 +54,10 @@ public class Enemy : MonoBehaviour
     {
 
     }
+
+    #endregion
+
+
     public void SetEnemy() // 최초 전투 진입 시에만 실행
     {
         Debug.Log("StartSetEnemy() 실행");
@@ -195,6 +207,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    #region Enemy_Skill Methods
     private void Aphrodite_Skill()
     {
         List<Action> Aphrodite_skills = new List<Action>();
@@ -253,21 +266,21 @@ public class Enemy : MonoBehaviour
             firstEnemyTurn2 = false;
         }
 
-        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
-        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
+        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout); //partName 삭제 예정
+        AddSkill(Melpomene_skills, "RArm", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap); //partName 삭제 예정
 
         if (Melpomene_skills.Count > 0)
         {
             int index = Random.Range(0, Melpomene_skills.Count);
             Melpomene_skills[index]();
         }
-        else
+        else if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
         {
             Melpomene_Bat();
         }
     }
 
-    private void AddSkill(List<Action> skills, string partName, bool isDestroyed, float skillprobability, Action skill)
+    private void AddSkill(List<Action> skills, string partName, bool isDestroyed, float skillprobability, Action skill) //partName 삭제 예정
     {
         if (!isDestroyed && Random.value <= skillprobability)
         {
@@ -275,7 +288,9 @@ public class Enemy : MonoBehaviour
             skills.Add(skill);
         }
     }
+    #endregion
 
+    #region Aphrodite Skills
     private void Aphrodite_Charm()
     {
         Debug.Log("Aphrodite_Charm()");
@@ -306,7 +321,9 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", 15);
     }
+    #endregion
 
+    #region ReadingChild_Skills
     private void ReadingChild_Stroyteller()
     {
         Debug.Log("ReadingChild_Stroyteller()");
@@ -328,7 +345,9 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", 20);
     }
+    #endregion
 
+    #region Melpomene_Skills
     private void Melpomene_Shout()
     {
         Debug.Log("Melpomene_Shout()");
@@ -368,6 +387,7 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", 5);
     }
+    #endregion
 
     private void EnemyTurnEnd()
     {
