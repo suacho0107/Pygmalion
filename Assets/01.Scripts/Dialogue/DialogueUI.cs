@@ -161,6 +161,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
+            //Debug.Log("스페이스바");
             if (currentSelectButtonIndex < selectButtonList.Count)
             {
                 // 🔹 UI 인덱스 → 실제 선택지 인덱스로 변환
@@ -175,6 +176,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
                     if (int.TryParse(moveNumString, out int selectedIndex))
                     {
+                        Debug.Log("인덱스 전달");
                         OnSelectButtonSelected(selectedIndex, actualSelectIndex);
                     }
                     else if (string.IsNullOrWhiteSpace(moveNumString))
@@ -244,7 +246,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     {
         if (npc is Statue selectedStatue)
         {
-            Debug.Log("@@@@@@@@@@@statue selectedStatue@@@@@@@@@@");
             if (!selectedStatue.isChecked) //첫 번째 상호작용(조사): 선지 2개 출력
             {
                 if (_currentSelectButtonIndex == 0)
@@ -269,7 +270,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
                 else if (_currentSelectButtonIndex == 1)
                 {
-                    Debug.Log("_currentSelectButtonIndex == 1");
+                    //Debug.Log("_currentSelectButtonIndex == 1");
                     if (selectedStatue.isEnemy)
                     {//건드린다 --> 정답
                         selectedStatue.isJudged = true;
@@ -286,7 +287,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
                 else if (_currentSelectButtonIndex == 2)
                 {
-                    Debug.Log("_currentSelectButtonIndex == 2");
+                    //Debug.Log("_currentSelectButtonIndex == 2");
                     if (selectedStatue.isEnemy)
                     {//이상 없음 --> 오답
                         selectedStatue.isJudged = true;
@@ -320,6 +321,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         else
         {
             Debug.LogError("Selected dialogue index is out of bounds. Ending dialogue.");
+            EndSelect();
             EndDialogue();
         }
     }
@@ -344,12 +346,15 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
             // imageImage.SetActive(true);
-            if (!statue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
+            if (npc is Statue selectedStatue)
             {
-                if (explainIndex >= 0 && explainIndex < Images.Count)
+                if (!selectedStatue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
                 {
-                    Images[explainIndex - 1].SetActive(true);
-                    dialogueManager.isPopup = true;
+                    if (explainIndex >= 0 && explainIndex < Images.Count)
+                    {
+                        Images[explainIndex - 1].SetActive(true);
+                        dialogueManager.isPopup = true;
+                    }
                 }
             }
 
@@ -692,7 +697,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 selectButtonList[buttonIndex].gameObject.SetActive(true);
                 selectTextList[buttonIndex].text = "";
 
-                Debug.Log("SetActive 실행");
+                //Debug.Log("SetActive 실행");
 
                 string replacedText = select.contexts[i].Replace("#", ",");
 
@@ -713,6 +718,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
             }
         }
+        isSelecting = true;
     }
     #endregion
 }
