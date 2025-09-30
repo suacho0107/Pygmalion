@@ -158,19 +158,19 @@ public class DialogueManager : MonoBehaviour //ÇÕº´ ÈÄ DialogueManager_Jiyun -> 
         {
             stageNpc = npc as StageNPC;
             statue = null;
-            Debug.Log("** StageNPC **");
+            //Debug.Log("** StageNPC **");
         }
         else if (npc is Statue)
         {
             stageNpc = null;
             statue = npc as Statue;
-            Debug.Log("** Statue **");
+            //Debug.Log("** Statue **");
         }
         else if (npc is NPC)
         {
             stageNpc = null;
             statue = null;
-            Debug.Log("** NPC **");
+            //Debug.Log("** NPC **");
         }
         else
         {
