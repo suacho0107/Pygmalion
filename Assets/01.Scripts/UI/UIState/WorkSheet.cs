@@ -30,10 +30,10 @@ public class WorkSheet : MonoBehaviour
         dataManager = DataManager.Instance;
 
         #region Test
-        PlayerPrefs.SetInt("StatueCount", 6);
-        PlayerPrefs.SetInt("fightCount", 2);
-        PlayerPrefs.SetInt("destroyedCount", 1);
-        PlayerPrefs.SetInt("checkedCount", 16);
+        //PlayerPrefs.SetInt("StatueCount", 6);
+        //PlayerPrefs.SetInt("fightCount", 2);
+        //PlayerPrefs.SetInt("destroyedCount", 1);
+        //PlayerPrefs.SetInt("checkedCount", 16);
         #endregion
 
         UpdateEndUI();
