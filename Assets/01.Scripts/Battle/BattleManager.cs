@@ -9,12 +9,17 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
+
+    #region References
     BattleUI battleUI;
     Player player;
     Enemy enemy;
     Part part;
 
     public NPCData npcData = new NPCData();
+    #endregion
+
+    #region Variables
 
     public GameObject Aphrodite;
     public GameObject ReadingChild;
@@ -34,7 +39,6 @@ public class BattleManager : MonoBehaviour
     bool _enterFight;
     string filePath;
 
-    public State state;
 
     public bool isPlayerTurnStarted = false;
     public bool isPlayerAttacking = false;
@@ -45,6 +49,10 @@ public class BattleManager : MonoBehaviour
 
     private bool isCoroutineRunning = false; //Coroutine Control
     private bool isSFXPlaying = false;
+    #endregion
+
+    #region State
+    public State state;
 
     public enum State
     {
@@ -56,7 +64,9 @@ public class BattleManager : MonoBehaviour
         WIN,
         LOSE,
     }
+    #endregion
 
+    #region Unity Methods
     private void Awake()
     {
         battleUI = FindObjectOfType<BattleUI>();
@@ -67,10 +77,12 @@ public class BattleManager : MonoBehaviour
         LoadFightData();
 
         //if문 돌려서 알맞은 적 SetActive(true);
-        Aphrodite.SetActive(true);
+        //Aphrodite.SetActive(true);
+        //enemy = Aphrodite.GetComponent<Enemy>();
         //ReadingChild.SetActive(true);
-        enemy = Aphrodite.GetComponent<Enemy>();
         //enemy = ReadingChild.GetComponent<Enemy>();
+        Melpomene.SetActive(true);
+        enemy = Melpomene.GetComponent<Enemy>();
         Debug.Log($"Enemy set to: {enemy}"); //Delete
     }
 
@@ -148,7 +160,8 @@ public class BattleManager : MonoBehaviour
                 }
                 break;
         }
-    }    
+    }
+    #endregion
 
     public void Damage(string _object, int _attackpower, Part part = null)
     {
@@ -231,6 +244,7 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    #region SFX
     public void PlaySFX(AudioClip audioClip)
     {
         Debug.Log("PlayerSFX 실행");
@@ -255,6 +269,7 @@ public class BattleManager : MonoBehaviour
     {
         isSFXPlaying = false;
     }
+    #endregion
 
     public void ExitBattleScene()
     {
@@ -293,6 +308,7 @@ public class BattleManager : MonoBehaviour
         isCoroutineRunning = false;
     }
 
+    #region Save/Load Data
     public void SaveFightData()
     {
         npcData.isFin = isWin;
@@ -315,4 +331,5 @@ public class BattleManager : MonoBehaviour
         isWin = npcData.isFin;
         _enterFight = npcData.enterFight;
     }
+    #endregion
 }

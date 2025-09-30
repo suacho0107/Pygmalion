@@ -7,10 +7,13 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    #region References
     BattleUI battleUI;
     BattleManager battleManager;
     Player player;
+    #endregion
 
+    #region Variables
     public int enemyHp;
     private int enemyMaxHp;
 
@@ -24,11 +27,20 @@ public class Enemy : MonoBehaviour
     public string enemyName;
     public string mainPart;
 
+    public bool isMasked; //Melpomene: Mask 파괴 시 Head 공격 가능
+
+    // Melpomene_Narrative() 발동 조건으로 사용
     public bool firstEnemyTurn1;
     public bool firstEnemyTurn2;
 
-    public float increaseAttackPower;
+    public float ConfusionRate; //Melpomene: Confusion 발동 확률
+    public bool isConfusion1;
+    public bool isConfusion2;
 
+    public float increaseAttackPower;
+    #endregion
+
+    #region Unity Methods
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -46,6 +58,10 @@ public class Enemy : MonoBehaviour
     {
 
     }
+
+    #endregion
+
+
     public void SetEnemy() // 최초 전투 진입 시에만 실행
     {
         Debug.Log("StartSetEnemy() 실행");
@@ -58,6 +74,7 @@ public class Enemy : MonoBehaviour
         enemyMaxHp = 0;
         firstEnemyTurn1 = true;
         firstEnemyTurn2 = true;
+        ConfusionRate = 0.0f;
         increaseAttackPower = 1.0f;
 
         // `Part` 컴포넌트 가져오기
@@ -195,6 +212,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    #region Enemy_Skill Methods
     private void Aphrodite_Skill()
     {
         List<Action> Aphrodite_skills = new List<Action>();
@@ -241,33 +259,50 @@ public class Enemy : MonoBehaviour
     {
         List<Action> Melpomene_skills = new List<Action>();
 
+        if (isConfusion1 || isConfusion2)
+        {
+            ConfusionRate += 0.05f;
+        }
+        else if (isConfusion1 && isConfusion2)
+        {
+            ConfusionRate += 0.1f;
+        }
+
         if (firstEnemyTurn1 && Random.value < 0.4f)
         {
             Melpomene_Narrative(15);
             firstEnemyTurn1 = false;
+            isConfusion1 = true;
         }
 
         if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && firstEnemyTurn2 && Random.value < 0.4f)
         {
             Melpomene_Narrative(10);
             firstEnemyTurn2 = false;
+            isConfusion2 = true;
         }
 
-        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
-        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
+        AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout); //partName 삭제 예정
+        AddSkill(Melpomene_skills, "RArm", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap); //partName 삭제 예정
 
         if (Melpomene_skills.Count > 0)
         {
             int index = Random.Range(0, Melpomene_skills.Count);
             Melpomene_skills[index]();
         }
-        else
+        else if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
         {
             Melpomene_Bat();
         }
+
+        if (Random.value < ConfusionRate)
+        {
+            Melpomene_Confusion();
+        }
+        Debug.Log($"ConfusionRate: {ConfusionRate}");
     }
 
-    private void AddSkill(List<Action> skills, string partName, bool isDestroyed, float skillprobability, Action skill)
+    private void AddSkill(List<Action> skills, string partName, bool isDestroyed, float skillprobability, Action skill) //partName 삭제 예정
     {
         if (!isDestroyed && Random.value <= skillprobability)
         {
@@ -275,7 +310,9 @@ public class Enemy : MonoBehaviour
             skills.Add(skill);
         }
     }
+    #endregion
 
+    #region Aphrodite Skills
     private void Aphrodite_Charm()
     {
         Debug.Log("Aphrodite_Charm()");
@@ -306,7 +343,9 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", 15);
     }
+    #endregion
 
+    #region ReadingChild_Skills
     private void ReadingChild_Stroyteller()
     {
         Debug.Log("ReadingChild_Stroyteller()");
@@ -328,7 +367,9 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", 20);
     }
+    #endregion
 
+    #region Melpomene_Skills
     private void Melpomene_Shout()
     {
         Debug.Log("Melpomene_Shout()");
@@ -343,6 +384,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(battleManager.ContentTextWriter(" 조각상이 당신의 비극적인 운명을 노래합니다.\n운명의 저주가 당신을 천천히 갉아먹습니다."));
 
         battleManager.Damage("player", _damage);
+        ConfusionRate += 0.05f;
     }
 
     public void Melpomene_Redemption()
@@ -368,6 +410,13 @@ public class Enemy : MonoBehaviour
 
         battleManager.Damage("player", 5);
     }
+
+    private void Melpomene_Confusion()
+    {
+        Debug.Log("This is not a Skill, just Confusion");
+        StartCoroutine(battleManager.ContentTextWriter("혼란 발동됨.")); //대사가 없어서 일단 임시 대사
+    }
+    #endregion
 
     private void EnemyTurnEnd()
     {
