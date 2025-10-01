@@ -36,13 +36,14 @@ public class NPC : MonoBehaviour
     protected virtual void Awake()
     {
         filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
+        ResetNPCData();
         //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X
     }
 
     private void Start()
     {
         ResetNPCData();
-        //FieldItemManager.Instance.ResetFieldItems();
+        FieldItemManager.Instance.ResetFieldItems();
     }
 
     public void StartDialogue()
