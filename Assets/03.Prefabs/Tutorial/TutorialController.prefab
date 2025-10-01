@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
   interactionEvent: {fileID: 350357334065927591}
   csv: {fileID: 0}
   statueScore: {fileID: 0}
@@ -90,28 +91,20 @@ MonoBehaviour:
     result: 0
     isSpriteChanged: 0
     test1: 0
-    test2: 0
+    enterFight: 0
     test3: 0
     test4: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 1
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 0
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  isSpriteChanged: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: Office1-1_dialogue
   selectFileName: 
   explainNum: 
@@ -150,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18856d5dba9244418e773021581f278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorial_csvFileName: 
 --- !u!114 &350357334065927578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 350357335306861632}
   - component: {fileID: 350357335306861633}
+  - component: {fileID: 1955426229}
   m_Layer: 0
   m_Name: 03_TutorialTrigger
   m_TagString: Untagged
@@ -255,7 +250,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d11dd341e05af14d9b27e3026347cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerObject: {fileID: 0}
+  triggerObject:
+  - {fileID: 0}
+--- !u!61 &1955426229
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350357335306861635}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &350357335683040050
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d42cfc834badd948923800abf3d1d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPosition: {fileID: 0}
+  nextPos: {x: 0, y: 0, z: 0}
   tutorials:
   - {fileID: 350357334677409176}
   - {fileID: 350357334065927589}

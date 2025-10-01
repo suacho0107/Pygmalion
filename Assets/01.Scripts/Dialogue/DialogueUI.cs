@@ -417,6 +417,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
+            else if (npc.dialogueFileName == "Check3_dialogue")
+            {
+                Invoke("SetUIStateEnd", 1.5f);
+            }
         }
 
         if (npc is Statue selectedStatue)
@@ -424,11 +428,11 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             selectedStatue.isInteract = true;
             selectedStatue.CheckResult();
 
-            //판별 결과 UI 출력
-            if (npc.dialogueFileName == "Check3_dialogue")
-            {
-                Invoke("SetUIStateEnd", 1.5f);
-            }
+            ////판별 결과 UI 출력
+            //if (npc.dialogueFileName == "Check3_dialogue")
+            //{
+            //    Invoke("SetUIStateEnd", 1.5f);
+            //}
         }
 
         dialogueManager.SaveData();

@@ -113,10 +113,10 @@ public class WorkSheet : MonoBehaviour
         // TODO: 스테이지별 조각상 개수와 적 조각상 개수를 업무 효율 계산식의 매개변수로 전달해줘야 함, SetData 함수의 매개변수로 전달
         result = SetData();
 
-        _check.text = statueCount.ToString();
-        _fight.text = fightCount.ToString();
-        _destroy.text = destroyedCount.ToString();
-        _efficiency.text = efficiency;
+        _check.text         = statueCount.ToString();
+        _fight.text         = fightCount.ToString();
+        _destroy.text       = destroyedCount.ToString();
+        _efficiency.text    = efficiency;
 
         //Debug.Log($"UpdateEndUI : {efficiency}");
 

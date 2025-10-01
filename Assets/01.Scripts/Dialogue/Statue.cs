@@ -409,7 +409,7 @@ public class Statue : NPC
             test3 = npcData.test3;
             test4 = npcData.test4;
 
-            Debug.Log(gameObject.name + " 데이터 로드");
+            //Debug.Log(gameObject.name + " 데이터 로드");
         }
     }
 }
