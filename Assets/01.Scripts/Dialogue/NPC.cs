@@ -10,7 +10,7 @@ public class NPC : MonoBehaviour
     #region Set Values
     public DialogueManager dialogueManager;
     public DialogueUI dialogueUI;
-    public InteractionEvent interactionEvent; // ÀÌ NPC¿Í ¿¬°áµÈ InteractionEvent
+    public InteractionEvent interactionEvent; // ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ InteractionEvent
     public MuseumLobbyCSV csv;
     public StatueScore statueScore;
     public NPCData npcData = new NPCData();
@@ -29,21 +29,22 @@ public class NPC : MonoBehaviour
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
     [SerializeField] public string explainNum;
-    [SerializeField] public string[] dialogueFiles; // ÆÄÀÏ º¯°æ ¹è¿­ Ãß°¡
+    [SerializeField] public string[] dialogueFiles; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ß°ï¿½
     [SerializeField] public string[] selectFiles;
     public int currentIndex = 0;
 
     protected virtual void Awake()
     {
         filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
-        //LoadNPCData(); // °¢ ½ºÅ©¸³Æ®¿¡¼­ ³ª´²¼­ ½ÇÇà, NPC¿¡¼­´Â Á÷Á¢ÀûÀ¸·Î È£ÃâX
-        //ResetNPCData(); // NPC ÃÊ±âÈ­ ÄÚµå
+        ResetNPCData();
+        //LoadNPCData(); // ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, NPCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½X
+        //ResetNPCData(); // NPC ï¿½Ê±ï¿½È­ ï¿½Úµï¿½
     }
 
     private void Start()
     {
-        //ResetNPCData(); // NPC ÃÊ±âÈ­ ÄÚµå
-        //FieldItemManager.Instance.ResetFieldItems(); // ÇÊµå¾ÆÀÌÅÛ ÃÊ±âÈ­ ÄÚµå
+        //ResetNPCData(); // NPC ï¿½Ê±ï¿½È­ ï¿½Úµï¿½
+        //FieldItemManager.Instance.ResetFieldItems(); // ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Úµï¿½
     }
 
     public void StartDialogue()
@@ -54,7 +55,7 @@ public class NPC : MonoBehaviour
         {
             dialogueManager.SetNPC(this);
         }
-        else //null Ã³¸®
+        else //null Ã³ï¿½ï¿½
         {
             Debug.LogError("DialogueManager is null.");
         }
@@ -62,11 +63,11 @@ public class NPC : MonoBehaviour
         InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
         if (interactionEvent != null)
         {
-            if (!string.IsNullOrEmpty(explainNum)) //explainNum ÀÖÀ¸¸é Àü´Þ
+            if (!string.IsNullOrEmpty(explainNum)) //explainNum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 interactionEvent.LoadDialogue(dialogueFileName, explainNum);
             }
-            else //explainNum ¾øÀ¸¸é ±×³É
+            else //explainNum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½
             {
                 interactionEvent.LoadDialogue(dialogueFileName);
             }
@@ -91,7 +92,7 @@ public class NPC : MonoBehaviour
         currentIndex = _currentIndex;
         dialogueFileName = dialogueFiles[currentIndex];
         selectFileName = selectFiles[currentIndex];
-        //Debug.Log("´ëÈ­: " + dialogueFileName + ", ¼±Áö: " + selectFileName);
+        //Debug.Log("ï¿½ï¿½È­: " + dialogueFileName + ", ï¿½ï¿½ï¿½ï¿½: " + selectFileName);
     }
     public void SaveNPCData()
     {
@@ -105,7 +106,7 @@ public class NPC : MonoBehaviour
 
             string json = JsonUtility.ToJson(npcData);
             File.WriteAllText(filePath, json);
-            Debug.Log(gameObject.name + " / NPC µ¥ÀÌÅÍ ÀúÀå");
+            Debug.Log(gameObject.name + " / NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
     }
 
@@ -117,7 +118,7 @@ public class NPC : MonoBehaviour
             {
                 string json = File.ReadAllText(filePath);
                 npcData = JsonUtility.FromJson<NPCData>(json);
-                Debug.Log(gameObject.name + " / NPC µ¥ÀÌÅÍ ·Îµå");
+                Debug.Log(gameObject.name + " / NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½");
 
                 isDialogueChanged = npcData.isDialogueChanged;
                 currentIndex = npcData.currentIndex;
@@ -133,7 +134,7 @@ public class NPC : MonoBehaviour
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
-            Debug.Log("NPC µ¥ÀÌÅÍ ÃÊ±âÈ­ : " + filePath);
+            Debug.Log("NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ : " + filePath);
         }
         npcData = new NPCData();
     }
