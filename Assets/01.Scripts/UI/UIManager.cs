@@ -15,16 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject UIWork;
     [SerializeField] private GameObject UIEnd;
 
-    [Header("Text")]
-    [SerializeField] public GameObject location_UIStart;
-
     private UI.UIState currentState;
-
-    private int     checkCount;
-    private int     fightCount;
-    private int     destroyedCount;
-    private string  efficiency;
-    private float   workEfficiency;
 
     public  int     stageIndex = 0;
 
@@ -96,8 +87,6 @@ public class UIManager : MonoBehaviour
         UIStart = UIStart   != null ? UIStart   : uiCanvas.transform.Find("UIStart")?.gameObject;
         UIWork  = UIWork    != null ? UIWork    : uiCanvas.transform.Find("UIWork")?.gameObject;
         UIEnd   = UIEnd     != null ? UIEnd     : uiCanvas.transform.Find("UIEnd")?.gameObject;
-
-        location_UIStart = UIStart.transform.GetChild(0).GetChild(0).gameObject;
 
         if (UIReady != null) UIReady.SetActive(false);
         if (UIStart != null) UIStart.SetActive(false);

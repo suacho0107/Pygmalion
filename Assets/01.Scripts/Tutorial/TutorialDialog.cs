@@ -22,7 +22,8 @@ public class TutorialDialog : TutorialBase
         player          = FindObjectOfType<PlayerMove>();
         dialogManager   = FindObjectOfType<DialogueManager>();
 
-        player.IsMoved = false;
+        if (player != null)
+            player.IsMoved = false;
         dialogManager.isEnd = false;
     }
 
@@ -34,6 +35,8 @@ public class TutorialDialog : TutorialBase
             isDialogueStarted = true;
             npc.StartDialogue();
         }
+        if (null == dialogManager)
+            return;
 
         if (dialogManager.isEnd)
         {
