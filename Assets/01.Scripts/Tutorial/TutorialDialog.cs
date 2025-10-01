@@ -46,6 +46,9 @@ public class TutorialDialog : TutorialBase
 
     public override void Exit()
     {
-        player.IsMoved = true;
+        if(player != null)
+        {
+            player.IsMoved = true;
+        }
     }
 }

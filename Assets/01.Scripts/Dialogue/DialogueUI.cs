@@ -335,7 +335,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         //초기화 & Setting
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
-        playerMove.pState = PlayerMove.PlayerState.Interaction;
+        if(playerMove != null)
+        {
+            playerMove.pState = PlayerMove.PlayerState.Interaction;
+        }
         dialoguePanel.SetActive(true);
         dialogueText.text = "";
         descriptionText.text = "";
@@ -399,7 +402,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         dialogueManager.isExplain = false;
         dialogueManager.isNext = false;
         dialogueManager.isEnd = true;
-        playerMove.ActiveInteract = false;
+        if(playerMove != null)
+        {
+            playerMove.ActiveInteract = false;
+        }
         lineCount = 0;
         contextCount = 0;
         //npc.isInteract = true; //미술관장
@@ -618,9 +624,12 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
 
         // 초상화 출력
-        foreach (var portrait in Portraits)
+        if(Portraits != null)
         {
-            portrait.SetActive(false);
+            foreach (var portrait in Portraits)
+            {
+                portrait.SetActive(false);
+            }
         }
 
         for (int i = 0; i < Portraits.Count; i++)
