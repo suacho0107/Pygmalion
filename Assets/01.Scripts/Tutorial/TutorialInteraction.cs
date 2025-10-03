@@ -27,12 +27,15 @@ public class TutorialInteraction : TutorialBase
             {
                 isInteractOn = false;
                 interactionObject.gameObject.SetActive(true);
-                playerMove.IsMoved = false;
+                
+                if (playerMove != null)
+                    playerMove.IsMoved = false;
             }
             else
             {
                 interactionObject.gameObject.SetActive(false);
-                playerMove.IsMoved = true;
+                if (playerMove != null)
+                    playerMove.IsMoved = true;
             }
 
             //if (RequestNPC.r_instance.canOff)
