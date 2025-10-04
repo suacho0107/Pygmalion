@@ -47,8 +47,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     public bool isSelecting = false;
 
-    public int buttonIndexNPC = 0; // NPC 상호작용 시 버튼 인덱스 전달
-
     [Header("DialogueFlow Management")]
     public int lineCount = 0; //대화 카운트
     public int contextCount = 0; //대사 카운트
@@ -178,8 +176,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
                     if (int.TryParse(moveNumString, out int selectedIndex))
                     {
-                        Debug.Log("currentselecbuttonindex: " + currentSelectButtonIndex);
-                        buttonIndexNPC = currentSelectButtonIndex;
                         Debug.Log("인덱스 전달");
                         OnSelectButtonSelected(selectedIndex, actualSelectIndex);
                     }
@@ -248,11 +244,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     public void OnSelectButtonSelected(int selectedIndex, int _currentSelectButtonIndex) //판별 매개변수 추가(currentIndex)
     {
-        if(npc is StageNPC selectedStageNPC)
-        {
-            
-        }
-
         if (npc is Statue selectedStatue)
         {
             if (!selectedStatue.isChecked) //첫 번째 상호작용(조사): 선지 2개 출력

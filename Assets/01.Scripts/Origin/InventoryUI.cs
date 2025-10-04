@@ -111,7 +111,6 @@ public class InventoryUI : MonoBehaviour
                     }
                 }
                 inventoryItemList.Add(ItemDB.itemList[i]);
-                ItemImagePopup(ItemDB.itemList[i].itemName);
                 SaveInventory();
                 Debug.Log("아이템 추가");
                 return;
@@ -129,19 +128,6 @@ public class InventoryUI : MonoBehaviour
         //dm.ShowMessage(message);
         DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
         dialogueUI.ShowMessage(message);
-    }
-
-    public void ItemImagePopup(string _itemName)
-    {
-        DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
-        for(int i = 0; i < dialogueUI.Images.Count; i++)
-        {
-            if (dialogueUI.Images[i].name == _itemName)
-            {
-                Debug.Log("아이템 이름: " + dialogueUI.Images[i].name);
-                dialogueUI.Images[i].SetActive(true);
-            }
-        }
     }
 
     public bool HasItem(int _itemID)
