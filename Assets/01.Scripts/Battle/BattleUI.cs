@@ -164,7 +164,7 @@ public class BattleUI : MonoBehaviour
                 currentPartButtonIndex--;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             if (currentPartButtonIndex % 2 == 0)
             {
