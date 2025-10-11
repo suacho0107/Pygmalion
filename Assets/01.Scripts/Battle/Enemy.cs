@@ -225,7 +225,8 @@ public class Enemy : MonoBehaviour
         //멜포메네
         else if (enemyName == "Melpomene")
         {
-            Melpomene_Skill();
+            //Melpomene_Skill();
+            StartCoroutine("Melpomene_Skill");
 
             Invoke("EnemyTurnEnd", 2);
         }
@@ -274,7 +275,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Melpomene_Skill()
+    private IEnumerator Melpomene_Skill()
     {
         List<Action> Melpomene_skills = new List<Action>();
 
@@ -315,11 +316,64 @@ public class Enemy : MonoBehaviour
         }
 
         if (Random.value < ConfusionRate)
+        //if (Random.value < 1.0f) //test
         {
+            yield return new WaitUntil(() => battleManager.isCoroutineRunning == false);
             Melpomene_Confusion();
+            //yield return StartCoroutine("Melpomene_Confusion");
+            //StartCoroutine("Melpomene_Confusion");
         }
         Debug.Log($"ConfusionRate: {ConfusionRate}");
     }
+
+    //private void Melpomene_Skill()
+    //{
+    //    List<Action> Melpomene_skills = new List<Action>();
+
+    //    if (isConfusion1 || isConfusion2)
+    //    {
+    //        ConfusionRate += 0.05f;
+    //    }
+    //    else if (isConfusion1 && isConfusion2)
+    //    {
+    //        ConfusionRate += 0.1f;
+    //    }
+
+    //    if (firstEnemyTurn1 && Random.value < 0.4f)
+    //    {
+    //        Melpomene_Narrative(15);
+    //        firstEnemyTurn1 = false;
+    //        isConfusion1 = true;
+    //    }
+
+    //    if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && firstEnemyTurn2 && Random.value < 0.4f)
+    //    {
+    //        Melpomene_Narrative(10);
+    //        firstEnemyTurn2 = false;
+    //        isConfusion2 = true;
+    //    }
+
+    //    AddSkill(Melpomene_skills, "Mask", isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout); //partName 삭제 예정
+    //    AddSkill(Melpomene_skills, "RArm", isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap); //partName 삭제 예정
+
+    //    if (Melpomene_skills.Count > 0)
+    //    {
+    //        int index = Random.Range(0, Melpomene_skills.Count);
+    //        Melpomene_skills[index]();
+    //    }
+    //    else if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
+    //    {
+    //        Melpomene_Bat();
+    //    }
+
+    //    //if (Random.value < ConfusionRate)
+    //    if (Random.value < 1.0f) //test
+    //    {
+    //        //Melpomene_Confusion();
+    //        StartCoroutine("Melpomene_Confusion");
+    //    }
+    //    Debug.Log($"ConfusionRate: {ConfusionRate}");
+    //}
 
     private void AddSkill(List<Action> skills, string partName, bool isDestroyed, float skillprobability, Action skill) //partName 삭제 예정
     {
@@ -434,39 +488,68 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("This is not a Skill, just Confusion");
         StartCoroutine(battleManager.ContentTextWriter("혼란 발동됨.")); //대사가 없어서 일단 임시 대사
+        player.isConfused = true;
     }
+
+    //private IEnumerator Melpomene_Confusion()
+    //{
+    //    while (battleManager.isCoroutineRunning)
+    //    {
+    //        yield return null;
+    //    }
+
+    //    Debug.Log("This is not a Skill, just Confusion");
+    //    //yield return StartCoroutine(battleManager.ContentTextWriter("혼란 발동됨."));
+    //    StartCoroutine(battleManager.ContentTextWriter("혼란 발동됨."));
+    //    player.isConfused = true;
+    //    battleManager.isCoroutineRunning = false;
+
+    //    yield return new WaitForSeconds(2f);
+    //}
+
+    //IEnumerator Melpomene_Confusion() //skill은 아니나 Sskill 취급
+    //{
+    //    yield return new WaitForSeconds(2f);
+
+    //    Debug.Log("This is not a Skill, just Confusion");
+    //    StartCoroutine(battleManager.ContentTextWriter("혼란 발동됨.")); //대사가 없어서 일단 임시 대사
+
+    //}
     #endregion
 
     private void EnemyTurnEnd()
     {
-        Debug.Log("EnemyTurnEnd()");
-        battleUI.contentText.text = "";
-        battleManager.isEnemyTurnStarted = false;
-        battleManager.isPlayerRunning = false;
-
-        //여기 로직 다시 보기
-        if (player.playerHp > 0) //Player 생존
+        if (!battleManager.isCoroutineRunning)
         {
-            if (isDestroyed[battleUI.FindListIndex(parts, mainPart)]) //공략 부위 파괴 시
-            {
-                battleManager.state = BattleManager.State.WIN;
-            }  
-            else if (player.isCharmed) //매혹
-            {
-                player.isCharmed = false;
+            Debug.Log("EnemyTurnEnd()");
+            battleUI.contentText.text = "";
+            battleManager.isEnemyTurnStarted = false;
+            battleManager.isPlayerRunning = false;
 
-                EnemyTurnStart(); //EnemyTurn 재시작
-            }
-            else
+            //여기 로직 다시 보기
+            if (player.playerHp > 0) //Player 생존
             {
-                Debug.Log("Change State to PLAYERTURN_START");
-                battleManager.state = BattleManager.State.PLAYERTURN_START;
-                Debug.Log($"CurrentScene is {battleManager.state}");
+                if (isDestroyed[battleUI.FindListIndex(parts, mainPart)]) //공략 부위 파괴 시
+                {
+                    battleManager.state = BattleManager.State.WIN;
+                }
+                else if (player.isCharmed) //매혹
+                {
+                    player.isCharmed = false;
+
+                    EnemyTurnStart(); //EnemyTurn 재시작
+                }
+                else
+                {
+                    Debug.Log("Change State to PLAYERTURN_START");
+                    battleManager.state = BattleManager.State.PLAYERTURN_START;
+                    Debug.Log($"CurrentScene is {battleManager.state}");
+                }
             }
-        }
-        else //Player 사망
-        {
-            battleManager.state = BattleManager.State.LOSE;
+            else //Player 사망
+            {
+                battleManager.state = BattleManager.State.LOSE;
+            }
         }
     }
 }

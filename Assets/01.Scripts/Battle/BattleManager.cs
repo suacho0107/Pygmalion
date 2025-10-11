@@ -47,7 +47,7 @@ public class BattleManager : MonoBehaviour
     public bool isEnemyTurnStarted = false;
     private bool isBattleEnd = false;
 
-    private bool isCoroutineRunning = false; //Coroutine Control
+    public bool isCoroutineRunning = false; //Coroutine Control
     private bool isSFXPlaying = false;
     #endregion
 
