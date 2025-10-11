@@ -92,14 +92,15 @@ public class BattleManager : MonoBehaviour
         //전투 진입 시 Setting
         player.SetPlayerHp();
         enemy.SetEnemy();
-        battleUI.SetDialogueButtons();
-        battleUI.SetPartButtons();
-
-        battleUI.blackBoard.SetActive(false);
 
         //HpBar
         player.UpdatePlayerHp();
         enemy.UpdateEnemyHp();
+
+        battleUI.SetDialogueButtons();
+        battleUI.SetPartButtons();
+
+        battleUI.blackBoard.SetActive(false);
 
         state = State.PLAYERTURN_START;
         PlaySFX(battleStartSFX);

@@ -99,6 +99,12 @@ public class Enemy : MonoBehaviour
             isDestroyed.Add(false); // parts 길이만큼 isDestroyed false로 초기화
         }
 
+        //Melopomene Mask-Head 우선순위
+        if (enemyName == "Melpomene") //Melpomene는 가면 파괴 이전까지 머리 공격 불가
+        {
+            isDestroyed[parts.IndexOf("Head")] = true; //일단 Head 공격 불가
+        }
+
         enemyHp = enemyMaxHp;
         Debug.Log($"enemyMaxHp = {enemyMaxHp}\nenemyHp = {enemyHp}");
 
@@ -135,6 +141,19 @@ public class Enemy : MonoBehaviour
             }
             Debug.Log($"partComponents[{i}] = {partComponents[i].partHp}");
             enemyHp += partComponents[i].partHp;
+        }
+
+        //Melopomene Mask-Head 우선순위
+        if (enemyName == "Melpomene")
+        {
+            if (partComponents[parts.IndexOf("Mask")].partHp > 0) //Mask 파괴 전
+            {
+                isDestroyed[parts.IndexOf("Head")] = true; //isDestroyed로 공격 불가
+            }
+            else //Mask 파괴 후
+            {
+                isDestroyed[parts.IndexOf("Head")] = false;
+            }
         }
 
         enemyHpBar.value = (float)enemyHp / enemyMaxHp;

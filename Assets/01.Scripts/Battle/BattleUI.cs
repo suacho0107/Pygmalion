@@ -300,7 +300,8 @@ public class BattleUI : MonoBehaviour
                 partButton.SetActive(true);
 
                 Text partText = partButton.transform.Find("Text (Legacy)").GetComponent<Text>();
-                Color partColor = enemy.partComponents[partIndex].partHp > 0 ? Color.white : Color.gray;
+                //Color partColor = enemy.partComponents[partIndex].partHp > 0 ? Color.white : Color.gray; //hp로 동작
+                Color partColor = enemy.isDestroyed[partIndex] == true ? Color.grey : Color.white; //isdetroyed로 동작
                 partText.text = enemy.ReplacePartText(enemy.parts[partIndex]);
                 partText.color = partColor;
 
