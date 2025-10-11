@@ -168,7 +168,7 @@ public class BattleUI : MonoBehaviour
         {
             if (currentPartButtonIndex % 2 == 0)
             {
-                if (isThereButton(currentPartPageIndex, currentPartButtonIndex, 2))
+                if (isThereButton(currentPartPageIndex, currentPartButtonIndex, 1))
                 {
                     currentPartButtonIndex++;
                 }
