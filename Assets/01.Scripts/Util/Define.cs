@@ -5,6 +5,7 @@ namespace Define
     {
         public enum UIState
         {
+            None,
             Ready,
             Start,
             Work,
@@ -17,10 +18,15 @@ namespace Define
         public enum StageState
         {
             None,
+            Museum,
+            Library,
+            Park,
+            CityHall,
+            BroadcastStation,
+            Hospital,
             Main,
             Company,
             Global,
-            Museum,
             Battle,
         }
     }

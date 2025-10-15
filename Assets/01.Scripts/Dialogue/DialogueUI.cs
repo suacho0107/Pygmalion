@@ -423,9 +423,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
-            else if (npc.dialogueFileName == "Check3_dialogue")
+            else if (selectedNPC.dialogueFileName == "Check3_dialogue")
             {
-                Invoke("SetUIStateEnd", 1.5f);
+                //Invoke("Set_UIStateEnd", 1.5f);
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
             }
         }
 
@@ -433,12 +434,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             selectedStatue.isInteract = true;
             selectedStatue.CheckResult();
-
-            ////판별 결과 UI 출력
-            //if (npc.dialogueFileName == "Check3_dialogue")
-            //{
-            //    Invoke("SetUIStateEnd", 1.5f);
-            //}
         }
 
         dialogueManager.SaveData();
@@ -573,9 +568,9 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #endregion
 
     #region UI State Management
-    void SetUIStateEnd()
+    void Set_UIStateEnd()
     {
-        UIManager.u_instance.SetUIState(Define.UI.UIState.End);
+        UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
     }
     #endregion
 
@@ -666,7 +661,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     IEnumerator SelectWriter()
     {
-        Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
+        //Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
 
         int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2; //name 존재 여부 판단해서 매개변수 전달
 
@@ -690,7 +685,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     IEnumerator WriteSelectOptions(Select select, int offset)
     {
-        Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ����");
+        //Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ����");
 
         SetSelectButtons();
 

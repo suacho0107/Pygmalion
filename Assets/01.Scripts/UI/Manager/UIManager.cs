@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject UIWork;
     [SerializeField] private GameObject UIEnd;
 
-    private UI.UIState currentState;
+    private UI.UIState          currentState = UI.UIState.None;
+    private Stage.StageState    currentStage = Stage.StageState.None;
 
     public  int     stageIndex = 0;
 
@@ -38,20 +39,23 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        AssignUIObjects();
+        Assign_UIObject();
     }
 
     private void Update()
     {
+        #region Test
         if (Input.GetKeyDown(KeyCode.Q))
         {
             LoadStartScene();
         }
+        #endregion
     }
 
+    #region Test
     private void LoadStartScene()
     {
-        SetUIState(UI.UIState.Ready);
+        Set_UIState(UI.UIState.Ready);
 
         string sceneName = "Start";
 
@@ -64,6 +68,7 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("씬 이름이 설정되지 않았습니다!");
         }
     }
+    #endregion
 
     private void OnDestroy()
     {
@@ -73,14 +78,13 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        AssignUIObjects();
+        Assign_UIObject();
 
         UpdateUI();
     }
 
-    void AssignUIObjects()
+    void Assign_UIObject()
     {
-        // UI Canvas 하위의 UI 오브젝트 할당
         GameObject uiCanvas = GameObject.FindWithTag("UICanvas");
 
         UIReady = UIReady   != null ? UIReady   : uiCanvas.transform.Find("UIReady")?.gameObject;
@@ -94,28 +98,39 @@ public class UIManager : MonoBehaviour
         if (UIEnd   != null) UIEnd.SetActive(false);
     }
 
-    public void SetUIState(UI.UIState newState)
+    public void Set_UIState(UI.UIState newState)
     {
         if (currentState != newState)
         {
             currentState = newState;
-            //Debug.Log($"UI 상태가 변경되었습니다: {currentState}");
             UpdateUI();
         }
     }
 
-    public UI.UIState GetCurrentState()
+    public void Set_StageState(Stage.StageState newStage)
+    {
+        if (currentStage != newStage)
+        {
+            currentStage = newStage;
+        }
+    }
+
+    public UI.UIState Get_CurrentState()
     {
         return currentState;
     }
 
+    public Stage.StageState Get_StageState()
+    {
+        return currentStage;
+    }
+
     void UpdateUI()
     {
-        // 모든 UI 비활성화
         if (UIReady != null) UIReady.SetActive(false);
         if (UIStart != null) UIStart.SetActive(false);
-        if (UIWork  != null) UIWork.SetActive(false);
-        if (UIEnd   != null) UIEnd.SetActive(false);
+        if (UIWork != null) UIWork.SetActive(false);
+        if (UIEnd != null) UIEnd.SetActive(false);
 
         // 현재 상태에 따라 UI 활성화
         switch (currentState)
@@ -141,10 +156,6 @@ public class UIManager : MonoBehaviour
     }
 
     #region UI 업데이트
-    /// <summary>
-    /// 리스트 정의: 업무 장소(1~6)
-    /// SceneTransition에서 키 값으로 lobby 씬 이름 값을 넘겨주면
-    /// </summary>
     public List<string> locationList = new List<string>
     {
         "미술관",

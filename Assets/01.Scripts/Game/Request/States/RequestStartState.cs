@@ -11,8 +11,6 @@ public class RequestStartState : IRequestState
     public void Enter(RequestNPC request)
     {
         this.request = request;
-
-        
     }
 
     public void Update()
