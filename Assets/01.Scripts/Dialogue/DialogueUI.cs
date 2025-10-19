@@ -344,24 +344,20 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         descriptionText.text = "";
         nameText.text = "";
 
-
-        if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
+        //explainNum 있으면
+        if (!string.IsNullOrEmpty(explainNum))
         {
-            // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
-            // imageImage.SetActive(true);
-            if (npc is Statue selectedStatue)
+            #region Image Popup
+            if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
             {
-                if (!selectedStatue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
+                if (explainIndex >= 0 && explainIndex < Images.Count)
                 {
-                    if (explainIndex >= 0 && explainIndex < Images.Count)
-                    {
-                        Images[explainIndex - 1].SetActive(true);
-                        dialogueManager.isPopup = true;
-                    }
+                    Debug.Log($"explainIndex : {explainIndex}");
+                    Images[explainIndex - 1].SetActive(true);
+                    dialogueManager.isPopup = true;
                 }
             }
-
-            dialogueManager.isExplain = true;
+            #endregion
 
             int explainLine;
             if (int.TryParse(explainNum, out explainLine))
@@ -446,11 +442,12 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             ItemImage.SetActive(false);
         }
 
-        //모든 이미지 비활성화
+        #region Image Popup
         foreach (var image in Images)
         {
             image.SetActive(false);
         }
+        #endregion
 
         foreach (var portrait in Portraits)
         {
@@ -564,13 +561,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         selectButtons.SetActive(false);
 
         //SaveData();
-    }
-    #endregion
-
-    #region UI State Management
-    void Set_UIStateEnd()
-    {
-        UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
     }
     #endregion
 
