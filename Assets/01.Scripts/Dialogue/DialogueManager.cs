@@ -59,13 +59,13 @@ public class DialogueManager : MonoBehaviour //ÇÕº´ ÈÄ DialogueManager_Jiyun -> 
         dialogueUI.selectButtons.SetActive(false);
 
         #region Image Popup
-        //if (null != dialogueUI.Images)
-        //{
-        //    foreach (var image in dialogueUI.Images)
-        //    {
-        //        image.gameObject.SetActive(false);
-        //    }
-        //}
+        if (null != dialogueUI.Images)
+        {
+            foreach (var image in dialogueUI.Images)
+            {
+                image.gameObject.SetActive(false);
+            }
+        }
 
         #endregion
     }
