@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class TutorialInteraction : TutorialBase
 {
-    [SerializeField]
-    private GameObject  interactionObject;
-    [SerializeField]
-    private bool        isInteractOn = false;
+    [SerializeField] GameObject  interactionObject;
+    [SerializeField] bool        isInteractOn = false;
+    [SerializeField] bool        isAuto = false;
 
     private PlayerMove  playerMove;
     private bool        isTrigger = false;
@@ -19,7 +18,7 @@ public class TutorialInteraction : TutorialBase
 
     public override void Execute(TutorialController controller)
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) || isInteractOn)
         {
             isTrigger = true;
 
