@@ -18,7 +18,7 @@ public class TutorialInteraction : TutorialBase
 
     public override void Execute(TutorialController controller)
     {
-        if (Input.GetKeyDown(KeyCode.F) || isInteractOn)
+        if (Input.GetKeyDown(KeyCode.F) || isAuto)
         {
             isTrigger = true;
 
