@@ -347,6 +347,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         //explainNum 있으면
         if (!string.IsNullOrEmpty(explainNum))
         {
+            dialogueManager.isExplain = true;
+
             #region Image Popup
             if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
             {
