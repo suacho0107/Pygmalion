@@ -410,7 +410,7 @@ public class DialogueManager_Legacy: MonoBehaviour
 
     void SetUIStateEnd()
     {
-        UIManager.u_instance.SetUIState(Define.UI.UIState.End);
+        UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
     }
 
     void EndMessage()

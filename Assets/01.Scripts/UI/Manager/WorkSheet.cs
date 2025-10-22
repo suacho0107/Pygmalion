@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Define;
 
 public class WorkSheet : MonoBehaviour
 {
+    public enum GRADE { A, B, C, D, F, END }
+
+    [SerializeField] GameObject     ToggleObject;
     [SerializeField] PlayerPosition playerPos;
     [SerializeField] Vector3        spawnPos;
     [SerializeField] Text           _check;
@@ -19,9 +23,10 @@ public class WorkSheet : MonoBehaviour
     private int     destroyedCount;
     private int     checkedCount;
 
-    private int     result;
+    private GRADE   result;
     private string  efficiency;
     public int      currency;
+    private bool    isNext = false;
 
     DataManager dataManager = null;
 
@@ -35,11 +40,14 @@ public class WorkSheet : MonoBehaviour
         //PlayerPrefs.SetInt("destroyedCount", 1);
         //PlayerPrefs.SetInt("checkedCount", 16);
         #endregion
+    }
 
+    private void Start()
+    {
         UpdateEndUI();
     }
 
-    private int SetData()
+    private GRADE SetData()
     {
         int totalCount = 6;
         int enemyCount = 1;     // TODO: totalCount(조각상 개수), enemyCount(적 개수) 모두 매개 변수화
@@ -80,22 +88,22 @@ public class WorkSheet : MonoBehaviour
         #endregion
 
         double totalGrade = Math.Round(workEff + accuracy, 4);
-        int grade = 0;
+        GRADE grade = GRADE.END;
 
         if (1 > totalGrade)
-            grade = 65;
+            grade = GRADE.A;
 
         else if (1 <= totalGrade && 1.3 > totalGrade)
-            grade = 66;
+            grade = GRADE.B;
 
         else if (1.3 <= totalGrade && 1.7 > totalGrade)
-            grade = 67;
+            grade = GRADE.C;
 
         else if (1.7 < totalGrade && 2.2 > totalGrade)
-            grade = 68;
+            grade = GRADE.D;
 
         else if (2.2 <= totalGrade)
-            grade = 70;
+            grade = GRADE.F;
 
         else
             Debug.Log($"평가등급 계산 오류! totalGrade : {totalGrade}");
@@ -105,9 +113,11 @@ public class WorkSheet : MonoBehaviour
 
     private void UpdateEndUI()
     {
+        ToggleObject.SetActive(false);
+
         statueCount = PlayerPrefs.GetInt("StatueCount");
 
-        if (dataManager == null || statueCount < 6)
+        if (dataManager == null)
             return;
 
         // TODO: 스테이지별 조각상 개수와 적 조각상 개수를 업무 효율 계산식의 매개변수로 전달해줘야 함, SetData 함수의 매개변수로 전달
@@ -118,31 +128,30 @@ public class WorkSheet : MonoBehaviour
         _destroy.text       = destroyedCount.ToString();
         _efficiency.text    = efficiency;
 
-        //Debug.Log($"UpdateEndUI : {efficiency}");
-
+        #region 평가 등급 출력, 성과급 지급
         switch (result)
         {
-            case 65:
+            case GRADE.A:
                 gameObject.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
                 dataManager.AddCurrency(300);
                 break;
 
-            case 66:
+            case GRADE.B:
                 gameObject.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
                 dataManager.AddCurrency(200);
                 break;
 
-            case 67:
+            case GRADE.C:
                 gameObject.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);
                 dataManager.AddCurrency(150);
                 break;
 
-            case 68:
+            case GRADE.D:
                 gameObject.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);
                 dataManager.AddCurrency(100);
                 break;
 
-            case 70:
+            case GRADE.F:
                 gameObject.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
                 dataManager.AddCurrency(50);
                 break;
@@ -150,17 +159,65 @@ public class WorkSheet : MonoBehaviour
             default:
                 break;
         }
+        #endregion
+
+        StartCoroutine(ToggleOn());                             
+    }
+
+    IEnumerator ToggleOn()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        ToggleObject.SetActive(true);
+        isNext = true;
+    }
+
+    private void Update()
+    {
+        if (isNext && Input.GetKeyDown(KeyCode.Space))
+            SpawnCompany();
     }
 
     public void SpawnCompany()
     {
-        UIManager.u_instance.SetUIState(Define.UI.UIState.Ready);
-        // location 등록
-        UIManager.u_instance.stageIndex++;
+        UIManager.u_instance.Set_UIState(Define.UI.UIState.Ready);
 
         playerPos.nextPosition = spawnPos;
         playerPos.isChecked = true;
 
-        SceneManager.LoadScene("Company_Office");
+        // TODO: 현재 스테이지 상태 별 로드될 회사 씬이 달라져야 함
+        // 아 근데 여기선 WorktoCompany 씬으로 넘어가고, 상태별 회사 씬들 넘어가는건 WorktoCompany 에서 해야할듯
+        SceneManager.LoadScene("WorktoCompany");
+
+        //Stage.StageState stageStage = UIManager.u_instance.Get_StageState();
+
+        //switch (stageStage)
+        //{
+        //    case Stage.StageState.Museum:
+        //        SceneManager.LoadScene("WorktoCompany");
+        //        break;
+
+        //    case Stage.StageState.Library:
+        //        SceneManager.LoadScene("Company_Office");
+        //        break;
+
+        //    case Stage.StageState.Park:
+        //        SceneManager.LoadScene("Company_Office");
+        //        break;
+
+        //    case Stage.StageState.CityHall:
+        //        SceneManager.LoadScene("Company_Office");
+        //        break;
+
+        //    case Stage.StageState.BroadcastStation:
+        //        SceneManager.LoadScene("Company_Office");
+        //        break;
+
+        //    case Stage.StageState.Hospital:
+        //        SceneManager.LoadScene("Company_Office");
+        //        break;
+        //    default:
+        //        break;
+        //}
     }
 }

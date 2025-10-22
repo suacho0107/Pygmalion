@@ -353,24 +353,22 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         descriptionText.text = "";
         nameText.text = "";
 
-
-        if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
+        //explainNum 있으면
+        if (!string.IsNullOrEmpty(explainNum))
         {
-            // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
-            // imageImage.SetActive(true);
-            if (npc is Statue selectedStatue)
+            dialogueManager.isExplain = true;
+
+            #region Image Popup
+            if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
             {
-                if (!selectedStatue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
+                if (explainIndex >= 0 && explainIndex < Images.Count)
                 {
-                    if (explainIndex >= 0 && explainIndex < Images.Count)
-                    {
-                        Images[explainIndex - 1].SetActive(true);
-                        dialogueManager.isPopup = true;
-                    }
+                    Debug.Log($"explainIndex : {explainIndex}");
+                    Images[explainIndex - 1].SetActive(true);
+                    dialogueManager.isPopup = true;
                 }
             }
-
-            dialogueManager.isExplain = true;
+            #endregion
 
             int explainLine;
             if (int.TryParse(explainNum, out explainLine))
@@ -432,9 +430,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
-            else if (npc.dialogueFileName == "Check3_dialogue")
+            else if (selectedNPC.dialogueFileName == "Check3_dialogue")
             {
-                Invoke("SetUIStateEnd", 1.5f);
+                //Invoke("Set_UIStateEnd", 1.5f);
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
             }
         }
 
@@ -442,12 +441,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             selectedStatue.isInteract = true;
             selectedStatue.CheckResult();
-
-            ////판별 결과 UI 출력
-            //if (npc.dialogueFileName == "Check3_dialogue")
-            //{
-            //    Invoke("SetUIStateEnd", 1.5f);
-            //}
         }
 
         dialogueManager.SaveData();
@@ -460,11 +453,12 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             ItemImage.SetActive(false);
         }
 
-        //모든 이미지 비활성화
+        #region Image Popup
         foreach (var image in Images)
         {
             image.SetActive(false);
         }
+        #endregion
 
         foreach (var portrait in Portraits)
         {
@@ -581,13 +575,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     }
     #endregion
 
-    #region UI State Management
-    void SetUIStateEnd()
-    {
-        UIManager.u_instance.SetUIState(Define.UI.UIState.End);
-    }
-    #endregion
-
     #region Item Popup
     public void ItemPopup()
     {
@@ -675,7 +662,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     IEnumerator SelectWriter()
     {
-        Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
+        //Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
 
         int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2; //name 존재 여부 판단해서 매개변수 전달
 
@@ -699,7 +686,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     IEnumerator WriteSelectOptions(Select select, int offset)
     {
-        Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ����");
+        //Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ����");
 
         SetSelectButtons();
 

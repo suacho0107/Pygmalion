@@ -37,7 +37,7 @@ public class PlayerDesk : MonoBehaviour
         requestPanel.SetActive(false);
         IsActive = false;
 
-        UIManager.u_instance.SetUIState(Define.UI.UIState.Start);
+        UIManager.u_instance.Set_UIState(Define.UI.UIState.Start);
 
         // 업무지시서의 장소 텍스트를 받아 UI의 텍스트 변경: 업무지시서 -> 확인 후 패널 닫기 시 변경
         // UIManager의 텍스트 변경 함수 호출(해당 함수의 매개변수 전달 방식에 대한 고민 필요)

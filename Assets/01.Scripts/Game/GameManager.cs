@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
 
+        #region prev Statue Transpose
         //if (currentSceneName == "Museum_ExhibitionRoom2")
         //{
         //    int sceneIndex = GetSceneIndex(currentSceneName);
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
         //        statue_4.transform.position = tempPos;
         //    }
         //}
+        #endregion
     }
 
     private void Start()
