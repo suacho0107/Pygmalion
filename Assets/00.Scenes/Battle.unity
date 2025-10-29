@@ -2292,11 +2292,12 @@ MonoBehaviour:
   playerRunSFX: {fileID: 8300000, guid: 0394d053b981d7547b2b4c4d2f21c0d8, type: 3}
   currentPart: 
   isWin: 0
-  isPlayerTurnStarted: 0
-  isPlayerAttacking: 0
-  isPartSelecting: 0
-  isPlayerRunning: 0
-  isEnemyTurnStarted: 0
+  isStatePLAYERTURN: 0
+  isStatePLAYERTURN_ATTACK: 0
+  isStatePLAYERTURN_ATTACK_PartSelecting: 0
+  isStatePLAYERTURN_RUN: 0
+  isStateENEMYTURN: 0
+  isContentTextWriting: 0
   state: 0
 --- !u!4 &784835000
 Transform:
@@ -2421,7 +2422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f95fb2fa7eead44ebfac4d18a33240b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 1447889618}
   contentText: {fileID: 1305348740}
+  blackBoard: {fileID: 1998445116}
   dialogueButtons: {fileID: 656938321}
   partButtons: {fileID: 2102616759}
   ButtonDefault: {fileID: 21300000, guid: 0cd9d4bcedface549ad7f653c5b15253, type: 3}
@@ -2429,7 +2432,6 @@ MonoBehaviour:
   hpBoxes: {fileID: 0}
   hpBoxEmpty: {fileID: 21300000, guid: 0ffcab12e18beb64a9868deb85ac0539, type: 3}
   hpBoxFull: {fileID: 21300000, guid: 7079e577cb7a5e74691ec533430d0f6a, type: 3}
-  blackBoard: {fileID: 1998445116}
   currentPartButtonIndex: 0
 --- !u!1 &824697524
 GameObject:
@@ -3279,11 +3281,11 @@ MonoBehaviour:
   enemyName: 
   mainPart: 
   isMasked: 0
-  firstEnemyTurn1: 0
-  firstEnemyTurn2: 0
+  isMaskNarrative: 0
+  isLArmNarrative: 0
   ConfusionRate: 0
-  isConfusion1: 0
-  isConfusion2: 0
+  isMaskConfusion: 0
+  isLArmConfusion: 0
   increaseAttackPower: 0
 --- !u!1 &961995532
 GameObject:
@@ -4537,11 +4539,11 @@ MonoBehaviour:
   enemyName: 
   mainPart: 
   isMasked: 0
-  firstEnemyTurn1: 0
-  firstEnemyTurn2: 0
+  isMaskNarrative: 0
+  isLArmNarrative: 0
   ConfusionRate: 0
-  isConfusion1: 0
-  isConfusion2: 0
+  isMaskConfusion: 0
+  isLArmConfusion: 0
   increaseAttackPower: 0
 --- !u!1 &1305348738
 GameObject:
@@ -6711,11 +6713,11 @@ MonoBehaviour:
   enemyName: 
   mainPart: 
   isMasked: 0
-  firstEnemyTurn1: 0
-  firstEnemyTurn2: 0
+  isMaskNarrative: 0
+  isLArmNarrative: 0
   ConfusionRate: 0
-  isConfusion1: 0
-  isConfusion2: 0
+  isMaskConfusion: 0
+  isLArmConfusion: 0
   increaseAttackPower: 0
 --- !u!1 &2079986996
 GameObject:

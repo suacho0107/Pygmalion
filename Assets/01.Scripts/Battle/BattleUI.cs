@@ -12,21 +12,30 @@ public class BattleUI : MonoBehaviour
     #endregion
 
     #region Variables
+    [Header("UI Elements")]
+    public GameObject dialoguePanel;
     public Text contentText;
 
+    public GameObject blackBoard;
+
+    [Header("Dialogue UI")]
     public GameObject dialogueButtons;
     private List<GameObject> dialogueButtonList = new List<GameObject>();
+
+    [Header("PartSelect UI")]
     public GameObject partButtons;
     private List<GameObject> partButtonList = new List<GameObject>();
+
+    [Header("Button Sprites")]
     public Sprite ButtonDefault;
     public Sprite ButtonHighlighted;
 
+    [Header("HpBoxes & HpBox Sprites")]
     public GameObject hpBoxes;
     public Sprite hpBoxEmpty;
     public Sprite hpBoxFull;
 
-    public GameObject blackBoard;
-
+    [Header("Dialogue & PartSelect Control")]
     private int currentDialogueButtonIndex;
     private int currentPartPageIndex;
     public int currentPartButtonIndex;
@@ -39,23 +48,17 @@ public class BattleUI : MonoBehaviour
         player = FindObjectOfType<Player>();
         enemy = FindObjectOfType<Enemy>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
-        if(dialogueButtons.activeSelf)
+        if (dialogueButtons.activeSelf && !battleManager.isContentTextWriting)
         {
             if (Input.anyKeyDown)
             {
                 DialogueButtonInputHandler();
             }
         }
-        else if (battleManager.isPartSelecting)
+        else if (battleManager.isStatePLAYERTURN_ATTACK_PartSelecting && !battleManager.isContentTextWriting)
         {
             if (Input.anyKeyDown) //키 입력 시에만
             {
@@ -66,7 +69,7 @@ public class BattleUI : MonoBehaviour
     #endregion
 
     #region ButtonInputHandlers
-    private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성
+    private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성됨
     {
         //상하 이동
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
@@ -107,16 +110,16 @@ public class BattleUI : MonoBehaviour
 
             if (selectedButtonText == "공격한다")
             {
-                player.AttackButton();
+                player.SelectAttack();
             }
             else if (selectedButtonText == "소지품을 확인한디")
             {
-                player.InventoryButton();
-                //InventoryButton() 함수 내용 작성 필요
+                player.SelectInventory();
+                //SelectInventory() 함수 내용 작성 필요
             }
             else if (selectedButtonText == "도망친다")
             {
-                player.RunButton();
+                player.SelectRun();
             }
 
             dialogueButtons.SetActive(false);
@@ -215,16 +218,16 @@ public class BattleUI : MonoBehaviour
                 }
                 else
                 {
-                    player.PlayerAttack(enemy.partComponents[selectedPartIndex]);
-                    battleManager.isPartSelecting = false;
+                    StartCoroutine(player.PlayerAttack(enemy.partComponents[selectedPartIndex]));
+
+                    battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = false;
                 }
 
                 //초기화
                 currentPartPageIndex = 0;
-                currentPartPageIndex = 0;
+                currentPartButtonIndex = 0;
             }
         }
-
         Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
 
         HighlightPartButton();
@@ -245,6 +248,7 @@ public class BattleUI : MonoBehaviour
     }
     #endregion
 
+    #region DialogueButton
     public void SetDialogueButtons()
     {
         dialogueButtonList.Clear(); //중복추가 방지
@@ -268,7 +272,9 @@ public class BattleUI : MonoBehaviour
             image.sprite = (i == currentDialogueButtonIndex) ? ButtonHighlighted : ButtonDefault;
         }
     }
+    #endregion
 
+    #region PartButton
     public void SetPartButtons()
     {
         partButtonList.Clear(); //중복추가 방지
@@ -295,14 +301,14 @@ public class BattleUI : MonoBehaviour
             GameObject partButton = partButtonList[i];
             Debug.Log($"partButton 이름: {partButton}"); //Delete
 
-            if (partIndex < enemy.parts.Count)
+            if (partIndex < enemy.parts.Count) //part 개수 만큼만
             {
                 partButton.SetActive(true);
 
                 Text partText = partButton.transform.Find("Text (Legacy)").GetComponent<Text>();
                 //Color partColor = enemy.partComponents[partIndex].partHp > 0 ? Color.white : Color.gray; //hp로 동작
                 Color partColor = enemy.isDestroyed[partIndex] == true ? Color.grey : Color.white; //isdetroyed로 동작
-                partText.text = enemy.ReplacePartText(enemy.parts[partIndex]);
+                partText.text = enemy.ReplacePartText(enemy.parts[partIndex]); //part 영->한 번역
                 partText.color = partColor;
 
                 GameObject hpBoxes = partButton.transform.Find("HpBoxes").gameObject;
@@ -346,12 +352,32 @@ public class BattleUI : MonoBehaviour
             GameObject hpBox = hpBoxes.transform.GetChild(i).gameObject;
 
             hpBox.SetActive(i < part.partMaxHp);
-            hpBox.GetComponent<Image>().sprite = (i < part.partHp) ? hpBoxFull : hpBoxEmpty;
+            hpBox.GetComponent<Image>().sprite = (i < part.partHp) ? hpBoxFull : hpBoxEmpty; //part별 남은 hp
         }
     }
+    #endregion
 
     public int FindListIndex(List<string> list, string element)
     {
         return list.IndexOf(element);
+    }
+
+    public string KorParticle(string word, string particleWithFinal, string particleWithoutFinal)
+    {
+        if (string.IsNullOrEmpty(word))
+        {
+            return particleWithoutFinal;
+        }
+
+        char lastChar = word[word.Length - 1]; //마지막 글자
+
+        if (lastChar < 0xAC00 || lastChar > 0xD7A3) //한글 여부 확인
+        {
+            return particleWithoutFinal;
+        }
+
+        //받침 여부
+        bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
+        return hasFinal ? particleWithFinal : particleWithoutFinal;
     }
 }
