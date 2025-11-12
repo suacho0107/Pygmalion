@@ -185,7 +185,9 @@ public class DialogueManager : MonoBehaviour //ÇÕº´ ÈÄ DialogueManager_Jiyun -> 
             statue = null;
             Debug.LogError("SetNPC: NPC is null.");
         }
-    }    
+    }
+
+    public NPC CurrentNPC => npc;
 
     public bool DialogueTrue()
     {
