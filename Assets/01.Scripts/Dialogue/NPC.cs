@@ -10,7 +10,7 @@ public class NPC : MonoBehaviour
     #region Set Values
     public DialogueManager dialogueManager;
     public DialogueUI dialogueUI;
-    public InteractionEvent interactionEvent; // �� NPC�� ����� InteractionEvent
+    public InteractionEvent interactionEvent; // 이 NPC와 연결된 InteractionEvent
     public MuseumLobbyCSV csv;
     public StatueScore statueScore;
     public NPCData npcData = new NPCData();
@@ -29,22 +29,25 @@ public class NPC : MonoBehaviour
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
     [SerializeField] public string explainNum;
-    [SerializeField] public string[] dialogueFiles; // ���� ���� �迭 �߰�
+    [SerializeField] public string[] dialogueFiles; // 파일 변경 배열 추가
     [SerializeField] public string[] selectFiles;
     public int currentIndex = 0;
 
     protected virtual void Awake()
     {
         filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
-        ResetNPCData();
-        //LoadNPCData(); // �� ��ũ��Ʈ���� ������ ����, NPC������ ���������� ȣ��X
+        //ResetNPCData();
+        //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X
         //ResetNPCData(); // NPC �ʱ�ȭ �ڵ�
     }
 
     private void Start()
     {
         //ResetNPCData(); // NPC �ʱ�ȭ �ڵ�
-        FieldItemManager.Instance.ResetFieldItems(); // �ʵ������ �ʱ�ȭ �ڵ�
+        if(FieldItemManager.Instance != null)
+        {
+            FieldItemManager.Instance.ResetFieldItems(); // �ʵ������ �ʱ�ȭ �ڵ�
+        }
     }
 
     public void StartDialogue()
@@ -55,7 +58,7 @@ public class NPC : MonoBehaviour
         {
             dialogueManager.SetNPC(this);
         }
-        else //null ó��
+        else //null 처리
         {
             Debug.LogError("DialogueManager is null.");
         }
@@ -63,11 +66,11 @@ public class NPC : MonoBehaviour
         InteractionEvent interactionEvent = GetComponent<InteractionEvent>();
         if (interactionEvent != null)
         {
-            if (!string.IsNullOrEmpty(explainNum)) //explainNum ������ ����
+            if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면 전달
             {
                 interactionEvent.LoadDialogue(dialogueFileName, explainNum);
             }
-            else //explainNum ������ �׳�
+            else //explainNum 없으면 그냥
             {
                 interactionEvent.LoadDialogue(dialogueFileName);
             }
@@ -92,7 +95,7 @@ public class NPC : MonoBehaviour
         currentIndex = _currentIndex;
         dialogueFileName = dialogueFiles[currentIndex];
         selectFileName = selectFiles[currentIndex];
-        //Debug.Log("��ȭ: " + dialogueFileName + ", ����: " + selectFileName);
+        //Debug.Log("대화: " + dialogueFileName + ", 선지: " + selectFileName);
     }
     public void SaveNPCData()
     {
@@ -106,7 +109,7 @@ public class NPC : MonoBehaviour
 
             string json = JsonUtility.ToJson(npcData);
             File.WriteAllText(filePath, json);
-            Debug.Log(gameObject.name + " / NPC ������ ����");
+            Debug.Log(gameObject.name + " / NPC 데이터 저장");
         }
     }
 
@@ -118,7 +121,7 @@ public class NPC : MonoBehaviour
             {
                 string json = File.ReadAllText(filePath);
                 npcData = JsonUtility.FromJson<NPCData>(json);
-                Debug.Log(gameObject.name + " / NPC ������ �ε�");
+                Debug.Log(gameObject.name + " / NPC 데이터 로드");
 
                 isDialogueChanged = npcData.isDialogueChanged;
                 currentIndex = npcData.currentIndex;
@@ -134,7 +137,7 @@ public class NPC : MonoBehaviour
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
-            Debug.Log("NPC ������ �ʱ�ȭ : " + filePath);
+            Debug.Log("NPC 데이터 초기화 : " + filePath);
         }
         npcData = new NPCData();
     }
