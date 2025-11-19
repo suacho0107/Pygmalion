@@ -58,6 +58,9 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     [Header("Button Sprites")]
     public Sprite ButtonDefault;
     public Sprite ButtonHighlighted;
+
+    [Header("Current Portrait")]
+    private GameObject currentPortrait;
     #endregion
 
     #region Unity Methods
@@ -72,7 +75,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
         nameText = namePanel.GetComponentInChildren<Text>();
-        //Debug.Log($"nameText: {namePanel.GetComponentInChildren<Text>().gameObject.name}"); //nameText 접근 확인
     }
 
     // Start is called before the first frame update
@@ -118,7 +120,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex -= 2;
                 }
             }
-            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
@@ -129,7 +130,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex += 2;
                 }
             }
-            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
         }
 
         //좌우 이동
@@ -142,7 +142,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex -= 1;
                 }
             }
-            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}");
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
@@ -153,7 +152,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     currentSelectButtonIndex += 1;
                 }
             }
-            //Debug.Log($"현재 버튼 인덱스: {currentSelectButtonIndex}"); //확인용
         }
 
         //선택
@@ -164,62 +162,33 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             {
                 // 🔹 UI 인덱스 → 실제 선택지 인덱스로 변환
                 // portrait(이름)가 있으면 선택지가 UI에서 2칸 뒤부터 시작한다고 가정
-                int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
-                int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
+                //int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
+                //int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
 
                 //Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
 
-                // 🔹 유효 범위 검사
-                if (actualSelectIndex >= 0 && actualSelectIndex < dialogueManager.selects[currentSelectIndex].moveNum.Length)
-                {
-                    string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[actualSelectIndex];
+                string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
 
-                    if (int.TryParse(moveNumString, out int selectedIndex))
-                    {
-                        Debug.Log("인덱스 전달");
-                        OnSelectButtonSelected(selectedIndex, actualSelectIndex);
-                    }
-                    else if (string.IsNullOrWhiteSpace(moveNumString))
-                    {
-                        EndSelect();
-                        EndDialogue();
-                    }
-                    else
-                    {
-                        //Debug.LogError("moveNum Parsing 실패");
-                        Debug.LogError($"moveNum Parsing 실패: '{moveNumString}' (Index: {actualSelectIndex})");
-                    }
+                if (int.TryParse(moveNumString, out int selectedIndex))
+                {
+                    Debug.Log("인덱스 전달");
+                    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
+                }
+                else if (string.IsNullOrWhiteSpace(moveNumString))
+                {
+                    EndSelect();
+                    EndDialogue();
                 }
                 else
                 {
-                    //Debug.LogWarning($"잘못된 선택 인덱스: {actualSelectIndex}");
+                    //Debug.LogError("moveNum Parsing 실패");
+                    Debug.LogError($"moveNum Parsing 실패: '{moveNumString}' (Index: {currentSelectButtonIndex})");
                 }
-                #region 주석
-                ////name(Portarit)가 유무 계산
-                //int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
-                //currentSelectButtonIndex -= offset;
-
-                //currentSelectButtonIndex = Mathf.Clamp(currentSelectButtonIndex, 0, selectButtonList.Count - 1);
-
-                ////currentSelectButtonIndexs는 Select 과정 중 UI에서 사용하는 변수
-                ////실제 moveNum 가져와서 int로 변환
-                //string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
-
-                //if (int.TryParse(moveNumString, out int selectedIndex))
-                //{
-                //    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
-                //}
-                //else //예외처리
-                //{
-                //    Debug.LogError("moveNum Parsing 실패");
-                //}
-                #endregion
 
                 //초기화
                 isSelecting = false;
                 currentSelectButtonIndex = 0;
             }
-
         }
         HighlightSelectButton();
     }
@@ -330,8 +299,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Dialogue
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
-        //Debug.Log("ShowDialogue() 실행"); //delete
-
         //초기화 & Setting
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
@@ -348,7 +315,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
         {
             // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
-            // imageImage.SetActive(true);
             if (npc is Statue selectedStatue)
             {
                 if (!selectedStatue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
@@ -394,8 +360,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     public void EndDialogue()
     {
-        //Debug.Log("EndDialogue() 실행"); //delete
-
         //초기화
         dialogueManager.dialogues = null;
         dialogueManager.isDialogue = false;
@@ -602,7 +566,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
         if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
         {
-            //dialoguePanel.sprite
             dialoguePanelImage.sprite = DialoguePanel;
             dialoguePanel.SetActive(true);
             namePanel.SetActive(true);
@@ -610,7 +573,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
         else //name 없으면
         {
-            //descriptionPanel.SetActive(true);
             dialoguePanelImage.sprite = DescriptionPanel;
             dialoguePanel.SetActive(true);
             namePanel.SetActive(false);
@@ -636,7 +598,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             if (Portraits[i].name == nameText.text)
             {
-                Portraits[i].SetActive(true);
+                currentPortrait = Portraits[i];
+                currentPortrait.SetActive(true);
                 break;
             }
         }
@@ -668,17 +631,20 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     {
         Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
 
-        int offset = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2; //name 존재 여부 판단해서 매개변수 전달
+        //UI
+        Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
+        dialoguePanelImage.sprite = DescriptionPanel;
+        namePanel.SetActive(false);
+        currentPortrait.SetActive(false);
 
         moveNumList.Clear(); //중복 방지
-        //currentSelectButtonIndex = offset;
 
         if (lineCount < dialogueManager.selects.Length)
         {
             currentSelectIndex = lineCount;
 
             Select select = dialogueManager.selects[lineCount];
-            yield return StartCoroutine(WriteSelectOptions(select, offset));
+            yield return StartCoroutine(WriteSelectOptions(select));
             isSelecting = true;
             //HighlightSelectButton();
         }
@@ -688,35 +654,30 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
     }
 
-    IEnumerator WriteSelectOptions(Select select, int offset)
+    IEnumerator WriteSelectOptions(Select select)
     {
-        Debug.Log($"WriteSelectOptions(Select {select}, int {offset} ����");
+        Debug.Log($"WriteSelectOptions(Select {select}");
 
         SetSelectButtons();
 
         selectButtons.SetActive(true);
-        currentSelectButtonIndex = offset;
         HighlightSelectButton();
 
         Debug.Log($"select.contexts.Length = {select.contexts.Length}");
 
         for (int i = 0; i < select.contexts.Length && i < 4; i++) // 최대 4개까지
         {
-            int buttonIndex = i + offset;
-
-            if (buttonIndex < selectButtonList.Count)
+            if (i < selectButtonList.Count)
             {
 
-                selectButtonList[buttonIndex].gameObject.SetActive(true);
-                selectTextList[buttonIndex].text = "";
-
-                //Debug.Log("SetActive 실행");
+                selectButtonList[i].gameObject.SetActive(true);
+                selectTextList[i].text = "";
 
                 string replacedText = select.contexts[i].Replace("#", ",");
 
                 for (int j = 0; j < replacedText.Length; j++)
                 {
-                    selectTextList[buttonIndex].text += replacedText[j];
+                    selectTextList[i].text += replacedText[j];
                     yield return new WaitForSeconds(0.03f);
                 }
 
