@@ -279,7 +279,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (state == State.LOSE || state == State.PLAYERTURN_RUN)
         {
-            SceneManager.LoadScene("Museum_Lobby");
+            SceneManager.LoadScene("Monologue_defeat");
         }
         else
         {

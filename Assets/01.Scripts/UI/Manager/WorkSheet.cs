@@ -185,10 +185,9 @@ public class WorkSheet : MonoBehaviour
         playerPos.nextPosition = spawnPos;
         playerPos.isChecked = true;
 
-        // TODO: 현재 스테이지 상태 별 로드될 회사 씬이 달라져야 함
-        // 아 근데 여기선 WorktoCompany 씬으로 넘어가고, 상태별 회사 씬들 넘어가는건 WorktoCompany 에서 해야할듯
         SceneManager.LoadScene("WorktoCompany");
 
+        #region refactor
         //Stage.StageState stageStage = UIManager.u_instance.Get_StageState();
 
         //switch (stageStage)
@@ -219,5 +218,6 @@ public class WorkSheet : MonoBehaviour
         //    default:
         //        break;
         //}
+        #endregion
     }
 }
