@@ -13,7 +13,7 @@ public class TutorialTrigger : TutorialBase
 
     public override void Enter()
     {
-        Debug.Log("Enter: TutorialTrigger");
+        //Debug.Log("Enter: TutorialTrigger");
 
         playerMove = FindObjectOfType<PlayerMove>();
     }

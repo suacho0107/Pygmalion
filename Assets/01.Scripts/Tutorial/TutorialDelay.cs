@@ -10,7 +10,7 @@ public class TutorialDelay : TutorialBase
 
     public override void Enter()
     {
-        Debug.Log("Enter: TutorialDelay");
+        //Debug.Log("Enter: TutorialDelay");
     }
 
     public override void Execute(TutorialController controller)
