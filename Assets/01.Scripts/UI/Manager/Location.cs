@@ -7,7 +7,7 @@ public class Location : MonoBehaviour
 {
     [SerializeField] Text    location;
 
-    private void Awake()
+    private void Start()
     {
         UpdateStartUI();
     }

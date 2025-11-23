@@ -18,6 +18,16 @@ public class UIManager : MonoBehaviour
     private UI.UIState          currentState = UI.UIState.None;
     private Stage.StageState    currentStage = Stage.StageState.None;
 
+    public List<string> locationList = new List<string>
+    {
+        "미술관",
+        "도서관",
+        "공원",
+        "시청",
+        "방송국",
+        "병원",
+    };
+
     public  int     stageIndex = 0;
 
     void Awake()
@@ -40,6 +50,14 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         Assign_UIObject();
+
+        // GameManager
+        string GetCurrentScene = SceneManager.GetActiveScene().name;
+
+        if ("Monologue_success" == GetCurrentScene)
+        {
+            stageIndex++;
+        }
     }
 
     private void Update()
@@ -155,16 +173,4 @@ public class UIManager : MonoBehaviour
         //Debug.Log($"UI 상태가 {currentState}로 전환되었습니다.");
     }
 
-    #region UI 업데이트
-    public List<string> locationList = new List<string>
-    {
-        "미술관",
-        "도서관",
-        "공원",
-        "시청",
-        "방송국",
-        "병원",
-    };
-
-    #endregion
 }
