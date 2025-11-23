@@ -98,12 +98,45 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
                         {
                             interactionEvent.LoadSelect(npc.selectFileName);
 
+                            //Guard
+                            if (interactionEvent == null)
+                            {
+                                Debug.LogError("interactionEvent is NULL!!!");
+                                return;
+                            }
+                            if (interactionEvent.Select == null)
+                            {
+                                Debug.LogError($"interactionEvent.Select is NULL. Failed to load select file: {npc.selectFileName}");
+                                return;
+                            }
+                            if (interactionEvent.Select.selects == null)
+                            {
+                                Debug.LogError("interactionEvent.Select.selects is NULL.");
+                                return;
+                            }
+
                             if (interactionEvent.Select != null && interactionEvent.Select.selects.Length > 0)
                             {
-                                //한 대화에 선지대사 2번인 거 고쳐보려다 일단 말았음
-                                //int eNum =  int.Parse(dialogues[lineCount].eventNum[contextCount]);
-                                //Debug.Log("ShowSelect 전: " + interactionEvent.Select.selects);
-                                dialogueUI.ShowSelect(interactionEvent.Select.selects);
+                                int eNum;
+                                if (int.TryParse(dialogues[dialogueUI.lineCount].eventNum[dialogueUI.contextCount], out eNum))
+                                {
+                                    // eventNum은 1부터 시작한다고 가정 → 배열은 0부터 시작하므로 -1
+                                    int index = eNum - 1;
+
+                                    if (interactionEvent.Select != null &&
+                                        index >= 0 &&
+                                        index < interactionEvent.Select.selects.Length)
+                                    {
+                                        //사용하는 Select 하나만 넘기기
+                                        var selectData = interactionEvent.Select.selects[index];
+                                        dialogueUI.ShowSelect(selectData);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogWarning($"Select index {index} is invalid.");
+                                    }
+                                }
+
                             }
                             else
                             {
@@ -112,7 +145,7 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
                         }
                         else
                         {
-                            Debug.LogWarning("npc.selectFileName 공백");
+                            Debug.LogWarning("npc.selectFileName is Null or Empty");
                         }
                     }
                     else //eventNum이 없으면: 선지 없는 그냥 대화

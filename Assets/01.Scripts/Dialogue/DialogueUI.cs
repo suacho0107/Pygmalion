@@ -498,31 +498,55 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         currentSelectButtonIndex = 0;
         //HighlightDialogueButton();
     }
-
-    public void ShowSelect(Select[] _selects)
+    public void ShowSelect(Select _select)
     {
         dialogueManager.isSelect = true;
 
-        if (_selects == null || _selects.Length == 0)
+        if (_select == null)
         {
-            Debug.LogError("ShowSelect received a null or empty _selects array.");
+            Debug.LogError("ShowSelect received a null _select.");
             return;
         }
 
         lineCount = 0;
-        
-        Debug.Log($"ShowSelect 호출됨: lineCount = {lineCount}, _selects.Length = {_selects.Length}");
 
-
+        // 선택지 UI 초기화
         for (int i = 0; i < selectTextList.Count; i++)
         {
             selectTextList[i].text = "";
         }
 
-        dialogueManager.selects = _selects;
+        // dialogueManager가 선택지 하나만 가지도록 수정
+        dialogueManager.selects = new Select[] { _select };
 
+        // 선택지 출력
         StartCoroutine(SelectWriter());
     }
+
+    //public void ShowSelect(Select[] _selects)
+    //{
+    //    dialogueManager.isSelect = true;
+
+    //    if (_selects == null || _selects.Length == 0)
+    //    {
+    //        Debug.LogError("ShowSelect received a null or empty _selects array.");
+    //        return;
+    //    }
+
+    //    lineCount = 0;
+
+    //    Debug.Log($"ShowSelect 호출됨: lineCount = {lineCount}, _selects.Length = {_selects.Length}");
+
+
+    //    for (int i = 0; i < selectTextList.Count; i++)
+    //    {
+    //        selectTextList[i].text = "";
+    //    }
+
+    //    dialogueManager.selects = _selects;
+
+    //    StartCoroutine(SelectWriter());
+    //}
 
     void EndSelect()
     {
@@ -629,13 +653,23 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     IEnumerator SelectWriter()
     {
-        Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
+        //Guard
+        if (dialogueManager.selects == null || dialogueManager.selects.Length == 0)
+        {
+            Debug.LogError("dialogueManager.selects is Null or Empty.");
+            yield break;
+        }
+
+        Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");   
 
         //UI
         Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
         dialoguePanelImage.sprite = DescriptionPanel;
         namePanel.SetActive(false);
-        currentPortrait.SetActive(false);
+        if (currentPortrait != null) //Guard
+        {
+            currentPortrait.SetActive(false);
+        }
 
         moveNumList.Clear(); //중복 방지
 

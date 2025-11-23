@@ -20,7 +20,6 @@ public class InteractionEvent : MonoBehaviour
     public void LoadDialogue(string _csvFileName, string explainNum = null)
     {
         DialogueParser dialogueParser = FindObjectOfType<DialogueParser>();
-        //DialogueManager dialogueManager = FindObjectOfType<DialogueManager>(); //필요 없어서 일단 주석처리, 추후 삭제
         DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
         TutorialDialog tutorialDialogParser = GetComponent<TutorialDialog>();
 
@@ -53,12 +52,35 @@ public class InteractionEvent : MonoBehaviour
     {
         SelectParser selectParser = FindObjectOfType<SelectParser>();
 
-        if (selectParser != null)
+        //Guard
+        if (selectParser == null)
         {
-            Select[] selects = selectParser.Parse(_csvFileName);
-
-            select.selects = selects;
+            Debug.LogError("SelectParser is Null.");
+            return;
         }
+
+        Select[] parsedSelects = selectParser.Parse(_csvFileName);
+
+        //Guard
+        if (parsedSelects == null)
+        {
+            Debug.LogError($"SelectParser.Parse({_csvFileName}) returned NULL.");
+            return;
+        }
+        if (parsedSelects.Length == 0)
+        {
+            Debug.LogError($"SelectParser.Parse({_csvFileName}) returned an EMPTY array.");
+            return;
+        }
+        if (select == null)
+        {
+            Debug.LogError("interactionEvent.Select is Null.");
+            return;
+        }
+
+        select.selects = parsedSelects;
+
+        Debug.Log($"LoadSelect 성공: {_csvFileName}, 선택지 개수 = {parsedSelects.Length}");
     }
 
     public void AdvanceDialogue()
