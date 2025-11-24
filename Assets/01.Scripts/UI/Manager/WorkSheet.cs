@@ -185,7 +185,7 @@ public class WorkSheet : MonoBehaviour
         playerPos.nextPosition = spawnPos;
         playerPos.isChecked = true;
 
-        SceneManager.LoadScene("WorktoCompany");
+        SceneManager.LoadScene("Monologue_success");
 
         #region refactor
         //Stage.StageState stageStage = UIManager.u_instance.Get_StageState();
