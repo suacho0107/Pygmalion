@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
-
     #region References
     BattleUI battleUI;
     Player player;
@@ -20,11 +19,12 @@ public class BattleManager : MonoBehaviour
     #endregion
 
     #region Variables
-
+    [Header("Enemys")]
     public GameObject Aphrodite;
     public GameObject ReadingChild;
     public GameObject Melpomene;
 
+    [Header("Audios & SFXs")]
     public AudioSource battleAudioSource;
     public AudioClip battleStartSFX;
     public AudioClip playerAttackSFX;
@@ -33,21 +33,21 @@ public class BattleManager : MonoBehaviour
     public AudioClip playerLoseSFX;
     public AudioClip playerRunSFX;
 
-    public string currentPart; //Select ½Ã partText
+    public string currentPart; //Select ì‹œ partText
 
     public bool isWin;
     bool _enterFight;
     string filePath;
 
+    [Header("Controls")]
+    public bool isStatePLAYERTURN = false; //State PLAYERTURNë™ì•ˆ true
+    public bool isStatePLAYERTURN_ATTACK = false; //State PLAYERTURN_ATTACKë™ì•ˆ true
+    public bool isStatePLAYERTURN_ATTACK_PartSelecting = false; //PLAYERTURN_ATTACKì—ì„œ ê³µê²©í•  Part ì„ íƒ ì‹œ
+    public bool isStatePLAYERTURN_RUN = false; //State PLAYERTURN_RUNë™ì•ˆ true
+    public bool isStateENEMYTURN = false; //State ENEMYTURMë™ì•ˆ true
+    private bool isStateEND = false; //State WIN, LOSEì‹œ true
 
-    public bool isPlayerTurnStarted = false;
-    public bool isPlayerAttacking = false;
-    public bool isPartSelecting = false; //PLAYERTURN_ATTACK¿¡¼­ °ø°İÇÒ Part ¼±ÅÃ ½Ã
-    public bool isPlayerRunning = false;
-    public bool isEnemyTurnStarted = false;
-    private bool isBattleEnd = false;
-
-    private bool isCoroutineRunning = false; //Coroutine Control
+    public bool isContentTextWriting = false; //ContentTextWrite ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
     private bool isSFXPlaying = false;
     #endregion
 
@@ -58,7 +58,7 @@ public class BattleManager : MonoBehaviour
     {
         PLAYERTURN_START,
         PLAYERTURN_ATTACK,
-        //PLAYERTURN_INVENTORY, //¹Ì»ç¿ë, Inventory Ãß°¡ ½Ã »ç¿ë ¿¹Á¤
+        //PLAYERTURN_INVENTORY, //ë¯¸ì‚¬ìš©, Inventory ì¶”ê°€ ì‹œ ì‚¬ìš© ì˜ˆì •
         PLAYERTURN_RUN,
         ENEMYTURN,
         WIN,
@@ -71,91 +71,111 @@ public class BattleManager : MonoBehaviour
     {
         battleUI = FindObjectOfType<BattleUI>();
         player = FindObjectOfType<Player>();
+        enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
 
-        filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
-        LoadFightData();
-
-        //if¹® µ¹·Á¼­ ¾Ë¸ÂÀº Àû SetActive(true);
+        //Enemy setting
+        //ì„ì‹œ Random êµ¬í˜„
+        int r = Random.Range(0, 3);
+        if (r == 0)
+        {
+            Aphrodite.SetActive(true);
+            enemy = Aphrodite.GetComponent<Enemy>();
+        }
+        else if (r == 1)
+        {
+            ReadingChild.SetActive(true);
+            enemy = ReadingChild.GetComponent<Enemy>();
+        }
+        else //(r == 2)
+        {
+            Melpomene.SetActive(true);
+            enemy = Melpomene.GetComponent<Enemy>();
+        }
+        
+        //ifë¬¸ ëŒë ¤ì„œ ì•Œë§ì€ ì  SetActive(true);
         //Aphrodite.SetActive(true);
         //enemy = Aphrodite.GetComponent<Enemy>();
         //ReadingChild.SetActive(true);
         //enemy = ReadingChild.GetComponent<Enemy>();
-        Melpomene.SetActive(true);
-        enemy = Melpomene.GetComponent<Enemy>();
+        //Melpomene.SetActive(true);
+        //enemy = Melpomene.GetComponent<Enemy>();
         Debug.Log($"Enemy set to: {enemy}"); //Delete
-    }
 
-    // Start is called before the first frame update
+        filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
+        LoadFightData();
+    }
+    
     void Start()
     {
-        //ÀüÅõ ÁøÀÔ ½Ã Setting
-        player.SetPlayerHp();
+        //Set, ìµœì´ˆ 1íšŒë§Œ ì‹¤í–‰
+        player.SetPlayer();
         enemy.SetEnemy();
+
+        //Update, ë§¤ í„´ë§ˆë‹¤ ì‹¤í–‰
+        player.UpdatePlayer();
+        enemy.UpdateEnemy();
+
+        //UI Setting
         battleUI.SetDialogueButtons();
         battleUI.SetPartButtons();
-
         battleUI.blackBoard.SetActive(false);
-
-        //HpBar
-        player.UpdatePlayerHp();
-        enemy.UpdateEnemyHp();
 
         state = State.PLAYERTURN_START;
         PlaySFX(battleStartSFX);
     }
 
-    // Update is called once per frame
     void Update()
     {
         switch (state)
         {
             //PLAYERTURN
             case State.PLAYERTURN_START:
-                if (!isPlayerTurnStarted)
+                if (!isStatePLAYERTURN)
                 {
                     player.PlayerTurnStart();
-                    isPlayerTurnStarted = true;
+                    //isStatePLAYERTURN = true; //player.PlayerTurnStart() ë‚´ë¶€ë¡œ ì´ë™, ë¬¸ì œ ë°œìƒ ì‹œ ë¡¤ë°±
                 }
                 break;
 
             case State.PLAYERTURN_ATTACK:
-                if (!isPlayerAttacking)
+                if (!isStatePLAYERTURN_ATTACK)
                 {
-                    player.SelectAttackPart();
+                    player.PlayerTurnAttack();
                 }
                 break;
 
             case State.PLAYERTURN_RUN:
-                if (!isPlayerRunning)
+                if (!isStatePLAYERTURN_RUN)
                 {
-                    PlayerRun();
+                    PlayerRun(); //SaveRunìœ¼ë¡œ í•¨ìˆ˜ëª… ë³€ê²½í•´ì„œ player.Run ì•ˆì— ë„£ì„ ìˆ˜ ìˆë‚˜ìš”?
                     player.Run();
+                    StartCoroutine(player.Run());
                 }
                 break;
 
             //ENEMYTURN
             case State.ENEMYTURN:
-                if (!isEnemyTurnStarted)
+                if (!isStateENEMYTURN)
                 {
-                    enemy.EnemyTurnStart();
-                    isEnemyTurnStarted = true;
+                    StartCoroutine(enemy.EnemyTurnStart()); //Coroutineí™” í–ˆìŒ
+                    //isStateENEMYTURN = true;
                 }
                 break;
 
             //END
             case State.WIN:
-                if (!isBattleEnd)
+                if (!isStateEND)
                 {
-                    PlayerWin();
+                    Win();
                     PlaySFX(playerWinSFX);
                 }
                 break;
 
             case State.LOSE:
-                if (!isBattleEnd)
+                if (!isStateEND)
                 {
-                    PlayerLose();
+                    Lose();
                     PlaySFX(playerLoseSFX);
                 }
                 break;
@@ -175,16 +195,8 @@ public class BattleManager : MonoBehaviour
 
         if (_object == "player")
         {
-            //if (part == null) //Ã³À½ºÎÅÍ ´ë»óÀÌ player
-            //{
             player.playerHp -= _attackpower;
-            player.UpdatePlayerHp();
-            //}
-            //else //isConfused·Î ´ë»óÀÌ player·Î º¯°æµÈ °æ¿ì
-            //{
-            //    player.playerHp -= _attackpower;
-            //    player.UpdatePlayerHp();
-            //}
+            player.UpdatePlayer();
         }
         else if (_object == "enemy" && part != null)
         {
@@ -197,15 +209,28 @@ public class BattleManager : MonoBehaviour
 
             _attackpower = (int)attackpower;
             part.partHp -= _attackpower;
-            enemy.UpdateEnemyHp();
+            enemy.UpdateEnemy();
         }
     }
 
-    void PlayerWin()
+    void PlayerRun() // ì¶”ê°€ ì½”ë“œ
     {
-        Debug.Log("PlayerWin() ½ÇÇà");
-        //±¸Çö¿¹Á¤
+        isWin = false;
+        _enterFight = false;
+        SaveFightData();
 
+        PlayerPrefs.SetInt("PlayerRun", 1);
+        PlayerPrefs.Save();
+    }
+
+    #region Battle End
+    void Win()
+    {
+        Debug.Log("PlayerWin() ì‹¤í–‰");
+        //UI
+        battleUI.dialoguePanel.SetActive(false);
+
+        //Data
         isWin = true;
         _enterFight = true;
         SaveFightData();
@@ -213,16 +238,17 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerWin", 1);
         PlayerPrefs.Save();
 
-        Invoke("ExitBattleScene", 1);
+        //Invoke("ExitBattleScene", 1); //ì´ê±° ê¸°ë‹¤ë¦¬ì§€ ë§ì•„ì•¼ í•  ê²ƒ ê°™ì€ë°?
+        ExitBattleScene(); //ë¬¸ì œ ìƒê¸°ë©´ ë¡¤ë°±
     }
 
-    void PlayerLose()
+    void Lose()
     {
-        Debug.Log("PlayerLose() ½ÇÇà");
+        Debug.Log("PlayerLose() ì‹¤í–‰");
 
-        battleUI.blackBoard.SetActive(true);
-        StartCoroutine(ContentTextWriter("´«¾ÕÀÌ Èå·ÁÁø´Ù..."));
-        //±¸Çö¿¹Á¤
+        StartCoroutine(ContentTextWriter("ëˆˆì•ì´ íë ¤ì§„ë‹¤...")); //ì´ê±° ì•ˆ ëœ¨ê³  ë°”ë¡œ blackBoardì¸ë°? Coroutineí™” í•´ì•¼ í•˜ë‚˜?
+        battleUI.blackBoard.SetActive(true); //ì´ê±¸ ì €ê±°ë¡œ í•´ì•¼ í•˜ë„¤ ì„œì„œíˆ ë“¤ì–´ì˜¤ê²Œ ë­ë¼ í•˜ë”ë¼ ì•„ í˜ì´ë“œ ì¸
+        //êµ¬í˜„ì˜ˆì •
 
         isWin = false;
         _enterFight = false;
@@ -231,23 +257,30 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
-        Invoke("ExitBattleScene", 2);
+        Invoke("ExitBattleScene", 2); //í•¨ìˆ˜ Lose() Coroutineí™” ì˜ˆì •
     }
 
-    void PlayerRun() // Ãß°¡ ÄÚµå
+    public void ExitBattleScene() //ì§€ê¸ˆ Aphroditeë¡œ ì§„í–‰í•˜ê²Œ ë˜ì–´ ìˆìŒ
     {
-        isWin = false;
-        _enterFight = false;
-        SaveFightData();
-        
-        PlayerPrefs.SetInt("PlayerRun", 1);
-        PlayerPrefs.Save();
+        if (state == State.WIN) //ìŠ¹ë¦¬ ì‹œ
+        {
+            SceneManager.LoadScene("Museum_ExhibitionRoom2");
+        }
+        else if (state == State.LOSE || state == State.PLAYERTURN_RUN) //íŒ¨ë°°||ë„ë§ ì‹œ
+        {
+            SceneManager.LoadScene("Museum_Lobby");
+        }
+        else
+        {
+            return;
+        }
     }
+    #endregion
 
     #region SFX
     public void PlaySFX(AudioClip audioClip)
     {
-        Debug.Log("PlayerSFX ½ÇÇà");
+        Debug.Log("PlayerSFX ì‹¤í–‰");
 
         if (isSFXPlaying)
         {
@@ -255,7 +288,7 @@ public class BattleManager : MonoBehaviour
         }
 
         isSFXPlaying = true;
-
+        
         battleAudioSource.Stop();
         battleAudioSource.clip = audioClip;
         //audioSource.loop = false;
@@ -271,43 +304,6 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-    public void ExitBattleScene()
-    {
-        if (state == State.WIN)
-        {
-            SceneManager.LoadScene("Museum_ExhibitionRoom2");
-        }
-        else if (state == State.LOSE || state == State.PLAYERTURN_RUN)
-        {
-            SceneManager.LoadScene("Monologue_defeat");
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    public IEnumerator ContentTextWriter(string origintext)
-    {
-        // ÀÌ¹Ì ÄÚ·çÆ¾ÀÌ ½ÇÇà ÁßÀÌ¶ó¸é Áßº¹ ½ÇÇà ¹æÁö
-        if (isCoroutineRunning)
-        {
-            yield break;
-        }
-
-        isCoroutineRunning = true;
-        battleUI.contentText.text = "";
-
-        for (int i = 0; i < origintext.Length; i++)
-        {
-            battleUI.contentText.text += origintext[i];
-            yield return new WaitForSeconds(0.03f);
-        }
-
-        //ÀÌ°Å yield break·Îµµ °¡´ÉÇÑ°¡?
-        isCoroutineRunning = false;
-    }
-
     #region Save/Load Data
     public void SaveFightData()
     {
@@ -316,7 +312,7 @@ public class BattleManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
-        Debug.Log("µ¥ÀÌÅÍ ÀúÀå");
+        Debug.Log("ë°ì´í„° ì €ì¥");
     }
 
     public void LoadFightData()
@@ -325,11 +321,31 @@ public class BattleManager : MonoBehaviour
         {
             string json = File.ReadAllText(filePath);
             npcData = JsonUtility.FromJson<NPCData>(json);
-            Debug.Log("µ¥ÀÌÅÍ ·Îµå");
+            Debug.Log("ë°ì´í„° ë¡œë“œ");
         }
 
         isWin = npcData.isFin;
         _enterFight = npcData.enterFight;
     }
     #endregion
+
+    public IEnumerator ContentTextWriter(string origintext)
+    {
+        // ì´ë¯¸ ì½”ë£¨í‹´ì´ ì‹¤í–‰ ì¤‘ì´ë¼ë©´ ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
+        if (isContentTextWriting)
+        {
+            yield break;
+        }
+
+        isContentTextWriting = true;
+        battleUI.contentText.text = "";
+
+        for (int i = 0; i < origintext.Length; i++)
+        {
+            battleUI.contentText.text += origintext[i];
+            yield return new WaitForSeconds(0.03f);
+        }
+
+        isContentTextWriting = false;
+    }
 }

@@ -31,112 +31,156 @@ public class Player : MonoBehaviour
         battleUI = FindObjectOfType<BattleUI>();
         enemy = FindObjectOfType<Enemy>();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     #endregion
 
-    public void SetPlayerHp()
+    #region Set & Update
+    public void SetPlayer() //사실상 SetPlayerHP임
     {
-        playerHp = playerMaxHp; // Hp 초기화; 재진입 구현 시 수정
+        playerHp = playerMaxHp; //Hp 초기화; 재진입 구현 시 수정
     }
 
-    public void UpdatePlayerHp() //매 턴마다 실행
+    public void UpdatePlayer() //UpdatePlayerHp(), 매 턴마다 실행
     {
         playerHpBar.value = (float)playerHp / playerMaxHp;
     }
+    #endregion
 
+    #region PlayerTurn Control
     public void PlayerTurnStart()
     {
         Debug.Log("PlayerTurnStart() 실행");
+
+        //UI
         StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
         battleUI.dialogueButtons.gameObject.SetActive(true);
+
+        //State
+        battleManager.isStatePLAYERTURN = true;
     }
-
-    public void AttackButton()
+    public void PlayerTurnAttack()
     {
-        //Debugging, 삭졔
-        if (battleManager == null)
-        {
-            Debug.LogError("BattleManager is not assigned.");
-            return;
-        }
+        //State
+        battleManager.isStatePLAYERTURN_ATTACK = true;
 
-        if (enemy == null)
-        {
-            Debug.LogError("Enemy is not assigned.");
-            return;
-        }
-
-        if (enemy.parts == null || enemy.parts.Count == 0)
-        {
-            Debug.LogError("Enemy parts list is not initialized or empty.");
-            return;
-        }
-
-        if (enemy.isDestroyed == null || enemy.isDestroyed.Count != enemy.parts.Count)
-        {
-            Debug.LogError("Enemy isDestroyed list is not initialized or mismatched with parts.");
-            return;
-        }
-
-
-        battleUI.dialogueButtons.gameObject.SetActive(false);
-
-        battleManager.state = BattleManager.State.PLAYERTURN_ATTACK;
-    }
-
-    public void SelectAttackPart()
-    {
-        battleManager.isPlayerAttacking = true;
-
+        //UI
         battleUI.contentText.text = "공격 부위 선택";
 
         //battleUI.currentPartButtonIndex = 0; //초기화
         battleUI.UpdatePartButtons();
         battleUI.partButtons.SetActive(true);
 
-        battleManager.isPartSelecting = true;
+        //Next Statee
+        battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = true;
     }
 
-    public void InventoryButton()
+    public IEnumerator PlayerAttack(Part part)
     {
+        Debug.Log($"PlayerAttack({part}) 실행"); //Delete
+
+        //UI
+        battleUI.contentText.text = "";
+        battleUI.partButtons.SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (isConfused) //혼란 시 공격 대사
+        {
+            StartCoroutine(battleManager.ContentTextWriter("당신은 순간 혼란에 빠져 스스로를 공격합니다."));
+        }
+        else //일반 공격 대사
+        {
+            StartCoroutine(battleManager.ContentTextWriter($"{enemy.ReplaceEnemyText(enemy.name)}의 {enemy.ReplacePartText(part.name)}{battleUI.KorParticle(enemy.ReplacePartText(part.name), "을", "를")} 공격합니다."));
+        }
+
+        //SFXs
+        battleManager.battleAudioSource.Stop();
+        battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
+        battleManager.battleAudioSource.time = 0;
+        battleManager.battleAudioSource.Play();
+
+        //Attack
+        battleManager.Damage("enemy", attackDamage, part); //attackDamage만큼 partHp 차감
+
+        yield return new WaitForSeconds(1.5f);
+        PlayerTurnEnd();
+    }
+
+    void PlayerTurnEnd()
+    {
+        Debug.Log("PlayerTurnEnd() 실행");
+
+        //초기화
+        isConfused = false;
+
+        if (enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, enemy.mainPart)]) //WIN
+        {
+            battleManager.state = BattleManager.State.WIN;
+        }
+        else if (playerHp <= 0) //LOSE
+        {
+            battleManager.state = BattleManager.State.LOSE;
+        }
+        else //Next
+        {
+            battleManager.state = BattleManager.State.ENEMYTURN;
+        }
+
+        //초기화
+        battleManager.isStatePLAYERTURN = false;
+        battleManager.isStatePLAYERTURN_ATTACK = false;
+    }
+    #endregion
+
+    #region Select Control
+    public void SelectAttack()
+    {   
+        //UI
+        battleUI.dialogueButtons.gameObject.SetActive(false);
+
+        //State
+        battleManager.state = BattleManager.State.PLAYERTURN_ATTACK;
+    }
+
+    public void SelectInventory()
+    {
+        ////State
         //battleManager.state = BattleManager.State.PLAYERTURN_INVENTORY;
 
         //구현예정
     }
 
-    public void RunButton()
+    public void SelectRun()
     {
+        //State
         battleManager.state = BattleManager.State.PLAYERTURN_RUN;
     }
-    
-    public void Run()
+
+    #endregion
+
+    public IEnumerator Run()
     {
-        battleManager.isPlayerRunning = true;
+        //State
+        battleManager.isStatePLAYERTURN_RUN = true;
 
         if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, "Body")]) //멜포메네
         {
             enemy.Melpomene_Redemption();
 
-            Invoke("ToStateEnemyTurn", 2);
+            //Next State
+            yield return new WaitForSeconds(2);
+            battleManager.state = BattleManager.State.ENEMYTURN;
 
-            battleManager.isPlayerTurnStarted = false;
+            battleManager.isStatePLAYERTURN = false;
         }
         else
         {
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-            battleUI.contentText.text = "";
 
+            //UI
+            battleUI.contentText.text = "";
+            battleUI.dialoguePanel.SetActive(false);
+
+            //SFX
             battleManager.PlaySFX(battleManager.playerRunSFX);
             ////이것만 소리 안 나서 그냥 냅다 실행하기
             //battleManager.battleAudioSource.Stop();
@@ -144,50 +188,9 @@ public class Player : MonoBehaviour
             //battleManager.battleAudioSource.time = 0;
             //battleManager.battleAudioSource.Play();
 
-            battleManager.Invoke("ExitBattleScene", 3);
+            //Next
+            yield return new WaitForSeconds(3);
+            battleManager.ExitBattleScene();
         }
-    }
-
-    public void ToStateEnemyTurn()
-    {
-        battleManager.state = BattleManager.State.ENEMYTURN;
-    }
-
-
-    public void PlayerAttack(Part part)
-    {
-        Debug.Log("PlayerAttack(enemy, part) 실행");
-
-        battleUI.partButtons.SetActive(false);
-        battleUI.contentText.text = $"{enemy.ReplacePartText(part.name)}을/를 공격했다.";
-
-        battleManager.battleAudioSource.Stop();
-        battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
-        battleManager.battleAudioSource.time = 0;
-        battleManager.battleAudioSource.Play();
-
-        battleManager.Damage("enemy", attackDamage, part); //attackDamage만큼 partHp 차감
-
-        //PlayerTurnEnd();
-        Invoke("PlayerTurnEnd", 1);
-    }
-
-    void PlayerTurnEnd()
-    {
-        Debug.Log("PlayerTurnEnd() 실행");
-
-        isConfused = false;
-
-        if (enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, enemy.mainPart)]) //공략 부위 파괴
-        {
-            battleManager.state = BattleManager.State.WIN;
-        }
-        else
-        {
-            battleManager.state = BattleManager.State.ENEMYTURN;
-        }
-
-        battleManager.isPlayerTurnStarted = false;
-        battleManager.isPlayerAttacking = false;
-    }
+    }    
 }
