@@ -75,13 +75,31 @@ public class BattleManager : MonoBehaviour
         part = FindObjectOfType<Part>();
 
         //Enemy setting
+        //임시 Random 구현
+        int r = Random.Range(0, 3);
+        if (r == 0)
+        {
+            Aphrodite.SetActive(true);
+            enemy = Aphrodite.GetComponent<Enemy>();
+        }
+        else if (r == 1)
+        {
+            ReadingChild.SetActive(true);
+            enemy = ReadingChild.GetComponent<Enemy>();
+        }
+        else //(r == 2)
+        {
+            Melpomene.SetActive(true);
+            enemy = Melpomene.GetComponent<Enemy>();
+        }
+        
         //if문 돌려서 알맞은 적 SetActive(true);
         //Aphrodite.SetActive(true);
         //enemy = Aphrodite.GetComponent<Enemy>();
         //ReadingChild.SetActive(true);
         //enemy = ReadingChild.GetComponent<Enemy>();
-        Melpomene.SetActive(true);
-        enemy = Melpomene.GetComponent<Enemy>();
+        //Melpomene.SetActive(true);
+        //enemy = Melpomene.GetComponent<Enemy>();
         Debug.Log($"Enemy set to: {enemy}"); //Delete
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
