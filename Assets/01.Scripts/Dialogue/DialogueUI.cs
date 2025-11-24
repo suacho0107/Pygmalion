@@ -176,7 +176,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                     Debug.Log("currentselecbuttonindex: " + currentSelectButtonIndex);
                     buttonIndexNPC = currentSelectButtonIndex;
                     Debug.Log("인덱스 전달");
-                    OnSelectButtonSelected(selectedIndex, actualSelectIndex);
+                    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
                 }
                 else if (string.IsNullOrWhiteSpace(moveNumString))
                 {
