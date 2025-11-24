@@ -7,6 +7,7 @@ using System.IO;
 public class MuseumGuard : StageNPC
 {
     public bool uncontacted = false;
+    bool currentNPC => dialogueManager != null && dialogueManager.CurrentNPC == this;
 
     protected override void Awake()
     {
@@ -29,7 +30,7 @@ public class MuseumGuard : StageNPC
             }
 
             //Debug.Log("linecount: " + dialogueManager.LineCount());
-
+            
             // 주인공 알아차리는 대사 전 뒤돌아있기
             if (InventoryUI.instance.HasItem(10401))
             {
@@ -61,8 +62,8 @@ public class MuseumGuard : StageNPC
                         if (InventoryUI.instance.HasItem(10401)) // 최초 상호작용, 퀘스트 시작 전 아이템 소지
                         {
                             ChangeDialogueFile(3);
-
-                            if (dialogueManager.isEnd) // isEnd는 Message와 관련 없음 --> DialogueTrue, MessageTrue 확인 필요 없음
+                            // Statue isEnd랑 간섭 문제 발생
+                            if (dialogueManager.isEnd && currentNPC)
                             {
                                 questEnd = true;
                                 InventoryUI.instance.GetAnItem(10402);
@@ -73,10 +74,12 @@ public class MuseumGuard : StageNPC
                         }
                         else // 최초 상호작용, 퀘스트 시작 전 아이템 미소지
                         {
-                            if (dialogueUI.currentSelectButtonIndex == 1) // 퀘스트 수락
+                            if (dialogueUI.buttonIndexNPC == 2) // 퀘스트 수락
                             {
-                                if (dialogueManager.isEnd)
+                                //Debug.Log("최초 상호작용, 퀘스트 시작 전 아이템 미소지, 퀘스트 수락");
+                                if (dialogueManager.isEnd && currentNPC)
                                 {
+                                    //Debug.Log("퀘스트 수락, isEnd");
                                     questStart = true;
                                     if (InventoryUI.instance.HasItem(10401)) ChangeDialogueFile(1);
                                     else ChangeDialogueFile(2);
@@ -86,7 +89,7 @@ public class MuseumGuard : StageNPC
                             }
                             else // 퀘스트 거절
                             {
-                                if (dialogueManager.isEnd)
+                                if (dialogueManager.isEnd && currentNPC)
                                 {
                                     questStart = false;
                                     ChangeDialogueFile(4);
@@ -101,7 +104,7 @@ public class MuseumGuard : StageNPC
                     else if (InventoryUI.instance.HasItem(10401)) // 최초 상호작용 후, 퀘스트 시작 전 템 소지
                     {
                         ChangeDialogueFile(3);
-                        if (dialogueManager.isEnd)
+                        if (dialogueManager.isEnd && currentNPC)
                         {
                             questEnd = true;
                             InventoryUI.instance.GetAnItem(10402);
@@ -114,13 +117,13 @@ public class MuseumGuard : StageNPC
                     {
                         ChangeDialogueFile(4);
 
-                        if (dialogueManager.isEnd) // 이거 왜 넣은 거지: 아마 다른 맵 넘어가기 전에 변수 상태 저장하려고
+                        if (dialogueManager.isEnd && currentNPC) // 이거 왜 넣은 거지: 아마 다른 맵 넘어가기 전에 변수 상태 저장하려고
                         {
                             SaveMGuardData();
                             dialogueManager.isEnd = false;
                         }
 
-                        if (dialogueUI.currentSelectButtonIndex == 1) // 퀘스트 수락
+                        if (dialogueUI.buttonIndexNPC == 2) // 퀘스트 수락
                         {
                             questStart = true;
                             SaveMGuardData();
@@ -135,7 +138,7 @@ public class MuseumGuard : StageNPC
                     if (InventoryUI.instance.HasItem(10401)) // 퀘스트 시작, 아이템 소지
                     {
                         ChangeDialogueFile(1);
-                        if (dialogueManager.isEnd)
+                        if (dialogueManager.isEnd && currentNPC)
                         {
                             questEnd = true;
                             InventoryUI.instance.GetAnItem(10402);
@@ -147,7 +150,7 @@ public class MuseumGuard : StageNPC
                     else // 퀘스트 시작, 아이템 미소지
                     {
                         ChangeDialogueFile(2);
-                        if (dialogueManager.isEnd)
+                        if (dialogueManager.isEnd && currentNPC)
                         {
                             SaveMGuardData();
                             dialogueManager.isEnd = false;
