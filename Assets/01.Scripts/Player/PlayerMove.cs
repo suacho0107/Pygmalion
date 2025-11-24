@@ -228,19 +228,19 @@ public class PlayerMove : MonoBehaviour
 
             if (hDown && h == -1)
             {
-                Debug.Log("Interaction A");
+                //Debug.Log("Interaction A");
             }
             else if (hDown && h == 1)
             {
-                Debug.Log("Interaction D");
+                //Debug.Log("Interaction D");
             }
             else if (vDown && v == -1)
             {
-                Debug.Log("Interaction S");
+                //Debug.Log("Interaction S");
             }
             else if (vDown && v == 1)
             {
-                Debug.Log("Interaction W");
+                //Debug.Log("Interaction W");
             }
 
             if (ActiveInteract == false)

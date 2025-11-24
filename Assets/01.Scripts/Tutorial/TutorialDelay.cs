@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TutorialDelay : TutorialBase
 {
+    [SerializeField] float fDelayTime = 0.5f;
+
     private bool isTrigger = false;
 
     public override void Enter()
     {
+        //Debug.Log("Enter: TutorialDelay");
     }
 
     public override void Execute(TutorialController controller)
@@ -21,7 +24,7 @@ public class TutorialDelay : TutorialBase
 
     IEnumerator DelayNext(TutorialController controller)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(fDelayTime);
         controller.SetNextTutorial();
     }
 

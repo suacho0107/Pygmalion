@@ -3870,7 +3870,9 @@ GameObject:
   - component: {fileID: 8112204798442801191}
   - component: {fileID: 8112204798442801190}
   - component: {fileID: 8112204798442801189}
-  m_Layer: 0
+  - component: {fileID: 8112204798442801199}
+  - component: {fileID: 8112204798442801198}
+  m_Layer: 6
   m_Name: "5\uCE78\uCC45\uC0C1(\uAC00\uB85C)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4023,6 +4025,75 @@ Transform:
   m_Father: {fileID: 2052127906}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8112204798442801198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112204798442801188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &8112204798442801199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112204798442801188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 8112204798442801198}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    test1: 0
+    enterFight: 0
+    test3: 0
+    test4: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: Stage2_1F_BigRoom_dialogue
+  selectFileName: 
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &8112204799338398005
 GameObject:
   m_ObjectHideFlags: 0
@@ -4033,7 +4104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8112204799338398007}
   - component: {fileID: 8112204799338398006}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "detect_5\uCE78\uCC45\uC0C1(\uAC00\uB85C) 1_0"
   m_TagString: Untagged
   m_Icon: {fileID: 0}

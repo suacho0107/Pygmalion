@@ -11,7 +11,7 @@ public class CompanyOfficeCSV : MonoBehaviour
     {
         if (npcs.Length > 0)
         {
-            if (SceneManager.GetActiveScene().name == "Company_Lobby")
+            if (SceneManager.GetActiveScene().name == "Company_Lobby-1")
             {
                 npcs[0].dialogueFiles = new string[] { "Office-2-2_dialogue" };
                 npcs[0].selectFiles = new string[] { "" };
@@ -19,7 +19,7 @@ public class CompanyOfficeCSV : MonoBehaviour
                 npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                 npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
             }
-            else if (SceneManager.GetActiveScene().name == "Company_Office")
+            else if (SceneManager.GetActiveScene().name == "Company_Office-1")
             {
                 npcs[0].dialogueFiles = new string[] { "request1_dialogue" };
                 npcs[0].selectFiles = new string[] { "" };

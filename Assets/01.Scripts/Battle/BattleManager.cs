@@ -33,21 +33,21 @@ public class BattleManager : MonoBehaviour
     public AudioClip playerLoseSFX;
     public AudioClip playerRunSFX;
 
-    public string currentPart; //Select ½Ã partText
+    public string currentPart; //Select ì‹œ partText
 
     public bool isWin;
     bool _enterFight;
     string filePath;
 
     [Header("Controls")]
-    public bool isStatePLAYERTURN = false; //State PLAYERTURNµ¿¾È true
-    public bool isStatePLAYERTURN_ATTACK = false; //State PLAYERTURN_ATTACKµ¿¾È true
-    public bool isStatePLAYERTURN_ATTACK_PartSelecting = false; //PLAYERTURN_ATTACK¿¡¼­ °ø°İÇÒ Part ¼±ÅÃ ½Ã
-    public bool isStatePLAYERTURN_RUN = false; //State PLAYERTURN_RUNµ¿¾È true
-    public bool isStateENEMYTURN = false; //State ENEMYTURMµ¿¾È true
-    private bool isStateEND = false; //State WIN, LOSE½Ã true
+    public bool isStatePLAYERTURN = false; //State PLAYERTURNë™ì•ˆ true
+    public bool isStatePLAYERTURN_ATTACK = false; //State PLAYERTURN_ATTACKë™ì•ˆ true
+    public bool isStatePLAYERTURN_ATTACK_PartSelecting = false; //PLAYERTURN_ATTACKì—ì„œ ê³µê²©í•  Part ì„ íƒ ì‹œ
+    public bool isStatePLAYERTURN_RUN = false; //State PLAYERTURN_RUNë™ì•ˆ true
+    public bool isStateENEMYTURN = false; //State ENEMYTURMë™ì•ˆ true
+    private bool isStateEND = false; //State WIN, LOSEì‹œ true
 
-    public bool isContentTextWriting = false; //ContentTextWrite Áßº¹ ½ÇÇà ¹æÁö
+    public bool isContentTextWriting = false; //ContentTextWrite ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
     private bool isSFXPlaying = false;
     #endregion
 
@@ -58,7 +58,7 @@ public class BattleManager : MonoBehaviour
     {
         PLAYERTURN_START,
         PLAYERTURN_ATTACK,
-        //PLAYERTURN_INVENTORY, //¹Ì»ç¿ë, Inventory Ãß°¡ ½Ã »ç¿ë ¿¹Á¤
+        //PLAYERTURN_INVENTORY, //ë¯¸ì‚¬ìš©, Inventory ì¶”ê°€ ì‹œ ì‚¬ìš© ì˜ˆì •
         PLAYERTURN_RUN,
         ENEMYTURN,
         WIN,
@@ -75,7 +75,7 @@ public class BattleManager : MonoBehaviour
         part = FindObjectOfType<Part>();
 
         //Enemy setting
-        //ÀÓ½Ã Random ±¸Çö
+        //ì„ì‹œ Random êµ¬í˜„
         int r = Random.Range(0, 3);
         if (r == 0)
         {
@@ -93,7 +93,7 @@ public class BattleManager : MonoBehaviour
             enemy = Melpomene.GetComponent<Enemy>();
         }
         
-        //if¹® µ¹·Á¼­ ¾Ë¸ÂÀº Àû SetActive(true);
+        //ifë¬¸ ëŒë ¤ì„œ ì•Œë§ì€ ì  SetActive(true);
         //Aphrodite.SetActive(true);
         //enemy = Aphrodite.GetComponent<Enemy>();
         //ReadingChild.SetActive(true);
@@ -108,11 +108,11 @@ public class BattleManager : MonoBehaviour
     
     void Start()
     {
-        //Set, ÃÖÃÊ 1È¸¸¸ ½ÇÇà
+        //Set, ìµœì´ˆ 1íšŒë§Œ ì‹¤í–‰
         player.SetPlayer();
         enemy.SetEnemy();
 
-        //Update, ¸Å ÅÏ¸¶´Ù ½ÇÇà
+        //Update, ë§¤ í„´ë§ˆë‹¤ ì‹¤í–‰
         player.UpdatePlayer();
         enemy.UpdateEnemy();
 
@@ -134,7 +134,7 @@ public class BattleManager : MonoBehaviour
                 if (!isStatePLAYERTURN)
                 {
                     player.PlayerTurnStart();
-                    //isStatePLAYERTURN = true; //player.PlayerTurnStart() ³»ºÎ·Î ÀÌµ¿, ¹®Á¦ ¹ß»ı ½Ã ·Ñ¹é
+                    //isStatePLAYERTURN = true; //player.PlayerTurnStart() ë‚´ë¶€ë¡œ ì´ë™, ë¬¸ì œ ë°œìƒ ì‹œ ë¡¤ë°±
                 }
                 break;
 
@@ -148,7 +148,7 @@ public class BattleManager : MonoBehaviour
             case State.PLAYERTURN_RUN:
                 if (!isStatePLAYERTURN_RUN)
                 {
-                    PlayerRun(); //SaveRunÀ¸·Î ÇÔ¼ö¸í º¯°æÇØ¼­ player.Run ¾È¿¡ ³ÖÀ» ¼ö ÀÖ³ª¿ä?
+                    PlayerRun(); //SaveRunìœ¼ë¡œ í•¨ìˆ˜ëª… ë³€ê²½í•´ì„œ player.Run ì•ˆì— ë„£ì„ ìˆ˜ ìˆë‚˜ìš”?
                     player.Run();
                     StartCoroutine(player.Run());
                 }
@@ -158,7 +158,7 @@ public class BattleManager : MonoBehaviour
             case State.ENEMYTURN:
                 if (!isStateENEMYTURN)
                 {
-                    StartCoroutine(enemy.EnemyTurnStart()); //CoroutineÈ­ ÇßÀ½
+                    StartCoroutine(enemy.EnemyTurnStart()); //Coroutineí™” í–ˆìŒ
                     //isStateENEMYTURN = true;
                 }
                 break;
@@ -213,7 +213,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void PlayerRun() // Ãß°¡ ÄÚµå
+    void PlayerRun() // ì¶”ê°€ ì½”ë“œ
     {
         isWin = false;
         _enterFight = false;
@@ -226,7 +226,7 @@ public class BattleManager : MonoBehaviour
     #region Battle End
     void Win()
     {
-        Debug.Log("PlayerWin() ½ÇÇà");
+        Debug.Log("PlayerWin() ì‹¤í–‰");
         //UI
         battleUI.dialoguePanel.SetActive(false);
 
@@ -238,17 +238,17 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerWin", 1);
         PlayerPrefs.Save();
 
-        //Invoke("ExitBattleScene", 1); //ÀÌ°Å ±â´Ù¸®Áö ¸»¾Æ¾ß ÇÒ °Í °°Àºµ¥?
-        ExitBattleScene(); //¹®Á¦ »ı±â¸é ·Ñ¹é
+        //Invoke("ExitBattleScene", 1); //ì´ê±° ê¸°ë‹¤ë¦¬ì§€ ë§ì•„ì•¼ í•  ê²ƒ ê°™ì€ë°?
+        ExitBattleScene(); //ë¬¸ì œ ìƒê¸°ë©´ ë¡¤ë°±
     }
 
     void Lose()
     {
-        Debug.Log("PlayerLose() ½ÇÇà");
+        Debug.Log("PlayerLose() ì‹¤í–‰");
 
-        StartCoroutine(ContentTextWriter("´«¾ÕÀÌ Èå·ÁÁø´Ù...")); //ÀÌ°Å ¾È ¶ß°í ¹Ù·Î blackBoardÀÎµ¥? CoroutineÈ­ ÇØ¾ß ÇÏ³ª?
-        battleUI.blackBoard.SetActive(true); //ÀÌ°É Àú°Å·Î ÇØ¾ß ÇÏ³× ¼­¼­È÷ µé¾î¿À°Ô ¹¹¶ó ÇÏ´õ¶ó ¾Æ ÆäÀÌµå ÀÎ
-        //±¸Çö¿¹Á¤
+        StartCoroutine(ContentTextWriter("ëˆˆì•ì´ íë ¤ì§„ë‹¤...")); //ì´ê±° ì•ˆ ëœ¨ê³  ë°”ë¡œ blackBoardì¸ë°? Coroutineí™” í•´ì•¼ í•˜ë‚˜?
+        battleUI.blackBoard.SetActive(true); //ì´ê±¸ ì €ê±°ë¡œ í•´ì•¼ í•˜ë„¤ ì„œì„œíˆ ë“¤ì–´ì˜¤ê²Œ ë­ë¼ í•˜ë”ë¼ ì•„ í˜ì´ë“œ ì¸
+        //êµ¬í˜„ì˜ˆì •
 
         isWin = false;
         _enterFight = false;
@@ -257,16 +257,16 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
-        Invoke("ExitBattleScene", 2); //ÇÔ¼ö Lose() CoroutineÈ­ ¿¹Á¤
+        Invoke("ExitBattleScene", 2); //í•¨ìˆ˜ Lose() Coroutineí™” ì˜ˆì •
     }
 
-    public void ExitBattleScene() //Áö±İ Aphrodite·Î ÁøÇàÇÏ°Ô µÇ¾î ÀÖÀ½
+    public void ExitBattleScene() //ì§€ê¸ˆ Aphroditeë¡œ ì§„í–‰í•˜ê²Œ ë˜ì–´ ìˆìŒ
     {
-        if (state == State.WIN) //½Â¸® ½Ã
+        if (state == State.WIN) //ìŠ¹ë¦¬ ì‹œ
         {
             SceneManager.LoadScene("Museum_ExhibitionRoom2");
         }
-        else if (state == State.LOSE || state == State.PLAYERTURN_RUN) //ÆĞ¹è||µµ¸Á ½Ã
+        else if (state == State.LOSE || state == State.PLAYERTURN_RUN) //íŒ¨ë°°||ë„ë§ ì‹œ
         {
             SceneManager.LoadScene("Museum_Lobby");
         }
@@ -280,7 +280,7 @@ public class BattleManager : MonoBehaviour
     #region SFX
     public void PlaySFX(AudioClip audioClip)
     {
-        Debug.Log("PlayerSFX ½ÇÇà");
+        Debug.Log("PlayerSFX ì‹¤í–‰");
 
         if (isSFXPlaying)
         {
@@ -312,7 +312,7 @@ public class BattleManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
-        Debug.Log("µ¥ÀÌÅÍ ÀúÀå");
+        Debug.Log("ë°ì´í„° ì €ì¥");
     }
 
     public void LoadFightData()
@@ -321,7 +321,7 @@ public class BattleManager : MonoBehaviour
         {
             string json = File.ReadAllText(filePath);
             npcData = JsonUtility.FromJson<NPCData>(json);
-            Debug.Log("µ¥ÀÌÅÍ ·Îµå");
+            Debug.Log("ë°ì´í„° ë¡œë“œ");
         }
 
         isWin = npcData.isFin;
@@ -331,7 +331,7 @@ public class BattleManager : MonoBehaviour
 
     public IEnumerator ContentTextWriter(string origintext)
     {
-        // ÀÌ¹Ì ÄÚ·çÆ¾ÀÌ ½ÇÇà ÁßÀÌ¶ó¸é Áßº¹ ½ÇÇà ¹æÁö
+        // ì´ë¯¸ ì½”ë£¨í‹´ì´ ì‹¤í–‰ ì¤‘ì´ë¼ë©´ ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
         if (isContentTextWriting)
         {
             yield break;

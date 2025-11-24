@@ -5,14 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class TutorialController : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerPosition      playerPosition;
-    [SerializeField]
-    private Vector3             nextPos;
-    [SerializeField]
-    private List<TutorialBase>  tutorials;
-    [SerializeField]
-    private string              nextSceneName = "";
+    [SerializeField] PlayerPosition      playerPosition;
+    [SerializeField] Vector3             nextPos;
+    [SerializeField] List<TutorialBase>  tutorials;
+    [SerializeField] string              nextSceneName = "";
 
     private TutorialBase        currentTutorial = null;
     private int                 currentIndex = -1;
@@ -60,9 +56,6 @@ public class TutorialController : MonoBehaviour
     public void CompletedAllTutorials()
     {
         currentTutorial = null;
-
-        // 행동 양식이 여러 종류가 되었을 때 코드 추가 작성
-        // 현재는 씬 전환
 
         //Debug.Log("Complete All");
 

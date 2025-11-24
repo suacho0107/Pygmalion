@@ -24,6 +24,7 @@ public class RequestNPC : NPC
     public Text         ProfileText => profileText;
 
     public CompanyOfficeCSV csv2;
+
     public bool isStartTutorial { get; private set; } = false;
     public bool isAcceptRequest = false;
     public bool canSend = false;

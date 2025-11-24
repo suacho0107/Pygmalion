@@ -52,16 +52,22 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
         if (dialogueUI.ItemImage != null)
         {
             dialogueUI.ItemImage.SetActive(false);
-        }
-
-        foreach (var image in dialogueUI.Images)
-        {
-            image.gameObject.SetActive(false);
         } 
 
         dialogueUI.dialoguePanel.SetActive(false);
         dialogueUI.namePanel.SetActive(false);
         dialogueUI.selectButtons.SetActive(false);
+
+        #region Image Popup
+        if (null != dialogueUI.Images)
+        {
+            foreach (var image in dialogueUI.Images)
+            {
+                image.gameObject.SetActive(false);
+            }
+        }
+
+        #endregion
     }
 
     void Update()
@@ -212,7 +218,9 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
             statue = null;
             Debug.LogError("SetNPC: NPC is null.");
         }
-    }    
+    }
+
+    public NPC CurrentNPC => npc;
 
     public bool DialogueTrue()
     {

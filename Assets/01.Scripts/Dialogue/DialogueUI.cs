@@ -47,6 +47,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     public bool isSelecting = false;
 
+    public int buttonIndexNPC = 0; // NPC 상호작용 시 버튼 인덱스 전달
+
     [Header("DialogueFlow Management")]
     public int lineCount = 0; //대화 카운트
     public int contextCount = 0; //대사 카운트
@@ -171,8 +173,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
                 if (int.TryParse(moveNumString, out int selectedIndex))
                 {
+                    Debug.Log("currentselecbuttonindex: " + currentSelectButtonIndex);
+                    buttonIndexNPC = currentSelectButtonIndex;
                     Debug.Log("인덱스 전달");
-                    OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
+                    OnSelectButtonSelected(selectedIndex, actualSelectIndex);
                 }
                 else if (string.IsNullOrWhiteSpace(moveNumString))
                 {
@@ -213,6 +217,11 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     public void OnSelectButtonSelected(int selectedIndex, int _currentSelectButtonIndex) //판별 매개변수 추가(currentIndex)
     {
+        if(npc is StageNPC selectedStageNPC)
+        {
+            
+        }
+
         if (npc is Statue selectedStatue)
         {
             if (!selectedStatue.isChecked) //첫 번째 상호작용(조사): 선지 2개 출력
@@ -311,23 +320,22 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         descriptionText.text = "";
         nameText.text = "";
 
-
-        if (!string.IsNullOrEmpty(explainNum)) //explainNum 있으면
+        //explainNum 있으면
+        if (!string.IsNullOrEmpty(explainNum))
         {
-            // imageImage를 보관 중인 자료구조에 explainNum 변수를 인덱스로 사용해 이미지 할당 후 활성화.
-            if (npc is Statue selectedStatue)
+            dialogueManager.isExplain = true;
+
+            #region Image Popup
+            if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
             {
-                if (!selectedStatue.isStatue && npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex)) // !npc.isStatue 조건 삭제, !statue.isStatue 추가
+                if (explainIndex >= 0 && explainIndex < Images.Count)
                 {
-                    if (explainIndex >= 0 && explainIndex < Images.Count)
-                    {
-                        Images[explainIndex - 1].SetActive(true);
-                        dialogueManager.isPopup = true;
-                    }
+                    Debug.Log($"explainIndex : {explainIndex}");
+                    Images[explainIndex - 1].SetActive(true);
+                    dialogueManager.isPopup = true;
                 }
             }
-
-            dialogueManager.isExplain = true;
+            #endregion
 
             int explainLine;
             if (int.TryParse(explainNum, out explainLine))
@@ -387,9 +395,10 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
-            else if (npc.dialogueFileName == "Check3_dialogue")
+            else if (selectedNPC.dialogueFileName == "Check3_dialogue")
             {
-                Invoke("SetUIStateEnd", 1.5f);
+                //Invoke("Set_UIStateEnd", 1.5f);
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
             }
         }
 
@@ -397,12 +406,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             selectedStatue.isInteract = true;
             selectedStatue.CheckResult();
-
-            ////판별 결과 UI 출력
-            //if (npc.dialogueFileName == "Check3_dialogue")
-            //{
-            //    Invoke("SetUIStateEnd", 1.5f);
-            //}
         }
 
         dialogueManager.SaveData();
@@ -415,11 +418,12 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             ItemImage.SetActive(false);
         }
 
-        //모든 이미지 비활성화
+        #region Image Popup
         foreach (var image in Images)
         {
             image.SetActive(false);
         }
+        #endregion
 
         foreach (var portrait in Portraits)
         {
@@ -557,13 +561,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         selectButtons.SetActive(false);
 
         //SaveData();
-    }
-    #endregion
-
-    #region UI State Management
-    void SetUIStateEnd()
-    {
-        UIManager.u_instance.SetUIState(Define.UI.UIState.End);
     }
     #endregion
 

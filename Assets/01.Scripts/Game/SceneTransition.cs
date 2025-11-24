@@ -5,15 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneTransition : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerPosition playerPos;
-    [SerializeField]
-    private Vector3 nextPos;
+    [SerializeField] PlayerPosition playerPos;
+    [SerializeField] Vector3 nextPos;
 
-    [SerializeField]
-    private SceneData sceneData;
-    [SerializeField]
-    private string nextScene;
+    [SerializeField] SceneData sceneData;
+    [SerializeField] string nextScene;
 
     public StageNPC stageNpc; // StageNPC 직접 할당
     public NPC npc; // NPC
@@ -176,8 +172,25 @@ public class SceneTransition : MonoBehaviour
             }
             if (UIManager.u_instance != null)
             {
-                UIManager.u_instance.SetUIState(Define.UI.UIState.Work);    // 임시
-                //UIManager.u_instance.SetUIState(Define.UI.UIState.End);
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);    // 임시
+
+                if (sceneName == "Museum_Lobby")
+                    UIManager.u_instance.Set_StageState(Define.Stage.StageState.Museum);
+
+                else if (sceneName == "Library_1F")
+                    UIManager.u_instance.Set_StageState(Define.Stage.StageState.Library);
+
+                else if (sceneName == "Park")
+                    UIManager.u_instance.Set_StageState(Define.Stage.StageState.Park);
+
+                else if (sceneName == "CityHall_Lobby")
+                    UIManager.u_instance.Set_StageState(Define.Stage.StageState.CityHall);
+
+                else if (sceneName == "Broadcast_1F")
+                    UIManager.u_instance.Set_StageState(Define.Stage.StageState.BroadcastStation);
+
+                else if (sceneName == "Hospital_1F")
+                    UIManager.u_instance.Set_StageState(Define.Stage.StageState.Hospital);
             }
         }
     }
