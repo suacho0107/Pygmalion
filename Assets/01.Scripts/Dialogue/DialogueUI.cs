@@ -173,9 +173,9 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
                 if (int.TryParse(moveNumString, out int selectedIndex))
                 {
-                    Debug.Log("currentselecbuttonindex: " + currentSelectButtonIndex);
+                    //Debug.Log("currentselecbuttonindex: " + currentSelectButtonIndex);
                     buttonIndexNPC = currentSelectButtonIndex;
-                    Debug.Log("인덱스 전달");
+                    //Debug.Log("인덱스 전달");
                     OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
                 }
                 else if (string.IsNullOrWhiteSpace(moveNumString))
@@ -480,7 +480,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Select UI
     public void SetSelectButtons()
     {
-        Debug.Log("SetSelectButtons() 실행"); //delete
+        //Debug.Log("SetSelectButtons() 실행"); //delete
 
         //중복추가 방지
         selectButtonList.Clear();
@@ -496,7 +496,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
             selectButton.SetActive(false);
 
-            Debug.Log($"selectButtonList[{i}] = {selectButton.name}"); //delete
+            //Debug.Log($"selectButtonList[{i}] = {selectButton.name}"); //delete
         }
 
         currentSelectButtonIndex = 0;
@@ -657,7 +657,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             yield break;
         }
 
-        Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");   
+        //Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");   
 
         //UI
         Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
@@ -687,14 +687,14 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
     IEnumerator WriteSelectOptions(Select select)
     {
-        Debug.Log($"WriteSelectOptions(Select {select}");
+        //Debug.Log($"WriteSelectOptions(Select {select}");
 
         SetSelectButtons();
 
         selectButtons.SetActive(true);
         HighlightSelectButton();
 
-        Debug.Log($"select.contexts.Length = {select.contexts.Length}");
+        //Debug.Log($"select.contexts.Length = {select.contexts.Length}");
 
         for (int i = 0; i < select.contexts.Length && i < 4; i++) // 최대 4개까지
         {

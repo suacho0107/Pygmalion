@@ -37,7 +37,7 @@ public class StageNPC : NPC
         #region Tutorial NPC
         if (sceneName.StartsWith("Museum_Lobby"))
         {
-            if (tutorial && csv != null)// 미술관장 tutorial V
+            if (tutorial && csv && statueScore != null)// 미술관장 tutorial V
             {
                 // 미술관장과의 첫 대화가 끝나면 isInteract == true;
                 if (isInteract)
@@ -90,7 +90,7 @@ public class StageNPC : NPC
         #region Library Guard
         else if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
-            if (isInteract)
+            if (isInteract && statueScore != null)
             {
                 ChangeDialogueFileName("Guard_Check0_dialogue");
 

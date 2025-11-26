@@ -80,7 +80,7 @@ public class InteractionEvent : MonoBehaviour
 
         select.selects = parsedSelects;
 
-        Debug.Log($"LoadSelect 성공: {_csvFileName}, 선택지 개수 = {parsedSelects.Length}");
+        //Debug.Log($"LoadSelect 성공: {_csvFileName}, 선택지 개수 = {parsedSelects.Length}");
     }
 
     public void AdvanceDialogue()
@@ -88,7 +88,7 @@ public class InteractionEvent : MonoBehaviour
         if (lineCount <= dialogues.Length)
         {
             lineCount++;
-            Debug.Log($"현재 대사 진행 상태: {lineCount} / {dialogues.Length}");
+            //Debug.Log($"현재 대사 진행 상태: {lineCount} / {dialogues.Length}");
         }
     }
 }
