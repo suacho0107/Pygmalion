@@ -53,6 +53,11 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     public int lineCount = 0; //대화 카운트
     public int contextCount = 0; //대사 카운트
 
+    [Header("Context Typing Control")]
+    public bool ignoreInputFrame = false;
+    public bool isContextTyping = false;
+    public bool skipContextTyping = false;
+
     [Header("DialoguePanel Sprites")]
     public Sprite DialoguePanel;
     public Sprite DescriptionPanel;
@@ -112,7 +117,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Select Navigation
     private void SelectButtonInputHandler()
     {
-        //상하 이동
+        #region 상하 이동
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             if (currentSelectButtonIndex == 2 || currentSelectButtonIndex == 3) //하단에서
@@ -133,8 +138,9 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
             }
         }
+        #endregion
 
-        //좌우 이동
+        #region 좌우 이동
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             if (currentSelectButtonIndex == 1 || currentSelectButtonIndex == 3) //우측에서
@@ -155,6 +161,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
             }
         }
+        #endregion
 
         //선택
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -289,7 +296,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             lineCount = targetLineCount; //lineCount 강제 변경
             contextCount = 0; //contextCount 초기화
             EndSelect(); //Select End하기
-            StartCoroutine(DialogueWriter()); //변경한 lineCount, contextCount로 DialogueWriter 실행
+            DialogueWriter(); //변경한 lineCount, contextCount로 DialogueWriter 실행
         }
         else if (selectedIndex == 0) //선지 선택 직후 대화 종료
         {
@@ -363,7 +370,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         {
             lineCount = 0;
         }
-        StartCoroutine(DialogueWriter()); //대화 시작
+        DialogueWriter(); //대화 시작
     }
 
     public void EndDialogue()
@@ -456,7 +463,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             namePanel.SetActive(false);
         }
 
-        StartCoroutine(MessageWriter());
+        MessageWriter();
     }
 
     public void EndMessage()
@@ -580,7 +587,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #endregion
 
     #region Coroutines
-    public IEnumerator DialogueWriter()
+    public void DialogueWriter()
     {
         Text contextText;
         Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
@@ -626,25 +633,45 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
 
         //context 출력
-        for (int i = 0; i < replaceText.Length; i++)
-        {
-            contextText.text += replaceText[i];
-            yield return new WaitForSeconds(0.03f);
-        }
+        StartCoroutine(ContextTyping(contextText, replaceText));
 
-        dialogueManager.isNext = true;
+        //dialogueManager.isNext = true;
     }
 
-    IEnumerator MessageWriter()
+    void MessageWriter()
     {
-        string replaceText = dialogueManager.message;
+        //string replaceText = dialogueManager.message;
 
         //context 출력
-        for (int i = 0; i < replaceText.Length; i++)
+        StartCoroutine(ContextTyping(dialogueText, dialogueManager.message));
+
+        //dialogueManager.isNext = true;
+    }
+
+    IEnumerator ContextTyping(Text text, string context)
+    {
+        ignoreInputFrame = true;
+        yield return null; // 1프레임 대기
+        ignoreInputFrame = false;
+
+        isContextTyping = true;
+        dialogueManager.isNext = false;
+
+        Debug.Log("Contexttyping 실행");
+
+        for (int i = 0; i < context.Length; i++)
         {
-            dialogueText.text += replaceText[i];
+            if (skipContextTyping)
+            {
+                text.text = context;
+                break;
+            }
+            text.text += context[i];
             yield return new WaitForSeconds(0.03f);
+
         }
+        isContextTyping = false;
+        skipContextTyping = false;
         dialogueManager.isNext = true;
     }
 
