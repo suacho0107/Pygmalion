@@ -4612,6 +4612,53 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1389102509187810832, guid: 77979822413c63647a08add78294fed6, type: 3}
   m_PrefabInstance: {fileID: 1354578917}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1226610657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1226610658}
+  - component: {fileID: 1226610659}
+  m_Layer: 0
+  m_Name: 04_TutorialFadeEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1226610658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226610657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 350357334640094983}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1226610659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226610657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06fe38d3fafb47242976b290a5425968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeEffect: {fileID: 1023839002}
+  isFadeIn: 0
+  isCompleted: 0
 --- !u!1 &1313623615
 GameObject:
   m_ObjectHideFlags: 0
@@ -7292,6 +7339,7 @@ MonoBehaviour:
   nextPos: {x: 0, y: 0, z: 0}
   tutorials:
   - {fileID: 350357335779942831}
+  - {fileID: 0}
   nextSceneName: 
 --- !u!1 &350357334640094981
 GameObject:
@@ -7325,6 +7373,7 @@ Transform:
   - {fileID: 350357335779942828}
   - {fileID: 350357335166171537}
   - {fileID: 350357334193672311}
+  - {fileID: 1226610658}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7471,7 +7520,7 @@ GameObject:
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &350357335166171565
 MonoBehaviour:
   m_ObjectHideFlags: 0

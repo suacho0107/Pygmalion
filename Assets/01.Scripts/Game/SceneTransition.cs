@@ -11,36 +11,32 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] SceneData sceneData;
     [SerializeField] string nextScene;
 
+    [SerializeField] TutorialFadeEffect fadeEffect;
+
     public StageNPC stageNpc; // StageNPC 직접 할당
     public NPC npc; // NPC
     bool enter = false;
-    //bool open = false;
-    
+
+    void LoadNextScene()
+    {
+        playerPos.nextPosition = nextPos;
+        playerPos.isChecked = true;
+
+        Set_UIStateWork(nextScene);
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
             if (stageNpc == null && npc == null) // 기본: 미술관장 등 NPC null
             {
-                // Scriptable Object에 nextPos 저장
                 playerPos.nextPosition = nextPos;
                 playerPos.isChecked = true;
 
-                // 방문 횟수 증가
-                int sceneIndex = GetSceneIndex(nextScene);
-                if (sceneIndex != -1)
-                {
-                    sceneData.scenes[sceneIndex].visitCount++;
-                    //Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
-                }
-                else
-                {
-                    //Debug.LogError("SceneData not found for scene: " + nextScene);
-                }
+                Set_UIStateWork(nextScene);
 
-            SetUIStateWork(nextScene);
-
-                SceneManager.LoadScene(nextScene);
+                LoadNextScene();
             }
             else if (stageNpc != null)
             {
@@ -76,6 +72,19 @@ public class SceneTransition : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        if (fadeEffect != null)
+        {
+            if (fadeEffect.isCompleted)
+            {
+                SceneManager.LoadScene(nextScene);
+            }
+        }
+        else
+            SceneManager.LoadScene(nextScene);
+    }
+
     private void OnTriggerExit2D(Collider2D col) // 트리거 초기화
     {
         if (col.CompareTag("Player"))
@@ -85,6 +94,11 @@ public class SceneTransition : MonoBehaviour
     }
 
     private void Update()
+    {
+        Update_Library();
+    }
+
+    void Update_Library()
     {
         if (npc != null && SceneManager.GetActiveScene().name == "Library_B1F") // 도서관 B1 열람실
         {
@@ -96,7 +110,6 @@ public class SceneTransition : MonoBehaviour
             {// 최초 상호작용 시 isInteract, 대사 출력
                 if (enter && Input.GetKeyDown(KeyCode.F) && !npc.isInteract)
                 {
-                    //Debug.Log("GetKeyDown");
                     npc.isInteract = true;
                 }
             }
@@ -109,7 +122,6 @@ public class SceneTransition : MonoBehaviour
                     DialogueManager dm = FindObjectOfType<DialogueManager>();
                     if (dm.isEnd)
                     {
-                        //Debug.Log("isInteract isEnd LoadScene");
                         LoadNextScene();
                     }
                 }
@@ -121,42 +133,7 @@ public class SceneTransition : MonoBehaviour
         }
     }
 
-    void LoadNextScene()
-    {
-        // Scriptable Object에 nextPos 저장
-        playerPos.nextPosition = nextPos;
-        playerPos.isChecked = true;
-
-        // 방문 횟수 증가
-        int sceneIndex = GetSceneIndex(nextScene);
-        if (sceneIndex != -1)
-        {
-            sceneData.scenes[sceneIndex].visitCount++;
-            //Debug.Log($"현재 씬: {nextScene} / 방문 횟수: {sceneData.scenes[sceneIndex].visitCount}");
-        }
-        else
-        {
-            //Debug.LogError("SceneData not found for scene: " + nextScene);
-        }
-
-        SetUIStateWork(nextScene);
-
-        SceneManager.LoadScene(nextScene);
-    }
-
-    private int GetSceneIndex(string sceneName)
-    {
-        for (int i = 0; i < sceneData.scenes.Length; i++)
-        {
-            if (sceneData.scenes[i].sceneName == sceneName)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private void SetUIStateWork(string sceneName)
+    private void Set_UIStateWork(string sceneName)
     {
         if (sceneName == "Museum_Lobby" || sceneName == "Library_1F" || sceneName == "Park" || 
             sceneName == "CityHall_Lobby" || sceneName == "Broadcast_1F" || sceneName == "Hospital_1F")
@@ -172,7 +149,7 @@ public class SceneTransition : MonoBehaviour
             }
             if (UIManager.u_instance != null)
             {
-                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);    // 임시
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
 
                 if (sceneName == "Museum_Lobby")
                     UIManager.u_instance.Set_StageState(Define.Stage.StageState.Museum);
@@ -193,5 +170,17 @@ public class SceneTransition : MonoBehaviour
                     UIManager.u_instance.Set_StageState(Define.Stage.StageState.Hospital);
             }
         }
+    }
+
+    private int GetSceneIndex(string sceneName)
+    {
+        for (int i = 0; i < sceneData.scenes.Length; i++)
+        {
+            if (sceneData.scenes[i].sceneName == sceneName)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }
