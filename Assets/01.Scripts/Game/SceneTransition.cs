@@ -95,7 +95,21 @@ public class SceneTransition : MonoBehaviour
 
     private void Update()
     {
+        //Check_FadeOut();
         Update_Library();
+    }
+
+    void Check_FadeOut()
+    {
+        if (fadeEffect != null)
+        {
+            if (fadeEffect.isCompleted)
+            {
+                SceneManager.LoadScene(nextScene);
+            }
+        }
+        else
+            SceneManager.LoadScene(nextScene);
     }
 
     void Update_Library()

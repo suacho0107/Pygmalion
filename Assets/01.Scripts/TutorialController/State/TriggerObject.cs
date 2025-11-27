@@ -35,7 +35,7 @@ public class TriggerObject : MonoBehaviour
 
     void Check_StateChange()
     {
-        if (object_npc.isTutoFin)
+        if (object_npc && object_npc.isTutoFin)
         {
             isNext = true;
         }
