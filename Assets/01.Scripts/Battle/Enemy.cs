@@ -99,7 +99,7 @@ public class Enemy : MonoBehaviour
         //공략 부위 설정
         if (enemyName == "Aphrodite")
         {
-            mainPart = "Body";
+            mainPart = "LArm";
         }
         else if (enemyName == "ReadingChild")
         {
