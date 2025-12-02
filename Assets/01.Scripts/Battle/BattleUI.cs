@@ -26,6 +26,10 @@ public class BattleUI : MonoBehaviour
     public GameObject partButtons;
     private List<GameObject> partButtonList = new List<GameObject>();
 
+    public GameObject pageArrows;
+    private Image prePageArrow;
+    private Image nextPageArrow;
+
     [Header("Button Sprites")]
     public Sprite ButtonDefault;
     public Sprite ButtonHighlighted;
@@ -47,6 +51,9 @@ public class BattleUI : MonoBehaviour
         battleManager = FindObjectOfType<BattleManager>();
         player = FindObjectOfType<Player>();
         enemy = FindObjectOfType<Enemy>();
+
+        prePageArrow = pageArrows.transform.Find("Image_PrePageArrow").GetComponent<Image>();
+        nextPageArrow = pageArrows.transform.Find("Image_NextPageArrow").GetComponent<Image>();
     }
 
     void Update()
@@ -226,6 +233,7 @@ public class BattleUI : MonoBehaviour
                 //초기화
                 currentPartPageIndex = 0;
                 currentPartButtonIndex = 0;
+                pageArrows.SetActive(false);
             }
         }
         Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
@@ -291,7 +299,7 @@ public class BattleUI : MonoBehaviour
         currentPartButtonIndex = 0;
     }
 
-    public void UpdatePartButtons()
+    public void UpdatePartButtons() //page 바뀔 때마다 실행
     {
         int startIndex = currentPartPageIndex * 4;
 
@@ -319,8 +327,35 @@ public class BattleUI : MonoBehaviour
                 partButton.SetActive(false);
             }
         }
-
         HighlightPartButton();
+        UpdatePartPageArrows();
+    }
+
+    private void UpdatePartPageArrows()
+    {
+        pageArrows.SetActive(true);
+
+        int totalPages = Mathf.CeilToInt((float)enemy.parts.Count / 4);
+
+        //prePageArrow
+        if (currentPartPageIndex > 0)
+        {
+            prePageArrow.gameObject.SetActive(true);
+        }
+        else
+        {
+            prePageArrow.gameObject.SetActive(false);
+        }
+
+        //nextPageArrow
+        if (currentPartPageIndex < totalPages - 1)
+        {
+            nextPageArrow.gameObject.SetActive(true);
+        }
+        else
+        {
+            nextPageArrow.gameObject.SetActive(false);
+        }
     }
 
     private void HighlightPartButton()

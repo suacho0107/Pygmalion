@@ -389,13 +389,13 @@ public class Enemy : MonoBehaviour
     #region Aphrodite Skills
     private void Aphrodite_Charm()
     {
-        StartCoroutine(battleManager.ContentTextWriter(" 조각상이 매혹적인 눈빛을 보내 당신을 완전히 매료시킵니다."));
+        StartCoroutine(battleManager.ContentTextWriter("조각상이 매혹적인 눈빛을 보내 당신을 완전히 매료시킵니다."));
 
         player.isCharmed = true;
     }
     private void Aphrodite_Dance()
     {
-        StartCoroutine(battleManager.ContentTextWriter(" 조각상이 황홀한 춤을 춰 당신을 크게 매료시킵니다.\n방어력이 감소합니다."));
+        StartCoroutine(battleManager.ContentTextWriter("조각상이 황홀한 춤을 춰 당신을 크게 매료시킵니다.\n방어력이 감소합니다."));
 
         if (increaseAttackPower != 1.2f)
         {
@@ -404,7 +404,7 @@ public class Enemy : MonoBehaviour
     }
     private void Aphrodite_Throw()
     {
-        StartCoroutine(battleManager.ContentTextWriter(" 조각상이 황금 사과를 던져 당신을 공격합니다."));
+        StartCoroutine(battleManager.ContentTextWriter("조각상이 황금 사과를 던져 당신을 공격합니다."));
 
         battleManager.battleAudioSource.Stop();
         battleManager.battleAudioSource.clip = battleManager.enemyAttackSFX;
