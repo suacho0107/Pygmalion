@@ -27,6 +27,10 @@ public class CompanyOfficeCSV : MonoBehaviour
                 npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                 npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
             }
+            else if(SceneManager.GetActiveScene().name == "Company_Lobby-")
+            {
+
+            }
         }
     }
 }
