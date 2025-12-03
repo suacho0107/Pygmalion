@@ -6,7 +6,8 @@ public class TriggerObject : MonoBehaviour
 {
     [SerializeField] GameObject targetObject;
 
-    StageNPC object_npc;
+    StageNPC    object_npc;
+    RequestNPC  object_request;
 
     bool isNext = false;
 
@@ -31,11 +32,20 @@ public class TriggerObject : MonoBehaviour
         {
             object_npc = npc;
         }
+        else if (targetObject.TryGetComponent(out RequestNPC request))
+        {
+            object_request = request;
+        }
     }
 
     void Check_StateChange()
     {
         if (object_npc && object_npc.isTutoFin)
+        {
+            isNext = true;
+        }
+        
+        if (object_request && object_request.canOff)
         {
             isNext = true;
         }

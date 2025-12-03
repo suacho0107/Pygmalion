@@ -408,6 +408,14 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             selectedStatue.CheckResult();
         }
 
+        if (npc is RequestNPC selectedRequestNPC)
+        {
+            if (selectedRequestNPC.dialogueFileName == "request1_dialogue")
+            {
+                selectedRequestNPC.RequestOff();
+            }
+        }
+
         dialogueManager.SaveData();
 
         dialoguePanel.SetActive(false);

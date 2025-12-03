@@ -13,7 +13,7 @@ public class TutorialTrigger : TutorialBase
 
     public override void Enter()
     {
-        Debug.Log("Enter: TutorialTrigger");
+        //Debug.Log("Enter: TutorialTrigger");
 
         playerMove = FindObjectOfType<PlayerMove>();
     }
@@ -36,7 +36,7 @@ public class TutorialTrigger : TutorialBase
 
     public override void Exit()
     {
-        Debug.Log("Exit: TutorialTrigger");
+        //Debug.Log("Exit: TutorialTrigger");
 
         foreach (GameObject obj in triggerObject)
         {
