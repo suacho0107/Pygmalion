@@ -36,8 +36,8 @@ public class BattleManager : MonoBehaviour
     public string currentPart; //Select 시 partText
 
     public bool isWin;
-    bool _enterFight;
-    string filePath;
+    private bool _enterFight;
+    private string filePath;
 
     [Header("Controls")]
     public bool isStatePLAYERTURN = false; //State PLAYERTURN동안 true
@@ -100,7 +100,7 @@ public class BattleManager : MonoBehaviour
         LoadFightData();
     }
     
-    void Start()
+    private void Start()
     {
         //Set, 최초 1회만 실행
         player.SetPlayer();
@@ -110,16 +110,19 @@ public class BattleManager : MonoBehaviour
         player.UpdatePlayer();
         enemy.UpdateEnemy();
 
-        //UI Setting
+        //UI, Buttons
         battleUI.SetDialogueButtons();
         battleUI.SetPartButtons();
-        battleUI.blackBoard.SetActive(false);
+
+        //Ui, BlackBoard
+        battleUI.blackBoard.SetActive(true);
+        StartCoroutine(battleUI.FadeInOut(true, 1f));
 
         state = State.PLAYERTURN_START;
         PlaySFX(battleStartSFX);
     }
 
-    void Update()
+    private void Update()
     {
         switch (state)
         {
@@ -161,23 +164,27 @@ public class BattleManager : MonoBehaviour
             case State.WIN:
                 if (!isStateEND)
                 {
-                    Win();
-                    PlaySFX(playerWinSFX);
+                    isStateEND = true;
+                    //Win();
+                    StartCoroutine(Win());
+                    //PlaySFX(playerWinSFX);
                 }
                 break;
 
             case State.LOSE:
                 if (!isStateEND)
                 {
-                    Lose();
-                    PlaySFX(playerLoseSFX);
+                    isStateEND = true;
+                    //Lose();
+                    StartCoroutine(Lose());
+                    //PlaySFX(playerLoseSFX);
                 }
                 break;
         }
     }
     #endregion
 
-    public void Damage(string _object, int _attackpower, Part part = null)
+    public void Damage(string _object, int _attackpower, Part _part = null)
     {
         if(player.isConfused)
         {
@@ -192,7 +199,7 @@ public class BattleManager : MonoBehaviour
             player.playerHp -= _attackpower;
             player.UpdatePlayer();
         }
-        else if (_object == "enemy" && part != null)
+        else if (_object == "enemy" && _part != null)
         {
             float attackpower = (float)_attackpower * enemy.increaseAttackPower;
 
@@ -202,12 +209,12 @@ public class BattleManager : MonoBehaviour
             }
 
             _attackpower = (int)attackpower;
-            part.partHp -= _attackpower;
+            _part.partHp -= _attackpower;
             enemy.UpdateEnemy();
         }
     }
 
-    void PlayerRun() // 추가 코드
+    private void PlayerRun() // 추가 코드
     {
         isWin = false;
         _enterFight = false;
@@ -218,11 +225,14 @@ public class BattleManager : MonoBehaviour
     }
 
     #region Battle End
-    void Win()
+    private IEnumerator Win()
     {
         Debug.Log("PlayerWin() 실행");
+
+        PlaySFX(playerWinSFX);
+
         //UI
-        battleUI.dialoguePanel.SetActive(false);
+        StartCoroutine(battleUI.FadeInOut(false, 2f));
 
         //Data
         isWin = true;
@@ -232,16 +242,20 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerWin", 1);
         PlayerPrefs.Save();
 
+        yield return new WaitForSeconds(playerWinSFX.length);
         //Invoke("ExitBattleScene", 1); //이거 기다리지 말아야 할 것 같은데?
         ExitBattleScene(); //문제 생기면 롤백
     }
 
-    void Lose()
+    private IEnumerator Lose()
     {
         Debug.Log("PlayerLose() 실행");
 
-        StartCoroutine(ContentTextWriter("눈앞이 흐려진다...")); //이거 안 뜨고 바로 blackBoard인데? Coroutine화 해야 하나?
-        battleUI.blackBoard.SetActive(true); //이걸 저거로 해야 하네 서서히 들어오게 뭐라 하더라 아 페이드 인
+        PlaySFX(playerLoseSFX);
+
+        //UI
+        StartCoroutine(ContentTextWriter("눈앞이 흐려진다..."));
+        StartCoroutine(battleUI.FadeInOut(false, 2f));
         //구현예정
 
         isWin = false;
@@ -251,7 +265,9 @@ public class BattleManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLose", 1);
         PlayerPrefs.Save();
 
-        Invoke("ExitBattleScene", 2); //함수 Lose() Coroutine화 예정
+        yield return new WaitForSeconds(playerWinSFX.length);
+        ExitBattleScene();
+        //Invoke("ExitBattleScene", 2); //함수 Lose() Coroutine화 예정
     }
 
     public void ExitBattleScene() //지금 Aphrodite로 진행하게 되어 있음
@@ -323,7 +339,7 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-    public IEnumerator ContentTextWriter(string origintext)
+    public IEnumerator ContentTextWriter(string _text)
     {
         // 이미 코루틴이 실행 중이라면 중복 실행 방지
         if (isContentTextWriting)
@@ -334,9 +350,9 @@ public class BattleManager : MonoBehaviour
         isContentTextWriting = true;
         battleUI.contentText.text = "";
 
-        for (int i = 0; i < origintext.Length; i++)
+        for (int i = 0; i < _text.Length; i++)
         {
-            battleUI.contentText.text += origintext[i];
+            battleUI.contentText.text += _text[i];
             yield return new WaitForSeconds(0.03f);
         }
 

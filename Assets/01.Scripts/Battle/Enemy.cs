@@ -49,7 +49,6 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-
     public void SetEnemy() // 최초 전투 진입 시에만 실행
     {
         Debug.Log("StartSetEnemy() 실행");
@@ -376,12 +375,12 @@ public class Enemy : MonoBehaviour
         }
         Debug.Log($"ConfusionRate: {ConfusionRate}"); //Delete
     }
-    private void AddSkill(List<Action> skills, bool isDestroyed, float skillprobability, Action skill)
+    private void AddSkill(List<Action> _skills, bool _isDestroyed, float _skillprobability, Action _skill)
     {
-        if (!isDestroyed && Random.value <= skillprobability)
+        if (!_isDestroyed && Random.value <= _skillprobability)
         {
-            Debug.Log($"{skill.Method.Name} 스킬 추가");
-            skills.Add(skill);
+            Debug.Log($"{_skill.Method.Name} 스킬 추가");
+            _skills.Add(_skill);
         }
     }
     #endregion
