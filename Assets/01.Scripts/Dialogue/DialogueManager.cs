@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
+public class DialogueManager : MonoBehaviour
 {
     [Header("Dialogue Data")]
     public Dialogue[] dialogues;
@@ -13,9 +13,9 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
 
     #region References
     [Header("Managers & References")]
-    DialogueUI dialogueUI; //합병 후 DialogueUI_Jiyun -> DialogueUI로 변경
+    DialogueUI dialogueUI;
     InteractionEvent interactionEvent;
-    PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
+    PlayerMove playerMove; //플레이어 FSM과 연결
     NPC npc; //= currentNPCZ
     StageNPC stageNpc;
     Statue statue;
@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
     public bool isEnd = false; //대화 종료 여부
 
     [Header("Message Mode")]
-    public bool isMessage = false; //CSV파일 없는 짧은 대사 출력
+    public bool isMessage = false; //CSV파일 없는 짧은 메시지 출력
     public string message; //출력할 메시지 내용
     #endregion
 
@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
     void Awake()
     {
         dialogueUI = FindObjectOfType<DialogueUI>();
-        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
+        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결
         //stageNpc = FindObjectOfType<StageNPC>();
         //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
@@ -52,7 +52,7 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
         if (dialogueUI.ItemImage != null)
         {
             dialogueUI.ItemImage.SetActive(false);
-        } 
+        }
 
         dialogueUI.dialoguePanel.SetActive(false);
         dialogueUI.namePanel.SetActive(false);
@@ -72,115 +72,132 @@ public class DialogueManager : MonoBehaviour //합병 후 DialogueManager_Jiyun -> 
 
     void Update()
     {
-        if (isDialogue && isNext && !isSelect)
+        if (isDialogue && !isSelect)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            DialogueInputHandler();
+        }
+    }
+    #endregion
+
+    #region DialogueHandlers
+    private void DialogueInputHandler()
+    {
+        //0. Space 입력 아니면 return
+        if (!Input.GetKeyDown(KeyCode.Space) || dialogueUI.ignoreInputFrame)
+        {
+            return;
+        }
+
+        //1. ContextTyping() 중이면 Skip
+        if (dialogueUI.isContextTyping &&!isSelect)
+        {
+            dialogueUI.skipContextTyping = true;
+            return;
+        }
+
+        //2. isNext 아니면 return
+        if (!isNext)
+        {
+            return;
+        }
+
+        //다음 대사 진행 전 초기화
+        isNext = false;
+        dialogueUI.dialogueText.text = "";
+        dialogueUI.descriptionText.text = "";
+
+        //3. csv 없는 짧은 메시지
+        if (isMessage)
+        {
+            dialogueUI.EndMessage();
+        }
+
+        //4. csv 있는 대사
+        var currentLine = dialogues[dialogueUI.lineCount];
+        var currentContext = dialogueUI.contextCount;
+
+        //4-1. skipNum 처리
+        if (!string.IsNullOrEmpty(currentLine.skipNum[currentContext]))
+        {
+            if (int.TryParse(currentLine.skipNum[currentContext], out int skipLine))
             {
-                isNext = false;
-                dialogueUI.dialogueText.text = "";
-                dialogueUI.descriptionText.text = "";
+                dialogueUI.lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
+                dialogueUI.contextCount = 0;
+            }
+        }
 
-                if (isMessage)  //CSV파일 없는 짧은 대사 출력 시(아이템 습득 등)
+        //4-2. eventNum 처리 (선택지 있는 대화)
+        if (!string.IsNullOrEmpty(currentLine.eventNum[currentContext]))
+        {
+            EventDialogueHandler(currentLine.eventNum[currentContext]);
+        }
+        else //4-3. 일반 대사 처리
+        {
+            NormalDialogueHandler();
+        }
+    }
+
+    private void EventDialogueHandler(string eventNumStr)
+    {
+        //Guard
+        if (string.IsNullOrEmpty(npc.selectFileName))
+        {
+            Debug.LogWarning($"npc.SelectFileName({npc.selectFileName}) is Null or Enpty");
+            return;
+        }
+        interactionEvent.LoadSelect(npc.selectFileName);
+
+        //Guard
+        if (interactionEvent?.Select?.selects == null || interactionEvent.Select.selects.Length == 0)
+        {
+            Debug.LogWarning("Selects could not be loaded or are empty");
+            return;
+        }
+
+        if (!int.TryParse(eventNumStr, out int eNum))
+        {
+            return;
+        }
+
+        int index = eNum - 1; // 1-based → 0-based
+
+        if (index >= 0 && index < interactionEvent.Select.selects.Length)
+        {
+            var selectData = interactionEvent.Select.selects[index];
+            dialogueUI.ShowSelect(selectData);
+        }
+        else
+        {
+            Debug.LogWarning($"Selectindex {index} is invalied.");
+        }
+    }
+
+    private void NormalDialogueHandler()
+    {
+        var line = dialogues[dialogueUI.lineCount];
+
+        if (++dialogueUI.contextCount < line.contexts.Length)
+        {
+            dialogueUI.DialogueWriter(); //같은 line 밑의 context만 변경
+        }
+        else
+        {
+            dialogueUI.contextCount = 0;
+
+            if (!isExplain)
+            {
+                if (++dialogueUI.lineCount < dialogues.Length)
                 {
-                    dialogueUI.EndMessage();
+                    dialogueUI.DialogueWriter(); //다음 line으로 이동
                 }
-                else //기본(CSV파일 사용 대화)
+                else
                 {
-                    //skipNum이 있으면
-                    if (!string.IsNullOrEmpty(dialogues[dialogueUI.lineCount].skipNum[dialogueUI.contextCount]))
-                    {
-                        int skipLine;
-                        if (int.TryParse(dialogues[dialogueUI.lineCount].skipNum[dialogueUI.contextCount], out skipLine))
-                        {
-                            dialogueUI.lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
-                            dialogueUI.contextCount = 0;
-                        }
-                    }
-
-                    //eventNum이 있으면: 선지대화
-                    if (!string.IsNullOrEmpty(dialogues[dialogueUI.lineCount].eventNum[dialogueUI.contextCount]))
-                    {
-                        if (!string.IsNullOrEmpty(npc.selectFileName)) //selectFileName 유무 확인
-                        {
-                            interactionEvent.LoadSelect(npc.selectFileName);
-
-                            //Guard
-                            if (interactionEvent == null)
-                            {
-                                Debug.LogError("interactionEvent is NULL!!!");
-                                return;
-                            }
-                            if (interactionEvent.Select == null)
-                            {
-                                Debug.LogError($"interactionEvent.Select is NULL. Failed to load select file: {npc.selectFileName}");
-                                return;
-                            }
-                            if (interactionEvent.Select.selects == null)
-                            {
-                                Debug.LogError("interactionEvent.Select.selects is NULL.");
-                                return;
-                            }
-
-                            if (interactionEvent.Select != null && interactionEvent.Select.selects.Length > 0)
-                            {
-                                int eNum;
-                                if (int.TryParse(dialogues[dialogueUI.lineCount].eventNum[dialogueUI.contextCount], out eNum))
-                                {
-                                    // eventNum은 1부터 시작한다고 가정 → 배열은 0부터 시작하므로 -1
-                                    int index = eNum - 1;
-
-                                    if (interactionEvent.Select != null &&
-                                        index >= 0 &&
-                                        index < interactionEvent.Select.selects.Length)
-                                    {
-                                        //사용하는 Select 하나만 넘기기
-                                        var selectData = interactionEvent.Select.selects[index];
-                                        dialogueUI.ShowSelect(selectData);
-                                    }
-                                    else
-                                    {
-                                        Debug.LogWarning($"Select index {index} is invalid.");
-                                    }
-                                }
-
-                            }
-                            else
-                            {
-                                Debug.LogWarning("Selects could not be loaded or are empty.");
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogWarning("npc.selectFileName is Null or Empty");
-                        }
-                    }
-                    else //eventNum이 없으면: 선지 없는 그냥 대화
-                    {
-                        if (++dialogueUI.contextCount < dialogues[dialogueUI.lineCount].contexts.Length) //line의 contexts.Length 미만이면
-                        {
-                            StartCoroutine(dialogueUI.DialogueWriter()); //같은 name 밑의 context만 변경
-                        }
-                        else //line을 넘겨야 하면
-                        {
-                            if (!isExplain) //설명문이 아니면 line도 넘김
-                            {
-                                dialogueUI.contextCount = 0;
-                                if (++dialogueUI.lineCount < dialogues.Length)
-                                {
-                                    StartCoroutine(dialogueUI.DialogueWriter()); //name과 context 모두 변경
-                                }
-                                else
-                                {
-                                    dialogueUI.EndDialogue();
-                                }
-                            }
-                            else //설명문이면 걍 끝내
-                            {
-                                dialogueUI.EndDialogue();
-                            }
-                        }
-                    }
+                    dialogueUI.EndDialogue(); //대화 종료
                 }
+            }
+            else //설명문이면
+            {
+                dialogueUI.EndDialogue(); //대화 종료
             }
         }
     }

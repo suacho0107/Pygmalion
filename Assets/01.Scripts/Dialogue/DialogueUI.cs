@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> DialogueUI로 변경
+public class DialogueUI : MonoBehaviour
 {
     #region References
     [Header("Managers &  References")]
-    DialogueManager dialogueManager; //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
+    DialogueManager dialogueManager;
     InteractionEvent interactionEvent;
-    PlayerMove playerMove; //플레이어 FSM과 연결, 추가 코드
+    PlayerMove playerMove; //플레이어 FSM과 연결
     NPC npc; //= currentNPCZ
     StageNPC stageNpc;
     Statue statue;
@@ -53,6 +53,11 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     public int lineCount = 0; //대화 카운트
     public int contextCount = 0; //대사 카운트
 
+    [Header("Context Typing Control")]
+    public bool ignoreInputFrame = false;
+    public bool isContextTyping = false;
+    public bool skipContextTyping = false;
+
     [Header("DialoguePanel Sprites")]
     public Sprite DialoguePanel;
     public Sprite DescriptionPanel;
@@ -68,11 +73,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Unity Methods
     void Awake()
     {
-        dialogueManager = GetComponent<DialogueManager>(); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
-        if (dialogueManager != null) //DialogueManager 예외처리
-        {
-            //Debug.Log($"DialogueManager 할당: {dialogueManager.gameObject.name}"); //합병 후 DialogueManager_Jiyun -> DialogueManager로 변경
-        }
+        dialogueManager = GetComponent<DialogueManager>();
         //stageNpc = FindObjectOfType<StageNPC>();
         //statue = FindObjectOfType<Statue>();
         statueScore = FindObjectOfType<StatueScore>();
@@ -82,7 +83,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     // Start is called before the first frame update
     void Start()
     {
-        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결, 추가 코드
+        playerMove = FindObjectOfType<PlayerMove>(); //플레이어 FSM과 연결
     }
 
     // Update is called once per frame
@@ -112,7 +113,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Select Navigation
     private void SelectButtonInputHandler()
     {
-        //상하 이동
+        #region 상하 이동
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             if (currentSelectButtonIndex == 2 || currentSelectButtonIndex == 3) //하단에서
@@ -133,8 +134,9 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
             }
         }
+        #endregion
 
-        //좌우 이동
+        #region 좌우 이동
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             if (currentSelectButtonIndex == 1 || currentSelectButtonIndex == 3) //우측에서
@@ -155,27 +157,18 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
             }
         }
+        #endregion
 
         //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            //Debug.Log("스페이스바");
             if (currentSelectButtonIndex < selectButtonList.Count)
             {
-                // 🔹 UI 인덱스 → 실제 선택지 인덱스로 변환
-                // portrait(이름)가 있으면 선택지가 UI에서 2칸 뒤부터 시작한다고 가정
-                //int selectStartIndex = dialogueManager.dialogues[lineCount].name == "" ? 0 : 2;
-                //int actualSelectIndex = currentSelectButtonIndex - selectStartIndex;
-
-                //Debug.Log($"선택된 버튼 인덱스: {currentSelectButtonIndex}"); //delete
-
                 string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
 
                 if (int.TryParse(moveNumString, out int selectedIndex))
                 {
-                    //Debug.Log("currentselecbuttonindex: " + currentSelectButtonIndex);
                     buttonIndexNPC = currentSelectButtonIndex;
-                    //Debug.Log("인덱스 전달");
                     OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
                 }
                 else if (string.IsNullOrWhiteSpace(moveNumString))
@@ -185,10 +178,8 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
                 }
                 else
                 {
-                    //Debug.LogError("moveNum Parsing 실패");
                     Debug.LogError($"moveNum Parsing 실패: '{moveNumString}' (Index: {currentSelectButtonIndex})");
                 }
-
                 //초기화
                 isSelecting = false;
                 currentSelectButtonIndex = 0;
@@ -289,7 +280,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             lineCount = targetLineCount; //lineCount 강제 변경
             contextCount = 0; //contextCount 초기화
             EndSelect(); //Select End하기
-            StartCoroutine(DialogueWriter()); //변경한 lineCount, contextCount로 DialogueWriter 실행
+            DialogueWriter(); //변경한 lineCount, contextCount로 DialogueWriter 실행
         }
         else if (selectedIndex == 0) //선지 선택 직후 대화 종료
         {
@@ -308,62 +299,103 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     #region Dialogue
     public void ShowDialogue(Dialogue[] _dialogues, string explainNum = null)
     {
-        //초기화 & Setting
+        //초기화
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
         if(playerMove != null)
         {
             playerMove.pState = PlayerMove.PlayerState.Interaction;
         }
+        //UI
         dialoguePanel.SetActive(true);
         dialogueText.text = "";
         descriptionText.text = "";
         nameText.text = "";
 
-        //explainNum 있으면
-        if (!string.IsNullOrEmpty(explainNum))
-        {
-            dialogueManager.isExplain = true;
-
-            #region Image Popup
-            if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
-            {
-                if (explainIndex >= 0 && explainIndex < Images.Count)
-                {
-                    Debug.Log($"explainIndex : {explainIndex}");
-                    Images[explainIndex - 1].SetActive(true);
-                    dialogueManager.isPopup = true;
-                }
-            }
-            #endregion
-
-            int explainLine;
-            if (int.TryParse(explainNum, out explainLine))
-            {
-                if (explainLine > 0 && explainLine <= dialogueManager.dialogues.Length)
-                {
-                    lineCount = explainLine - 1; //explainLine번째 line으로 이동; 근데 왜 -1인진 모르겠음... 그냥 잘 돌아감
-                    contextCount = 0;
-                }
-                else //예외처리
-                {
-                    Debug.LogError("Invalid explainNum. Starting from the first dialogue.");
-                    lineCount = 0; //explainNum이 잘못된 경우 첫 번째 대화로 시작
-                }
-            }
-            else //예외처리
-            {
-                Debug.LogError("Failed to parse explainNum. Starting from the first dialogue.");
-                lineCount = 0; //explainNum 파싱 실패 시 첫 번째 대화로 시작
-            }
-
-
-        }
-        else //explainNum 없으면 그냥 처음부터
+        //explainNum 없으면 첫 대사
+        if (string.IsNullOrEmpty(explainNum))
         {
             lineCount = 0;
+            DialogueWriter();
+            return;
         }
-        StartCoroutine(DialogueWriter()); //대화 시작
+
+        //explainNum 있으면       
+        dialogueManager.isExplain = true;
+
+        #region Image Popup
+        if (npc.gameObject.CompareTag("Artwork") && int.TryParse(explainNum, out int explainIndex))
+        {
+            if (explainIndex >= 0 && explainIndex < Images.Count)
+            {
+                Debug.Log($"explainIndex : {explainIndex}");
+                Images[explainIndex - 1].SetActive(true);
+                dialogueManager.isPopup = true;
+            }
+        }
+        #endregion
+
+        // explainNum → line 이동
+        if (int.TryParse(explainNum, out int explainLine) && explainLine > 0 && explainLine <= dialogueManager.dialogues.Length)
+        {
+            //정상 explainNum
+            lineCount = explainLine - 1;
+            contextCount = 0;
+        }
+        else //오류 → 0번 라인
+        {            
+            Debug.LogError("Invalid explainNum. Starting from the first dialogue.");
+            lineCount = 0;
+        }
+        DialogueWriter(); //대화 시작
+    }
+
+    public void DialogueWriter()
+    {
+        Text contextText;
+        Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
+
+        if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
+        {
+            dialoguePanelImage.sprite = DialoguePanel;
+            dialoguePanel.SetActive(true);
+            namePanel.SetActive(true);
+            contextText = dialogueText;
+        }
+        else //name 없으면
+        {
+            dialoguePanelImage.sprite = DescriptionPanel;
+            dialoguePanel.SetActive(true);
+            namePanel.SetActive(false);
+            contextText = descriptionText;
+        }
+
+        string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
+        replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
+        replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
+
+        nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
+
+        // 초상화 출력
+        if (Portraits != null)
+        {
+            foreach (var portrait in Portraits)
+            {
+                portrait.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < Portraits.Count; i++)
+        {
+            if (Portraits[i].name == nameText.text)
+            {
+                currentPortrait = Portraits[i];
+                currentPortrait.SetActive(true);
+                break;
+            }
+        }
+        //context 출력
+        StartCoroutine(ContextTyping(contextText, replaceText));
     }
 
     public void EndDialogue()
@@ -463,8 +495,13 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
             dialoguePanel.SetActive(true);
             namePanel.SetActive(false);
         }
+        MessageWriter();
+    }
 
-        StartCoroutine(MessageWriter());
+    void MessageWriter()
+    {
+        //context 출력
+        StartCoroutine(ContextTyping(dialogueText, dialogueManager.message));
     }
 
     public void EndMessage()
@@ -485,7 +522,7 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
     }
     #endregion
 
-    #region Select UI
+    #region Select
     public void SetSelectButtons()
     {
         //Debug.Log("SetSelectButtons() 실행"); //delete
@@ -508,7 +545,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
 
         currentSelectButtonIndex = 0;
-        //HighlightDialogueButton();
     }
     public void ShowSelect(Select _select)
     {
@@ -533,127 +569,6 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
 
         // 선택지 출력
         StartCoroutine(SelectWriter());
-    }
-
-    //public void ShowSelect(Select[] _selects)
-    //{
-    //    dialogueManager.isSelect = true;
-
-    //    if (_selects == null || _selects.Length == 0)
-    //    {
-    //        Debug.LogError("ShowSelect received a null or empty _selects array.");
-    //        return;
-    //    }
-
-    //    lineCount = 0;
-
-    //    Debug.Log($"ShowSelect 호출됨: lineCount = {lineCount}, _selects.Length = {_selects.Length}");
-
-
-    //    for (int i = 0; i < selectTextList.Count; i++)
-    //    {
-    //        selectTextList[i].text = "";
-    //    }
-
-    //    dialogueManager.selects = _selects;
-
-    //    StartCoroutine(SelectWriter());
-    //}
-
-    void EndSelect()
-    {
-        //초기화
-        dialogueManager.selects = null;
-        dialogueManager.isSelect = false;
-
-        selectButtons.SetActive(false);
-
-        //SaveData();
-    }
-    #endregion
-
-    #region Item Popup
-    public void ItemPopup()
-    {
-        ItemImage.SetActive(true);
-    }
-    #endregion
-
-    #region NPC State Management
-    public int LineCount() // 대사에 맞춰서 NPC 상태 변경
-    {
-        int _lineCount = lineCount;
-        return _lineCount;
-    }
-    #endregion
-
-    #region Coroutines
-    public IEnumerator DialogueWriter()
-    {
-        Text contextText;
-        Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
-
-        if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
-        {
-            dialoguePanelImage.sprite = DialoguePanel;
-            dialoguePanel.SetActive(true);
-            namePanel.SetActive(true);
-            contextText = dialogueText;
-        }
-        else //name 없으면
-        {
-            dialoguePanelImage.sprite = DescriptionPanel;
-            dialoguePanel.SetActive(true);
-            namePanel.SetActive(false);
-            contextText = descriptionText;
-        }
-
-        string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
-        replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
-        replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
-
-        nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
-
-        // 초상화 출력
-        if(Portraits != null)
-        {
-            foreach (var portrait in Portraits)
-            {
-                portrait.SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < Portraits.Count; i++)
-        {
-            if (Portraits[i].name == nameText.text)
-            {
-                currentPortrait = Portraits[i];
-                currentPortrait.SetActive(true);
-                break;
-            }
-        }
-
-        //context 출력
-        for (int i = 0; i < replaceText.Length; i++)
-        {
-            contextText.text += replaceText[i];
-            yield return new WaitForSeconds(0.03f);
-        }
-
-        dialogueManager.isNext = true;
-    }
-
-    IEnumerator MessageWriter()
-    {
-        string replaceText = dialogueManager.message;
-
-        //context 출력
-        for (int i = 0; i < replaceText.Length; i++)
-        {
-            dialogueText.text += replaceText[i];
-            yield return new WaitForSeconds(0.03f);
-        }
-        dialogueManager.isNext = true;
     }
 
     IEnumerator SelectWriter()
@@ -733,5 +648,60 @@ public class DialogueUI : MonoBehaviour //합병 후 DialogueUI_Jiyun -> Dialogu
         }
         isSelecting = true;
     }
+
+    void EndSelect()
+    {
+        //초기화
+        dialogueManager.selects = null;
+        dialogueManager.isSelect = false;
+
+        selectButtons.SetActive(false);
+
+        //SaveData();
+    }
+    #endregion
+
+    #region Item Popup
+    public void ItemPopup()
+    {
+        ItemImage.SetActive(true);
+    }
+    #endregion
+
+    #region NPC State Management
+    public int LineCount() // 대사에 맞춰서 NPC 상태 변경
+    {
+        int _lineCount = lineCount;
+        return _lineCount;
+    }
+    #endregion
+
+    #region Coroutines
+    IEnumerator ContextTyping(Text text, string context)
+    {
+        ignoreInputFrame = true;
+        yield return null; // 1프레임 대기
+        ignoreInputFrame = false;
+
+        isContextTyping = true;
+        dialogueManager.isNext = false;
+
+        Debug.Log("Contexttyping 실행");
+
+        for (int i = 0; i < context.Length; i++)
+        {
+            if (skipContextTyping)
+            {
+                text.text = context;
+                break;
+            }
+            text.text += context[i];
+            yield return new WaitForSeconds(0.03f);
+
+        }
+        isContextTyping = false;
+        skipContextTyping = false;
+        dialogueManager.isNext = true;
+    }    
     #endregion
 }
