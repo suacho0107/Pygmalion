@@ -185,8 +185,8 @@ public class InventoryUI : MonoBehaviour
     void DefaultItmes()
     {
         //inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
-        inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
+        //inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
+        //inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
         inventoryItemList.Add(new Item(20102, "회의실 열쇠", "회의실 열쇠 설명", "회의실 열쇠", Item.ItemType.Use));
         inventoryItemList.Add(new Item(20101, "열람실 열쇠", "열람실 열쇠 설명", "열람실 열쇠", Item.ItemType.Use));
         SaveInventory();
