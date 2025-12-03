@@ -244,6 +244,10 @@ public class DialogueManager : MonoBehaviour //ÇÕº´ ÈÄ DialogueManager_Jiyun -> 
         {
             statueInstance.SaveStatueData();
         }
+        else if (npc is RequestNPC requestNPCInstance)
+        {
+            requestNPCInstance.SaveRequestNPCData();
+        }
         else if (npc is NPC npcInstance)
         {
             npcInstance.SaveNPCData();

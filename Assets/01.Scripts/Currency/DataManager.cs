@@ -24,10 +24,12 @@ public class DataManager : MonoBehaviour
 
     private void Update()
     {
+        #region Test : Reset curreny
         if (Input.GetKeyDown(KeyCode.Z))
         {
             currency = 0;
         }
+        #endregion
     }
 
     public void AddCurrency(int _amount)
