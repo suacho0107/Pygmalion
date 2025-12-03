@@ -440,6 +440,14 @@ public class DialogueUI : MonoBehaviour
             selectedStatue.CheckResult();
         }
 
+        if (npc is RequestNPC selectedRequestNPC)
+        {
+            if (selectedRequestNPC.dialogueFileName == "request1_dialogue")
+            {
+                selectedRequestNPC.RequestOff();
+            }
+        }
+
         dialogueManager.SaveData();
 
         dialoguePanel.SetActive(false);
@@ -517,7 +525,7 @@ public class DialogueUI : MonoBehaviour
     #region Select
     public void SetSelectButtons()
     {
-        Debug.Log("SetSelectButtons() 실행"); //delete
+        //Debug.Log("SetSelectButtons() 실행"); //delete
 
         //중복추가 방지
         selectButtonList.Clear();
@@ -532,6 +540,8 @@ public class DialogueUI : MonoBehaviour
             selectTextList.Add(selectText);
 
             selectButton.SetActive(false);
+
+            //Debug.Log($"selectButtonList[{i}] = {selectButton.name}"); //delete
         }
 
         currentSelectButtonIndex = 0;
@@ -570,7 +580,7 @@ public class DialogueUI : MonoBehaviour
             yield break;
         }
 
-        Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");
+        //Debug.Log($"SelectWriter ����: lineCount = {lineCount}, selects.Length = {dialogueManager.selects.Length}");   
 
         //UI
         Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
@@ -600,14 +610,14 @@ public class DialogueUI : MonoBehaviour
 
     IEnumerator WriteSelectOptions(Select select)
     {
-        Debug.Log($"WriteSelectOptions(Select {select}");
+        //Debug.Log($"WriteSelectOptions(Select {select}");
 
         SetSelectButtons();
 
         selectButtons.SetActive(true);
         HighlightSelectButton();
 
-        Debug.Log($"select.contexts.Length = {select.contexts.Length}");
+        //Debug.Log($"select.contexts.Length = {select.contexts.Length}");
 
         for (int i = 0; i < select.contexts.Length && i < 4; i++) // 최대 4개까지
         {

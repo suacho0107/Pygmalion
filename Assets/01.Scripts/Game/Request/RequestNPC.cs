@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class RequestNPC : NPC
 {
-    public static RequestNPC r_instance { get; private set; }
-
     [Header("¾÷¹« ÀÇ·Ú¼­")]
     [SerializeField] private    PlayerDesk      playerDesk;
 
@@ -28,11 +26,13 @@ public class RequestNPC : NPC
     public bool isStartTutorial { get; private set; } = false;
     public bool isAcceptRequest = false;
     public bool canSend = false;
-    public bool canOff = false;
+    public bool canOff { get; private set; } = false;
 
     public int  locationIndex;
 
     private IRequestState currentState;
+
+    private int processNum = 0;
 
     private void Start()
     {
@@ -51,7 +51,7 @@ public class RequestNPC : NPC
         currentState?.Update();
     }
 
-    public new void SaveNPCData()
+    public void SaveRequestNPCData()
     {
         if (!isObject)
         {
@@ -61,10 +61,10 @@ public class RequestNPC : NPC
             npcData.selectFileName = selectFileName;
             npcData.isInteract = isInteract;
 
-            if (dialogueFileName == "request1_dialogue")
-            {
-                canOff = true;
-            }
+            //if (dialogueFileName == "request1_dialogue")
+            //{
+            //    canOff = true;
+            //}
 
             string json = JsonUtility.ToJson(npcData);
             //File.WriteAllText(filePath, json);
@@ -93,4 +93,11 @@ public class RequestNPC : NPC
         }
     }
 
+    public void RequestOff()
+    {
+        processNum++;
+
+        if (2 == processNum)
+            canOff = true;
+    }
 }

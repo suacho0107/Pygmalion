@@ -261,6 +261,10 @@ public class DialogueManager : MonoBehaviour
         {
             statueInstance.SaveStatueData();
         }
+        else if (npc is RequestNPC requestNPCInstance)
+        {
+            requestNPCInstance.SaveRequestNPCData();
+        }
         else if (npc is NPC npcInstance)
         {
             npcInstance.SaveNPCData();

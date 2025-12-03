@@ -31,5 +31,6 @@ public class TutorialDelay : TutorialBase
 
     public override void Exit()
     {
+        //Debug.Log("Exit: TutorialDelay");
     }
 }

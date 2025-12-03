@@ -13,7 +13,12 @@ public class TutorialInteraction : TutorialBase
 
     public override void Enter()
     {
+        Debug.Log("Enter: TutorialInteraction");
+
         playerMove = FindObjectOfType<PlayerMove>();
+
+        if (isInteractOn && playerMove != null)
+            playerMove.IsMoved = false;
     }
 
     public override void Execute(TutorialController controller)
@@ -26,24 +31,35 @@ public class TutorialInteraction : TutorialBase
             {
                 isInteractOn = false;
                 interactionObject.gameObject.SetActive(true);
-                
-                if (playerMove != null)
-                    playerMove.IsMoved = false;
             }
             else
             {
-                interactionObject.gameObject.SetActive(false);
-                if (playerMove != null)
-                    playerMove.IsMoved = true;
+                if (interactionObject.TryGetComponent<RequestNPC>(out var requestNPC))
+                {
+                    if (requestNPC.canOff)
+                    {
+                        interactionObject.gameObject.SetActive(false);
+                        if (playerMove != null)
+                            playerMove.IsMoved = true;
+                    }
+                    else
+                        return;
+                }
+                else
+                {
+                    interactionObject.gameObject.SetActive(false);
+                    if (playerMove != null)
+                        playerMove.IsMoved = true;
+                }
             }
 
-            //if (RequestNPC.r_instance.canOff)
-                controller.SetNextTutorial();
+            controller.SetNextTutorial();
         }
     }
 
     public override void Exit()
     {
+        Debug.Log("Exit: TutorialInteraction");
         isTrigger = false;
     }
 }

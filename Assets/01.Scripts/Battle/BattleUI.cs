@@ -22,9 +22,15 @@ public class BattleUI : MonoBehaviour
     public GameObject dialogueButtons;
     private List<GameObject> dialogueButtonList = new List<GameObject>();
 
+    public bool isFadeInOut;
+
     [Header("PartSelect UI")]
     public GameObject partButtons;
     private List<GameObject> partButtonList = new List<GameObject>();
+
+    public GameObject pageArrows;
+    private Image prePageArrow;
+    private Image nextPageArrow;
 
     [Header("Button Sprites")]
     public Sprite ButtonDefault;
@@ -47,6 +53,9 @@ public class BattleUI : MonoBehaviour
         battleManager = FindObjectOfType<BattleManager>();
         player = FindObjectOfType<Player>();
         enemy = FindObjectOfType<Enemy>();
+
+        prePageArrow = pageArrows.transform.Find("Image_PrePageArrow").GetComponent<Image>();
+        nextPageArrow = pageArrows.transform.Find("Image_NextPageArrow").GetComponent<Image>();
     }
 
     void Update()
@@ -226,6 +235,7 @@ public class BattleUI : MonoBehaviour
                 //초기화
                 currentPartPageIndex = 0;
                 currentPartButtonIndex = 0;
+                pageArrows.SetActive(false);
             }
         }
         Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
@@ -233,16 +243,16 @@ public class BattleUI : MonoBehaviour
         HighlightPartButton();
     }
 
-    private bool isThereButton(int pageIndex, int buttonIndex, int increraseButtonIndex)
+    private bool isThereButton(int _pageIndex, int _buttonIndex, int _increraseButtonIndex)
     {
-        int targetButtonIndex = buttonIndex + increraseButtonIndex;
+        int targetButtonIndex = _buttonIndex + _increraseButtonIndex;
 
         if (targetButtonIndex > 3)
         {
             targetButtonIndex -= 4;
         }
 
-        int lastButtonIndex = enemy.parts.Count - pageIndex * 4;
+        int lastButtonIndex = enemy.parts.Count - _pageIndex * 4;
 
         return targetButtonIndex < lastButtonIndex;        
     }
@@ -291,7 +301,7 @@ public class BattleUI : MonoBehaviour
         currentPartButtonIndex = 0;
     }
 
-    public void UpdatePartButtons()
+    public void UpdatePartButtons() //page 바뀔 때마다 실행
     {
         int startIndex = currentPartPageIndex * 4;
 
@@ -319,8 +329,35 @@ public class BattleUI : MonoBehaviour
                 partButton.SetActive(false);
             }
         }
-
         HighlightPartButton();
+        UpdatePartPageArrows();
+    }
+
+    private void UpdatePartPageArrows()
+    {
+        pageArrows.SetActive(true);
+
+        int totalPages = Mathf.CeilToInt((float)enemy.parts.Count / 4);
+
+        //prePageArrow
+        if (currentPartPageIndex > 0)
+        {
+            prePageArrow.gameObject.SetActive(true);
+        }
+        else
+        {
+            prePageArrow.gameObject.SetActive(false);
+        }
+
+        //nextPageArrow
+        if (currentPartPageIndex < totalPages - 1)
+        {
+            nextPageArrow.gameObject.SetActive(true);
+        }
+        else
+        {
+            nextPageArrow.gameObject.SetActive(false);
+        }
     }
 
     private void HighlightPartButton()
@@ -345,39 +382,70 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    public void UpdateHpBoxes(GameObject hpBoxes, Part part)
+    public void UpdateHpBoxes(GameObject _hpBoxes, Part _part)
     {
-        for (int i = 0; i < hpBoxes.transform.childCount; i++)
+        for (int i = 0; i < _hpBoxes.transform.childCount; i++)
         {
-            GameObject hpBox = hpBoxes.transform.GetChild(i).gameObject;
+            GameObject hpBox = _hpBoxes.transform.GetChild(i).gameObject;
 
-            hpBox.SetActive(i < part.partMaxHp);
-            hpBox.GetComponent<Image>().sprite = (i < part.partHp) ? hpBoxFull : hpBoxEmpty; //part별 남은 hp
+            hpBox.SetActive(i < _part.partMaxHp);
+            hpBox.GetComponent<Image>().sprite = (i < _part.partHp) ? hpBoxFull : hpBoxEmpty; //part별 남은 hp
         }
     }
     #endregion
 
-    public int FindListIndex(List<string> list, string element)
+    public int FindListIndex(List<string> _list, string _element)
     {
-        return list.IndexOf(element);
+        return _list.IndexOf(_element);
     }
 
-    public string KorParticle(string word, string particleWithFinal, string particleWithoutFinal)
+    public string KorParticle(string _word, string _particleWithFinal, string _particleWithoutFinal)
     {
-        if (string.IsNullOrEmpty(word))
+        if (string.IsNullOrEmpty(_word))
         {
-            return particleWithoutFinal;
+            return _particleWithoutFinal;
         }
 
-        char lastChar = word[word.Length - 1]; //마지막 글자
+        char lastChar = _word[_word.Length - 1]; //마지막 글자
 
         if (lastChar < 0xAC00 || lastChar > 0xD7A3) //한글 여부 확인
         {
-            return particleWithoutFinal;
+            return _particleWithoutFinal;
         }
 
         //받침 여부
         bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
-        return hasFinal ? particleWithFinal : particleWithoutFinal;
+        return hasFinal ? _particleWithFinal : _particleWithoutFinal;
+    }
+    public IEnumerator FadeInOut(bool _isFadeIn, float _duration)
+    {
+        Debug.Log("FadeInout() 실행");
+        isFadeInOut = true;
+
+        Image image = blackBoard.GetComponent<Image>();
+
+        //Fade In/Out 설정
+        float startAlpha = _isFadeIn ?1f : 0f;
+        float endAlpha = _isFadeIn ? 0f : 1f;
+
+        //초기화
+        float time = 0f;
+        Color color = image.color;
+
+        while (time < _duration)
+        {
+            float t = time / _duration;
+            color.a = Mathf.Lerp(startAlpha, endAlpha, t);
+            image.color = color;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // 마지막 값 보정
+        color.a = endAlpha;
+        image.color = color;
+
+        isFadeInOut = false;
     }
 }
