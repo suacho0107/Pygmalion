@@ -49,6 +49,9 @@ public class RequestNPC : NPC
     void LateUpdate()
     {
         currentState?.Update();
+
+        //string dbg = "Can Off : " + canOff.ToString();
+        //Debug.Log(dbg);
     }
 
     public void SaveRequestNPCData()
@@ -60,11 +63,6 @@ public class RequestNPC : NPC
             npcData.dialogueFileName = dialogueFileName;
             npcData.selectFileName = selectFileName;
             npcData.isInteract = isInteract;
-
-            //if (dialogueFileName == "request1_dialogue")
-            //{
-            //    canOff = true;
-            //}
 
             string json = JsonUtility.ToJson(npcData);
             //File.WriteAllText(filePath, json);

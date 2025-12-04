@@ -21,15 +21,15 @@ public class PlayerDesk : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange && !IsActive && Input.GetKeyDown(KeyCode.F))
-        {
-            requestPanel.SetActive(true);
-            IsActive = true;
-        }
-        else if (startON && IsActive && Input.GetKeyDown(KeyCode.F))
-        {
-            Close();
-        }
+        //if (playerInRange && !IsActive && Input.GetKeyDown(KeyCode.F))
+        //{
+        //    requestPanel.SetActive(true);
+        //    IsActive = true;
+        //}
+        //else if (startON && IsActive && Input.GetKeyDown(KeyCode.F))
+        //{
+        //    Close();
+        //}
     }
 
     public void Close()
