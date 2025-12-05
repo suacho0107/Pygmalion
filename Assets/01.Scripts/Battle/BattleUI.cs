@@ -238,6 +238,22 @@ public class BattleUI : MonoBehaviour
                 pageArrows.SetActive(false);
             }
         }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //UI초기화
+            contentText.text = "";
+            partButtons.SetActive(false);
+
+            battleManager.isStatePLAYERTURN = false;
+            battleManager.isStatePLAYERTURN_ATTACK = false;
+            battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = false;
+            battleManager.state = BattleManager.State.PLAYERTURN_START;
+
+            //초기화
+            currentPartPageIndex = 0;
+            currentPartButtonIndex = 0;
+            pageArrows.SetActive(false);
+        }
         Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
 
         HighlightPartButton();

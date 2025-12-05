@@ -62,13 +62,13 @@ public class Player : MonoBehaviour
         battleManager.isStatePLAYERTURN_ATTACK = true;
 
         //UI
-        battleUI.contentText.text = "공격 부위 선택";
+        battleUI.contentText.text = "어느 부위를 공격할까?";
 
         //battleUI.currentPartButtonIndex = 0; //초기화
         battleUI.UpdatePartButtons();
         battleUI.partButtons.SetActive(true);
 
-        //Next Statee
+        //Next State
         battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = true;
     }
 
