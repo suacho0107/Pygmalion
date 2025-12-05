@@ -10,6 +10,8 @@ public class TutorialFadeEffect : TutorialBase
     private bool isFadeIn = false;
     public bool isCompleted = false;
 
+    private PlayerMove playerMove;
+
     public override void Enter()
     {
         //Debug.Log("Enter: TutorialFadeEffect");
@@ -20,6 +22,10 @@ public class TutorialFadeEffect : TutorialBase
         }
         else
         {
+            playerMove = FindObjectOfType<PlayerMove>();
+            if (null != playerMove)
+                playerMove.IsMoved = false;
+
             fadeEffect.FadeOut(OnAfterFadeEffect);
         }
     }
@@ -35,6 +41,9 @@ public class TutorialFadeEffect : TutorialBase
         {
             // 현재 튜토리얼 행동 종료
             controller.SetNextTutorial();
+
+            if (null != playerMove)
+                playerMove.IsMoved = true;
         }
     }
 

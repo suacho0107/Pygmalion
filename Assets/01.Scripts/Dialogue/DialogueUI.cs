@@ -686,7 +686,7 @@ public class DialogueUI : MonoBehaviour
         isContextTyping = true;
         dialogueManager.isNext = false;
 
-        Debug.Log("Contexttyping 실행");
+        //Debug.Log("Contexttyping 실행");
 
         for (int i = 0; i < context.Length; i++)
         {

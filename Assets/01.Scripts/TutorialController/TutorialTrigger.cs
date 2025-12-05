@@ -26,7 +26,8 @@ public class TutorialTrigger : TutorialBase
                 obj.gameObject.SetActive(true);
         }
 
-        transform.position = playerMove.transform.position;
+        Vector3 vecOffsetX = new Vector3(0, 1, 0);
+        transform.position = playerMove.transform.position - vecOffsetX;
 
         if (isTrigger == true)
         {
