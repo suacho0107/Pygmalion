@@ -22,7 +22,6 @@ public class TutorialFadeEffect : TutorialBase
         }
         else
         {
-            // IsMoved로는 플레이어가 멈추지 않음.
             playerMove = FindObjectOfType<PlayerMove>();
             if (null != playerMove)
                 playerMove.IsMoved = false;

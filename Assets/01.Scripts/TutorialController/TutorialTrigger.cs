@@ -26,10 +26,10 @@ public class TutorialTrigger : TutorialBase
                 obj.gameObject.SetActive(true);
         }
 
-        Vector3 vecOffsetX = new Vector3(0, 1, 0);
-        transform.position = playerMove.transform.position - vecOffsetX;
+        Vector3 vecOffsetY = new Vector3(0, 1, 0);
+        transform.position = playerMove.transform.position - vecOffsetY;
 
-        if (isTrigger == true)
+        if (isTrigger)
         {
             controller.SetNextTutorial();
         }
