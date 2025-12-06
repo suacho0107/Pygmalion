@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class TutorialController : MonoBehaviour
 {
-    [SerializeField] PlayerPosition      playerPosition;
-    [SerializeField] Vector3             nextPos;
-    [SerializeField] List<TutorialBase>  tutorials;
-    [SerializeField] string              nextSceneName = "";
+    [SerializeField] PlayerPosition     playerPosition;
+    [SerializeField] Vector3            nextPos;
+    [SerializeField] List<TutorialBase> tutorials;
+    [SerializeField] string             nextSceneName = "";
+    [SerializeField] SceneController    sceneController;
 
     private TutorialBase        currentTutorial = null;
     private int                 currentIndex = -1;
@@ -59,7 +60,14 @@ public class TutorialController : MonoBehaviour
 
         //Debug.Log("Complete All");
 
-        if (!nextSceneName.Equals(""))
+        if (null != sceneController)
+        {
+            playerPosition.nextPosition = sceneController.nextPos;
+            playerPosition.isChecked = true;
+
+            SceneManager.LoadScene(sceneController.nextSceneName);
+        }
+        else if (!nextSceneName.Equals(""))
         {
             playerPosition.nextPosition = nextPos;
             playerPosition.isChecked = true;
