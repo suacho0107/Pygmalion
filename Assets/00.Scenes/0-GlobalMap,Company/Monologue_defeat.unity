@@ -268,7 +268,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &505535694 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5832388228992571222, guid: 058135e2faa45d049aca4affe8c537b4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6689874008649208547, guid: 058135e2faa45d049aca4affe8c537b4, type: 3}
   m_PrefabInstance: {fileID: 505535690}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &505535695 stripped
@@ -1108,6 +1108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fDelayTime: 0.5
 --- !u!1001 &1477775629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1218,6 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fDelayTime: 0.5
 --- !u!4 &1767156856
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,8 +1946,12 @@ MonoBehaviour:
   selectButtons: {fileID: 505535692}
   currentSelectButtonIndex: 0
   isSelecting: 0
+  buttonIndexNPC: 0
   lineCount: 0
   contextCount: 0
+  ignoreInputFrame: 0
+  isContextTyping: 0
+  skipContextTyping: 0
   DialoguePanel: {fileID: 21300000, guid: 14766f4561b7b0245b2293fa51803b5d, type: 3}
   DescriptionPanel: {fileID: 21300000, guid: 86a498fce1e630e4891c64515b440b3a, type: 3}
   ButtonDefault: {fileID: 21300000, guid: 0cd9d4bcedface549ad7f653c5b15253, type: 3}
