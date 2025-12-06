@@ -1108,6 +1108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fDelayTime: 0.5
 --- !u!1001 &1477775629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1218,6 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fDelayTime: 0.5
 --- !u!4 &1767156856
 Transform:
   m_ObjectHideFlags: 0
@@ -1631,7 +1633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPosition: {fileID: 11400000, guid: bb1cf3cb2b6edda4a98ed911ee7ebde5, type: 2}
-  nextPos: {x: -12, y: 4, z: 0}
+  nextPos: {x: 2, y: 7.3, z: 0}
   tutorials:
   - {fileID: 1390826021975916493}
   - {fileID: 2493807415472446663}
@@ -1639,7 +1641,7 @@ MonoBehaviour:
   - {fileID: 673241192}
   - {fileID: 1473572892}
   - {fileID: 1783187271}
-  nextSceneName: GlobalMap
+  nextSceneName: Museum_Lobby
 --- !u!1 &1390826020966183271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,8 +1946,12 @@ MonoBehaviour:
   selectButtons: {fileID: 505535692}
   currentSelectButtonIndex: 0
   isSelecting: 0
+  buttonIndexNPC: 0
   lineCount: 0
   contextCount: 0
+  ignoreInputFrame: 0
+  isContextTyping: 0
+  skipContextTyping: 0
   DialoguePanel: {fileID: 21300000, guid: 14766f4561b7b0245b2293fa51803b5d, type: 3}
   DescriptionPanel: {fileID: 21300000, guid: 86a498fce1e630e4891c64515b440b3a, type: 3}
   ButtonDefault: {fileID: 21300000, guid: 0cd9d4bcedface549ad7f653c5b15253, type: 3}
