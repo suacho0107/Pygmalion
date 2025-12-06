@@ -18,7 +18,12 @@ public class TutorialInteraction : TutorialBase
         playerMove = FindObjectOfType<PlayerMove>();
 
         if (isInteractOn && playerMove != null)
+        {
             playerMove.IsMoved = false;
+            playerMove.IsAnimation = false;
+            playerMove.WalkSound.Stop();
+            playerMove.SetIdleState();
+        }
     }
 
     public override void Execute(TutorialController controller)
@@ -40,7 +45,10 @@ public class TutorialInteraction : TutorialBase
                     {
                         interactionObject.gameObject.SetActive(false);
                         if (playerMove != null)
+                        {
                             playerMove.IsMoved = true;
+                            playerMove.IsAnimation = true;
+                        }
 
                         UIManager.u_instance.Set_UIState(Define.UI.UIState.Start);
                     }

@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
 
     Vector3 dirVec;
 
-    AudioSource WalkSound;
+    public AudioSource WalkSound;
 
     private Transform spawnPoint;
 
@@ -33,6 +33,7 @@ public class PlayerMove : MonoBehaviour
     bool keyDown = false; // 키 중복 입력 방지
 
     public bool IsMoved { set; get; } = true;  // 이동 가능 여부
+    public bool IsAnimation { set; get; } = true;
 
     public bool ActiveInteract
     {
@@ -105,8 +106,21 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    public void SetIdleState()
+    {
+        // 강제 idle
+        anim.SetInteger("hAxisRaw", 0);
+        anim.SetInteger("vAxisRaw", 0);
+        anim.SetBool("isChange", false);
+
+        // Idle 프리팹 활성화 반영 (AnimationState처럼)
+        AnimationState();
+    }
+
     void Update() 
     {
+        anim.speed = IsAnimation ? 1 : 0;
+
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
