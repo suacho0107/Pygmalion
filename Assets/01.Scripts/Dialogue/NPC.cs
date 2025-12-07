@@ -37,7 +37,7 @@ public class NPC : MonoBehaviour
     {
         filePath = Application.persistentDataPath + "/" + gameObject.name + "_data.json";
         //LoadNPCData(); // 각 스크립트에서 나눠서 실행, NPC에서는 직접적으로 호출X
-        //ResetNPCData(); // NPC 기록 초기화
+        ResetNPCData(); // NPC 기록 초기화
     }
 
     private void Start()
