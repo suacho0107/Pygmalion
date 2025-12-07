@@ -101,7 +101,7 @@ public class Statue : NPC
         }
         else
         {
-            FILEINDEX = 2;
+            FILEINDEX = 3;
             if (currentIndex == 0 || currentIndex == 1)
             {
                 explainNum = null;
