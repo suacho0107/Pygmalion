@@ -33,7 +33,7 @@ public class LibraryRoom : NPC
                 ChangeExplainNum("11");
                 if (isInteract && !unlock)
                 {
-                    gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    //gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     unlock = true;
 
                     if (!saved)
@@ -45,7 +45,7 @@ public class LibraryRoom : NPC
 
                 if (unlock)
                 {
-                    gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    //gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 }
             }
             else ChangeExplainNum("10");
