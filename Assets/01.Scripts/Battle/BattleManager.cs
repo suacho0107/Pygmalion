@@ -14,6 +14,7 @@ public class BattleManager : MonoBehaviour
     Player player;
     Enemy enemy;
     Part part;
+    UIManager uiManager;
 
     public NPCData npcData = new NPCData();
     #endregion
@@ -73,27 +74,47 @@ public class BattleManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
-
+        uiManager = FindObjectOfType<UIManager>();
+        
         //Enemy setting
         //if문 돌려서 알맞은 적 SetActive(true);
-        //임시 Random 구현
-        int r = Random.Range(0, 3);
-        if (r == 0)
+        if (uiManager != null)
         {
-            Aphrodite.SetActive(true);
-            enemy = Aphrodite.GetComponent<Enemy>();
+            int stage = UIManager.u_instance.stageIndex;
+            Debug.Log($"현재 진행 스테이지: {stage}");
+
+            switch (stage) //임시입니다. 한 스테이지에 2개 이상 Enemy의 경우 if문을 한 번 더 돌리든가 해야지
+            {
+                case 0:
+                    {
+                        Debug.Log("stage 인식: Aphrodite로 Battle 실행");
+                        Aphrodite.SetActive(true);
+                        enemy = Aphrodite.GetComponent<Enemy>();
+                        break;
+                    }
+
+            }
         }
-        else if (r == 1)
+        else
         {
-            ReadingChild.SetActive(true);
-            enemy = ReadingChild.GetComponent<Enemy>();
+            //임시 Random 구현
+            int r = Random.Range(0, 3);
+            if (r == 0)
+            {
+                Aphrodite.SetActive(true);
+                enemy = Aphrodite.GetComponent<Enemy>();
+            }
+            else if (r == 1)
+            {
+                ReadingChild.SetActive(true);
+                enemy = ReadingChild.GetComponent<Enemy>();
+            }
+            else //(r == 2)
+            {
+                Melpomene.SetActive(true);
+                enemy = Melpomene.GetComponent<Enemy>();
+            }
         }
-        else //(r == 2)
-        {
-            Melpomene.SetActive(true);
-            enemy = Melpomene.GetComponent<Enemy>();
-        }
-        
         Debug.Log($"Enemy set to: {enemy}"); //Delete
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
