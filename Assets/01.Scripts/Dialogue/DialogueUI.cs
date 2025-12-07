@@ -442,7 +442,8 @@ public class DialogueUI : MonoBehaviour
 
         if (npc is RequestNPC selectedRequestNPC)
         {
-            if (selectedRequestNPC.dialogueFileName == "request1_dialogue")
+            if (selectedRequestNPC.dialogueFileName == "request1_dialogue" || 
+                selectedRequestNPC.dialogueFileName == "Office-Day2-request1_dialogue")
             {
                 selectedRequestNPC.RequestOff();
             }
