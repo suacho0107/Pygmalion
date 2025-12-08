@@ -147,12 +147,19 @@ public class Statue : NPC
                         if (!test1 && !enterFight) // 오답 전투 최초 진입: 기록 효과음 재생
                         {
                             statueAudio.PlayPencil();
+
+                            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+                            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+
                             EnterFight();
                             test1 = true;
                             //Debug.Log("오답 최초 진입 test1, enterFight True");
                         }
                         else if (test1 && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
                         {
+                            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+                            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+
                             EnterFight();
                             //Debug.Log("오답 재진입 enterFight True");
                         }
