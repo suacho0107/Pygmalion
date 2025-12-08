@@ -120,6 +120,7 @@ public class BattleUI : MonoBehaviour
             if (selectedButtonText == "공격한다")
             {
                 player.SelectAttack();
+                dialogueButtons.SetActive(false);
             }
             else if (selectedButtonText == "소지품을 확인한디")
             {
@@ -129,9 +130,9 @@ public class BattleUI : MonoBehaviour
             else if (selectedButtonText == "도망친다")
             {
                 player.SelectRun();
+                dialogueButtons.SetActive(false);
             }
-
-            dialogueButtons.SetActive(false);
+            //dialogueButtons.SetActive(false); //Inventory 구현 이후에 if문 안에 빼고 이거 사용
         }
 
         HighlightDialogueButton();
