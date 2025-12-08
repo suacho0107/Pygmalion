@@ -17,6 +17,7 @@ public class DeleteAllData : MonoBehaviour
 
     public void DeleteAllJsonFiles()
     {
+        Debug.Log("[DeleteAllData] DeleteAllJsonFiles »£√‚µ ");
         PlayerPrefs.DeleteAll();
 
         string folderPath = Application.persistentDataPath;

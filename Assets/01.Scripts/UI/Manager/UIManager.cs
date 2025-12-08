@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     };
 
     public  int     stageIndex = 0;
+    private bool needResetAllData = false;
 
     void Awake()
     {
@@ -63,9 +64,10 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         #region Test
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             LoadStartScene();
+            needResetAllData = true;        // 초기화 요청
         }
         #endregion
     }
@@ -96,6 +98,26 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "Start" && needResetAllData)
+        {
+            DeleteAllData delete = FindObjectOfType<DeleteAllData>();
+            if (delete != null)
+            {
+                delete.DeleteAllJsonFiles();
+            }
+            else
+            {
+                Debug.LogWarning("Start 씬에서 DeleteAllData를 찾을 수 없습니다.");
+            }
+
+            if (FieldItemManager.Instance != null)
+            {
+                FieldItemManager.Instance.ResetFieldItems();
+            }
+
+            needResetAllData = false; // 초기화 한 번 하고 플래그 해제
+        }
+
         Assign_UIObject();
 
         UpdateUI();
