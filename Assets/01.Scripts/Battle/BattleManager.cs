@@ -41,6 +41,8 @@ public class BattleManager : MonoBehaviour
     private string filePath;
 
     [Header("Controls")]
+    private bool isBattleMode = false;
+
     public bool isStatePLAYERTURN = false; //State PLAYERTURN동안 true
     public bool isStatePLAYERTURN_ATTACK = false; //State PLAYERTURN_ATTACK동안 true
     public bool isStatePLAYERTURN_ATTACK_PartSelecting = false; //PLAYERTURN_ATTACK에서 공격할 Part 선택 시
@@ -92,11 +94,32 @@ public class BattleManager : MonoBehaviour
                         enemy = Aphrodite.GetComponent<Enemy>();
                         break;
                     }
+                case 1:
+                    {
+                        Debug.Log("stage 인식: 도셔관");
 
+                        if (SceneTransport.previousScene == "Library_B1F")
+                        {
+                            Debug.Log("stage: 도서관, ReadingChild");
+                            ReadingChild.SetActive(true);
+                            enemy = ReadingChild.GetComponent<Enemy>();
+                            break;
+                        }
+                        else if (SceneTransport.previousScene == "Library_2F")
+                        {
+                            Debug.Log("stage: 도서관, Melpomene");
+                            Melpomene.SetActive(true);
+                            enemy = Melpomene.GetComponent<Enemy>();
+                            break;
+                        }
+                        break;
+                    }                    
             }
         }
         else
         {
+            isBattleMode = true;
+
             //임시 Random 구현
             int r = Random.Range(0, 3);
             if (r == 0)
@@ -291,19 +314,50 @@ public class BattleManager : MonoBehaviour
         //Invoke("ExitBattleScene", 2); //함수 Lose() Coroutine화 예정
     }
 
-    public void ExitBattleScene() //지금 Aphrodite로 진행하게 되어 있음
+    public void ExitBattleScene()
     {
-        if (state == State.WIN) //승리 시
+
+        if (isBattleMode)
         {
-            SceneManager.LoadScene("Museum_ExhibitionRoom2");
-        }
-        else if (state == State.LOSE || state == State.PLAYERTURN_RUN) //패배||도망 시
-        {
-            SceneManager.LoadScene("Museum_Lobby");
+            SceneManager.LoadScene("Start");
         }
         else
         {
-            return;
+            if (state == State.WIN) //승리 시
+            {
+                if (enemy == Aphrodite.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Museum_ExhibitionRoom2");
+                }
+                else if (enemy == ReadingChild.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Library_B1F");
+                }
+                else if (enemy == Melpomene.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Library_2F");
+                }
+                
+            }
+            else if (state == State.LOSE || state == State.PLAYERTURN_RUN) //패배||도망 시
+            {
+                if (enemy == Aphrodite.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Museum_Lobby");
+                }
+                else if (enemy == ReadingChild.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Library_B1F");
+                }
+                else if (enemy == Melpomene.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Library_2F");
+                }
+            }
+            else
+            {
+                return;
+            }
         }
     }
     #endregion

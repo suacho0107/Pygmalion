@@ -136,6 +136,8 @@ public class Statue : NPC
                             statueScore.SaveScore();
                             enterFight = true;
                             //Debug.Log("enterFight True");
+                            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+                            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
                             StartCoroutine(DelayLoadScene(2.2f, "Battle"));
                         }
                     }
