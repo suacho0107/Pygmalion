@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.IO;
-using UnityEditor.ShaderGraph;
+//using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class Statue : NPC
 {
