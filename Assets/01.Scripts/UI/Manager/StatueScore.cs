@@ -46,11 +46,6 @@ public class StatueScore : MonoBehaviour
         {
             statueScoreText.text = "▶ 점검한 조각상: " + statueCount + " / 5";
         }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            PlayerPrefs.DeleteAll();
-        }
     }
 
     public void SaveScore()
