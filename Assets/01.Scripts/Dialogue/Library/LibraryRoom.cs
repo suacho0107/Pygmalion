@@ -69,6 +69,10 @@ public class LibraryRoom : NPC
                     }
                 }
             }
+            else
+            {
+                ChangeExplainNum("1");
+            }
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class NPC : MonoBehaviour
 {
