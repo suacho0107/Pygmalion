@@ -449,6 +449,11 @@ public class DialogueUI : MonoBehaviour
             }
         }
 
+        if(npc is NPC _npc && !_npc.isObject)
+        {
+            _npc.isInteract = true;
+        }
+
         dialogueManager.SaveData();
 
         dialoguePanel.SetActive(false);

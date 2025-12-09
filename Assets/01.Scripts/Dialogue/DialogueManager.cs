@@ -270,4 +270,25 @@ public class DialogueManager : MonoBehaviour
             npcInstance.SaveNPCData();
         }
     }
+
+    //public void LoadData()
+    //{
+    //    if (npc is StageNPC stageNpcInstance)
+    //    {
+    //        stageNpcInstance.LoadStageNPCData();
+    //        Debug.Log("StageNPC SaveData");
+    //    }
+    //    else if (npc is Statue statueInstance)
+    //    {
+    //        statueInstance.LoadStatueData();
+    //    }
+    //    else if (npc is RequestNPC requestNPCInstance)
+    //    {
+    //        requestNPCInstance.LoadRequestNPCData();
+    //    }
+    //    else if (npc is NPC npcInstance)
+    //    {
+    //        npcInstance.LoadNPCData();
+    //    }
+    //}
 }

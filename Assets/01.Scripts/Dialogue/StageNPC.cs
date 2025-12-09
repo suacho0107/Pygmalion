@@ -34,6 +34,11 @@ public class StageNPC : NPC
 
     private void Update()
     {
+        NPCInteraction();
+    }
+
+    void NPCInteraction()
+    {
         #region Tutorial NPC
         if (sceneName.StartsWith("Museum_Lobby"))
         {
@@ -86,7 +91,7 @@ public class StageNPC : NPC
             }
         }
         #endregion
-        
+
         #region Library Guard
         else if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
@@ -107,6 +112,26 @@ public class StageNPC : NPC
                     ChangeDialogueFileName("Guard_Check3_dialogue");
                 }
             }
+
+            string transPath = Application.persistentDataPath + "/Transition_S_data.json";
+
+            if (File.Exists(transPath))
+            {
+                string json = File.ReadAllText(transPath);
+                NPCData transData = JsonUtility.FromJson<NPCData>(json);
+
+                if (transData.isInteract)
+                {
+                    ChangeDialogueFileName("Guard_key_dialogue");
+                    DialogueManager dm = FindObjectOfType<DialogueManager>();
+                    if(dm.CurrentNPC == this)
+                    {
+                        Debug.Log("this");
+                        if (dm.isEnd) InventoryUI.instance.GetAnItem(20101);
+                        Debug.Log("isEnd");
+                    }
+                }
+            }
         }
         #endregion
 
@@ -114,7 +139,7 @@ public class StageNPC : NPC
         if (SceneManager.GetActiveScene().name == "Library_2F" && isNPC)
         {
             Statue mel = (csv.npcs[0] as Statue);
-            if(mel != null)
+            if (mel != null)
             {
                 //Debug.Log(mel.name);
             }
@@ -188,6 +213,6 @@ public class StageNPC : NPC
             questEnd = npcData.questEnd;
         }
 
-        //Debug.Log(gameObject.name + " 데이터 로드");
+        Debug.Log(gameObject.name + " 데이터 로드");
     }
 }
