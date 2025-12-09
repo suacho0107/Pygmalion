@@ -190,7 +190,7 @@ public class BattleManager : MonoBehaviour
                 if (!isStatePLAYERTURN_RUN)
                 {
                     PlayerRun(); //SaveRun으로 함수명 변경해서 player.Run 안에 넣을 수 있나요?
-                    player.Run();
+                    //player.Run();
                     StartCoroutine(player.Run());
                 }
                 break;
