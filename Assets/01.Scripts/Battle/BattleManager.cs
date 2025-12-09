@@ -260,12 +260,15 @@ public class BattleManager : MonoBehaviour
 
     private void PlayerRun() // 추가 코드
     {
-        isWin = false;
-        _enterFight = false;
-        SaveFightData();
+        if (!isBattleMode)
+        {
+            isWin = false;
+            _enterFight = false;
+            SaveFightData();
 
-        PlayerPrefs.SetInt("PlayerRun", 1);
-        PlayerPrefs.Save();
+            PlayerPrefs.SetInt("PlayerRun", 1);
+            PlayerPrefs.Save();
+        }
     }
 
     #region Battle End
@@ -278,13 +281,16 @@ public class BattleManager : MonoBehaviour
         //UI
         StartCoroutine(battleUI.FadeInOut(false, 2f));
 
-        //Data
-        isWin = true;
-        _enterFight = true;
-        SaveFightData();
+        if (!isBattleMode)
+        {
+            //Data
+            isWin = true;
+            _enterFight = true;
+            SaveFightData();
 
-        PlayerPrefs.SetInt("PlayerWin", 1);
-        PlayerPrefs.Save();
+            PlayerPrefs.SetInt("PlayerWin", 1);
+            PlayerPrefs.Save();
+        }
 
         yield return new WaitForSeconds(playerWinSFX.length);
         //Invoke("ExitBattleScene", 1); //이거 기다리지 말아야 할 것 같은데?
@@ -302,12 +308,15 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(battleUI.FadeInOut(false, 2f));
         //구현예정
 
-        isWin = false;
-        _enterFight = false;
-        SaveFightData();
+        if (!isBattleMode)
+        {
+            isWin = false;
+            _enterFight = false;
+            SaveFightData();
 
-        PlayerPrefs.SetInt("PlayerLose", 1);
-        PlayerPrefs.Save();
+            PlayerPrefs.SetInt("PlayerLose", 1);
+            PlayerPrefs.Save();
+        }
 
         yield return new WaitForSeconds(playerWinSFX.length);
         ExitBattleScene();
