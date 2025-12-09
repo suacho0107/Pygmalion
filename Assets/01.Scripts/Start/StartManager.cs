@@ -60,6 +60,8 @@ public class StartManager : MonoBehaviour
             }
             else if (selectedButtonIndex == 1) //battleButton
             {
+                SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+                Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
                 SceneManager.LoadScene("Battle");
             }
             else if (selectedButtonIndex == 2) //endButton

@@ -77,73 +77,71 @@ public class BattleManager : MonoBehaviour
         enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
         uiManager = FindObjectOfType<UIManager>();
-        
+
         //Enemy setting
         //if문 돌려서 알맞은 적 SetActive(true);
         if (uiManager != null)
         {
-            int stage = UIManager.u_instance.stageIndex;
-            Debug.Log($"현재 진행 스테이지: {stage}");
-
-            switch (stage) //임시입니다. 한 스테이지에 2개 이상 Enemy의 경우 if문을 한 번 더 돌리든가 해야지
+            if (SceneTransport.previousScene == "Start")
             {
-                case 0:
-                    {
-                        Debug.Log("stage 인식: Aphrodite로 Battle 실행");
-                        Aphrodite.SetActive(true);
-                        enemy = Aphrodite.GetComponent<Enemy>();
-                        break;
-                    }
-                case 1:
-                    {
-                        Debug.Log("stage 인식: 도셔관");
+                Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
+                isBattleMode = true;
+                Debug.Log($"isBattleMode = {isBattleMode}");
+                SetEnemyRandom();
+            }
+            else
+            {
 
-                        if (SceneTransport.previousScene == "Library_B1F")
+                int stage = UIManager.u_instance.stageIndex;
+                Debug.Log($"현재 진행 스테이지: {stage}");
+
+                switch (stage) //임시입니다. 한 스테이지에 2개 이상 Enemy의 경우 if문을 한 번 더 돌리든가 해야지
+                {
+                    case 0:
                         {
-                            Debug.Log("stage: 도서관, ReadingChild");
-                            ReadingChild.SetActive(true);
-                            enemy = ReadingChild.GetComponent<Enemy>();
+                            if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
+                            {
+                                Debug.Log("stage 인식: Aphrodite로 Battle 실행");
+                                Aphrodite.SetActive(true);
+                                enemy = Aphrodite.GetComponent<Enemy>();
+                                break;
+                            }
                             break;
                         }
-                        else if (SceneTransport.previousScene == "Library_2F")
+                    case 1:
                         {
-                            Debug.Log("stage: 도서관, Melpomene");
-                            Melpomene.SetActive(true);
-                            enemy = Melpomene.GetComponent<Enemy>();
+                            Debug.Log("stage 인식: 도셔관");
+
+                            if (SceneTransport.previousScene == "Library_B1F")
+                            {
+                                Debug.Log("stage: 도서관, ReadingChild");
+                                ReadingChild.SetActive(true);
+                                enemy = ReadingChild.GetComponent<Enemy>();
+                                break;
+                            }
+                            else if (SceneTransport.previousScene == "Library_2F")
+                            {
+                                Debug.Log("stage: 도서관, Melpomene");
+                                Melpomene.SetActive(true);
+                                enemy = Melpomene.GetComponent<Enemy>();
+                                break;
+                            }
                             break;
                         }
-                        break;
-                    }                    
+                }
             }
         }
         else
         {
             isBattleMode = true;
-
-            //임시 Random 구현
-            int r = Random.Range(0, 3);
-            if (r == 0)
-            {
-                Aphrodite.SetActive(true);
-                enemy = Aphrodite.GetComponent<Enemy>();
-            }
-            else if (r == 1)
-            {
-                ReadingChild.SetActive(true);
-                enemy = ReadingChild.GetComponent<Enemy>();
-            }
-            else //(r == 2)
-            {
-                Melpomene.SetActive(true);
-                enemy = Melpomene.GetComponent<Enemy>();
-            }
+            SetEnemyRandom();
         }
         Debug.Log($"Enemy set to: {enemy}"); //Delete
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
     }
-    
+
     private void Start()
     {
         //Set, 최초 1회만 실행
@@ -227,6 +225,27 @@ public class BattleManager : MonoBehaviour
         }
     }
     #endregion
+
+    private void SetEnemyRandom() //전투 모드에서 적 랜덤 설정
+    {
+        //임시 Random 구현
+        int r = Random.Range(0, 3);
+        if (r == 0)
+        {
+            Aphrodite.SetActive(true);
+            enemy = Aphrodite.GetComponent<Enemy>();
+        }
+        else if (r == 1)
+        {
+            ReadingChild.SetActive(true);
+            enemy = ReadingChild.GetComponent<Enemy>();
+        }
+        else //(r == 2)
+        {
+            Melpomene.SetActive(true);
+            enemy = Melpomene.GetComponent<Enemy>();
+        }
+    }
 
     public void Damage(string _object, int _attackpower, Part _part = null)
     {
