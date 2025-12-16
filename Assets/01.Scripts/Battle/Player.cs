@@ -63,8 +63,6 @@ public class Player : MonoBehaviour
 
         //UI
         battleUI.contentText.text = "어느 부위를 공격할까?";
-
-        //battleUI.currentPartButtonIndex = 0; //초기화
         battleUI.UpdatePartButtons();
         battleUI.partButtons.SetActive(true);
 
@@ -99,6 +97,11 @@ public class Player : MonoBehaviour
 
         //Attack
         battleManager.Damage("enemy", attackDamage, _part); //attackDamage만큼 partHp 차감
+        if (enemy.name == "Melpomene" && _part.name == "Head" && _part.partHp <= 0) //머리 파괴 시
+        {
+            enemy.canLArmNarrative = true;
+            Debug.Log($"canLArmNarrative: {enemy.canLArmNarrative}");
+        }
 
         yield return new WaitForSeconds(1.5f);
         PlayerTurnEnd();

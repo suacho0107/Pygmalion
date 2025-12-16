@@ -222,6 +222,12 @@ public class BattleUI : MonoBehaviour
 
             if (selectedPartIndex < enemy.partComponents.Count)
             {
+                //Melpomene Mask-Head 우선순위
+                if (enemy.enemyName == "Melpomene" && enemy.isMasked && enemy.parts[selectedPartIndex] == "Head")
+                {
+                    return;
+                }
+
                 if (enemy.isDestroyed[selectedPartIndex])
                 {
                     Debug.Log("This part is already destroyed"); //Delete
@@ -332,10 +338,16 @@ public class BattleUI : MonoBehaviour
             {
                 partButton.SetActive(true);
 
-                Text partText = partButton.transform.Find("Text (Legacy)").GetComponent<Text>();
-                //Color partColor = enemy.partComponents[partIndex].partHp > 0 ? Color.white : Color.gray; //hp로 동작
-                Color partColor = enemy.isDestroyed[partIndex] == true ? Color.grey : Color.white; //isdetroyed로 동작
+                Text partText = partButton.transform.Find("Text (Legacy)").GetComponent<Text>();                
+                Color partColor = enemy.isDestroyed[partIndex] ? Color.grey : Color.white; //isdetroyed로 동작
                 partText.text = enemy.ReplacePartText(enemy.parts[partIndex]); //part 영->한 번역
+
+                //Melpomene Mask-Head 우선순위
+                if (enemy.enemyName == "Melpomene" && enemy.isMasked && enemy.parts[partIndex] == "Head")
+                {
+                    partColor = Color.grey;
+                }
+
                 partText.color = partColor;
 
                 GameObject hpBoxes = partButton.transform.Find("HpBoxes").gameObject;
@@ -434,6 +446,7 @@ public class BattleUI : MonoBehaviour
         bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
         return hasFinal ? _particleWithFinal : _particleWithoutFinal;
     }
+
     public IEnumerator FadeInOut(bool _isFadeIn, float _duration)
     {
         Debug.Log("FadeInout() 실행");

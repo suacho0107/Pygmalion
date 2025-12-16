@@ -27,15 +27,15 @@ public class Enemy : MonoBehaviour
     public string enemyName;
     public string mainPart;
 
-    public bool isMasked; //Melpomene: Mask 파괴 시 Head 공격 가능
+    public bool isMasked = true; //Melpomene: Mask 파괴 시 Head 공격 가능
 
     // Melpomene_Narrative() 발동 조건으로 사용
-    public bool isMaskNarrative;
-    public bool isLArmNarrative;
+    public bool canMaskNarrative = true;
+    public bool canLArmNarrative = true;
 
     public float ConfusionRate; //Melpomene: Confusion 발동 확률
-    public bool isMaskConfusion;
-    public bool isLArmConfusion;
+    public bool isMaskConfusion = false;
+    public bool isLArmConfusion = false;
 
     public float increaseAttackPower;
     #endregion
@@ -59,8 +59,6 @@ public class Enemy : MonoBehaviour
         partComponents.Clear();
         isDestroyed.Clear();
         enemyMaxHp = 0;
-        isMaskNarrative = true;
-        isLArmNarrative = true;
         ConfusionRate = 0.0f;
         increaseAttackPower = 1.0f;
 
@@ -89,7 +87,7 @@ public class Enemy : MonoBehaviour
         //Melopomene Mask-Head 우선순위
         if (enemyName == "Melpomene") //Melpomene는 가면 파괴 이전까지 머리 공격 불가
         {
-            isDestroyed[parts.IndexOf("Head")] = true; //일단 Head 공격 불가
+            isMasked = true;
         }
 
         enemyHp = enemyMaxHp;
@@ -135,11 +133,13 @@ public class Enemy : MonoBehaviour
         {
             if (partComponents[parts.IndexOf("Mask")].partHp > 0) //Mask 파괴 X
             {
-                isDestroyed[parts.IndexOf("Head")] = true; //isDestroyed로 공격 불가 상태로 만들기
+                isMasked = true;
+                
             }
-            else if (partComponents[parts.IndexOf("Head")].partHp > 0) //Mask 파괴 O
+            else //Mask 파괴 O
             {
-                isDestroyed[parts.IndexOf("Head")] = false;
+                isMasked = false;
+                Debug.Log($"isMasked: {isMasked}");
             }
         }
 
@@ -246,6 +246,14 @@ public class Enemy : MonoBehaviour
             battleUI.contentText.text = "";
             battleManager.isStateENEMYTURN = false;
             battleManager.isStatePLAYERTURN_RUN = false;
+            if (canMaskNarrative == true)
+            {
+                canMaskNarrative = false;
+            }            
+            if (canLArmNarrative == true)
+            {
+                canLArmNarrative = false;
+            }            
 
             //여기 로직 다시 보기
             if (player.playerHp > 0) //Player 생존
@@ -264,7 +272,7 @@ public class Enemy : MonoBehaviour
                 {
                     Debug.Log("Change State to PLAYERTURN_START");
                     battleManager.state = BattleManager.State.PLAYERTURN_START;
-                    Debug.Log($"CurrentScene is {battleManager.state}");
+                    Debug.Log($"Current State is {battleManager.state}");
                 }
             }
             else //Player 사망
@@ -278,17 +286,31 @@ public class Enemy : MonoBehaviour
     #region Enemy_Skill Methods
     private IEnumerator Aphrodite_Skill()
     {
+        //Index 정리
+        int maskIndex = battleUI.FindListIndex(parts, "Mask");
+        int bodyIndex = battleUI.FindListIndex(parts, "Body");
+        int headIndex = battleUI.FindListIndex(parts, "Head");
+        int lArmIndex = battleUI.FindListIndex(parts, "LArm");
+        //RLeg, lLeg는 연결된 skill 없음
+
+        //Skills
         List<Action> Aphrodite_skills = new List<Action>();
 
-        AddSkill(Aphrodite_skills, isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.2f, Aphrodite_Charm);
-        AddSkill(Aphrodite_skills, isDestroyed[battleUI.FindListIndex(parts, "Body")], 0.2f, Aphrodite_Dance);
+        if (!isDestroyed[headIndex])
+        {
+            AddSkill(Aphrodite_skills, 0.2f, Aphrodite_Charm);
+        }
+        if (!isDestroyed[bodyIndex])
+        {
+            AddSkill(Aphrodite_skills, 0.2f, Aphrodite_Dance);            
+        }
 
         if (Aphrodite_skills.Count > 0)
         {
             int index = Random.Range(0, Aphrodite_skills.Count);
             Aphrodite_skills[index]();
         }
-        else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
+        else if (!isDestroyed[lArmIndex])
         {
             Aphrodite_Throw();
         }
@@ -298,20 +320,35 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator ReadingChild_Skill()
     {
+        //Index 정리
+        int maskIndex = battleUI.FindListIndex(parts, "Mask");
+        int headIndex = battleUI.FindListIndex(parts, "Head");
+        int rArmIndex = battleUI.FindListIndex(parts, "RArm");
+        int lArmIndex = battleUI.FindListIndex(parts, "LArm");
+        int rLegIndex = battleUI.FindListIndex(parts, "RLeg");
+        //body, lLeg는 연결된 skill 없음
+
+        //Skills
         List<Action> ReadingChild_skills = new List<Action>();
 
-        if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
+        if (!isDestroyed[rArmIndex])
         {
             ReadingChild_BookShelf(20);
         }
-        else if (!isDestroyed[battleUI.FindListIndex(parts, "LArm")])
+        else if (!isDestroyed[lArmIndex]) //&& isDestroyed[rArmIndex])
         {
             ReadingChild_BookShelf(15);
         }
-        else
+        else //(isDestroyed[rArmIndex] && isDestroyed [lArmIndex])
         {
-            AddSkill(ReadingChild_skills, isDestroyed[battleUI.FindListIndex(parts, "Head")], 0.5f, ReadingChild_Stroyteller);
-            AddSkill(ReadingChild_skills, isDestroyed[battleUI.FindListIndex(parts, "RLeg")], 0.5f, ReadingChild_Kick);
+            if (!isDestroyed[headIndex])
+            {
+                ReadingChild_skills.Add(ReadingChild_Stroyteller);
+            }
+            if (!isDestroyed[rLegIndex])
+            {
+                ReadingChild_skills.Add(ReadingChild_Kick);
+            }
 
             if (ReadingChild_skills.Count > 0)
             {
@@ -321,63 +358,130 @@ public class Enemy : MonoBehaviour
         }
 
         yield return null; //EnemyTurnStart()로 돌아가서 3s Wait
-}
+    }
 
     private IEnumerator Melpomene_Skill()
     {
-        List<Action> Melpomene_skills = new List<Action>();
+        //Index 정리
+        int maskIndex = battleUI.FindListIndex(parts, "Mask");
+        int headIndex = battleUI.FindListIndex(parts, "Head");
+        int rArmIndex = battleUI.FindListIndex(parts, "RArm");
+        int lArmIndex = battleUI.FindListIndex(parts, "LArm");
+        //body는 player.Run()에서 사용
+        //rLeg, lLeg는 연결된 skill 없음
 
-        //비극의 외침, 혼란
-        if (isMaskConfusion || isLArmConfusion)
+        //Melpomene_Narrative
+        //Mask, canMaskNarrative (최초 EnemyTurn)
+        if (canMaskNarrative && !isDestroyed[maskIndex] && Random.value < 0.4f)
+        {
+            Melpomene_Narrative(15);
+            Debug.Log("Mask Narrative 실행");
+        }
+        //LArm, canLArmNarrative (Head 파괴 직후 EnemyTurn)
+        if (canLArmNarrative && isDestroyed[rArmIndex] && !isDestroyed[lArmIndex] && Random.value < 0.4f)
+        {
+            Melpomene_Narrative(10);
+            Debug.Log("LArm Narrative 실행");
+        }
+        //ConfusionRate
+        if (isMaskConfusion)
         {
             ConfusionRate += 0.05f;
         }
-        else if (isMaskConfusion && isLArmConfusion)
+        if (isLArmConfusion)
         {
-            ConfusionRate += 0.1f;
+            ConfusionRate += 0.05f;
         }
 
-        if (isMaskNarrative && Random.value < 0.4f)
+        //Skills
+        List<Action> Melpomene_skills = new List<Action>();
+
+        if (isDestroyed[maskIndex] && !isDestroyed[headIndex])
         {
-            Melpomene_Narrative(15);
-            isMaskNarrative = false;
-            isMaskConfusion = true;
+            Melpomene_skills.Add(Melpomene_Shout);
+        }
+        if (isDestroyed[rArmIndex] && !isDestroyed[lArmIndex])
+        {
+            Melpomene_skills.Add(Melpomene_Slap);
         }
 
-        if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && isLArmNarrative && Random.value < 0.4f)
-        {
-            Melpomene_Narrative(10);
-            isLArmNarrative = false;
-            isLArmConfusion = true;
-        }
-
-        //공격 스킬
-        AddSkill(Melpomene_skills, isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
-        AddSkill(Melpomene_skills, isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
-
-        
-        if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
+        if (!isDestroyed[rArmIndex])
         {
             Melpomene_Bat();
         }
         else if (Melpomene_skills.Count > 0)
         {
+            Debug.Log($"Melpomene_skills 실행");
             int index = Random.Range(0, Melpomene_skills.Count);
             Melpomene_skills[index]();
         }
 
         yield return null;
 
+        //Confusion
         if (Random.value < ConfusionRate)
-        //if (Random.value < 1.0f) //test
         {
             player.isConfused = true;
         }
         Debug.Log($"ConfusionRate: {ConfusionRate}"); //Delete
     }
-    private void AddSkill(List<Action> _skills, bool _isDestroyed, float _skillprobability, Action _skill)
+
+    //private IEnumerator Melpomene_Skill()
+    //{
+    //    List<Action> Melpomene_skills = new List<Action>();
+
+    //    //비극의 외침, 혼란
+    //    if (isMaskConfusion || isLArmConfusion)
+    //    {
+    //        ConfusionRate += 0.05f;
+    //    }
+    //    else if (isMaskConfusion && isLArmConfusion)
+    //    {
+    //        ConfusionRate += 0.1f;
+    //    }
+
+    //    if (isMaskNarrative && Random.value < 0.4f)
+    //    {
+    //        Melpomene_Narrative(15);
+    //        isMaskNarrative = false;
+    //        isMaskConfusion = true;
+    //    }
+
+    //    if (isDestroyed[battleUI.FindListIndex(parts, "Mask")] && isDestroyed[battleUI.FindListIndex(parts, "Head")] && isLArmNarrative && Random.value < 0.4f)
+    //    {
+    //        Melpomene_Narrative(10);
+    //        isLArmNarrative = false;
+    //        isLArmConfusion = true;
+    //    }
+
+    //    //공격 스킬
+    //    AddSkill(Melpomene_skills, isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
+    //    AddSkill(Melpomene_skills, isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
+
+
+    //    if (!isDestroyed[battleUI.FindListIndex(parts, "RArm")])
+    //    {
+    //        Melpomene_Bat();
+    //    }
+    //    else if (Melpomene_skills.Count > 0)
+    //    {
+    //        int index = Random.Range(0, Melpomene_skills.Count);
+    //        Melpomene_skills[index]();
+    //    }
+
+    //    yield return null;
+
+    //    if (Random.value < ConfusionRate)
+    //    //if (Random.value < 1.0f) //test
+    //    {
+    //        player.isConfused = true;
+    //    }
+    //    Debug.Log($"ConfusionRate: {ConfusionRate}"); //Delete
+    //}
+
+    private void AddSkill(List<Action> _skills, float _probability, Action _skill)
     {
-        if (!_isDestroyed && Random.value <= _skillprobability)
+        if (Random.value <= _probability)
         {
             Debug.Log($"{_skill.Method.Name} 스킬 추가");
             _skills.Add(_skill);
@@ -448,6 +552,16 @@ public class Enemy : MonoBehaviour
         StartCoroutine(battleManager.ContentTextWriter("조각상이 당신의 비극적인 운명을 노래합니다.\n운명의 저주가 당신을 천천히 갉아먹습니다."));
 
         battleManager.Damage("player", _damage); //Mask, LArm 같은 Skill, 데미지 차이
+        
+        if (_damage == 15)
+        {
+            isMaskConfusion = true;
+        }
+        else //(_damage == 10)
+        {
+            isLArmConfusion = true;
+        }
+
         ConfusionRate += 0.05f;
     }
 

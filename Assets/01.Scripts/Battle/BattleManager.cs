@@ -82,7 +82,7 @@ public class BattleManager : MonoBehaviour
         //if문 돌려서 알맞은 적 SetActive(true);
         if (uiManager != null)
         {
-            if (SceneTransport.previousScene == "Start")
+            if (SceneTransport.previousScene == "Start") //랜덤 모드, Start에서 진입
             {
                 Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
                 isBattleMode = true;
@@ -91,11 +91,10 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-
                 int stage = UIManager.u_instance.stageIndex;
                 Debug.Log($"현재 진행 스테이지: {stage}");
 
-                switch (stage) //임시입니다. 한 스테이지에 2개 이상 Enemy의 경우 if문을 한 번 더 돌리든가 해야지
+                switch (stage)
                 {
                     case 0:
                         {
@@ -124,6 +123,10 @@ public class BattleManager : MonoBehaviour
                                 Debug.Log("stage: 도서관, Melpomene");
                                 Melpomene.SetActive(true);
                                 enemy = Melpomene.GetComponent<Enemy>();
+
+                                //Melpomene, 최초 턴 표시
+                                enemy.canMaskNarrative = true;
+                                Debug.Log($"canMaskNarrative: {enemy.canMaskNarrative}");
                                 break;
                             }
                             break;
@@ -131,7 +134,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
-        else
+        else //랜덤 모드
         {
             isBattleMode = true;
             SetEnemyRandom();
@@ -173,7 +176,6 @@ public class BattleManager : MonoBehaviour
                 if (!isStatePLAYERTURN)
                 {
                     player.PlayerTurnStart();
-                    //isStatePLAYERTURN = true; //player.PlayerTurnStart() 내부로 이동, 문제 발생 시 롤백
                 }
                 break;
 
@@ -188,7 +190,6 @@ public class BattleManager : MonoBehaviour
                 if (!isStatePLAYERTURN_RUN)
                 {
                     PlayerRun(); //SaveRun으로 함수명 변경해서 player.Run 안에 넣을 수 있나요?
-                    //player.Run();
                     StartCoroutine(player.Run());
                 }
                 break;
@@ -198,7 +199,6 @@ public class BattleManager : MonoBehaviour
                 if (!isStateENEMYTURN)
                 {
                     StartCoroutine(enemy.EnemyTurnStart()); //Coroutine화 했음
-                    //isStateENEMYTURN = true;
                 }
                 break;
 
@@ -207,9 +207,7 @@ public class BattleManager : MonoBehaviour
                 if (!isStateEND)
                 {
                     isStateEND = true;
-                    //Win();
                     StartCoroutine(Win());
-                    //PlaySFX(playerWinSFX);
                 }
                 break;
 
@@ -217,9 +215,7 @@ public class BattleManager : MonoBehaviour
                 if (!isStateEND)
                 {
                     isStateEND = true;
-                    //Lose();
                     StartCoroutine(Lose());
-                    //PlaySFX(playerLoseSFX);
                 }
                 break;
         }
@@ -244,6 +240,10 @@ public class BattleManager : MonoBehaviour
         {
             Melpomene.SetActive(true);
             enemy = Melpomene.GetComponent<Enemy>();
+
+            //Melpomene, 최초 턴 표시
+            enemy.canMaskNarrative = true;
+            Debug.Log($"canMaskNarrative: {enemy.canMaskNarrative}");
         }
     }
 
