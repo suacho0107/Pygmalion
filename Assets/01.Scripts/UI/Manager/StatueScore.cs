@@ -29,12 +29,21 @@ public class StatueScore : MonoBehaviour
         fightCount = PlayerPrefs.GetInt("fightCount", fightCount);
 
         checkCount = PlayerPrefs.GetInt("checkCount", checkCount);
+        //UpdateScore();
+    }
+
+    void Update()
+    {
         UpdateScore();
     }
 
     void UpdateScore()
     {
         string sceneName = SceneManager.GetActiveScene().name;
+
+        /* 여기 */
+        //if (조건 미충족)
+        //        return;
 
         if (sceneName.StartsWith("Museum"))
         {

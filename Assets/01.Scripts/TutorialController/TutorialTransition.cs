@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TutorialTransition : TutorialBase
 {
+    // to be deleted
     [SerializeField]
     private PlayerPosition playerPos;
     [SerializeField]
