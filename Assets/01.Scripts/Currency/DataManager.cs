@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
-
     public int currency = 0;
 
     private void Awake()
@@ -27,7 +28,7 @@ public class DataManager : MonoBehaviour
         #region Test : Reset curreny
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            currency = 0;
+            PlayerPrefs.SetInt("Currency", 0);
         }
         #endregion
     }
@@ -45,6 +46,11 @@ public class DataManager : MonoBehaviour
 
     public void LoadCurrency()
     {
-        currency = PlayerPrefs.GetInt("Currency", 0);
+        currency = PlayerPrefs.GetInt("Currency", 999);
+    }
+
+    public int GetCurrency()
+    {
+        return currency;
     }
 }
