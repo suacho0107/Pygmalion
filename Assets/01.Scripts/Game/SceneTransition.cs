@@ -34,7 +34,7 @@ public class SceneTransition : MonoBehaviour
                 playerPos.nextPosition = nextPos;
                 playerPos.isChecked = true;
 
-                Set_UIStateWork(nextScene);
+                //Set_UIStateWork(nextScene);
 
                 LoadNextScene();
             }
