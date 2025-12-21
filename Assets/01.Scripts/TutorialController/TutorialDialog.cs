@@ -40,6 +40,7 @@ public class TutorialDialog : TutorialBase
 
         if (dialogManager.isEnd)
         {
+            player.IsAnimation = true;
             controller.SetNextTutorial();
         }
     }
