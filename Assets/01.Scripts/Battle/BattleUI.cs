@@ -449,7 +449,7 @@ public class BattleUI : MonoBehaviour
 
     public IEnumerator FadeInOut(bool _isFadeIn, float _duration)
     {
-        Debug.Log("FadeInout() 실행");
+        //Debug.Log("FadeInout() 실행");
         isFadeInOut = true;
 
         Image image = blackBoard.GetComponent<Image>();
@@ -477,5 +477,26 @@ public class BattleUI : MonoBehaviour
         image.color = color;
 
         isFadeInOut = false;
+    }
+
+    public IEnumerator Shake(Transform _target, float _dration, float _strength)
+    {
+        Vector3 originPos = _target.localPosition;
+        float elapsed = 0f;
+
+        //_dration(sec) 동안 _strength만큼 흔들림
+        while (elapsed < _dration)
+        {
+            float x = Random.Range(-1f, 1f) * _strength;
+            float y = Random.Range(-1f, 1f) * _strength;
+
+            _target.localPosition = originPos + new Vector3(x, y, 0);
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        //위치 초기화
+        transform.localPosition = originPos;
     }
 }

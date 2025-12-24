@@ -47,8 +47,6 @@ public class Player : MonoBehaviour
     #region PlayerTurn Control
     public void PlayerTurnStart()
     {
-        Debug.Log("PlayerTurnStart() 실행");
-
         //UI
         StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
         battleUI.dialogueButtons.gameObject.SetActive(true);
@@ -72,8 +70,6 @@ public class Player : MonoBehaviour
 
     public IEnumerator PlayerAttack(Part _part)
     {
-        Debug.Log($"PlayerAttack({_part}) 실행"); //Delete
-
         //UI
         battleUI.contentText.text = "";
         battleUI.partButtons.SetActive(false);
@@ -100,7 +96,6 @@ public class Player : MonoBehaviour
         if (enemy.name == "Melpomene" && _part.name == "Head" && _part.partHp <= 0) //머리 파괴 시
         {
             enemy.canLArmNarrative = true;
-            Debug.Log($"canLArmNarrative: {enemy.canLArmNarrative}");
         }
 
         yield return new WaitForSeconds(1.5f);
@@ -109,8 +104,6 @@ public class Player : MonoBehaviour
 
     private void PlayerTurnEnd()
     {
-        Debug.Log("PlayerTurnEnd() 실행");
-
         //초기화
         isConfused = false;
 
@@ -177,8 +170,6 @@ public class Player : MonoBehaviour
         else
         {
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-
-            Debug.Log("Run!!!!!!!!!");
 
             //UI
             battleUI.contentText.text = "";

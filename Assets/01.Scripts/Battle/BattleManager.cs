@@ -84,15 +84,14 @@ public class BattleManager : MonoBehaviour
         {
             if (SceneTransport.previousScene == "Start") //랜덤 모드, Start에서 진입
             {
-                Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
+                //Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
                 isBattleMode = true;
-                Debug.Log($"isBattleMode = {isBattleMode}");
                 SetEnemyRandom();
             }
             else
             {
                 int stage = UIManager.u_instance.stageIndex;
-                Debug.Log($"현재 진행 스테이지: {stage}");
+                //Debug.Log($"현재 진행 스테이지: {stage}");
 
                 switch (stage)
                 {
@@ -100,7 +99,7 @@ public class BattleManager : MonoBehaviour
                         {
                             if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
                             {
-                                Debug.Log("stage 인식: Aphrodite로 Battle 실행");
+                                //Debug.Log("stage 인식: Aphrodite로 Battle 실행");
                                 Aphrodite.SetActive(true);
                                 enemy = Aphrodite.GetComponent<Enemy>();
                                 break;
@@ -109,24 +108,23 @@ public class BattleManager : MonoBehaviour
                         }
                     case 1:
                         {
-                            Debug.Log("stage 인식: 도셔관");
+                            //Debug.Log("stage 인식: 도셔관");
 
                             if (SceneTransport.previousScene == "Library_B1F")
                             {
-                                Debug.Log("stage: 도서관, ReadingChild");
+                                //Debug.Log("stage: 도서관, ReadingChild");
                                 ReadingChild.SetActive(true);
                                 enemy = ReadingChild.GetComponent<Enemy>();
                                 break;
                             }
                             else if (SceneTransport.previousScene == "Library_2F")
                             {
-                                Debug.Log("stage: 도서관, Melpomene");
+                                //Debug.Log("stage: 도서관, Melpomene");
                                 Melpomene.SetActive(true);
                                 enemy = Melpomene.GetComponent<Enemy>();
 
                                 //Melpomene, 최초 턴 표시
                                 enemy.canMaskNarrative = true;
-                                Debug.Log($"canMaskNarrative: {enemy.canMaskNarrative}");
                                 break;
                             }
                             break;
@@ -243,7 +241,6 @@ public class BattleManager : MonoBehaviour
 
             //Melpomene, 최초 턴 표시
             enemy.canMaskNarrative = true;
-            Debug.Log($"canMaskNarrative: {enemy.canMaskNarrative}");
         }
     }
 
@@ -261,6 +258,7 @@ public class BattleManager : MonoBehaviour
         {
             player.playerHp -= _attackpower;
             player.UpdatePlayer();
+            StartCoroutine(battleUI.Shake(player.gameObject.transform, 0.2f, 10f));
         }
         else if (_object == "enemy" && _part != null)
         {
@@ -274,6 +272,7 @@ public class BattleManager : MonoBehaviour
             _attackpower = (int)attackpower;
             _part.partHp -= _attackpower;
             enemy.UpdateEnemy();
+            StartCoroutine(battleUI.Shake(enemy.gameObject.transform, 0.2f, 10f));
         }
     }
 
@@ -293,8 +292,6 @@ public class BattleManager : MonoBehaviour
     #region Battle End
     private IEnumerator Win()
     {
-        Debug.Log("PlayerWin() 실행");
-
         PlaySFX(playerWinSFX);
 
         //UI
@@ -318,8 +315,6 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator Lose()
     {
-        Debug.Log("PlayerLose() 실행");
-
         PlaySFX(playerLoseSFX);
 
         //UI

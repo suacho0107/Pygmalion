@@ -51,8 +51,6 @@ public class Enemy : MonoBehaviour
 
     public void SetEnemy() // 최초 전투 진입 시에만 실행
     {
-        Debug.Log("StartSetEnemy() 실행");
-
         //초기화
         enemyName = this.name;
         parts.Clear();
@@ -91,7 +89,6 @@ public class Enemy : MonoBehaviour
         }
 
         enemyHp = enemyMaxHp;
-        Debug.Log($"enemyMaxHp = {enemyMaxHp}\nenemyHp = {enemyHp}");
 
         //공략 부위 설정
         if (enemyName == "Aphrodite")
@@ -114,7 +111,6 @@ public class Enemy : MonoBehaviour
 
     public void UpdateEnemy() //UpdateEnemyHp(), 매 턴마다 실행
     {
-        Debug.Log("UpdateEnemyHp() 실행");
         enemyHp = 0; //합산을 위해 먼저 0으로 초기화
 
         for (int i = 0; i < partComponents.Count; i++)
@@ -139,12 +135,10 @@ public class Enemy : MonoBehaviour
             else //Mask 파괴 O
             {
                 isMasked = false;
-                Debug.Log($"isMasked: {isMasked}");
             }
         }
 
         enemyHpBar.value = (float)enemyHp / enemyMaxHp;
-        Debug.Log($"enemyHpBar.value: enemyMaxHp = {enemyMaxHp}\nenemyHp = {enemyHp}");
     }
 
     #region ReplaceTexts
@@ -215,7 +209,7 @@ public class Enemy : MonoBehaviour
     #region EnemyTurn Control
     public IEnumerator EnemyTurnStart()
     {
-        Debug.Log("EnemyTurnStart()");
+        //Debug.Log("EnemyTurnStart()");
         battleManager.isStateENEMYTURN = true;
         battleUI.contentText.text = ""; //초기화
 
@@ -242,7 +236,7 @@ public class Enemy : MonoBehaviour
     {
         if (!battleManager.isContentTextWriting)
         {
-            Debug.Log("EnemyTurnEnd()");
+            //Debug.Log("EnemyTurnEnd()");
             battleUI.contentText.text = "";
             battleManager.isStateENEMYTURN = false;
             battleManager.isStatePLAYERTURN_RUN = false;
@@ -270,9 +264,9 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Change State to PLAYERTURN_START");
+                    //Debug.Log("Change State to PLAYERTURN_START");
                     battleManager.state = BattleManager.State.PLAYERTURN_START;
-                    Debug.Log($"Current State is {battleManager.state}");
+                    //Debug.Log($"Current State is {battleManager.state}");
                 }
             }
             else //Player 사망
@@ -411,7 +405,6 @@ public class Enemy : MonoBehaviour
         }
         else if (Melpomene_skills.Count > 0)
         {
-            Debug.Log($"Melpomene_skills 실행");
             int index = Random.Range(0, Melpomene_skills.Count);
             Melpomene_skills[index]();
         }
