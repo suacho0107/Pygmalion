@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     BattleUI battleUI;
     BattleManager battleManager;
     Enemy enemy;
+    BattleBGM battleBGM;
     #endregion
 
     #region Variables
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
         battleManager = FindObjectOfType<BattleManager>();
         battleUI = FindObjectOfType<BattleUI>();
         enemy = FindObjectOfType<Enemy>();
+        battleBGM = FindObjectOfType<BattleBGM>();
     }
     #endregion
 
@@ -171,11 +173,12 @@ public class Player : MonoBehaviour
         {
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
 
-            //UI
+            //UI & BGM
             battleUI.contentText.text = "";
             battleUI.dialoguePanel.SetActive(false);
             //StartCoroutine(battleUI.FadeInOut(false, 2f));
             StartCoroutine(battleUI.FadeInOutCircle(false, 2f));
+            StartCoroutine(battleBGM.FadeOutBGM(2f));
 
             ////SFX
             //battleManager.PlaySFX(battleManager.playerRunSFX);

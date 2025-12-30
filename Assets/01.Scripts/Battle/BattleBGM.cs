@@ -33,4 +33,21 @@ public class BattleBGM : MonoBehaviour
         audioSource.time = 0;
         audioSource.Play();
     }
+
+    public IEnumerator FadeOutBGM(float _duration)
+    {
+        float time = 0f;
+        while (time < _duration)
+        {
+            float t = time / _duration;
+
+            float volume = Mathf.Lerp(0.4f, 0f, t);
+            audioSource.volume = volume;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        audioSource.volume = 0f;
+    }
 }

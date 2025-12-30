@@ -15,6 +15,7 @@ public class BattleManager : MonoBehaviour
     Enemy enemy;
     Part part;
     UIManager uiManager;
+    BattleBGM battleBGM;
 
     public NPCData npcData = new NPCData();
     #endregion
@@ -77,6 +78,7 @@ public class BattleManager : MonoBehaviour
         enemy = FindObjectOfType<Enemy>();
         part = FindObjectOfType<Part>();
         uiManager = FindObjectOfType<UIManager>();
+        battleBGM = FindObjectOfType<BattleBGM>();
 
         //Enemy setting
         //if문 돌려서 알맞은 적 SetActive(true);
@@ -296,8 +298,9 @@ public class BattleManager : MonoBehaviour
     {
         PlaySFX(playerWinSFX);
 
-        //UI
-        StartCoroutine(battleUI.FadeInOut(false, 2f));        
+        //UI & BGM
+        StartCoroutine(battleUI.FadeInOut(false, 2f));
+        StartCoroutine(battleBGM.FadeOutBGM(2f));
 
         if (!isBattleMode)
         {
@@ -319,9 +322,12 @@ public class BattleManager : MonoBehaviour
     {
         PlaySFX(playerLoseSFX);
 
-        //UI
+        //UI & BGM
         StartCoroutine(ContentTextWriter("눈앞이 흐려진다..."));
         StartCoroutine(battleUI.FadeInOut(false, 2f));
+        StartCoroutine(battleBGM.FadeOutBGM(2f));
+
+
         //구현예정
 
         if (!isBattleMode)
