@@ -492,13 +492,13 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region Aphrodite Skills
-    private void Aphrodite_Charm()
+    private void Aphrodite_Charm() //매혹의 눈빛
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 매혹적인 눈빛을 보내 당신을 완전히 매료시킵니다."));
 
         player.isCharmed = true;
     }
-    private void Aphrodite_Dance()
+    private void Aphrodite_Dance() //황홀한 춤
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 황홀한 춤을 춰 당신을 크게 매료시킵니다.\n방어력이 감소합니다."));
 
@@ -507,7 +507,7 @@ public class Enemy : MonoBehaviour
             increaseAttackPower = 1.2f;
         }
     }
-    private void Aphrodite_Throw()
+    private void Aphrodite_Throw() //황금 사과 투척
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 황금 사과를 던져 당신을 공격합니다."));
 
@@ -521,19 +521,19 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region ReadingChild_Skills
-    private void ReadingChild_Stroyteller()
+    private void ReadingChild_Stroyteller() //타고난 이야기꾼
     {
         StartCoroutine(battleManager.ContentTextWriter("타고난 이야기꾼인 조각상은 흥미로운 이야기를 들려줍니다.\n당신은 환상에 휘말립니다.")); //이건 Skill 대사 겸 혼란 대사임? ㅇㅇ
 
         player.isConfused = true;
     }
-    private void ReadingChild_BookShelf(int _damage)
+    private void ReadingChild_BookShelf(int _damage) //날카로운 책장
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 책에서 페이지를 뽑아 날카로운 종이의 칼날을 휘두릅니다."));
 
         battleManager.Damage("player", _damage); //LArm, RArm 같은 스킬, 데미지 차이
     }
-    private void ReadingChild_Kick()
+    private void ReadingChild_Kick() //걷어차기
     {
         StartCoroutine(battleManager.ContentTextWriter("아무것도 남지 않은 조각상이 당신을 힘껏 걷어찹니다."));
 
@@ -542,14 +542,14 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region Melpomene_Skills
-    private void Melpomene_Shout()
+    private void Melpomene_Shout() //비극의 외침
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 비극을 외쳐, 그 울림이 당신에게 강력한 정신적 충격을 줍니다.\n방어력이 감소합니다."));
 
         battleManager.Damage("player", 30);
     }
 
-    private void Melpomene_Narrative(int _damage)
+    private void Melpomene_Narrative(int _damage) //운명의 서사
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 당신의 비극적인 운명을 노래합니다.\n운명의 저주가 당신을 천천히 갉아먹습니다."));
 
@@ -567,32 +567,32 @@ public class Enemy : MonoBehaviour
         //ConfusionRate += 0.05f;
     }
 
-    public void Melpomene_Redemption() //Player가 Run 선택 시 발동
+    public void Melpomene_Redemption() //구속; Player가 Run 선택 시 발동
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 알 수 없는 힘으로 당신을 구속합니다."));
 
         battleManager.Damage("player", 5);
     }
 
-    private void Melpomene_Bat()
+    private void Melpomene_Finale() //종막
+    {
+        StartCoroutine(battleManager.ContentTextWriter("조각상이 찢어진 ◼◼%▒̵▓̸?▓̸▓̸∅으로 비극을 노래합니다. 당신은 무대에서 영원히 A̴͠A̴͠H̸͠▒̵▒̵▓̸▓̸▓̸"));
+
+        battleManager.Damage("player", 100);
+    }
+
+    private void Melpomene_Bat()//휘두르는 방망이
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 손에 든 커다란 방망이를 휘두릅니다."));
 
         battleManager.Damage("player", 15);
     }
 
-    private void Melpomene_Slap()
+    private void Melpomene_Slap() //뺨 후려치기
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 당신의 뺨을 후려칩니다.\n그다지 타격은 없으나 비극적인 기분이 느껴집니다."));
 
         battleManager.Damage("player", 5);
-    }
-
-    private void Melpomene_Finale()
-    {
-        StartCoroutine(battleManager.ContentTextWriter("조각상이 찢어진 ◼◼%▒̵▓̸?▓̸▓̸∅으로 비극을 노래합니다. 당신은 무대에서 영원히 A̴͠A̴͠H̸͠▒̵▒̵▓̸▓̸▓̸"));
-
-        battleManager.Damage("player", 100);
     }
     #endregion
 }
