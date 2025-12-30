@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,21 +20,21 @@ public class Enemy : MonoBehaviour
     //public Slider enemyHpBar;
     public Image enemyHpBar;
 
-    public List<string> parts = new List<string>(); //partComponentsµµ Æ÷ÇÔÇÑ Dictionary·Î º¯È¯ÇÏ±â?
-    public List<Part> partComponents = new List<Part>(); //UpdatehpBox µî¿¡¼­ »ç¿ë
+    public List<string> parts = new List<string>(); //partComponentsë„ í¬í•¨í•œ Dictionaryë¡œ ë³€í™˜í•˜ê¸°?
+    public List<Part> partComponents = new List<Part>(); //UpdatehpBox ë“±ì—ì„œ ì‚¬ìš©
     public string currentPart;
     public List<bool> isDestroyed = new List<bool>();
 
     public string enemyName;
     public string mainPart;
 
-    public bool isMasked = true; //Melpomene: Mask ÆÄ±« ½Ã Head °ø°İ °¡´É
+    public bool isMasked = true; //Melpomene: Mask íŒŒê´´ ì‹œ Head ê³µê²© ê°€ëŠ¥
 
-    // Melpomene_Narrative() ¹ßµ¿ Á¶°ÇÀ¸·Î »ç¿ë
+    // Melpomene_Narrative() ë°œë™ ì¡°ê±´ìœ¼ë¡œ ì‚¬ìš©
     public bool canMaskNarrative = true;
-    public bool canLArmNarrative = true;
+    public bool canLArmNarrative = false;
 
-    public float ConfusionRate; //Melpomene: Confusion ¹ßµ¿ È®·ü
+    public float ConfusionRate; //Melpomene: Confusion ë°œë™ í™•ë¥ 
     public bool isMaskConfusion = false;
     public bool isLArmConfusion = false;
 
@@ -50,9 +50,9 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    public void SetEnemy() // ÃÖÃÊ ÀüÅõ ÁøÀÔ ½Ã¿¡¸¸ ½ÇÇà
+    public void SetEnemy() // ìµœì´ˆ ì „íˆ¬ ì§„ì… ì‹œì—ë§Œ ì‹¤í–‰
     {
-        //ÃÊ±âÈ­
+        //ì´ˆê¸°í™”
         enemyName = this.name;
         parts.Clear();
         partComponents.Clear();
@@ -61,37 +61,37 @@ public class Enemy : MonoBehaviour
         ConfusionRate = 0.0f;
         increaseAttackPower = 1.0f;
 
-        //Part ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        //Part ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
         List<Part> tempParts = new List<Part>();
         for (int i = 0; i < transform.childCount - 1; i++)
         {
             tempParts.Add(transform.GetChild(i).GetComponent<Part>());
         }
 
-        //partSort ±âÁØÀ¸·Î Á¤·Ä
+        //partSort ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬
         tempParts.Sort((a, b) => a.partSort.CompareTo(b.partSort));
 
         foreach (Part part in tempParts)
         {
-            parts.Add(part.gameObject.name); // List parts¿¡ Object ÀÌ¸§ Ãß°¡
-            Debug.Log($"parts.Add({part.gameObject.name})");
+            parts.Add(part.gameObject.name); // List partsì— Object ì´ë¦„ ì¶”ê°€
+            //Debug.Log($"parts.Add({part.gameObject.name})");
 
             partComponents.Add(part);
-            part.SetPartHp(); // partHp ÃÊ±âÈ­
+            part.SetPartHp(); // partHp ì´ˆê¸°í™”
 
-            enemyMaxHp += part.partMaxHp; // partMaxHp ÇÕ»ê
-            isDestroyed.Add(false); // parts ±æÀÌ¸¸Å­ isDestroyed false·Î ÃÊ±âÈ­
+            enemyMaxHp += part.partMaxHp; // partMaxHp í•©ì‚°
+            isDestroyed.Add(false); // parts ê¸¸ì´ë§Œí¼ isDestroyed falseë¡œ ì´ˆê¸°í™”
         }
 
-        //Melopomene Mask-Head ¿ì¼±¼øÀ§
-        if (enemyName == "Melpomene") //Melpomene´Â °¡¸é ÆÄ±« ÀÌÀü±îÁö ¸Ó¸® °ø°İ ºÒ°¡
+        //Melopomene Mask-Head ìš°ì„ ìˆœìœ„
+        if (enemyName == "Melpomene") //MelpomeneëŠ” ê°€ë©´ íŒŒê´´ ì´ì „ê¹Œì§€ ë¨¸ë¦¬ ê³µê²© ë¶ˆê°€
         {
             isMasked = true;
         }
 
         enemyHp = enemyMaxHp;
 
-        //°ø·« ºÎÀ§ ¼³Á¤
+        //ê³µëµ ë¶€ìœ„ ì„¤ì •
         if (enemyName == "Aphrodite")
         {
             mainPart = "LArm";
@@ -110,30 +110,30 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void UpdateEnemy() //UpdateEnemyHp(), ¸Å ÅÏ¸¶´Ù ½ÇÇà
+    public void UpdateEnemy() //UpdateEnemyHp(), ë§¤ í„´ë§ˆë‹¤ ì‹¤í–‰
     {
-        enemyHp = 0; //ÇÕ»êÀ» À§ÇØ ¸ÕÀú 0À¸·Î ÃÊ±âÈ­
+        enemyHp = 0; //í•©ì‚°ì„ ìœ„í•´ ë¨¼ì € 0ìœ¼ë¡œ ì´ˆê¸°í™”
 
         for (int i = 0; i < partComponents.Count; i++)
         {
             if (partComponents[i].partHp <= 0) //isDestroyed true
             {
                 isDestroyed[i] = true;
-                partComponents[i].gameObject.SetActive(false); //Á¤·ÄµÈ ¼ø¼­´ë·Î ºñÈ°¼ºÈ­
+                partComponents[i].gameObject.SetActive(false); //ì •ë ¬ëœ ìˆœì„œëŒ€ë¡œ ë¹„í™œì„±í™”
             }
-            Debug.Log($"partComponents[{i}] = {partComponents[i].partHp}");
+            //Debug.Log($"partComponents[{i}] = {partComponents[i].partHp}");
             enemyHp += partComponents[i].partHp;
         }
 
-        //Melopomene Mask-Head ¿ì¼±¼øÀ§
+        //Melopomene Mask-Head ìš°ì„ ìˆœìœ„
         if (enemyName == "Melpomene")
         {
-            if (partComponents[parts.IndexOf("Mask")].partHp > 0) //Mask ÆÄ±« X
+            if (partComponents[parts.IndexOf("Mask")].partHp > 0) //Mask íŒŒê´´ X
             {
                 isMasked = true;
                 
             }
-            else //Mask ÆÄ±« O
+            else //Mask íŒŒê´´ O
             {
                 isMasked = false;
             }
@@ -150,15 +150,15 @@ public class Enemy : MonoBehaviour
 
         if (_enemy == "Aphrodite")
         {
-            enemy = "¾ÆÇÁ·ÎµğÅ×";
+            enemy = "ì•„í”„ë¡œë””í…Œ";
         }
         else if (_enemy == "ReadingChild")
         {
-            enemy = "Ã¥À» ÀĞ´Â ¾ÆÀÌ";
+            enemy = "ì±…ì„ ì½ëŠ” ì•„ì´";
         }
         else if (_enemy == "Melpomene")
         {
-            enemy = "¸áÆ÷¸Ş³×";
+            enemy = "ë©œí¬ë©”ë„¤";
         }
         else
         {
@@ -174,31 +174,31 @@ public class Enemy : MonoBehaviour
 
         if (_part == "Head")
         {
-            part = "¸Ó¸®";
+            part = "ë¨¸ë¦¬";
         }
         else if (_part == "Mask")
         {
-            part = "°¡¸é";
+            part = "ê°€ë©´";
         }
         else if (_part == "Body")
         {
-            part = "¸öÅë";
+            part = "ëª¸í†µ";
         }
         else if (_part == "LArm")
         {
-            part = "¿ŞÆÈ";
+            part = "ì™¼íŒ”";
         }
         else if (_part == "RArm")
         {
-            part = "¿À¸¥ÆÈ";
+            part = "ì˜¤ë¥¸íŒ”";
         }
         else if (_part == "LLeg")
         {
-            part = "¿Ş´Ù¸®";
+            part = "ì™¼ë‹¤ë¦¬";
         }
         else if (_part == "RLeg")
         {
-            part = "¿À¸¥´Ù¸®";
+            part = "ì˜¤ë¥¸ë‹¤ë¦¬";
         }
         else
         {
@@ -213,19 +213,19 @@ public class Enemy : MonoBehaviour
     {
         //Debug.Log("EnemyTurnStart()");
         battleManager.isStateENEMYTURN = true;
-        battleUI.contentText.text = ""; //ÃÊ±âÈ­
+        battleUI.contentText.text = ""; //ì´ˆê¸°í™”
 
         yield return new WaitForSeconds(0.1f);
 
-        if (enemyName == "Aphrodite") //¾ÆÇÁ·ÎµğÅ×
+        if (enemyName == "Aphrodite") //ì•„í”„ë¡œë””í…Œ
         {
             yield return StartCoroutine(Aphrodite_Skill());
         }
-        else if (enemyName == "ReadingChild") //Ã¥À» ÀĞ´Â ¾ÆÀÌ
+        else if (enemyName == "ReadingChild") //ì±…ì„ ì½ëŠ” ì•„ì´
         {
             yield return StartCoroutine(ReadingChild_Skill());
         }        
-        else if (enemyName == "Melpomene") //¸áÆ÷¸Ş³×
+        else if (enemyName == "Melpomene") //ë©œí¬ë©”ë„¤
         {
             yield return StartCoroutine(Melpomene_Skill());
         }
@@ -251,18 +251,18 @@ public class Enemy : MonoBehaviour
                 canLArmNarrative = false;
             }            
 
-            //¿©±â ·ÎÁ÷ ´Ù½Ã º¸±â
-            if (player.playerHp > 0) //Player »ıÁ¸
+            //ì—¬ê¸° ë¡œì§ ë‹¤ì‹œ ë³´ê¸°
+            if (player.playerHp > 0) //Player ìƒì¡´
             {
-                if (isDestroyed[battleUI.FindListIndex(parts, mainPart)]) //°ø·« ºÎÀ§ ÆÄ±« ½Ã
+                if (isDestroyed[battleUI.FindListIndex(parts, mainPart)]) //ê³µëµ ë¶€ìœ„ íŒŒê´´ ì‹œ
                 {
                     battleManager.state = BattleManager.State.WIN;
                 }
-                else if (player.isCharmed) //¸ÅÈ¤
+                else if (player.isCharmed) //ë§¤í˜¹
                 {
                     player.isCharmed = false;
 
-                    EnemyTurnStart(); //EnemyTurn Àç½ÃÀÛ
+                    EnemyTurnStart(); //EnemyTurn ì¬ì‹œì‘
                 }
                 else
                 {
@@ -271,7 +271,7 @@ public class Enemy : MonoBehaviour
                     //Debug.Log($"Current State is {battleManager.state}");
                 }
             }
-            else //Player »ç¸Á
+            else //Player ì‚¬ë§
             {
                 battleManager.state = BattleManager.State.LOSE;
             }
@@ -282,12 +282,12 @@ public class Enemy : MonoBehaviour
     #region Enemy_Skill Methods
     private IEnumerator Aphrodite_Skill()
     {
-        //Index Á¤¸®
+        //Index ì •ë¦¬
         int maskIndex = battleUI.FindListIndex(parts, "Mask");
         int bodyIndex = battleUI.FindListIndex(parts, "Body");
         int headIndex = battleUI.FindListIndex(parts, "Head");
         int lArmIndex = battleUI.FindListIndex(parts, "LArm");
-        //RLeg, lLeg´Â ¿¬°áµÈ skill ¾øÀ½
+        //RLeg, lLegëŠ” ì—°ê²°ëœ skill ì—†ìŒ
 
         //Skills
         List<Action> Aphrodite_skills = new List<Action>();
@@ -311,18 +311,18 @@ public class Enemy : MonoBehaviour
             Aphrodite_Throw();
         }
 
-        yield return null; //EnemyTurnStart()·Î µ¹¾Æ°¡¼­ 3s Wait
+        yield return null; //EnemyTurnStart()ë¡œ ëŒì•„ê°€ì„œ 3s Wait
     }
 
     private IEnumerator ReadingChild_Skill()
     {
-        //Index Á¤¸®
+        //Index ì •ë¦¬
         int maskIndex = battleUI.FindListIndex(parts, "Mask");
         int headIndex = battleUI.FindListIndex(parts, "Head");
         int rArmIndex = battleUI.FindListIndex(parts, "RArm");
         int lArmIndex = battleUI.FindListIndex(parts, "LArm");
         int rLegIndex = battleUI.FindListIndex(parts, "RLeg");
-        //body, lLeg´Â ¿¬°áµÈ skill ¾øÀ½
+        //body, lLegëŠ” ì—°ê²°ëœ skill ì—†ìŒ
 
         //Skills
         List<Action> ReadingChild_skills = new List<Action>();
@@ -353,31 +353,32 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        yield return null; //EnemyTurnStart()·Î µ¹¾Æ°¡¼­ 3s Wait
+        yield return null; //EnemyTurnStart()ë¡œ ëŒì•„ê°€ì„œ 3s Wait
     }
 
     private IEnumerator Melpomene_Skill()
     {
-        //Index Á¤¸®
+        //Index ì •ë¦¬
         int maskIndex = battleUI.FindListIndex(parts, "Mask");
         int headIndex = battleUI.FindListIndex(parts, "Head");
+        int bodyIndex = battleUI.FindListIndex(parts, "Body");
         int rArmIndex = battleUI.FindListIndex(parts, "RArm");
         int lArmIndex = battleUI.FindListIndex(parts, "LArm");
-        //body´Â player.Run()¿¡¼­ »ç¿ë
-        //rLeg, lLeg´Â ¿¬°áµÈ skill ¾øÀ½
+        //bodyëŠ” player.Run()ì—ì„œ ì‚¬ìš©
+        //rLeg, lLegëŠ” ì—°ê²°ëœ skill ì—†ìŒ
 
         //Melpomene_Narrative
-        //Mask, canMaskNarrative (ÃÖÃÊ EnemyTurn)
+        //Mask, canMaskNarrative (ìµœì´ˆ EnemyTurn)
         if (canMaskNarrative && !isDestroyed[maskIndex] && Random.value < 0.4f)
         {
             Melpomene_Narrative(15);
-            Debug.Log("Mask Narrative ½ÇÇà");
+            Debug.Log("Mask Narrative ì‹¤í–‰");
         }
-        //LArm, canLArmNarrative (Head ÆÄ±« Á÷ÈÄ EnemyTurn)
+        //LArm, canLArmNarrative (Head íŒŒê´´ ì§í›„ EnemyTurn)
         if (canLArmNarrative && isDestroyed[rArmIndex] && !isDestroyed[lArmIndex] && Random.value < 0.4f)
         {
             Melpomene_Narrative(10);
-            Debug.Log("LArm Narrative ½ÇÇà");
+            Debug.Log("LArm Narrative ì‹¤í–‰");
         }
         //ConfusionRate
         if (isMaskConfusion)
@@ -387,6 +388,12 @@ public class Enemy : MonoBehaviour
         if (isLArmConfusion)
         {
             ConfusionRate += 0.05f;
+        }
+
+        //Finale
+        if (!isDestroyed[bodyIndex] && ConfusionRate >= 1f)
+        {
+            Melpomene_Finale();
         }
 
         //Skills
@@ -425,7 +432,7 @@ public class Enemy : MonoBehaviour
     //{
     //    List<Action> Melpomene_skills = new List<Action>();
 
-    //    //ºñ±ØÀÇ ¿ÜÄ§, È¥¶õ
+    //    //ë¹„ê·¹ì˜ ì™¸ì¹¨, í˜¼ë€
     //    if (isMaskConfusion || isLArmConfusion)
     //    {
     //        ConfusionRate += 0.05f;
@@ -449,7 +456,7 @@ public class Enemy : MonoBehaviour
     //        isLArmConfusion = true;
     //    }
 
-    //    //°ø°İ ½ºÅ³
+    //    //ê³µê²© ìŠ¤í‚¬
     //    AddSkill(Melpomene_skills, isDestroyed[battleUI.FindListIndex(parts, "Mask")], 1.0f, Melpomene_Shout);
     //    AddSkill(Melpomene_skills, isDestroyed[battleUI.FindListIndex(parts, "RArm")], 1.0f, Melpomene_Slap);
 
@@ -478,7 +485,7 @@ public class Enemy : MonoBehaviour
     {
         if (Random.value <= _probability)
         {
-            Debug.Log($"{_skill.Method.Name} ½ºÅ³ Ãß°¡");
+            Debug.Log($"{_skill.Method.Name} ìŠ¤í‚¬ ì¶”ê°€");
             _skills.Add(_skill);
         }
     }
@@ -487,13 +494,13 @@ public class Enemy : MonoBehaviour
     #region Aphrodite Skills
     private void Aphrodite_Charm()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ ¸ÅÈ¤ÀûÀÎ ´«ºûÀ» º¸³» ´ç½ÅÀ» ¿ÏÀüÈ÷ ¸Å·á½ÃÅµ´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ë§¤í˜¹ì ì¸ ëˆˆë¹›ì„ ë³´ë‚´ ë‹¹ì‹ ì„ ì™„ì „íˆ ë§¤ë£Œì‹œí‚µë‹ˆë‹¤."));
 
         player.isCharmed = true;
     }
     private void Aphrodite_Dance()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ È²È¦ÇÑ ÃãÀ» Ãç ´ç½ÅÀ» Å©°Ô ¸Å·á½ÃÅµ´Ï´Ù.\n¹æ¾î·ÂÀÌ °¨¼ÒÇÕ´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ í™©í™€í•œ ì¶¤ì„ ì¶° ë‹¹ì‹ ì„ í¬ê²Œ ë§¤ë£Œì‹œí‚µë‹ˆë‹¤.\në°©ì–´ë ¥ì´ ê°ì†Œí•©ë‹ˆë‹¤."));
 
         if (increaseAttackPower != 1.2f)
         {
@@ -502,7 +509,7 @@ public class Enemy : MonoBehaviour
     }
     private void Aphrodite_Throw()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ È²±İ »ç°ú¸¦ ´øÁ® ´ç½ÅÀ» °ø°İÇÕ´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ í™©ê¸ˆ ì‚¬ê³¼ë¥¼ ë˜ì ¸ ë‹¹ì‹ ì„ ê³µê²©í•©ë‹ˆë‹¤."));
 
         battleManager.battleAudioSource.Stop();
         battleManager.battleAudioSource.clip = battleManager.enemyAttackSFX;
@@ -516,19 +523,19 @@ public class Enemy : MonoBehaviour
     #region ReadingChild_Skills
     private void ReadingChild_Stroyteller()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Å¸°í³­ ÀÌ¾ß±â²ÛÀÎ Á¶°¢»óÀº Èï¹Ì·Î¿î ÀÌ¾ß±â¸¦ µé·ÁÁİ´Ï´Ù.\n´ç½ÅÀº È¯»ó¿¡ ÈÖ¸»¸³´Ï´Ù.")); //ÀÌ°Ç Skill ´ë»ç °â È¥¶õ ´ë»çÀÓ? ¤·¤·
+        StartCoroutine(battleManager.ContentTextWriter("íƒ€ê³ ë‚œ ì´ì•¼ê¸°ê¾¼ì¸ ì¡°ê°ìƒì€ í¥ë¯¸ë¡œìš´ ì´ì•¼ê¸°ë¥¼ ë“¤ë ¤ì¤ë‹ˆë‹¤.\në‹¹ì‹ ì€ í™˜ìƒì— íœ˜ë§ë¦½ë‹ˆë‹¤.")); //ì´ê±´ Skill ëŒ€ì‚¬ ê²¸ í˜¼ë€ ëŒ€ì‚¬ì„? ã…‡ã…‡
 
         player.isConfused = true;
     }
     private void ReadingChild_BookShelf(int _damage)
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ Ã¥¿¡¼­ ÆäÀÌÁö¸¦ »Ì¾Æ ³¯Ä«·Î¿î Á¾ÀÌÀÇ Ä®³¯À» ÈÖµÎ¸¨´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ì±…ì—ì„œ í˜ì´ì§€ë¥¼ ë½‘ì•„ ë‚ ì¹´ë¡œìš´ ì¢…ì´ì˜ ì¹¼ë‚ ì„ íœ˜ë‘ë¦…ë‹ˆë‹¤."));
 
-        battleManager.Damage("player", _damage); //LArm, RArm °°Àº ½ºÅ³, µ¥¹ÌÁö Â÷ÀÌ
+        battleManager.Damage("player", _damage); //LArm, RArm ê°™ì€ ìŠ¤í‚¬, ë°ë¯¸ì§€ ì°¨ì´
     }
     private void ReadingChild_Kick()
     {
-        StartCoroutine(battleManager.ContentTextWriter("¾Æ¹«°Íµµ ³²Áö ¾ÊÀº Á¶°¢»óÀÌ ´ç½ÅÀ» Èû²¯ °È¾îÂı´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì•„ë¬´ê²ƒë„ ë‚¨ì§€ ì•Šì€ ì¡°ê°ìƒì´ ë‹¹ì‹ ì„ í˜ê» ê±·ì–´ì°¹ë‹ˆë‹¤."));
 
         battleManager.Damage("player", 20);
     }
@@ -537,16 +544,16 @@ public class Enemy : MonoBehaviour
     #region Melpomene_Skills
     private void Melpomene_Shout()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ ºñ±ØÀ» ¿ÜÃÄ, ±× ¿ï¸²ÀÌ ´ç½Å¿¡°Ô °­·ÂÇÑ Á¤½ÅÀû Ãæ°İÀ» Áİ´Ï´Ù.\n¹æ¾î·ÂÀÌ °¨¼ÒÇÕ´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ë¹„ê·¹ì„ ì™¸ì³, ê·¸ ìš¸ë¦¼ì´ ë‹¹ì‹ ì—ê²Œ ê°•ë ¥í•œ ì •ì‹ ì  ì¶©ê²©ì„ ì¤ë‹ˆë‹¤.\në°©ì–´ë ¥ì´ ê°ì†Œí•©ë‹ˆë‹¤."));
 
         battleManager.Damage("player", 30);
     }
 
     private void Melpomene_Narrative(int _damage)
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ ´ç½ÅÀÇ ºñ±ØÀûÀÎ ¿î¸íÀ» ³ë·¡ÇÕ´Ï´Ù.\n¿î¸íÀÇ ÀúÁÖ°¡ ´ç½ÅÀ» ÃµÃµÈ÷ °¦¾Æ¸Ô½À´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ë‹¹ì‹ ì˜ ë¹„ê·¹ì ì¸ ìš´ëª…ì„ ë…¸ë˜í•©ë‹ˆë‹¤.\nìš´ëª…ì˜ ì €ì£¼ê°€ ë‹¹ì‹ ì„ ì²œì²œíˆ ê°‰ì•„ë¨¹ìŠµë‹ˆë‹¤."));
 
-        battleManager.Damage("player", _damage); //Mask, LArm °°Àº Skill, µ¥¹ÌÁö Â÷ÀÌ
+        battleManager.Damage("player", _damage); //Mask, LArm ê°™ì€ Skill, ë°ë¯¸ì§€ ì°¨ì´
         
         if (_damage == 15)
         {
@@ -557,28 +564,35 @@ public class Enemy : MonoBehaviour
             isLArmConfusion = true;
         }
 
-        ConfusionRate += 0.05f;
+        //ConfusionRate += 0.05f;
     }
 
-    public void Melpomene_Redemption() //Player°¡ Run ¼±ÅÃ ½Ã ¹ßµ¿
+    public void Melpomene_Redemption() //Playerê°€ Run ì„ íƒ ì‹œ ë°œë™
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ ¾Ë ¼ö ¾ø´Â ÈûÀ¸·Î ´ç½ÅÀ» ±¸¼ÓÇÕ´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ì•Œ ìˆ˜ ì—†ëŠ” í˜ìœ¼ë¡œ ë‹¹ì‹ ì„ êµ¬ì†í•©ë‹ˆë‹¤."));
 
         battleManager.Damage("player", 5);
     }
 
     private void Melpomene_Bat()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ ¼Õ¿¡ µç Ä¿´Ù¶õ ¹æ¸ÁÀÌ¸¦ ÈÖµÎ¸¨´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ì†ì— ë“  ì»¤ë‹¤ë€ ë°©ë§ì´ë¥¼ íœ˜ë‘ë¦…ë‹ˆë‹¤."));
 
         battleManager.Damage("player", 15);
     }
 
     private void Melpomene_Slap()
     {
-        StartCoroutine(battleManager.ContentTextWriter("Á¶°¢»óÀÌ ´ç½ÅÀÇ »´À» ÈÄ·ÁÄ¨´Ï´Ù.\n±×´ÙÁö Å¸°İÀº ¾øÀ¸³ª ºñ±ØÀûÀÎ ±âºĞÀÌ ´À²¸Áı´Ï´Ù."));
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ë‹¹ì‹ ì˜ ëº¨ì„ í›„ë ¤ì¹©ë‹ˆë‹¤.\nê·¸ë‹¤ì§€ íƒ€ê²©ì€ ì—†ìœ¼ë‚˜ ë¹„ê·¹ì ì¸ ê¸°ë¶„ì´ ëŠê»´ì§‘ë‹ˆë‹¤."));
 
         battleManager.Damage("player", 5);
     }
-    #endregion    
+
+    private void Melpomene_Finale()
+    {
+        StartCoroutine(battleManager.ContentTextWriter("ì¡°ê°ìƒì´ ì°¢ì–´ì§„ â—¼â—¼%â–’Ìµâ–“Ì¸?â–“Ì¸â–“Ì¸âˆ…ìœ¼ë¡œ ë¹„ê·¹ì„ ë…¸ë˜í•©ë‹ˆë‹¤. ë‹¹ì‹ ì€ ë¬´ëŒ€ì—ì„œ ì˜ì›íˆ AÌ´Í AÌ´Í HÌ¸Í â–’Ìµâ–’Ìµâ–“Ì¸â–“Ì¸â–“Ì¸"));
+
+        battleManager.Damage("player", 100);
+    }
+    #endregion
 }

@@ -139,7 +139,7 @@ public class BattleManager : MonoBehaviour
             isBattleMode = true;
             SetEnemyRandom();
         }
-        Debug.Log($"Enemy set to: {enemy}"); //Delete
+        //Debug.Log($"Enemy set to: {enemy}"); //Delete
 
         filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
@@ -227,7 +227,8 @@ public class BattleManager : MonoBehaviour
     private void SetEnemyRandom() //전투 모드에서 적 랜덤 설정
     {
         //임시 Random 구현
-        int r = Random.Range(0, 3);
+        //int r = Random.Range(0, 3);
+        int r = 2;
         if (r == 0)
         {
             Aphrodite.SetActive(true);
@@ -396,7 +397,7 @@ public class BattleManager : MonoBehaviour
     #region SFX
     public void PlaySFX(AudioClip audioClip)
     {
-        Debug.Log("PlayerSFX 실행");
+        //Debug.Log("PlayerSFX 실행");
 
         if (isSFXPlaying)
         {
@@ -461,6 +462,8 @@ public class BattleManager : MonoBehaviour
             battleUI.contentText.text += _text[i];
             yield return new WaitForSeconds(0.03f);
         }
+
+        yield return new WaitForSeconds(0.1f);
 
         isContentTextWriting = false;
     }

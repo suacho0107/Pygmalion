@@ -262,7 +262,7 @@ public class BattleUI : MonoBehaviour
             currentPartButtonIndex = 0;
             pageArrows.SetActive(false);
         }
-        Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
+        //Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
 
         HighlightPartButton();
     }
@@ -333,7 +333,7 @@ public class BattleUI : MonoBehaviour
         {
             int partIndex = startIndex + i;
             GameObject partButton = partButtonList[i];
-            Debug.Log($"partButton 이름: {partButton}"); //Delete
+            //Debug.Log($"partButton 이름: {partButton}"); //Delete
 
             if (partIndex < enemy.parts.Count) //part 개수 만큼만
             {
@@ -448,13 +448,12 @@ public class BattleUI : MonoBehaviour
         return hasFinal ? _particleWithFinal : _particleWithoutFinal;
     }
 
+    #region Fade In/Out
     public IEnumerator FadeInOut(bool _isFadeIn, float _duration)
     {
-        //Debug.Log("FadeInout() 실행");
         isFadeInOut = true;
 
         blackBoard.SetActive(true);
-
         Image image = blackBoard.GetComponent<Image>();
 
         //Fade In/Out 설정
@@ -487,7 +486,6 @@ public class BattleUI : MonoBehaviour
         isFadeInOut = true;
 
         blackCircle.SetActive(true);
-
         RectTransform circle = blackCircle.GetComponent<RectTransform>();
 
         //Fade In/Out 설정
@@ -514,6 +512,7 @@ public class BattleUI : MonoBehaviour
 
         isFadeInOut = false;
     }
+    #endregion
 
     public IEnumerator Shake(Transform _target, float _dration, float _strength)
     {
@@ -538,7 +537,6 @@ public class BattleUI : MonoBehaviour
 
     public IEnumerator UpdateHpBar(Image _hpBar, int _maxHp, int _newHp, float _duration)
     {
-        //float duration = 0.5f;
         float time = 0f;
 
         // 현재 HPBar 상태를 시작값으로 사용
