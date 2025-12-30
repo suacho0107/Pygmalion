@@ -17,6 +17,7 @@ public class BattleUI : MonoBehaviour
     public Text contentText;
 
     public GameObject blackBoard;
+    public GameObject blackCircle;
 
     [Header("Dialogue UI")]
     public GameObject dialogueButtons;
@@ -452,10 +453,12 @@ public class BattleUI : MonoBehaviour
         //Debug.Log("FadeInout() 실행");
         isFadeInOut = true;
 
+        blackBoard.SetActive(true);
+
         Image image = blackBoard.GetComponent<Image>();
 
         //Fade In/Out 설정
-        float startAlpha = _isFadeIn ?1f : 0f;
+        float startAlpha = _isFadeIn ? 1f : 0f;
         float endAlpha = _isFadeIn ? 0f : 1f;
 
         //초기화
@@ -475,6 +478,39 @@ public class BattleUI : MonoBehaviour
         // 마지막 값 보정
         color.a = endAlpha;
         image.color = color;
+
+        isFadeInOut = false;
+    }
+
+    public IEnumerator FadeInOutCircle(bool _isFadeIn, float _duration)
+    {
+        isFadeInOut = true;
+
+        blackCircle.SetActive(true);
+
+        RectTransform circle = blackCircle.GetComponent<RectTransform>();
+
+        //Fade In/Out 설정
+        float startSize = _isFadeIn ? 2250 : 0;
+        float endSize = _isFadeIn ? 0 : 2250;
+
+        //초기화
+        float time = 0f;
+        circle.sizeDelta = new Vector2(startSize, startSize);
+        
+        while (time < _duration)
+        {
+            float t = time / _duration;
+
+            float size = Mathf.Lerp(startSize, endSize, t);
+            circle.sizeDelta = new Vector2(size, size);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        //마지막 값 보정
+        circle.sizeDelta = new Vector2(endSize, endSize);
 
         isFadeInOut = false;
     }

@@ -158,8 +158,10 @@ public class BattleManager : MonoBehaviour
         battleUI.SetPartButtons();
 
         //Ui, BlackBoard
-        battleUI.blackBoard.SetActive(true);
-        StartCoroutine(battleUI.FadeInOut(true, 1f));
+        //battleUI.blackBoard.SetActive(true);
+        //battleUI.blackCircle.SetActive(true);
+        //StartCoroutine(battleUI.FadeInOut(true, 1f));
+        StartCoroutine(battleUI.FadeInOutCircle(true, 1f));
 
         state = State.PLAYERTURN_START;
         PlaySFX(battleStartSFX);
@@ -295,7 +297,7 @@ public class BattleManager : MonoBehaviour
         PlaySFX(playerWinSFX);
 
         //UI
-        StartCoroutine(battleUI.FadeInOut(false, 2f));
+        StartCoroutine(battleUI.FadeInOut(false, 2f));        
 
         if (!isBattleMode)
         {

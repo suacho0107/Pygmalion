@@ -174,7 +174,8 @@ public class Player : MonoBehaviour
             //UI
             battleUI.contentText.text = "";
             battleUI.dialoguePanel.SetActive(false);
-            StartCoroutine(battleUI.FadeInOut(false, 2f));
+            //StartCoroutine(battleUI.FadeInOut(false, 2f));
+            StartCoroutine(battleUI.FadeInOutCircle(false, 2f));
 
             ////SFX
             //battleManager.PlaySFX(battleManager.playerRunSFX);
