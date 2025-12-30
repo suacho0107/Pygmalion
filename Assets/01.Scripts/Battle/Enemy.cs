@@ -17,7 +17,8 @@ public class Enemy : MonoBehaviour
     public int enemyHp;
     private int enemyMaxHp;
 
-    public Slider enemyHpBar;
+    //public Slider enemyHpBar;
+    public Image enemyHpBar;
 
     public List<string> parts = new List<string>(); //partComponents도 포함한 Dictionary로 변환하기?
     public List<Part> partComponents = new List<Part>(); //UpdatehpBox 등에서 사용
@@ -138,7 +139,8 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        enemyHpBar.value = (float)enemyHp / enemyMaxHp;
+        //enemyHpBar.value = (float)enemyHp / enemyMaxHp;
+        StartCoroutine(battleUI.UpdateHpBar(enemyHpBar, enemyMaxHp, enemyHp, 0.3f));
     }
 
     #region ReplaceTexts

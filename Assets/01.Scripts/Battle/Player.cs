@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
 
     private int attackDamage = 1; //피 1칸씩 깔 거임
 
-    public Slider playerHpBar;
+    //public Slider playerHpBar;
+    public Image playerHpBar;
 
     public bool isCharmed; //매혹
     public bool isConfused; //혼란
@@ -42,7 +43,9 @@ public class Player : MonoBehaviour
 
     public void UpdatePlayer() //UpdatePlayerHp(), 매 턴마다 실행
     {
-        playerHpBar.value = (float)playerHp / playerMaxHp;
+        //playerHpBar.value = (float)playerHp / playerMaxHp;
+        //playerHpBar.fillAmount = (float)playerHp / playerMaxHp;
+        StartCoroutine(battleUI.UpdateHpBar(playerHpBar, playerMaxHp, playerHp, 0.5f));
     }
     #endregion
 

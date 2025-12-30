@@ -535,4 +535,27 @@ public class BattleUI : MonoBehaviour
         //위치 초기화
         transform.localPosition = originPos;
     }
+
+    public IEnumerator UpdateHpBar(Image _hpBar, int _maxHp, int _newHp, float _duration)
+    {
+        //float duration = 0.5f;
+        float time = 0f;
+
+        // 현재 HPBar 상태를 시작값으로 사용
+        float startFill = _hpBar.fillAmount;
+        float endFill = (float)_newHp / _maxHp;
+
+        while (time < _duration)
+        {
+            float t = time / _duration;
+
+            _hpBar.fillAmount = Mathf.Lerp(startFill, endFill, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        //마지막 값 보정
+        _hpBar.fillAmount = endFill;
+    }
 }
