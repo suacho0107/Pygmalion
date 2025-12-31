@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TutorialTransition : TutorialBase
 {
+    // to be deleted
     [SerializeField]
     private PlayerPosition playerPos;
     [SerializeField]
@@ -35,7 +36,7 @@ public class TutorialTransition : TutorialBase
         if (_nextScene == "Museum_Lobby" || _nextScene == "Library_1F" || _nextScene == "Park" ||
             _nextScene == "CityHall_Lobby" || _nextScene == "Broadcast_1F" || _nextScene == "Hospital_1F")
         {
-            UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
+            //UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
         }
     }
 

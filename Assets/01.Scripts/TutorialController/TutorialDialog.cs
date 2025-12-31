@@ -40,13 +40,15 @@ public class TutorialDialog : TutorialBase
 
         if (dialogManager.isEnd)
         {
+            if (null != player)
+                player.IsAnimation = true;
             controller.SetNextTutorial();
         }
     }
 
     public override void Exit()
     {
-        if(player != null)
+        if(null != player)
         {
             player.IsMoved = true;
         }

@@ -34,7 +34,7 @@ public class SceneTransition : MonoBehaviour
                 playerPos.nextPosition = nextPos;
                 playerPos.isChecked = true;
 
-                Set_UIStateWork(nextScene);
+                //Set_UIStateWork(nextScene);
 
                 LoadNextScene();
             }
@@ -161,10 +161,11 @@ public class SceneTransition : MonoBehaviour
                     FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
                 }
             }
-            if (UIManager.u_instance != null)
+            if (UIManager.u_instance != null) /* to be moved */
             {
-                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
+                //UIManager.u_instance.Set_UIState(Define.UI.UIState.Work); /* to be deleted */
 
+                /* to be moved -> DialogueUI: 여기에서 하는 건 좀 아닌가 */
                 if (sceneName == "Museum_Lobby")
                     UIManager.u_instance.Set_StageState(Define.Stage.StageState.Museum);
 

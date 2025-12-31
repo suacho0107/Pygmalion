@@ -950,6 +950,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1237569354419732107, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
+      propertyPath: currency
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1237569354419732107, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
+      propertyPath: currency_text
+      value: 
+      objectReference: {fileID: 8997855709429277148}
     - target: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -1638,6 +1646,8 @@ MonoBehaviour:
   - {fileID: 1390826021975916493}
   - {fileID: 2493807415472446663}
   - {fileID: 1767156855}
+  - {fileID: 673241192}
+  - {fileID: 1473572892}
   - {fileID: 1783187271}
   nextSceneName: Company_LobbyTuto-2
   sceneController: {fileID: 0}
@@ -2046,7 +2056,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 70}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &8997855708491450291
 GameObject:
@@ -2163,7 +2173,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 70, y: -50}
-  m_SizeDelta: {x: 270, y: 70}
+  m_SizeDelta: {x: 230, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &8997855708574507443
 GameObject:
@@ -2176,6 +2186,7 @@ GameObject:
   - component: {fileID: 8997855708574507442}
   - component: {fileID: 8997855708574507404}
   - component: {fileID: 8997855708574507405}
+  - component: {fileID: 8997855708574507444}
   m_Layer: 5
   m_Name: Currency
   m_TagString: Untagged
@@ -2183,6 +2194,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &8997855708574507444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8997855708574507443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056a693cfd4cdc04c9dbadca64f9f6fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currency_text: {fileID: 8997855709429277148}
 --- !u!222 &8997855709192831664
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2212,8 +2236,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
+    m_Font: {fileID: 12800000, guid: a2034683c1218bb4bb1902407c469bf1, type: 3}
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -2243,7 +2267,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 70}
+  m_SizeDelta: {x: 80, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &8997855709192831671
 GameObject:
@@ -2302,13 +2326,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
+    m_Font: {fileID: 12800000, guid: a2034683c1218bb4bb1902407c469bf1, type: 3}
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2333,7 +2357,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -80, y: 0}
-  m_SizeDelta: {x: 120, y: 70}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &8997855709429277151
 CanvasRenderer:

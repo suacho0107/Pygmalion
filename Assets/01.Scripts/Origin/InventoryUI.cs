@@ -13,7 +13,7 @@ public class InventoryUI : MonoBehaviour
     public static InventoryUI instance;
     private ItemDatabase ItemDB;
     public GameObject inventoryPanel;
-    //public GameObject currencyPanel;
+    public GameObject currencyPanel;
     public GameObject inventoryBackground;
 
     public bool activeInventory = false;
@@ -24,7 +24,7 @@ public class InventoryUI : MonoBehaviour
 
     public Text DescriptionName_text;       // 설명창 템 이름
     public Text Description_Text;           // 템 설명
-    //public Text Currency_Text;
+    public Text Currency_Text;
 
     public Image Description_Icon;          // 템 설명창 아이콘
 
@@ -57,7 +57,11 @@ public class InventoryUI : MonoBehaviour
             slots[i].AddItem(inventoryItemList[i]);
         }
 
-        SelectedItem();
+        /* count 0 일 때 아래 함수 호출되면 에러나길래 막아뒀습니다! */
+        if (inventoryItemList.Count > 0)
+            SelectedItem();
+        else
+            return;
     }
 
     public void SelectedItem()
@@ -198,7 +202,7 @@ public class InventoryUI : MonoBehaviour
         instance = this;
         ItemDB = FindObjectOfType<ItemDatabase>();
         inventoryPanel.SetActive(activeInventory);
-        //currencyPanel.SetActive(activeInventory);
+        currencyPanel.SetActive(activeInventory);
         inventoryBackground.SetActive(activeInventory);
 
         inventoryItemList = new List<Item>();
@@ -219,19 +223,19 @@ public class InventoryUI : MonoBehaviour
             if (activeInventory == true)
             {
                 inventoryPanel.SetActive(true);
-                //currencyPanel.SetActive(true);
+                currencyPanel.SetActive(true);
                 inventoryBackground.SetActive(true);
                 activeItem = true;
                 ShowItem();
                 selectedItem = 0;
 
-                //Currency_Text.text = DataManager.Instance.currency.ToString();
+                Currency_Text.text = DataManager.Instance.currency.ToString();
             }
             else
             {
                 StopAllCoroutines();
                 inventoryPanel.SetActive(false);
-                //currencyPanel.SetActive(false);
+                currencyPanel.SetActive(false);
                 inventoryBackground.SetActive(false);
                 activeItem = false;
                 SaveInventory();

@@ -46,12 +46,26 @@ public class RequestNPC : NPC
         ChangeState(new RequestReadyState());
     }
 
+    void Update()
+    {
+        if (canSend)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                replyChat.SetActive(true);
+                canSend = false;
+                isAcceptRequest = true;
+                replyButton.interactable = false;
+                playerDesk.startON = true;
+
+                ChangeState(new RequestEndState());
+            }
+        }
+    }
+
     void LateUpdate()
     {
         currentState?.Update();
-
-        //string dbg = "Can Off : " + canOff.ToString();
-        //Debug.Log(dbg);
     }
 
     public void SaveRequestNPCData()
@@ -79,16 +93,16 @@ public class RequestNPC : NPC
 
     public void SendButton()
     {
-        if (canSend)
-        {
-            replyChat.SetActive(true);
-            canSend = false;
-            isAcceptRequest = true;
-            replyButton.interactable = false;
-            playerDesk.startON = true;
+        //if (canSend)
+        //{
+        //    replyChat.SetActive(true);
+        //    canSend = false;
+        //    isAcceptRequest = true;
+        //    replyButton.interactable = false;
+        //    playerDesk.startON = true;
 
-            ChangeState(new RequestEndState());
-        }
+        //    ChangeState(new RequestEndState());
+        //}
     }
 
     public void RequestOff()
