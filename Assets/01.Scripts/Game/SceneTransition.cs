@@ -163,8 +163,9 @@ public class SceneTransition : MonoBehaviour
             }
             if (UIManager.u_instance != null) /* to be moved */
             {
-                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
+                //UIManager.u_instance.Set_UIState(Define.UI.UIState.Work); /* to be deleted */
 
+                /* to be moved -> DialogueUI: 여기에서 하는 건 좀 아닌가 */
                 if (sceneName == "Museum_Lobby")
                     UIManager.u_instance.Set_StageState(Define.Stage.StageState.Museum);
 

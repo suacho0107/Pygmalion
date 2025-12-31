@@ -418,6 +418,11 @@ public class DialogueUI : MonoBehaviour
         {
             selectedNPC.isInteract = true;
             //미술관장
+            if (selectedNPC.dialogueFileName == "Tutorial1_dialogue" ||
+                selectedNPC.dialogueFileName == "Guard1_dialogue")
+            {
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
+            }
             if (selectedNPC.dialogueFileName == "Tutorial2_dialogue")
             {
                 selectedNPC.TutorialFin();
