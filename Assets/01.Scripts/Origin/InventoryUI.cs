@@ -193,7 +193,7 @@ public class InventoryUI : MonoBehaviour
         //inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(20102, "회의실 열쇠", "회의실 열쇠 설명", "회의실 열쇠", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(20101, "열람실 열쇠", "열람실 열쇠 설명", "열람실 열쇠", Item.ItemType.Use));
-        SaveInventory();
+        //SaveInventory();
         //Debug.Log("DefualtItem");
     }
 
@@ -209,7 +209,7 @@ public class InventoryUI : MonoBehaviour
         // GridSlot의 자식객체 저장
         slots = tf.GetComponentsInChildren<InventorySlot>();
 
-        DefaultItmes();
+        //DefaultItmes();
         LoadInventory();
     }
 
