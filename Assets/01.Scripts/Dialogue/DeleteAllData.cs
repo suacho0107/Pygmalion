@@ -6,15 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class DeleteAllData : MonoBehaviour
 {
-    private void Update()
-    {
-        //if (SceneManager.GetActiveScene().name == "GlobalMap" && Input.GetKeyDown(KeyCode.P))
-        //{
-        //    Debug.Log("ªË¡¶");
-        //    DeleteAllJsonFiles();
-        //}
-    }
-
     public void DeleteAllJsonFiles()
     {
         Debug.Log("[DeleteAllData] DeleteAllJsonFiles »£√‚µ ");

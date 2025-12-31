@@ -98,9 +98,9 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        DeleteAllData delete = FindObjectOfType<DeleteAllData>();
         if (scene.name == "Start" && needResetAllData)
         {
-            DeleteAllData delete = FindObjectOfType<DeleteAllData>();
             if (delete != null)
             {
                 delete.DeleteAllJsonFiles();
@@ -116,6 +116,17 @@ public class UIManager : MonoBehaviour
             }
 
             needResetAllData = false; // 초기화 한 번 하고 플래그 해제
+        }
+        else if(scene.name == "Monologue_success")
+        {
+            PlayerPrefs.SetInt("StatueCount", 0);
+            PlayerPrefs.SetInt("destroyedCount", 0);
+            PlayerPrefs.SetInt("checkedCount", 0);
+            PlayerPrefs.SetInt("fightCount", 0);
+            PlayerPrefs.SetInt("checkCount", 0);
+
+            PlayerPrefs.Save();
+            Debug.Log("StatueScore Reset");
         }
 
         Assign_UIObject();
