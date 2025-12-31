@@ -343,7 +343,7 @@ public class DialogueUI : MonoBehaviour
             contextCount = 0;
         }
         else //오류 → 0번 라인
-        {            
+        {
             Debug.LogError("Invalid explainNum. Starting from the first dialogue.");
             lineCount = 0;
         }

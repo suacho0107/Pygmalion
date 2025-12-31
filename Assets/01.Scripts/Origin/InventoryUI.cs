@@ -115,7 +115,7 @@ public class InventoryUI : MonoBehaviour
                     }
                 }
                 inventoryItemList.Add(ItemDB.itemList[i]);
-                ItemImagePopup(ItemDB.itemList[i].itemName);
+                //ItemImagePopup(ItemDB.itemList[i].itemName);
                 SaveInventory();
                 Debug.Log("아이템 추가");
                 return;
