@@ -31,10 +31,6 @@ public class FightEndDialogue : MonoBehaviour
 
                 dialogueUI.ShowMessage(message);
             }
-            else
-            {
-
-            }
         }
         else if (PlayerPrefs.GetInt("PlayerRun", 0) == 1)
         {
@@ -48,10 +44,6 @@ public class FightEndDialogue : MonoBehaviour
                 string message = "Àá±ñ, ¼û Á» µ¹¸®°í...";
 
                 dialogueUI.ShowMessage(message);
-            }
-            else
-            {
-
             }
         }
     }

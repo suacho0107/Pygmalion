@@ -309,8 +309,10 @@ public class Statue : NPC
         if (isEnemy && isFin)
         {
             explainNum = null;
-            ChangeDialogueFileName("stage1_exhibit2_Item");
-            InventoryUI.instance.GetAnItem(10301);
+            //ChangeDialogueFileName("stage1_exhibit2_Item");
+            if(sceneName == "Museum_ExhibitionRoom1") InventoryUI.instance.GetAnItem(10301);
+            else if(sceneName == "Library_B1F") InventoryUI.instance.GetAnItem(20104);
+            else if (sceneName == "Library_2F") InventoryUI.instance.GetAnItem(20201);
             //dialogueManager = FindObjectOfType<DialogueManager>();
             //dialogueManager.ItemPopup();
             dialogueUI = FindObjectOfType<DialogueUI>();
