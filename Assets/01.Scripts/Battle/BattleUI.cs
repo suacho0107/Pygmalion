@@ -61,14 +61,14 @@ public class BattleUI : MonoBehaviour
 
     void Update()
     {
-        if (dialogueButtons.activeSelf && !battleManager.isContentTextWriting)
+        if (dialogueButtons.activeSelf && !isFadeInOut && !battleManager.isContentTextWriting)
         {
             if (Input.anyKeyDown)
             {
                 DialogueButtonInputHandler();
             }
         }
-        else if (battleManager.isStatePLAYERTURN_ATTACK_PartSelecting && !battleManager.isContentTextWriting)
+        else if (battleManager.isStatePLAYERTURN_ATTACK_PartSelecting && !isFadeInOut && !battleManager.isContentTextWriting)
         {
             if (Input.anyKeyDown) //키 입력 시에만
             {

@@ -163,7 +163,7 @@ public class BattleManager : MonoBehaviour
         //battleUI.blackBoard.SetActive(true);
         //battleUI.blackCircle.SetActive(true);
         //StartCoroutine(battleUI.FadeInOut(true, 1f));
-        StartCoroutine(battleUI.FadeInOutCircle(true, 1f));
+        StartCoroutine(battleUI.FadeInOutCircle(true, 2f));
 
         state = State.PLAYERTURN_START;
         PlaySFX(battleStartSFX);
@@ -227,8 +227,8 @@ public class BattleManager : MonoBehaviour
     private void SetEnemyRandom() //전투 모드에서 적 랜덤 설정
     {
         //임시 Random 구현
-        //int r = Random.Range(0, 3);
-        int r = 2;
+        int r = Random.Range(0, 3);
+        //int r = 2;
         if (r == 0)
         {
             Aphrodite.SetActive(true);
