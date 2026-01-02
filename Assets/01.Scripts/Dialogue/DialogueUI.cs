@@ -355,28 +355,25 @@ public class DialogueUI : MonoBehaviour
         Text contextText;
         Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
 
-        if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
+        bool hasName = !string.IsNullOrEmpty(dialogueManager.dialogues[lineCount].name);
+
+        //dialoguePanel 설정
+        if (hasName)
         {
-            dialoguePanelImage.sprite = DialoguePanel;
-            dialoguePanel.SetActive(true);
+            dialoguePanelImage.sprite = DialoguePanel;            
             namePanel.SetActive(true);
-            contextText = dialogueText;
         }
-        else //name 없으면
+        else
         {
             dialoguePanelImage.sprite = DescriptionPanel;
-            dialoguePanel.SetActive(true);
             namePanel.SetActive(false);
-            contextText = descriptionText;
         }
+        dialoguePanel.SetActive(true);
+        nameText.text = dialogueManager.dialogues[lineCount].name;
 
-        string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
-        replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
-        replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
+        //Portrait 설정
+        currentPortrait = null; //초기화
 
-        nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
-
-        // 초상화 출력
         if (Portraits != null)
         {
             foreach (var portrait in Portraits)
@@ -385,18 +382,93 @@ public class DialogueUI : MonoBehaviour
             }
         }
 
+        int portraitIndex = -1;
+
         for (int i = 0; i < Portraits.Count; i++)
         {
             if (Portraits[i].name == nameText.text)
             {
+                portraitIndex = i;
                 currentPortrait = Portraits[i];
                 currentPortrait.SetActive(true);
                 break;
             }
         }
+
+        //contextText 설정
+        if (!hasName)
+        {
+            contextText = descriptionText;
+        }
+        else
+        {
+            if (portraitIndex <= 3)
+            {
+                contextText = descriptionText;
+            }
+            else
+            {
+                contextText = dialogueText;
+            }
+        }
+
+        //replaceText 가공
+        string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
+        replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
+        replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
+
+
         //context 출력
         StartCoroutine(ContextTyping(contextText, replaceText));
     }
+
+    //public void DialogueWriter()
+    //{
+    //    Text contextText;
+    //    Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
+
+    //    if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
+    //    {
+    //        dialoguePanelImage.sprite = DialoguePanel;
+    //        dialoguePanel.SetActive(true);
+    //        namePanel.SetActive(true);
+    //        contextText = dialogueText;
+    //    }
+    //    else //name 없으면
+    //    {
+    //        dialoguePanelImage.sprite = DescriptionPanel;
+    //        dialoguePanel.SetActive(true);
+    //        namePanel.SetActive(false);
+    //        contextText = descriptionText;
+    //    }
+
+    //    string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
+    //    replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
+    //    replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
+
+    //    nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
+
+    //    // 초상화 출력
+    //    if (Portraits != null)
+    //    {
+    //        foreach (var portrait in Portraits)
+    //        {
+    //            portrait.SetActive(false);
+    //        }
+    //    }
+
+    //    for (int i = 0; i < Portraits.Count; i++)
+    //    {
+    //        if (Portraits[i].name == nameText.text)
+    //        {
+    //            currentPortrait = Portraits[i];
+    //            currentPortrait.SetActive(true);
+    //            break;
+    //        }
+    //    }
+    //    //context 출력
+    //    StartCoroutine(ContextTyping(contextText, replaceText));
+    //}
 
     public void EndDialogue()
     {
