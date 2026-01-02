@@ -46,7 +46,7 @@ public class DataManager : MonoBehaviour
 
     public void LoadCurrency()
     {
-        currency = PlayerPrefs.GetInt("Currency", 999);
+        currency = PlayerPrefs.GetInt("Currency");
     }
 
     public int GetCurrency()
