@@ -5,4 +5,5 @@ using UnityEngine;
 public class SceneTransport
 {
     public static string previousScene;
+    public static string previousStatue;
 }

@@ -23,10 +23,10 @@ public class Statue : NPC
     public bool isFin = false;
     public bool result = false;
 
-    public bool test1;
-    public bool enterFight;
-    public bool test3;
-    public bool test4;
+    public bool enter1st = false;
+    public bool enterFight = false;
+    public bool trg_nEnmy;
+    public bool trg_destroyed;
 
     public bool isSpriteChanged = false;
 
@@ -136,6 +136,7 @@ public class Statue : NPC
                             statueScore.SaveScore();
                             enterFight = true;
                             //Debug.Log("enterFight True");
+                            SceneTransport.previousStatue = filePath;
                             SceneTransport.previousScene = SceneManager.GetActiveScene().name;
                             Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
                             StartCoroutine(DelayLoadScene(2.2f, "Battle"));
@@ -144,24 +145,26 @@ public class Statue : NPC
                     else // 적, 오답
                     {
                         //Debug.Log("이상 없음 > 오답");
-                        if (!test1 && !enterFight) // 오답 전투 최초 진입: 기록 효과음 재생
+                        if (!enter1st && !enterFight) // 오답 전투 최초 진입: 기록 효과음 재생
                         {
                             statueAudio.PlayPencil();
 
+                            SceneTransport.previousStatue = filePath;
                             SceneTransport.previousScene = SceneManager.GetActiveScene().name;
                             Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
 
                             EnterFight();
-                            test1 = true;
-                            //Debug.Log("오답 최초 진입 test1, enterFight True");
+                            enter1st = true;
+                            Debug.Log("오답 최초 진입 enter1st, enterFight True");
                         }
-                        else if (test1 && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
+                        else if (enter1st && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
                         {
+                            SceneTransport.previousStatue = filePath;
                             SceneTransport.previousScene = SceneManager.GetActiveScene().name;
                             Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
 
                             EnterFight();
-                            //Debug.Log("오답 재진입 enterFight True");
+                            Debug.Log("오답 재진입 enterFight True");
                         }
 
                         isCorrect = false;
@@ -174,12 +177,12 @@ public class Statue : NPC
                     if (isCorrect) // 적 아님, 정답
                     {
                         //Debug.Log("이상 없음 > 정답");
-                        if (!test3)
+                        if (!trg_nEnmy)
                         {
                             statueAudio.PlayPencil();
                             statueScore.statueCount += 1;
                             statueScore.SaveScore();
-                            test3 = true;
+                            trg_nEnmy = true;
                         }
                         ChangeDialogueExplain(FILEINDEX, "3");
                         isCorrect = true;
@@ -188,14 +191,14 @@ public class Statue : NPC
                     }
                     else // 적 아님, 오답
                     {
-                        if (!test3)
+                        if (!trg_nEnmy)
                         {
                             statueAudio.PlayDestroyed();
                             ChangeDialogueExplain(FILEINDEX, "2");
                             statueScore.statueCount += 1;
                             statueScore.destroyedCount += 1;
                             statueScore.SaveScore();
-                            test3 = true;
+                            trg_nEnmy = true;
                         }
                         //Debug.Log("건드린다 > 오답");
                         ChangeSprite();
@@ -241,18 +244,19 @@ public class Statue : NPC
             if (!result) // 무너져 내린다 출력
             {
                 ChangeDialogueFile(5);
-                //Debug.Log("!result");
+                Debug.Log("Result !result");
 
                 ChangeSprite();
                 //result = true;
-                if (!test4 && isEnemy)
+                if (!trg_destroyed && isEnemy)
                 {
+                    Debug.Log("Result !trg_destoyed");
                     statueAudio.PlayDestroyed();
                     statueScore.statueCount += 1;
                     statueScore.SaveScore();
                     StartCoroutine(TriggerDialogue(2f));
 
-                    test4 = true;
+                    trg_destroyed = true;
                     StartCoroutine(DelayResult());
                 }
             }
@@ -310,7 +314,7 @@ public class Statue : NPC
         {
             explainNum = null;
             //ChangeDialogueFileName("stage1_exhibit2_Item");
-            if(sceneName == "Museum_ExhibitionRoom1") InventoryUI.instance.GetAnItem(10301);
+            if(sceneName == "Museum_ExhibitionRoom2") InventoryUI.instance.GetAnItem(10301);
             else if(sceneName == "Library_B1F") InventoryUI.instance.GetAnItem(20104);
             else if (sceneName == "Library_2F") InventoryUI.instance.GetAnItem(20201);
             //dialogueManager = FindObjectOfType<DialogueManager>();
@@ -330,10 +334,10 @@ public class Statue : NPC
 
     IEnumerator DelayResult()
     {
-
+        Debug.Log("DelayResult");
         yield return new WaitForSeconds(4f);
 
-        //test4 = true;
+        //trg_destroyed = true;
         result = true;
         SaveStatueData();
     }
@@ -375,10 +379,10 @@ public class Statue : NPC
         npcData.isFin = isFin;
         npcData.result = result;
         npcData.isSpriteChanged = isSpriteChanged;
-        npcData.test1 = test1;
+        npcData.enter1st = enter1st;
         npcData.enterFight = enterFight;
-        npcData.test3 = test3;
-        npcData.test4 = test4;
+        npcData.trg_nEnmy = trg_nEnmy;
+        npcData.trg_destroyed = trg_destroyed;
 
         npcData.isDialogueChanged = isDialogueChanged;
         npcData.currentIndex = currentIndex;
@@ -415,10 +419,10 @@ public class Statue : NPC
             {
                 ChangeSprite();
             }
-            test1 = npcData.test1;
+            enter1st = npcData.enter1st;
             enterFight = npcData.enterFight;
-            test3 = npcData.test3;
-            test4 = npcData.test4;
+            trg_nEnmy = npcData.trg_nEnmy;
+            trg_destroyed = npcData.trg_destroyed;
 
             //Debug.Log(gameObject.name + " 데이터 로드");
         }

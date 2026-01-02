@@ -16,10 +16,10 @@ public class NPCData
     public bool isFin;
     public bool result;
     public bool isSpriteChanged;
-    public bool test1;
+    public bool enter1st;
     public bool enterFight;
-    public bool test3;
-    public bool test4;
+    public bool trg_nEnmy;
+    public bool trg_destroyed;
 
     public bool isInteract;
     public bool isTutoDialogueChanged;
