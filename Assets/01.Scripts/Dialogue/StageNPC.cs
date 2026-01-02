@@ -113,7 +113,7 @@ public class StageNPC : NPC
                 }
             }
 
-            string transPath = Application.persistentDataPath + "/Transition_S_data.json";
+            string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
 
             if (File.Exists(transPath))
             {

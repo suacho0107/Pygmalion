@@ -1229,6 +1229,136 @@ Transform:
   m_Father: {fileID: 720948037}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &246964870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246964871}
+  - component: {fileID: 246964872}
+  - component: {fileID: 246964873}
+  - component: {fileID: 246964874}
+  m_Layer: 6
+  m_Name: interactObj_S
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &246964871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246964870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1956066115}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &246964872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246964870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd18c80ecf4ad77408658fa857080400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 246964873}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 0
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: Stage2_B1F-1_dialogue
+  selectFileName: 
+  explainNum: 1
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
+  unlock: 0
+--- !u!114 &246964873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246964870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!61 &246964874
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246964870}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0110833645, y: -0.0018754005}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.18015623, y: 1.7017174}
+  m_EdgeRadius: 0
 --- !u!1 &270450741
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,11 +3913,6 @@ Transform:
   m_Father: {fileID: 2052127906}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &745459753 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4282008142060623724, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
-  m_PrefabInstance: {fileID: 1956066114}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &786128303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9733,6 +9858,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6476482554124944074, guid: 131ad073c4a23b847a34c683ad66c0e1, type: 3}
+      propertyPath: libraryRoom
+      value: 
+      objectReference: {fileID: 246964872}
+    - target: {fileID: 6476482554124944074, guid: 131ad073c4a23b847a34c683ad66c0e1, type: 3}
       propertyPath: triggerObject.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -12086,7 +12215,7 @@ PrefabInstance:
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: npc
       value: 
-      objectReference: {fileID: 1956066122}
+      objectReference: {fileID: 0}
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: nextPos.x
       value: 5.5
@@ -12166,76 +12295,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4282008142060623725, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
   m_PrefabInstance: {fileID: 1956066114}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1956066121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745459753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    name: 
-    line: {x: 0, y: 0}
-    dialogues: []
-  select:
-    name: 
-    line: {x: 0, y: 0}
-    selects: []
---- !u!114 &1956066122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745459753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd18c80ecf4ad77408658fa857080400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 0}
-  dialogueUI: {fileID: 0}
-  interactionEvent: {fileID: 1956066121}
-  csv: {fileID: 0}
-  statueScore: {fileID: 0}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isSpriteChanged: 0
-    enter1st: 0
-    enterFight: 0
-    trg_nEnmy: 0
-    trg_destroyed: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
-    questStart: 0
-    questEnd: 0
-    unlock: 0
-  isInteract: 0
-  isObject: 0
-  isOfficeTuto: 0
-  isDialogueChanged: 0
-  filePath: 
-  dialogueFileName: Stage2_B1F-1_dialogue
-  selectFileName: 
-  explainNum: 1
-  dialogueFiles: []
-  selectFiles: []
-  currentIndex: 0
-  unlock: 0
 --- !u!1 &1976845221
 GameObject:
   m_ObjectHideFlags: 0

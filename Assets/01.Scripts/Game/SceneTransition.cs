@@ -68,6 +68,10 @@ public class SceneTransition : MonoBehaviour
                         enter = true;
                     }
                 }
+                else if(SceneManager.GetActiveScene().name == "Library_1F")
+                {
+                    //if(!InventoryUI.instance.HasItem(20102)) gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                }
             }
         }
     }
