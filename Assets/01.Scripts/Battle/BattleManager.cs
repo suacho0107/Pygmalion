@@ -39,7 +39,7 @@ public class BattleManager : MonoBehaviour
 
     public bool isWin;
     private bool _enterFight;
-    private string filePath;
+    //private string filePath;
 
     [Header("Controls")]
     private bool isBattleMode = false;
@@ -141,7 +141,8 @@ public class BattleManager : MonoBehaviour
         }
         //Debug.Log($"Enemy set to: {enemy}"); //Delete
 
-        filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
+        // SceneTransport.previousStatue로 변경
+        //filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
     }
 
@@ -348,7 +349,7 @@ public class BattleManager : MonoBehaviour
 
     public void ExitBattleScene()
     {
-
+        string path = SceneTransport.previousStatue;
         if (isBattleMode)
         {
             SceneManager.LoadScene("Start");
@@ -357,6 +358,7 @@ public class BattleManager : MonoBehaviour
         {
             if (state == State.WIN) //승리 시
             {
+                //SceneTransport.previousStatue = null;
                 if (enemy == Aphrodite.GetComponent<Enemy>())
                 {
                     SceneManager.LoadScene("Museum_ExhibitionRoom2");
@@ -424,25 +426,45 @@ public class BattleManager : MonoBehaviour
     #region Save/Load Data
     public void SaveFightData()
     {
-        npcData.isFin = isWin;
-        npcData.enterFight = _enterFight;
+        //string json = JsonUtility.ToJson(npcData);
+        //File.WriteAllText(filePath, json);
+        //Debug.Log("데이터 저장");
 
-        string json = JsonUtility.ToJson(npcData);
-        File.WriteAllText(filePath, json);
-        Debug.Log("데이터 저장");
+        string path = SceneTransport.previousStatue;
+
+        if (!string.IsNullOrEmpty(path) && File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            NPCData data = JsonUtility.FromJson<NPCData>(json);
+
+            data.isFin = isWin;
+            data.enterFight = _enterFight;
+
+            File.WriteAllText(path, JsonUtility.ToJson(data));
+            Debug.Log(path + " 전투 데이터 저장");
+        }
     }
 
     public void LoadFightData()
     {
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-            npcData = JsonUtility.FromJson<NPCData>(json);
-            Debug.Log("데이터 로드");
-        }
+        //if (File.Exists(filePath))
+        //{
+        //    string json = File.ReadAllText(filePath);
+        //    npcData = JsonUtility.FromJson<NPCData>(json);
+        //    Debug.Log(filePath + " 전투 데이터 로드");
+        //}
 
-        isWin = npcData.isFin;
-        _enterFight = npcData.enterFight;
+        string path = SceneTransport.previousStatue;
+
+        if (!string.IsNullOrEmpty(path) && File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            NPCData data = JsonUtility.FromJson<NPCData>(json);
+            Debug.Log(path + " 전투 데이터 로드");
+
+            isWin = data.isFin;
+            _enterFight = data.enterFight;
+        }
     }
     #endregion
 
