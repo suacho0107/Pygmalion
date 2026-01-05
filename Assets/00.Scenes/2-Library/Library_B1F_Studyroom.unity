@@ -319,10 +319,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -856,10 +856,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -1536,10 +1536,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -2041,10 +2041,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -2886,6 +2886,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 6, y: 10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 15
+      m_TileSpriteIndex: 15
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 25, y: 10, z: 0}
     second:
       serializedVersion: 2
@@ -2896,7 +2906,27 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 6, y: 11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 15
+      m_TileSpriteIndex: 15
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 25, y: 11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 15
+      m_TileSpriteIndex: 15
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 6, y: 12, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 15
@@ -3158,7 +3188,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: c2da87445f0e802479e0fcc1f8b38734, type: 2}
-  - m_RefCount: 63
+  - m_RefCount: 66
     m_Data: {fileID: 11400000, guid: 1f9b6b34f700321439f48e7296556383, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: e9f69d804431b8a408651c2fb05418b7, type: 2}
@@ -3193,7 +3223,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 4
     m_Data: {fileID: 1863251542, guid: 13bc3f9a819b71c4abdd6c503e42914a, type: 3}
-  - m_RefCount: 63
+  - m_RefCount: 66
     m_Data: {fileID: -611005675, guid: 22daf4aca63371a4d86798fbd111bb65, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -2081577216, guid: 13bc3f9a819b71c4abdd6c503e42914a, type: 3}
@@ -3252,7 +3282,7 @@ Tilemap:
       e31: 7.34684e-40
       e32: 1.99e-43
       e33: 1
-  - m_RefCount: 81
+  - m_RefCount: 84
     m_Data:
       e00: 1
       e01: 0
@@ -3273,7 +3303,7 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 18
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 63
+  - m_RefCount: 66
     m_Data: {r: 0, g: 0, b: 0, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -8079,10 +8109,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -9852,10 +9882,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -10247,10 +10277,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -11328,10 +11358,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -11617,10 +11647,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -11890,10 +11920,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0

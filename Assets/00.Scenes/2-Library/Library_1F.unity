@@ -1528,10 +1528,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -1829,10 +1829,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -2113,6 +2113,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6476482554124944074, guid: 131ad073c4a23b847a34c683ad66c0e1, type: 3}
+      propertyPath: libraryRoom
+      value: 
+      objectReference: {fileID: 536180547}
+    - target: {fileID: 6476482554124944074, guid: 131ad073c4a23b847a34c683ad66c0e1, type: 3}
       propertyPath: triggerObject.Array.size
       value: 7
       objectReference: {fileID: 0}
@@ -2187,7 +2191,7 @@ PrefabInstance:
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: npc
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 536180547}
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: nextPos.x
       value: 9
@@ -2428,6 +2432,7 @@ GameObject:
   - component: {fileID: 536180542}
   - component: {fileID: 536180546}
   - component: {fileID: 536180547}
+  - component: {fileID: 536180548}
   m_Layer: 6
   m_Name: "\uB300\uD68C\uC758\uC2E4\uBB38"
   m_TagString: Untagged
@@ -2550,10 +2555,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -2561,7 +2566,7 @@ MonoBehaviour:
     questEnd: 0
     unlock: 0
   isInteract: 0
-  isObject: 1
+  isObject: 0
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
@@ -2572,6 +2577,32 @@ MonoBehaviour:
   selectFiles: []
   currentIndex: 0
   unlock: 0
+--- !u!61 &536180548
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536180541}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.6983449}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.5625, y: 2.5396824}
+    newSize: {x: 1.5625, y: 2.5396824}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5625, y: 1.1429926}
+  m_EdgeRadius: 0
 --- !u!1 &550588578
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,10 +2727,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -5722,10 +5753,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -6342,10 +6373,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7159,10 +7190,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7189,10 +7220,10 @@ MonoBehaviour:
   isCorrect: 0
   isFin: 0
   result: 0
-  test1: 0
+  enter1st: 0
   enterFight: 0
-  test3: 0
-  test4: 0
+  trg_nEnmy: 0
+  trg_destroyed: 0
   isSpriteChanged: 0
 --- !u!1 &952141723
 GameObject:
@@ -7451,10 +7482,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7633,10 +7664,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -16462,10 +16493,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -17491,10 +17522,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -18351,10 +18382,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -18711,10 +18742,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -18879,10 +18910,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -20089,10 +20120,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0

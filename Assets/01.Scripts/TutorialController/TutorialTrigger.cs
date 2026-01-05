@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialTrigger : TutorialBase
 {
@@ -8,6 +9,7 @@ public class TutorialTrigger : TutorialBase
     private GameObject[] triggerObject;    // 플레이어가 충돌해야 하는 오브젝트
 
     private PlayerMove playerMove;
+    [SerializeField] private LibraryRoom libraryRoom;
 
     public bool isTrigger { set; get; } = false;
 
@@ -23,7 +25,34 @@ public class TutorialTrigger : TutorialBase
         foreach (GameObject obj in triggerObject)
         {
             if (obj != null)
-                obj.gameObject.SetActive(true);
+            {
+                bool triggerActive = true;
+
+                if (libraryRoom != null)
+                {
+                    if (obj.name == "triggerObj_CR2")
+                    {
+                        Debug.Log("triggerObj_CR2");
+                        if (!InventoryUI.instance.HasItem(20102)) triggerActive = false;
+                        else
+                        {
+                            if (libraryRoom.unlock) triggerActive = true;
+                            else triggerActive = false;
+                        }
+                    }
+                    if (obj.name == "triggerObj_S")
+                    {
+                        if (!InventoryUI.instance.HasItem(20101)) triggerActive = false;
+                        else
+                        {
+                            if (libraryRoom.unlock) triggerActive = true;
+                            else triggerActive = false;
+                        }
+                    }
+                }
+
+                obj.gameObject.SetActive(triggerActive);
+            }
         }
 
         Vector3 vecOffsetY = new Vector3(0, 1, 0);

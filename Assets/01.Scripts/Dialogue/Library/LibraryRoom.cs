@@ -20,32 +20,29 @@ public class LibraryRoom : NPC
     {
         if (SceneManager.GetActiveScene().name == "Library_1F") // 회의실
         {
-            //Debug.Log("SceneManager name");
             if (explainNum != "11")
             {
                 isInteract = false;
-                //Debug.Log("explainNum " + explainNum);
             }
 
             ChangeDialogueFileName("Stage2_1F_dialogue");
             if (InventoryUI.instance.HasItem(20102))
             {
+                if (explainNum != "11")
+                {
+                    isInteract = false;
+                }
+
                 ChangeExplainNum("11");
                 if (isInteract && !unlock)
                 {
-                    //gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     unlock = true;
 
-                    if (!saved)
-                    {
-                        SaveData();
-                        saved = true;
-                    }
-                }
-
-                if (unlock)
-                {
-                    //gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    //if (!saved) // 한 번 열면 열쇠 상호작용 필요 없음
+                    //{
+                    //    SaveData();
+                    //    saved = true;
+                    //}
                 }
             }
             else ChangeExplainNum("10");
@@ -54,11 +51,14 @@ public class LibraryRoom : NPC
         {
             if (InventoryUI.instance.HasItem(20101))
             {
+                if (explainNum != "2")
+                {
+                    isInteract = false;
+                }
+
                 ChangeExplainNum("2");
 
-                dialogueManager = FindObjectOfType<DialogueManager>();
-
-                if (dialogueManager.isEnd)
+                if (isInteract && !unlock)
                 {
                     unlock = true;
 
@@ -67,6 +67,10 @@ public class LibraryRoom : NPC
                         SaveData();
                         saved = true;
                     }
+                }
+                if (unlock) // 한 번 열면 열쇠 상호작용 필요 없음
+                {
+                    gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 }
             }
             else
