@@ -45,9 +45,9 @@ public class TriggerObject : MonoBehaviour
             isNext = true;
         }
         
-        //if (object_request && object_request.canOff)
-        //{
-        //    isNext = true;
-        //}
+        if (object_request && object_request.canOff)
+        {
+            isNext = true;
+        }
     }
 }
