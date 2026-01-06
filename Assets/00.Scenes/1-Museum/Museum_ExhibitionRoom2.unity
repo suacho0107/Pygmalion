@@ -284,10 +284,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -336,11 +336,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 584033956}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -388,11 +388,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
---- !u!4 &112428317 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
-  m_PrefabInstance: {fileID: 112428316}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &136172033
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,10 +762,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -797,10 +792,10 @@ MonoBehaviour:
   isCorrect: 0
   isFin: 0
   result: 0
-  test1: 0
+  enter1st: 0
   enterFight: 0
-  test3: 0
-  test4: 0
+  trg_nEnmy: 0
+  trg_destroyed: 0
   isSpriteChanged: 0
 --- !u!1 &342653927
 GameObject:
@@ -1041,11 +1036,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 584033956}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4880277370391473288, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4880277370391473288, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1209,11 +1204,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
---- !u!4 &484808648 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4880277370391473288, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
-  m_PrefabInstance: {fileID: 484808647}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &506678894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1388,10 +1378,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -1418,10 +1408,10 @@ MonoBehaviour:
   isCorrect: 0
   isFin: 0
   result: 0
-  test1: 0
+  enter1st: 0
   enterFight: 0
-  test3: 0
-  test4: 0
+  trg_nEnmy: 0
+  trg_destroyed: 0
   isSpriteChanged: 0
 --- !u!1 &519420028
 GameObject:
@@ -1717,10 +1707,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -1784,42 +1774,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 350357333862935683}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &584033955
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 584033956}
-  m_Layer: 0
-  m_Name: Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &584033956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584033955}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7965557370911120637}
-  - {fileID: 1233488608}
-  - {fileID: 1239476557}
-  - {fileID: 484808648}
-  - {fileID: 112428317}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644716522
 GameObject:
@@ -3157,10 +3111,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -3309,10 +3263,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -3609,10 +3563,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -6502,11 +6456,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 584033956}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8599909976139680956, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8599909976139680956, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6554,17 +6508,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
---- !u!4 &1233488608 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8599909976139680956, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
-  m_PrefabInstance: {fileID: 1233488607}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1239476556
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 584033956}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 679452387378503763, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_Name
@@ -6572,7 +6521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6616,11 +6565,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
---- !u!4 &1239476557 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
-  m_PrefabInstance: {fileID: 1239476556}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1273519930
 GameObject:
   m_ObjectHideFlags: 0
@@ -6757,10 +6701,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7013,10 +6957,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7170,10 +7114,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7446,10 +7390,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7866,7 +7810,7 @@ Transform:
   - {fileID: 1058619181}
   - {fileID: 1681533850047540618}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1713280048
 GameObject:
@@ -8130,10 +8074,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -8389,10 +8333,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -9034,7 +8978,7 @@ Transform:
   - {fileID: 350357334039958515}
   - {fileID: 542425107}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &350357334039958512
 GameObject:
@@ -9069,6 +9013,7 @@ MonoBehaviour:
   triggerObject:
   - {fileID: 1681533850048776695}
   - {fileID: 1681533851336953659}
+  libraryRoom: {fileID: 0}
 --- !u!4 &350357334039958515
 Transform:
   m_ObjectHideFlags: 0
@@ -9761,7 +9706,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 584033956}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7965557371019566500, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
       propertyPath: virtualCamera
@@ -9773,7 +9718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7965557371019566507, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7965557371019566507, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9817,8 +9762,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
---- !u!4 &7965557370911120637 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7965557371019566507, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
-  m_PrefabInstance: {fileID: 7965557370911120636}
-  m_PrefabAsset: {fileID: 0}

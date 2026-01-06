@@ -483,10 +483,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -509,11 +509,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1175336600}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8599909976139680956, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8599909976139680956, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -561,11 +561,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
---- !u!4 &38389436 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8599909976139680956, guid: 941fe7a2d7748f04dac7d73c548a53d9, type: 3}
-  m_PrefabInstance: {fileID: 38389435}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &58790464
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,10 +971,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -1002,11 +997,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1175336600}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4880277370391473288, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4880277370391473288, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1048,6 +1043,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
+      propertyPath: ItemImage
+      value: 
+      objectReference: {fileID: 649087187}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: namePanel
       value: 
@@ -1166,11 +1165,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
---- !u!4 &243105010 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4880277370391473288, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
-  m_PrefabInstance: {fileID: 243105009}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &342653927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,11 +1218,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1175336600}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1276,11 +1270,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
---- !u!4 &465579381 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
-  m_PrefabInstance: {fileID: 465579380}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &473257937
 GameObject:
   m_ObjectHideFlags: 3
@@ -3107,6 +3096,11 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
+--- !u!1 &649087187 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2493784713447338881, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+  m_PrefabInstance: {fileID: 1230940070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &678386575
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3381,10 +3375,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -3407,7 +3401,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1175336600}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7965557371019566500, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
       propertyPath: virtualCamera
@@ -3419,7 +3413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7965557371019566507, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7965557371019566507, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3463,11 +3457,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
---- !u!4 &774696675 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7965557371019566507, guid: 83c9c441ff8a6ca49babda65a31d582b, type: 3}
-  m_PrefabInstance: {fileID: 774696674}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &894401543
 GameObject:
   m_ObjectHideFlags: 0
@@ -3630,10 +3619,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -3683,7 +3672,7 @@ Transform:
   - {fileID: 1656403516}
   - {fileID: 6228817358727517035}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057687682
 GameObject:
@@ -7716,45 +7705,9 @@ SpriteRenderer:
   m_Size: {x: 1, y: 0.5275}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1175336599
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1175336600}
-  m_Layer: 0
-  m_Name: Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1175336600
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175336599}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 774696675}
-  - {fileID: 38389436}
-  - {fileID: 1231396133}
-  - {fileID: 243105010}
-  - {fileID: 465579381}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183834814
 GameObject:
   m_ObjectHideFlags: 0
@@ -8162,7 +8115,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1175336600}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 679452387378503763, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_Name
@@ -8170,7 +8123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8214,11 +8167,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
---- !u!4 &1231396133 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8973281182742859097, guid: d8baec9f6833ec64589f9461f4b0671d, type: 3}
-  m_PrefabInstance: {fileID: 1231396132}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1326733448
 GameObject:
   m_ObjectHideFlags: 0
@@ -8381,10 +8329,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -8728,10 +8676,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -9368,10 +9316,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -9398,10 +9346,10 @@ MonoBehaviour:
   isCorrect: 0
   isFin: 0
   result: 0
-  test1: 0
+  enter1st: 0
   enterFight: 0
-  test3: 0
-  test4: 0
+  trg_nEnmy: 0
+  trg_destroyed: 0
   isSpriteChanged: 0
 --- !u!114 &2117860337 stripped
 MonoBehaviour:
@@ -10915,6 +10863,7 @@ MonoBehaviour:
   triggerObject:
   - {fileID: 6228817358726543126}
   - {fileID: 6228817357740356058}
+  libraryRoom: {fileID: 0}
 --- !u!4 &4417817622215692169
 Transform:
   m_ObjectHideFlags: 0
@@ -10964,7 +10913,7 @@ Transform:
   - {fileID: 4417817622215692169}
   - {fileID: 99674340}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4417817622576197882
 MonoBehaviour:
@@ -11544,10 +11493,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0

@@ -759,7 +759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.340689, y: 5.75496, z: -20.671618}
+  m_LocalPosition: {x: -12.803675, y: 5.75462, z: -20.671618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1875,6 +1875,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1389102509159368766, guid: 77979822413c63647a08add78294fed6, type: 3}
   m_PrefabInstance: {fileID: 1354578917}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &814826717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2493784713447338881, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+  m_PrefabInstance: {fileID: 1936313728}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &827254926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,10 +2157,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -4651,10 +4656,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -4681,10 +4686,10 @@ MonoBehaviour:
   isCorrect: 0
   isFin: 0
   result: 0
-  test1: 0
+  enter1st: 0
   enterFight: 0
-  test3: 0
-  test4: 0
+  trg_nEnmy: 0
+  trg_destroyed: 0
   isSpriteChanged: 0
 --- !u!1 &1091924835 stripped
 GameObject:
@@ -5248,10 +5253,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -5645,10 +5650,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -5860,6 +5865,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
+      propertyPath: ItemImage
+      value: 
+      objectReference: {fileID: 814826717}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: namePanel
       value: 
@@ -6686,10 +6695,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -7370,6 +7379,7 @@ MonoBehaviour:
   triggerObject:
   - {fileID: 4315165853691272788}
   - {fileID: 4315165855020341400}
+  libraryRoom: {fileID: 0}
 --- !u!4 &350357334193672311
 Transform:
   m_ObjectHideFlags: 0
@@ -7543,10 +7553,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
