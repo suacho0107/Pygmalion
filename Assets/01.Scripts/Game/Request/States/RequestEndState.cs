@@ -11,7 +11,8 @@ public class RequestEndState : IRequestState
     public void Enter(RequestNPC request)
     {
         this.request = request;
-        request.explainNum = "2";
+        request.ChangeDialogueFile(1);
+        request.explainNum = "";
         request.InteractText.text = "메세지 입력";
         request.InteractText.color = new Color(103f / 255f, 102f / 255f, 102f / 255f);
     }

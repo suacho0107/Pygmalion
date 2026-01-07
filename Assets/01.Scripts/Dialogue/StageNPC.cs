@@ -95,40 +95,26 @@ public class StageNPC : NPC
         #region Library Guard
         else if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
-            if (isInteract && statueScore != null)
+            LibraryGuard();
+
+            if (!questEnd)
             {
-                ChangeDialogueFileName("Guard_Check0_dialogue");
+                string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
 
-                if (statueScore.statueCount == 1)
+                if (File.Exists(transPath))
                 {
-                    ChangeDialogueFileName("Guard_Check1_dialogue");
-                }
-                else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
-                {
-                    ChangeDialogueFileName("Guard_Check2_dialogue");
-                }
-                else if (statueScore.statueCount == 5)
-                {
-                    ChangeDialogueFileName("Guard_Check3_dialogue");
-                }
-            }
+                    string json = File.ReadAllText(transPath);
+                    NPCData transData = JsonUtility.FromJson<NPCData>(json);
 
-            string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
-
-            if (File.Exists(transPath))
-            {
-                string json = File.ReadAllText(transPath);
-                NPCData transData = JsonUtility.FromJson<NPCData>(json);
-
-                if (transData.isInteract)
-                {
-                    ChangeDialogueFileName("Guard_key_dialogue");
-                    DialogueManager dm = FindObjectOfType<DialogueManager>();
-                    if(dm.CurrentNPC == this)
+                    if (transData.isInteract)
                     {
-                        Debug.Log("this");
-                        if (dm.isEnd) InventoryUI.instance.GetAnItem(20101);
-                        Debug.Log("isEnd");
+                        ChangeDialogueFileName("Guard_key_dialogue");
+                        DialogueManager dm = FindObjectOfType<DialogueManager>();
+                        if (dm.CurrentNPC == this)
+                        {
+                            if (dm.isEnd) InventoryUI.instance.GetAnItem(20101);
+                            questEnd = true;
+                        }
                     }
                 }
             }
@@ -166,6 +152,17 @@ public class StageNPC : NPC
             }
         }
         #endregion
+    }
+
+    void LibraryGuard()
+    {
+        if (isInteract && statueScore != null)
+        {
+            ChangeDialogueFileName("Guard_Check0_dialogue");
+            if (statueScore.statueCount == 1) ChangeDialogueFileName("Guard_Check1_dialogue");
+            else if (statueScore.statueCount > 1 && statueScore.statueCount < 5) ChangeDialogueFileName("Guard_Check2_dialogue");
+            else if (statueScore.statueCount == 5) ChangeDialogueFileName("Guard_Check3_dialogue");
+        }
     }
 
     public void TutorialFin()
