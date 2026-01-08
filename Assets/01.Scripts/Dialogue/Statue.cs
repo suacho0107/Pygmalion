@@ -155,7 +155,7 @@ public class Statue : NPC
 
                             EnterFight();
                             enter1st = true;
-                            Debug.Log("오답 최초 진입 enter1st, enterFight True");
+                            //Debug.Log("오답 최초 진입 enter1st, enterFight True");
                         }
                         else if (enter1st && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
                         {
@@ -164,7 +164,7 @@ public class Statue : NPC
                             Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
 
                             EnterFight();
-                            Debug.Log("오답 재진입 enterFight True");
+                            //Debug.Log("오답 재진입 enterFight True");
                         }
 
                         isCorrect = false;
@@ -244,13 +244,13 @@ public class Statue : NPC
             if (!result) // 무너져 내린다 출력
             {
                 ChangeDialogueFile(5);
-                Debug.Log("Result !result");
+                //Debug.Log("Result !result");
 
                 ChangeSprite();
                 //result = true;
                 if (!trg_destroyed && isEnemy)
                 {
-                    Debug.Log("Result !trg_destoyed");
+                    //Debug.Log("Result !trg_destoyed");
                     statueAudio.PlayDestroyed();
                     statueScore.statueCount += 1;
                     statueScore.SaveScore();
@@ -274,7 +274,7 @@ public class Statue : NPC
         {
             if (currentIndex == 3)
             {
-                Debug.Log("selected Statue currentIndex = 3");
+                //Debug.Log("selected Statue currentIndex = 3");
                 if (isCorrect == true)
                 {
                     //npc.ChangeDialogueExplain(3, "3");

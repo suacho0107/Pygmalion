@@ -12,6 +12,7 @@ public class LibraryLocker : NPC
 
     public bool unlock = false;
     bool saved;
+    bool getItem;
 
     Collider2D col;
 
@@ -76,18 +77,20 @@ public class LibraryLocker : NPC
                 ColliderControl();
             }
 
-            if (dialogueManager.CurrentNPC == this && isInteract == true) // 잠금 해제 후 최초 상호작용 시 '회의실A 열쇠' 획득
+            if (dialogueManager.CurrentNPC == this && isInteract == true && !getItem) // 잠금 해제 후 최초 상호작용 시 '회의실A 열쇠' 획득
             {
                 InventoryUI.instance.GetAnItem(20102);
                 InteractEnd();
+                getItem = true;
             }
         }
         else if (lockerId == "B") // 사물함 B열: 최초 상호작용 시 '수상한 액체가 든 병' 획득
         {
-            if (dialogueManager.CurrentNPC == this && isInteract == true)
+            if (dialogueManager.CurrentNPC == this && isInteract == true && !getItem)
             {
                 InventoryUI.instance.GetAnItem(20103);
                 InteractEnd();
+                getItem = true;
             }
         }
     }

@@ -61,7 +61,12 @@ public class InventoryUI : MonoBehaviour
         if (inventoryItemList.Count > 0)
             SelectedItem();
         else
-            return;
+        {
+            //RemoveSlot();
+            Description_Icon.sprite = null;
+            DescriptionName_text.text = "";
+            DescriptionName_text.text = "";
+        }
     }
 
     public void SelectedItem()
@@ -174,7 +179,7 @@ public class InventoryUI : MonoBehaviour
         if (inventoryItemList == null || inventoryItemList.Count == 0)
         {
             inventoryItemList = new List<Item>();
-            DefaultItmes();
+            //DefaultItmes();
             //SaveInventory(); DefaultItems∑Œ ¿Ãµø
         }
         else

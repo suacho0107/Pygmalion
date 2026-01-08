@@ -112,7 +112,8 @@ public class StageNPC : NPC
                         DialogueManager dm = FindObjectOfType<DialogueManager>();
                         if (dm.CurrentNPC == this)
                         {
-                            if (dm.isEnd) InventoryUI.instance.GetAnItem(20101);
+                            InventoryUI.instance.GetAnItem(20101);
+                            //if (dm.isEnd) { InventoryUI.instance.GetAnItem(20101); Debug.Log("dm.isEnd"); }
                             questEnd = true;
                         }
                     }
