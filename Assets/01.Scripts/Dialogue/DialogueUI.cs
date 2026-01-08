@@ -486,6 +486,11 @@ public class DialogueUI : MonoBehaviour
         contextCount = 0;
         //npc.isInteract = true; //미술관장
 
+        foreach (var portrait in Portraits)
+        {
+            portrait.SetActive(false);
+        }
+
         if (npc is StageNPC selectedNPC)
         {
             selectedNPC.isInteract = true;
@@ -552,10 +557,6 @@ public class DialogueUI : MonoBehaviour
         }
         #endregion
 
-        foreach (var portrait in Portraits)
-        {
-            portrait.SetActive(false);
-        }
     }
     #endregion
 
