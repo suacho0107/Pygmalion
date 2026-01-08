@@ -362,6 +362,7 @@ public class DialogueUI : MonoBehaviour
         {
             dialoguePanelImage.sprite = DialoguePanel;            
             namePanel.SetActive(true);
+            nameText.text = dialogueManager.dialogues[lineCount].name;
         }
         else
         {
@@ -369,7 +370,6 @@ public class DialogueUI : MonoBehaviour
             namePanel.SetActive(false);
         }
         dialoguePanel.SetActive(true);
-        nameText.text = dialogueManager.dialogues[lineCount].name;
 
         //Portrait 설정
         currentPortrait = null; //초기화
@@ -415,60 +415,12 @@ public class DialogueUI : MonoBehaviour
         //replaceText 가공
         string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
         replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
-        replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
+        replaceText = replaceText.Replace("@", "\n"); //@을 \n으로 변환
 
 
         //context 출력
         StartCoroutine(ContextTyping(contextText, replaceText));
     }
-
-    //public void DialogueWriter()
-    //{
-    //    Text contextText;
-    //    Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
-
-    //    if (dialogueManager.dialogues[lineCount].name != "") //대사에 name 있으면
-    //    {
-    //        dialoguePanelImage.sprite = DialoguePanel;
-    //        dialoguePanel.SetActive(true);
-    //        namePanel.SetActive(true);
-    //        contextText = dialogueText;
-    //    }
-    //    else //name 없으면
-    //    {
-    //        dialoguePanelImage.sprite = DescriptionPanel;
-    //        dialoguePanel.SetActive(true);
-    //        namePanel.SetActive(false);
-    //        contextText = descriptionText;
-    //    }
-
-    //    string replaceText = dialogueManager.dialogues[lineCount].contexts[contextCount];
-    //    replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
-    //    replaceText = replaceText.Replace("@", "\n"); //*을 \n으로 변환
-
-    //    nameText.text = dialogueManager.dialogues[lineCount].name; //name 출력
-
-    //    // 초상화 출력
-    //    if (Portraits != null)
-    //    {
-    //        foreach (var portrait in Portraits)
-    //        {
-    //            portrait.SetActive(false);
-    //        }
-    //    }
-
-    //    for (int i = 0; i < Portraits.Count; i++)
-    //    {
-    //        if (Portraits[i].name == nameText.text)
-    //        {
-    //            currentPortrait = Portraits[i];
-    //            currentPortrait.SetActive(true);
-    //            break;
-    //        }
-    //    }
-    //    //context 출력
-    //    StartCoroutine(ContextTyping(contextText, replaceText));
-    //}
 
     public void EndDialogue()
     {
@@ -566,29 +518,39 @@ public class DialogueUI : MonoBehaviour
         dialogueManager.isDialogue = true;
         dialogueManager.isMessage = true;
         playerMove.ActiveInteract = true;
+
         dialogueText.text = "";
+        descriptionText.text = "";
 
         dialogueManager.message = _message;
-        string name = _name;
 
-        if (name != null) //대사에 name 있으면
+        //string name = _name;
+        Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
+        bool hasName = !string.IsNullOrEmpty(_name);
+
+        //dialoguePanel 설정
+        dialoguePanel.SetActive(true);
+        namePanel.SetActive(hasName);
+
+        if (hasName) //대사에 name 있으면
         {
-            dialoguePanel.SetActive(true);
-            namePanel.SetActive(true);
+            dialoguePanelImage.sprite = DialoguePanel;
             nameText.text = name;
+
+            MessageWriter(dialogueText);
         }
         else //name 없으면
         {
-            dialoguePanel.SetActive(true);
-            namePanel.SetActive(false);
+            dialoguePanelImage.sprite = DescriptionPanel;
+
+            MessageWriter(descriptionText);
         }
-        MessageWriter();
     }
 
-    void MessageWriter()
+    void MessageWriter(Text _text)
     {
         //context 출력
-        StartCoroutine(ContextTyping(dialogueText, dialogueManager.message));
+        StartCoroutine(ContextTyping(_text, dialogueManager.message));
     }
 
     public void EndMessage()
