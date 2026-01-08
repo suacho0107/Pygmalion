@@ -124,9 +124,13 @@ public class WorkSheet : MonoBehaviour
         result = SetData();
 
         _check.text         = statueCount.ToString();
-        _fight.text         = fightCount.ToString();
+        //_fight.text         = fightCount.ToString();
         _destroy.text       = destroyedCount.ToString();
         _efficiency.text    = efficiency;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "Museum_Lobby") _fight.text = "1";
+        else if (sceneName == "Library_1F") _fight.text = "2";
 
         #region 평가 등급 출력, 성과급 지급
         switch (result)
