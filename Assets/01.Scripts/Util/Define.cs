@@ -17,9 +17,9 @@ namespace Define
     {
         public enum StageState
         {
-            None,
-            Museum,
-            Library,
+            None,               // 0
+            Museum,             // 1
+            Library,            // 2
             Park,
             CityHall,
             BroadcastStation,
