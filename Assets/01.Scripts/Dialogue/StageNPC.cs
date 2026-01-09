@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class StageNPC : NPC
 {
-    bool isNPC = true;
+    public bool isNPC = true;
     public bool tutorial = false;
 
     public bool isTutoDialogueChanged = false;
@@ -118,38 +118,6 @@ public class StageNPC : NPC
                         }
                     }
                 }
-            }
-        }
-        #endregion
-
-        #region Library Librarian
-        if (SceneManager.GetActiveScene().name == "Library_2F" && isNPC)
-        {
-            Statue mel = (csv.npcs[0] as Statue);
-            if (mel != null)
-            {
-                //Debug.Log(mel.name);
-            }
-
-            if (mel.result)//csv.npcs[0] as Statue)
-            {
-                //Debug.Log("mel");
-                ChangeDialogueFile(1);
-                Animator anim = GetComponent<Animator>();
-                anim.SetBool("melEnd", true);
-                //anim.Play("side idle");
-            }
-            else if (!isInteract)
-            {
-                dialogueFileName = "Library-Librarian0_dialogue";
-                selectFileName = "Library-Librarian0_select";
-            }
-            else if (isInteract) // 재상호작용 시 반응 없게
-            {
-                PlayerMove pm = FindObjectOfType<PlayerMove>();
-                pm.ActiveInteract = false;
-                dialogueFileName = "";
-                selectFileName = "";
             }
         }
         #endregion

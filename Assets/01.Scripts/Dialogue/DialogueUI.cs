@@ -302,7 +302,8 @@ public class DialogueUI : MonoBehaviour
         //초기화
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
-        if(playerMove != null)
+        playerMove.IsMoved = false;
+        if (playerMove != null)
         {
             playerMove.pState = PlayerMove.PlayerState.Interaction;
         }
@@ -478,7 +479,8 @@ public class DialogueUI : MonoBehaviour
         dialogueManager.isExplain = false;
         dialogueManager.isNext = false;
         dialogueManager.isEnd = true;
-        if(playerMove != null)
+        playerMove.IsMoved = true;
+        if (playerMove != null)
         {
             playerMove.ActiveInteract = false;
         }
