@@ -6,12 +6,22 @@ using UnityEngine.UI;
 
 public class StartManager : MonoBehaviour
 {
+    #region Variables
     [SerializeField] PlayerPosition playerPos;
 
     [SerializeField] private GameObject buttons;
+
+    [SerializeField] private GameObject blackBoard;
+    [SerializeField] private GameObject controls;
+
     private List<GameObject> buttonList = new List<GameObject>();
 
     private int selectedButtonIndex = 0;
+
+    private bool isFadeInOut = false;
+    private bool isStoryMode = false;
+
+    #endregion
 
     void Start()
     {
@@ -26,9 +36,17 @@ public class StartManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (!isFadeInOut && !isStoryMode)
         {
             ButtonInputHandler();
+        }
+
+        if (!isFadeInOut && isStoryMode)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("Company_LobbyTuto-1");
+            }
         }
         
     }
@@ -56,7 +74,8 @@ public class StartManager : MonoBehaviour
         {
             if (selectedButtonIndex == 0) //startButton
             {
-                SceneManager.LoadScene("Company_LobbyTuto-1");
+                //SceneManager.LoadScene("Company_LobbyTuto-1");
+                StartCoroutine(FadeInOut(true, 1f));
             }
             else if (selectedButtonIndex == 1) //battleButton
             {
@@ -95,5 +114,41 @@ public class StartManager : MonoBehaviour
             GameObject selectedImage = selectedButton.transform.GetChild(0).gameObject;
             selectedImage.SetActive(i == selectedButtonIndex ? true : false);
         }
+    }
+
+    public IEnumerator FadeInOut(bool _isFadeIn, float _duration)
+    {
+        isFadeInOut = true;
+
+        blackBoard.SetActive(true);
+        Image image = blackBoard.GetComponent<Image>();
+
+        //Fade In/Out 설정
+        float startAlpha = _isFadeIn ? 0f : 1f;
+        float endAlpha = _isFadeIn ? 1f : 0f;
+
+        //초기화
+        float time = 0f;
+        Color color = image.color;
+
+        while (time < _duration)
+        {
+            float t = time / _duration;
+            color.a = Mathf.Lerp(startAlpha, endAlpha, t);
+            image.color = color;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // 마지막 값 보정
+        color.a = endAlpha;
+        image.color = color;
+
+        isFadeInOut = false;
+        isStoryMode = true;
+
+        yield return new WaitForSeconds(0.03f);
+        controls.SetActive(true);
     }
 }
