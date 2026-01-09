@@ -659,6 +659,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1173245323303677926, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: infoPanel
+      value: 
+      objectReference: {fileID: 717268014}
     - target: {fileID: 3534663430395004627, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1817,6 +1821,11 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
+--- !u!1 &717268014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3662297088307180539, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+  m_PrefabInstance: {fileID: 501044434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &737921188
 GameObject:
   m_ObjectHideFlags: 0
@@ -2491,10 +2500,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0

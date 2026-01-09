@@ -1869,6 +1869,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4476868420000742650, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+      propertyPath: infoPanel
+      value: 
+      objectReference: {fileID: 459480450}
     - target: {fileID: 8997855708491450290, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
       propertyPath: m_SizeDelta.x
       value: 40
@@ -2963,6 +2967,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &459480450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2070015015050977511, guid: ab3e4914d8579ff4b8d5115e4c084b88, type: 3}
+  m_PrefabInstance: {fileID: 306953268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -15554,10 +15563,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -16935,6 +16944,7 @@ MonoBehaviour:
   triggerObject:
   - {fileID: 8517042376935612752}
   - {fileID: 1981631453}
+  libraryRoom: {fileID: 0}
 --- !u!1 &3204715050281095884
 GameObject:
   m_ObjectHideFlags: 0

@@ -1121,6 +1121,7 @@ MonoBehaviour:
   - {fileID: 1003796155}
   - {fileID: 1334602469}
   nextSceneName: Company_OfficeTuto-1
+  sceneController: {fileID: 0}
 --- !u!4 &560548298
 Transform:
   m_ObjectHideFlags: 0
@@ -2565,6 +2566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerObject:
   - {fileID: 1035746399}
+  libraryRoom: {fileID: 0}
 --- !u!61 &1003796156
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6273,6 +6275,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1255730389 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3662297088307180539, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+  m_PrefabInstance: {fileID: 1700758334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1258218429 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2472131748212446950, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
@@ -6774,6 +6781,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1173245323303677926, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: infoPanel
+      value: 
+      objectReference: {fileID: 1255730389}
     - target: {fileID: 4106509476160126613, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_Pivot.x
       value: 0

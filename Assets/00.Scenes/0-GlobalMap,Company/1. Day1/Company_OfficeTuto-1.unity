@@ -525,10 +525,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -1867,10 +1867,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -9539,6 +9539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerObject:
   - {fileID: 1399867112}
+  libraryRoom: {fileID: 0}
 --- !u!4 &1192396012
 Transform:
   m_ObjectHideFlags: 0
@@ -9719,10 +9720,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -10744,10 +10745,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -12415,10 +12416,10 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
+    enter1st: 0
     enterFight: 0
-    test3: 0
-    test4: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
@@ -12718,6 +12719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerObject:
   - {fileID: 1883693889936511616}
+  libraryRoom: {fileID: 0}
 --- !u!4 &361606942710638445
 Transform:
   m_ObjectHideFlags: 0
@@ -13677,6 +13679,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4827795044053515287, guid: 350e6bb9cf933d24da261e6eb1886f39, type: 3}
+      propertyPath: infoPanel
+      value: 
+      objectReference: {fileID: 5960499143548812891}
     - target: {fileID: 4827795044053515305, guid: 350e6bb9cf933d24da261e6eb1886f39, type: 3}
       propertyPath: m_Name
       value: Inventory
@@ -13686,6 +13692,11 @@ PrefabInstance:
 --- !u!224 &5960499143548812890 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4827795044053515286, guid: 350e6bb9cf933d24da261e6eb1886f39, type: 3}
+  m_PrefabInstance: {fileID: 5960499143548812889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5960499143548812891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6945929035342618634, guid: 350e6bb9cf933d24da261e6eb1886f39, type: 3}
   m_PrefabInstance: {fileID: 5960499143548812889}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8169204747441500512
