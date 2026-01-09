@@ -18,6 +18,8 @@ public class WorkSheet : MonoBehaviour
     [SerializeField] Text           _destroy;
     [SerializeField] Text           _efficiency;
 
+    [SerializeField] Image[]        npcSigns;
+
     private int     statueCount;
     private int     fightCount;
     private int     destroyedCount;
@@ -161,7 +163,17 @@ public class WorkSheet : MonoBehaviour
         }
         #endregion
 
+        Write_Sign();
+
         StartCoroutine(ToggleOn());                             
+    }
+
+    void Write_Sign()
+    {
+        int stageIndex = UIManager.u_instance.stageIndex;
+        var color = npcSigns[stageIndex].color;
+        color.a = 1f;
+        npcSigns[stageIndex].color = color;
     }
 
     IEnumerator ToggleOn()
