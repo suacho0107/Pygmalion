@@ -164,7 +164,7 @@ public class DialogueUI : MonoBehaviour
         {
             if (currentSelectButtonIndex < selectButtonList.Count)
             {
-                string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex];
+                string moveNumString = dialogueManager.selects[currentSelectIndex].moveNum[currentSelectButtonIndex]; 
 
                 if (int.TryParse(moveNumString, out int selectedIndex))
                 {
@@ -302,9 +302,10 @@ public class DialogueUI : MonoBehaviour
         //초기화
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
-        playerMove.IsMoved = false;
+        
         if (playerMove != null)
         {
+            playerMove.IsMoved = false;
             playerMove.pState = PlayerMove.PlayerState.Interaction;
         }
         //UI
@@ -431,9 +432,10 @@ public class DialogueUI : MonoBehaviour
         dialogueManager.isExplain = false;
         dialogueManager.isNext = false;
         dialogueManager.isEnd = true;
-        playerMove.IsMoved = true;
+        
         if (playerMove != null)
         {
+            playerMove.IsMoved = true;
             playerMove.ActiveInteract = false;
         }
         lineCount = 0;
@@ -442,7 +444,8 @@ public class DialogueUI : MonoBehaviour
 
         foreach (var portrait in Portraits)
         {
-            portrait.SetActive(false);
+            if (portrait != null)
+                portrait.SetActive(false);
         }
 
         if (npc is StageNPC selectedNPC)
@@ -507,7 +510,8 @@ public class DialogueUI : MonoBehaviour
         #region Image Popup
         foreach (var image in Images)
         {
-            image.SetActive(false);
+            if (image != null)
+                image.SetActive(false);
         }
         #endregion
 

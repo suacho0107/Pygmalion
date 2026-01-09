@@ -32,20 +32,10 @@ public class WorkSheet : MonoBehaviour
 
     DataManager dataManager = null;
 
-    private void Awake()
+    private void Start()
     {
         dataManager = DataManager.Instance;
 
-        #region Test
-        //PlayerPrefs.SetInt("StatueCount", 6);
-        //PlayerPrefs.SetInt("fightCount", 2);
-        //PlayerPrefs.SetInt("destroyedCount", 1);
-        //PlayerPrefs.SetInt("checkedCount", 16);
-        #endregion
-    }
-
-    private void Start()
-    {
         UpdateEndUI();
     }
 
@@ -119,9 +109,6 @@ public class WorkSheet : MonoBehaviour
 
         statueCount = PlayerPrefs.GetInt("StatueCount");
 
-        if (dataManager == null)
-            return;
-
         // TODO: 스테이지별 조각상 개수와 적 조각상 개수를 업무 효율 계산식의 매개변수로 전달해줘야 함, SetData 함수의 매개변수로 전달
         result = SetData();
 
@@ -176,21 +163,20 @@ public class WorkSheet : MonoBehaviour
     {
         int stageIndex = UIManager.u_instance.stageIndex;
         Image signImage = npcSigns[stageIndex];
-
-        // FillMethod와 fillOrigin을 설정 (수평, 왼쪽에서 시작)
-        signImage.fillMethod = Image.FillMethod.Horizontal;
-        signImage.fillOrigin = (int)Image.OriginHorizontal.Left;
-        signImage.type = Image.Type.Filled;
-
-        // fillAmount를 0으로 초기화
-        signImage.fillAmount = 0f;
+        Image playersignImage = npcSigns[2]; // 마지막 번째 : 플레이어 사인
 
         var color = signImage.color;
         color.a = 1f;
         signImage.color = color;
 
+        // FillMethod와 fillOrigin을 설정 (수평, 왼쪽에서 시작)
+        playersignImage.fillMethod = Image.FillMethod.Horizontal;
+        playersignImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+        playersignImage.type = Image.Type.Filled;
+        playersignImage.fillAmount = 0f;
+
         // 애니메이션 코루틴 시작
-        StartCoroutine(FillSignImage(signImage, 1f, 0.8f)); // 0.8초 동안 fillAmount 1까지
+        StartCoroutine(FillSignImage(playersignImage, 1f, 0.8f)); // 0.8초 동안 fillAmount 1까지
     }
 
     IEnumerator FillSignImage(Image image, float targetFill, float duration)
