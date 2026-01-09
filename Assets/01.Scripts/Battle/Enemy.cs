@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
 
     public string enemyName;
     public string mainPart;
+    public bool isMainPartDestroyed = false;
 
     public bool isMasked = true; //Melpomene: Mask 파괴 시 Head 공격 가능
 
@@ -113,6 +114,16 @@ public class Enemy : MonoBehaviour
     public void UpdateEnemy() //UpdateEnemyHp(), 매 턴마다 실행
     {
         enemyHp = 0; //합산을 위해 먼저 0으로 초기화
+
+        if (isMainPartDestroyed)
+        {
+            int mainPartIndex = parts.IndexOf(mainPart);
+            isDestroyed[mainPartIndex] = true;
+            partComponents[mainPartIndex].gameObject.SetActive(false);
+
+            StartCoroutine(battleUI.UpdateHpBar(enemyHpBar, enemyMaxHp, 0, 0.5f));
+            return;
+        }
 
         for (int i = 0; i < partComponents.Count; i++)
         {
