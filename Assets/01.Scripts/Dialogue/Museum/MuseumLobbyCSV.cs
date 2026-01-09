@@ -135,17 +135,23 @@ public class MuseumLobbyCSV : MonoBehaviour
             {
                 if (sceneName.StartsWith("Library_1F"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "Library_Statue1_dialogue", "Library_Statue1_dialogue", "Library_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
-                    npcs[0].selectFiles = new string[] { "judge1_select", "judge2_select", "judge2_select", "", "" };
-                    npcs[0].currentIndex = 0;
-                    npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
-                    npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+                    if (npcs.Length > 0)
+                    {
+                        npcs[0].dialogueFiles = new string[] { "Library_Statue1_dialogue", "Library_Statue1_dialogue", "Library_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
+                        npcs[0].selectFiles = new string[] { "judge1_select", "judge2_select", "judge2_select", "", "" };
+                        npcs[0].currentIndex = 0;
+                        npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                        npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+                    }
 
-                    npcs[1].dialogueFiles = new string[] { "Guard1_dialogue", "Guard_Check0_dialogue", "Guard_Check1_dialogue", "Guard_Check2_dialogue", "Guard_Check3_dialogue" };
-                    npcs[1].selectFiles = new string[] { "Guard1_select", "", "", "", "" };
-                    npcs[1].currentIndex = 0;
-                    npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
-                    npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
+                    if (npcs.Length > 1)
+                    {
+                        npcs[1].dialogueFiles = new string[] { "Library-Librarian0_dialogue", "Library-Librarian_mel1_dialogue", "Library-Librarian_mel2_dialogue", "Library-Librarian_all1_dialogue", "Library-Librarian_all2_dialogue" };
+                        npcs[1].selectFiles = new string[] { "Library-Librarian0_select", "Library-Librarian_mel1_select", "", "", "" };
+                        npcs[1].currentIndex = 0;
+                        npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
+                        npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
+                    }
                 }
                 else if (sceneName.StartsWith("Library_2F"))
                 {

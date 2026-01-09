@@ -70,11 +70,6 @@ public class UIManager : MonoBehaviour
             LoadStartScene();
             needResetAllData = true;        // 초기화 요청
         }
-
-        if (Input.GetKey(KeyCode.I))
-        {
-            Set_UIState(UI.UIState.End);
-        }
         #endregion
     }
 
