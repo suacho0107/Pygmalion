@@ -229,7 +229,7 @@ public class BattleManager : MonoBehaviour
     {
         //임시 Random 구현
         int r = Random.Range(0, 3);
-        //int r = 2;
+
         if (r == 0)
         {
             Aphrodite.SetActive(true);
@@ -252,12 +252,13 @@ public class BattleManager : MonoBehaviour
 
     public void Damage(string _object, int _attackpower, Part _part = null)
     {
-        if(player.isConfused)
+        //혼란
+        if (player.isConfused)
         {
-            if(_object == "enemy")
-            {
-                _object = "player";
-            }
+            player.playerHp -= _attackpower * 10;
+            player.UpdatePlayer();
+            StartCoroutine(battleUI.Shake(player.gameObject.transform, 0.2f, 10f));
+            return;
         }
 
         if (_object == "player")
@@ -270,13 +271,14 @@ public class BattleManager : MonoBehaviour
         {
             float attackpower = (float)_attackpower * enemy.increaseAttackPower;
 
-            if (player.isConfused)
-            {
-                attackpower *= 10;
-            }
-
             _attackpower = (int)attackpower;
             _part.partHp -= _attackpower;
+
+            if (_part.name == enemy.mainPart && _part.partHp <= 0) //이번 공격으로 mainpart가 파괴될 시
+            {
+                enemy.isMainPartDestroyed = true;
+            }
+
             enemy.UpdateEnemy();
             StartCoroutine(battleUI.Shake(enemy.gameObject.transform, 0.2f, 10f));
         }
