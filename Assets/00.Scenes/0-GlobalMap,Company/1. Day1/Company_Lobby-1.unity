@@ -820,6 +820,11 @@ Transform:
   m_Father: {fileID: 1626113380}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &363539643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3662297088307180539, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+  m_PrefabInstance: {fileID: 922707106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &499248459 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7274407511347223354, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
@@ -1130,6 +1135,7 @@ MonoBehaviour:
   - {fileID: 1003796155}
   - {fileID: 1625378932}
   nextSceneName: GlobalMap
+  sceneController: {fileID: 0}
 --- !u!4 &560548298
 Transform:
   m_ObjectHideFlags: 0
@@ -2523,6 +2529,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1173245323303677926, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: infoPanel
+      value: 
+      objectReference: {fileID: 363539643}
     - target: {fileID: 4106509476160126613, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2715,6 +2725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerObject:
   - {fileID: 288367211}
+  libraryRoom: {fileID: 0}
 --- !u!61 &1003796156
 BoxCollider2D:
   m_ObjectHideFlags: 0

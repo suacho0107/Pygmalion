@@ -176,6 +176,11 @@ public class UIManager : MonoBehaviour
         return currentStage;
     }
 
+    public int Get_StageIndex()
+    {
+        return stageIndex;
+    }
+
     void UpdateUI()
     {
         if (UIReady != null) UIReady.SetActive(false);

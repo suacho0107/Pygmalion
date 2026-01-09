@@ -18,6 +18,8 @@ public class WorkSheet : MonoBehaviour
     [SerializeField] Text           _destroy;
     [SerializeField] Text           _efficiency;
 
+    [SerializeField] Image[]        npcSigns;
+
     private int     statueCount;
     private int     fightCount;
     private int     destroyedCount;
@@ -161,7 +163,44 @@ public class WorkSheet : MonoBehaviour
         }
         #endregion
 
+        Write_Sign();
+
         StartCoroutine(ToggleOn());                             
+    }
+
+    void Write_Sign()
+    {
+        int stageIndex = UIManager.u_instance.stageIndex;
+        Image signImage = npcSigns[stageIndex];
+
+        // FillMethod와 fillOrigin을 설정 (수평, 왼쪽에서 시작)
+        signImage.fillMethod = Image.FillMethod.Horizontal;
+        signImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+        signImage.type = Image.Type.Filled;
+
+        // fillAmount를 0으로 초기화
+        signImage.fillAmount = 0f;
+
+        var color = signImage.color;
+        color.a = 1f;
+        signImage.color = color;
+
+        // 애니메이션 코루틴 시작
+        StartCoroutine(FillSignImage(signImage, 1f, 0.8f)); // 0.8초 동안 fillAmount 1까지
+    }
+
+    IEnumerator FillSignImage(Image image, float targetFill, float duration)
+    {
+        float startFill = image.fillAmount;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            image.fillAmount = Mathf.Lerp(startFill, targetFill, elapsed / duration);
+            yield return null;
+        }
+        image.fillAmount = targetFill;
     }
 
     IEnumerator ToggleOn()

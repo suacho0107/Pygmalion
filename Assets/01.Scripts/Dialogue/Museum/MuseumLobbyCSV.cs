@@ -49,7 +49,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
 
-                    npcs[1].dialogueFiles = new string[] { "Tutorial1_dialogue", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue" };
+                    npcs[1].dialogueFiles = new string[] { "Tutorial1_dialogue", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue", "Default-Exit_map_dialogue" };
                     npcs[1].selectFiles = new string[] { "Tutorial1_select", "", "", "", "" };
                     ////Test
                     //npcs[1].dialogueFiles = new string[] { "2Select_Test_Dialogue_Jiyun", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue" };

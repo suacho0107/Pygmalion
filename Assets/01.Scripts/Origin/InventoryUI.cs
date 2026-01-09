@@ -14,6 +14,7 @@ public class InventoryUI : MonoBehaviour
     private ItemDatabase ItemDB;
     public GameObject inventoryPanel;
     public GameObject currencyPanel;
+    public GameObject infoPanel;
     public GameObject inventoryBackground;
 
     public bool activeInventory = false;
@@ -203,6 +204,7 @@ public class InventoryUI : MonoBehaviour
         ItemDB = FindObjectOfType<ItemDatabase>();
         inventoryPanel.SetActive(activeInventory);
         currencyPanel.SetActive(activeInventory);
+        infoPanel.SetActive(activeInventory);
         inventoryBackground.SetActive(activeInventory);
 
         inventoryItemList = new List<Item>();
@@ -224,6 +226,7 @@ public class InventoryUI : MonoBehaviour
             {
                 inventoryPanel.SetActive(true);
                 currencyPanel.SetActive(true);
+                infoPanel.SetActive(true);
                 inventoryBackground.SetActive(true);
                 activeItem = true;
                 ShowItem();
@@ -236,6 +239,7 @@ public class InventoryUI : MonoBehaviour
                 StopAllCoroutines();
                 inventoryPanel.SetActive(false);
                 currencyPanel.SetActive(false);
+                infoPanel.SetActive(false);
                 inventoryBackground.SetActive(false);
                 activeItem = false;
                 SaveInventory();
