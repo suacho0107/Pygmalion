@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     };
 
     public  int     stageIndex = 0;
+    public  bool    isRespawn = false;
     private bool needResetAllData = false;
 
     void Awake()

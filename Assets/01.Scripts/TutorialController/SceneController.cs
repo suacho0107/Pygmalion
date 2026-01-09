@@ -11,13 +11,15 @@ public class SceneController : MonoBehaviour
 
     void Update()
     {
-        curStageIndex = UIManager.u_instance.stageIndex;
+        var u_instance = UIManager.u_instance;
+        curStageIndex = u_instance.stageIndex;
+        u_instance.isRespawn = true;
 
         switch (curStageIndex)
         {
             case 0:
                 nextSceneName = "Museum_Lobby";
-                nextPos = new Vector3(2, 7.3f, 0);
+                nextPos = new Vector3(0, 0.8f, 0);
                 break;
 
             case 1:

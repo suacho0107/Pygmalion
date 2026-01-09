@@ -12,6 +12,7 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] string nextScene;
 
     [SerializeField] TutorialFadeEffect fadeEffect;
+    [SerializeField] TutorialFadeEffect fadeEffect2;
 
     public StageNPC stageNpc; // StageNPC 직접 할당
     public NPC npc; // NPC
@@ -78,9 +79,16 @@ public class SceneTransition : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D col)
     {
-        if (fadeEffect != null)
+        if (fadeEffect != null && fadeEffect.gameObject.activeInHierarchy)
         {
             if (fadeEffect.isCompleted)
+            {
+                SceneManager.LoadScene(nextScene);
+            }
+        }
+        else if (fadeEffect2 != null && fadeEffect2.gameObject.activeInHierarchy)
+        {
+            if (fadeEffect2.isCompleted)
             {
                 SceneManager.LoadScene(nextScene);
             }
