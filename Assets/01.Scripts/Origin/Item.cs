@@ -29,6 +29,6 @@ public class Item
         itemIconName = _itemIconName;
         itemType = _itemType;
         itemCount = _itemCount;
-        itemIcon = Resources.Load("ItemIcon/" + _itemName, typeof(Sprite)) as Sprite;
+        itemIcon = Resources.Load("ItemIcon/" + _itemIconName, typeof(Sprite)) as Sprite;
     }
 }

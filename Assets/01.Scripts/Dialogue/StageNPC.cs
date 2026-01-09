@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class StageNPC : NPC
 {
-    bool isNPC = true;
+    public bool isNPC = true;
     public bool tutorial = false;
 
     public bool isTutoDialogueChanged = false;
@@ -95,77 +95,43 @@ public class StageNPC : NPC
         #region Library Guard
         else if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
-            if (isInteract && statueScore != null)
+            LibraryGuard();
+
+            if (!questEnd)
             {
-                ChangeDialogueFileName("Guard_Check0_dialogue");
+                string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
 
-                if (statueScore.statueCount == 1)
+                if (File.Exists(transPath))
                 {
-                    ChangeDialogueFileName("Guard_Check1_dialogue");
-                }
-                else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
-                {
-                    ChangeDialogueFileName("Guard_Check2_dialogue");
-                }
-                else if (statueScore.statueCount == 5)
-                {
-                    ChangeDialogueFileName("Guard_Check3_dialogue");
-                }
-            }
+                    string json = File.ReadAllText(transPath);
+                    NPCData transData = JsonUtility.FromJson<NPCData>(json);
 
-            string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
-
-            if (File.Exists(transPath))
-            {
-                string json = File.ReadAllText(transPath);
-                NPCData transData = JsonUtility.FromJson<NPCData>(json);
-
-                if (transData.isInteract)
-                {
-                    ChangeDialogueFileName("Guard_key_dialogue");
-                    DialogueManager dm = FindObjectOfType<DialogueManager>();
-                    if(dm.CurrentNPC == this)
+                    if (transData.isInteract)
                     {
-                        Debug.Log("this");
-                        if (dm.isEnd) InventoryUI.instance.GetAnItem(20101);
-                        Debug.Log("isEnd");
+                        ChangeDialogueFileName("Guard_key_dialogue");
+                        DialogueManager dm = FindObjectOfType<DialogueManager>();
+                        if (dm.CurrentNPC == this)
+                        {
+                            InventoryUI.instance.GetAnItem(20101);
+                            //if (dm.isEnd) { InventoryUI.instance.GetAnItem(20101); Debug.Log("dm.isEnd"); }
+                            questEnd = true;
+                        }
                     }
                 }
             }
         }
         #endregion
+    }
 
-        #region Library Librarian
-        if (SceneManager.GetActiveScene().name == "Library_2F" && isNPC)
+    void LibraryGuard()
+    {
+        if (isInteract && statueScore != null)
         {
-            Statue mel = (csv.npcs[0] as Statue);
-            if (mel != null)
-            {
-                //Debug.Log(mel.name);
-            }
-
-            if (mel.result)//csv.npcs[0] as Statue)
-            {
-                //Debug.Log("mel");
-                ChangeDialogueFile(1);
-                Animator anim = GetComponent<Animator>();
-                anim.SetBool("melEnd", true);
-                //anim.Play("side idle");
-            }
-            else if (!isInteract)
-            {
-                dialogueFileName = "Library-Librarian0_dialogue";
-                selectFileName = "Library-Librarian0_select";
-            }
-            else if (isInteract) // 재상호작용 시 반응 없게
-            {
-                PlayerMove pm = FindObjectOfType<PlayerMove>();
-                pm.ActiveInteract = false;
-                dialogueFileName = "";
-                selectFileName = "";
-            }
+            ChangeDialogueFileName("Guard_Check0_dialogue");
+            if (statueScore.statueCount == 1) ChangeDialogueFileName("Guard_Check1_dialogue");
+            else if (statueScore.statueCount > 1 && statueScore.statueCount < 5) ChangeDialogueFileName("Guard_Check2_dialogue");
+            else if (statueScore.statueCount == 5) ChangeDialogueFileName("Guard_Check3_dialogue");
         }
-        #endregion
     }
 
     public void TutorialFin()

@@ -7922,7 +7922,7 @@ MonoBehaviour:
   - {fileID: 944810718}
   - {fileID: 1260541212}
   - {fileID: 1282487614}
-  - {fileID: 1143128409}
+  - {fileID: 1143128412}
 --- !u!114 &944810715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19265,9 +19265,9 @@ GameObject:
   - component: {fileID: 1143128407}
   - component: {fileID: 1143128406}
   - component: {fileID: 1143128405}
-  - component: {fileID: 1143128409}
   - component: {fileID: 1143128411}
   - component: {fileID: 1143128410}
+  - component: {fileID: 1143128412}
   m_Layer: 6
   m_Name: Stage2_NPC2
   m_TagString: Untagged
@@ -19328,7 +19328,7 @@ MonoBehaviour:
   - {fileID: 944810718}
   - {fileID: 1260541212}
   - {fileID: 1282487614}
-  - {fileID: 1143128409}
+  - {fileID: 1143128412}
 --- !u!70 &1143128407
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -19397,60 +19397,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1143128409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143128402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a90b0d9af2d32048b9690b811707927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 0}
-  dialogueUI: {fileID: 0}
-  interactionEvent: {fileID: 1143128405}
-  csv: {fileID: 1143128406}
-  statueScore: {fileID: 1217720992}
-  npcData:
-    isChecked: 0
-    isJudged: 0
-    isCorrect: 0
-    isDialogueChanged: 0
-    currentIndex: 0
-    dialogueFileName: 
-    selectFileName: 
-    isFin: 0
-    result: 0
-    isSpriteChanged: 0
-    enter1st: 0
-    enterFight: 0
-    trg_nEnmy: 0
-    trg_destroyed: 0
-    isInteract: 0
-    isTutoDialogueChanged: 0
-    isTutoFin: 0
-    questStart: 0
-    questEnd: 0
-    unlock: 0
-  isInteract: 0
-  isObject: 0
-  isOfficeTuto: 0
-  isDialogueChanged: 0
-  filePath: 
-  dialogueFileName: Library-Librarian0_dialogue
-  selectFileName: Library-Librarian0_select
-  explainNum: 
-  dialogueFiles: []
-  selectFiles: []
-  currentIndex: 0
-  tutorial: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
-  questStart: 0
-  questEnd: 0
 --- !u!114 &1143128410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19486,6 +19432,64 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1143128412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143128402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d871439d05c199d4794d188f65137dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 1143128405}
+  csv: {fileID: 1143128406}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 0
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: Library-Librarian0_dialogue
+  selectFileName: Library-Librarian0_select
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
+  isNPC: 1
+  tutorial: 0
+  isTutoDialogueChanged: 0
+  isTutoFin: 0
+  questStart: 0
+  questEnd: 0
+  tremble: {fileID: 2049253327}
+  idle: {fileID: 2119586025}
+  LState: 0
 --- !u!1 &1144914787
 GameObject:
   m_ObjectHideFlags: 0
@@ -19513,7 +19517,7 @@ RectTransform:
   m_GameObject: {fileID: 1144914787}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 68097776}
@@ -19522,7 +19526,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 440, y: 440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1144914789
 MonoBehaviour:
@@ -19896,7 +19900,7 @@ MonoBehaviour:
   - {fileID: 944810718}
   - {fileID: 1260541212}
   - {fileID: 1282487614}
-  - {fileID: 1143128409}
+  - {fileID: 1143128412}
 --- !u!114 &1260541209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20789,7 +20793,7 @@ MonoBehaviour:
   - {fileID: 944810718}
   - {fileID: 1260541212}
   - {fileID: 1282487614}
-  - {fileID: 1143128409}
+  - {fileID: 1143128412}
 --- !u!114 &1282487611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25646,6 +25650,10 @@ PrefabInstance:
     - target: {fileID: -8653719598885068355, guid: 9ec701b50d456d8489d00b0a26c9c67d, type: 3}
       propertyPath: m_Name
       value: "\uB3C4\uC11C\uAD00\uC0AC\uC11C_side"
+      objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: 9ec701b50d456d8489d00b0a26c9c67d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 9ec701b50d456d8489d00b0a26c9c67d, type: 3}
       propertyPath: m_RootOrder

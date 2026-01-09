@@ -302,7 +302,8 @@ public class DialogueUI : MonoBehaviour
         //초기화
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
-        if(playerMove != null)
+        playerMove.IsMoved = false;
+        if (playerMove != null)
         {
             playerMove.pState = PlayerMove.PlayerState.Interaction;
         }
@@ -478,13 +479,19 @@ public class DialogueUI : MonoBehaviour
         dialogueManager.isExplain = false;
         dialogueManager.isNext = false;
         dialogueManager.isEnd = true;
-        if(playerMove != null)
+        playerMove.IsMoved = true;
+        if (playerMove != null)
         {
             playerMove.ActiveInteract = false;
         }
         lineCount = 0;
         contextCount = 0;
         //npc.isInteract = true; //미술관장
+
+        foreach (var portrait in Portraits)
+        {
+            portrait.SetActive(false);
+        }
 
         if (npc is StageNPC selectedNPC)
         {
@@ -519,7 +526,7 @@ public class DialogueUI : MonoBehaviour
 
         if (npc is RequestNPC selectedRequestNPC)
         {
-            if (selectedRequestNPC.dialogueFileName == "request1_dialogue")
+            if (selectedRequestNPC.dialogueFileName == "request2_dialogue")
             {
                 selectedRequestNPC.RequestOff();
             }
@@ -552,10 +559,6 @@ public class DialogueUI : MonoBehaviour
         }
         #endregion
 
-        foreach (var portrait in Portraits)
-        {
-            portrait.SetActive(false);
-        }
     }
     #endregion
 

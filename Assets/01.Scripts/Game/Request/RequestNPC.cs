@@ -109,7 +109,7 @@ public class RequestNPC : NPC
     {
         processNum++;
 
-        if (2 == processNum)
+        if (1 == processNum)
             canOff = true;
     }
 

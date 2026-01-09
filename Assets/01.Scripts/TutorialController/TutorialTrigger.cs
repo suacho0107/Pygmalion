@@ -32,7 +32,6 @@ public class TutorialTrigger : TutorialBase
                 {
                     if (obj.name == "triggerObj_CR2")
                     {
-                        //Debug.Log("triggerObj_CR2");
                         if (!InventoryUI.instance.HasItem(20102)) triggerActive = false;
                         else
                         {

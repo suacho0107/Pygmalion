@@ -22,7 +22,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
-                else if (sceneName.StartsWith("Company_Office"))
+                else if (sceneName == "Company_OfficeTuto-1")
                 {
                     npcs[0].dialogueFiles = new string[] { "Office-1-2_dialogue" };
                     npcs[0].selectFiles = new string[] { "" };
@@ -37,6 +37,34 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+                }
+                else if (sceneName == "Company_Office-1")
+                {
+                    npcs[0].dialogueFiles = new string[] { "Office-Day1_sophia2_dialogue", "Office-Day1_sophia3_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "" };
+                    npcs[0].currentIndex = 0;
+                    npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                    npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+
+                    npcs[1].dialogueFiles = new string[] { "Office-Day1_bella2_dialogue", "Office-Day1_bella3_dialogue" };
+                    npcs[1].selectFiles = new string[] { "", "" };
+                    npcs[1].currentIndex = 0;
+                    npcs[1].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                    npcs[1].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+                }
+                else if (sceneName == "Company_Office-2")
+                {
+                    npcs[0].dialogueFiles = new string[] { "Office-Day2_sophia2_dialogue", "Office-Day2_sophia3_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "" };
+                    npcs[0].currentIndex = 0;
+                    npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                    npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+
+                    npcs[1].dialogueFiles = new string[] { "Office-Day2_bella2_dialogue", "Office-Day2_bella3_dialogue" };
+                    npcs[1].selectFiles = new string[] { "", "" };
+                    npcs[1].currentIndex = 0;
+                    npcs[1].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                    npcs[1].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
             }
             else if (sceneName.StartsWith("Museum"))
@@ -139,8 +167,8 @@ public class MuseumLobbyCSV : MonoBehaviour
                     npcs[2].dialogueFileName = npcs[2].dialogueFiles[npcs[2].currentIndex];
                     npcs[2].selectFileName = npcs[2].selectFiles[npcs[2].currentIndex];
 
-                    npcs[3].dialogueFiles = new string[] { "Library-Librarian0_dialogue", "Library-Librarian_mel1_dialogue" };
-                    npcs[3].selectFiles = new string[] { "Library-Librarian0_select", "Library-Librarian_mel1_select" };
+                    npcs[3].dialogueFiles = new string[] { "Library-Librarian0_dialogue", "Library-Librarian_mel1_dialogue", "Library-Librarian_mel2_dialogue", "Library-Librarian_all1_dialogue", "Library-Librarian_all2_dialogue" };
+                    npcs[3].selectFiles = new string[] { "Library-Librarian0_select", "Library-Librarian_mel1_select", "", "", "" };
                     npcs[3].currentIndex = 0;
                     npcs[3].dialogueFileName = npcs[3].dialogueFiles[npcs[3].currentIndex];
                     npcs[3].selectFileName = npcs[3].selectFiles[npcs[3].currentIndex];
