@@ -511,11 +511,11 @@ public class Enemy : MonoBehaviour
     }
     private void Aphrodite_Dance() //황홀한 춤
     {
-        StartCoroutine(battleManager.ContentTextWriter("조각상이 황홀한 춤을 춰 당신을 크게 매료시킵니다.\n방어력이 감소합니다."));
+        StartCoroutine(battleManager.ContentTextWriter("조각상이 황홀한 춤을 춰 당신을 크게 매료시킵니다.\n당신은 무방비 상태가 됩니다."));
 
-        if (increaseAttackPower != 1.2f)
+        if (increaseAttackPower != 1.1f)
         {
-            increaseAttackPower = 1.2f;
+            increaseAttackPower = 1.1f;
         }
     }
     private void Aphrodite_Throw() //황금 사과 투척
