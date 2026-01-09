@@ -538,16 +538,13 @@ public class DialogueUI : MonoBehaviour
         if (hasName) //대사에 name 있으면
         {
             dialoguePanelImage.sprite = DialoguePanel;
-            nameText.text = name;
-
-            MessageWriter(dialogueText);
+            nameText.text = _name;
         }
         else //name 없으면
         {
             dialoguePanelImage.sprite = DescriptionPanel;
-
-            MessageWriter(descriptionText);
         }
+        MessageWriter(descriptionText);
     }
 
     void MessageWriter(Text _text)
