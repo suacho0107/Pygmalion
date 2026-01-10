@@ -167,7 +167,7 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(battleUI.FadeInOutCircle(true, 2f));
 
         state = State.PLAYERTURN_START;
-        PlaySFX(battleStartSFX);
+        //PlaySFX(battleStartSFX);
     }
 
     private void Update()
@@ -304,7 +304,7 @@ public class BattleManager : MonoBehaviour
 
         //UI & BGM
         StartCoroutine(battleUI.FadeInOut(false, 2f));
-        StartCoroutine(battleBGM.FadeOutBGM(2f));
+        StartCoroutine(battleBGM.FadeInOutBGM(false, 2f));
 
         if (!isBattleMode)
         {
@@ -329,7 +329,7 @@ public class BattleManager : MonoBehaviour
         //UI & BGM
         StartCoroutine(ContentTextWriter("눈앞이 흐려진다..."));
         StartCoroutine(battleUI.FadeInOut(false, 2f));
-        StartCoroutine(battleBGM.FadeOutBGM(2f));
+        StartCoroutine(battleBGM.FadeInOutBGM(false, 2f));
 
 
         //구현예정

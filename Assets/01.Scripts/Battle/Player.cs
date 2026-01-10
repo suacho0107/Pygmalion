@@ -181,7 +181,7 @@ public class Player : MonoBehaviour
             battleUI.dialoguePanel.SetActive(false);
             //StartCoroutine(battleUI.FadeInOut(false, 2f));
             StartCoroutine(battleUI.FadeInOutCircle(false, 2f));
-            StartCoroutine(battleBGM.FadeOutBGM(2f));
+            StartCoroutine(battleBGM.FadeInOutBGM(false, 2f));
 
             ////SFX
             //battleManager.PlaySFX(battleManager.playerRunSFX);
