@@ -28,7 +28,7 @@ public class BattleBGM : MonoBehaviour
     {
         audioSource.Stop();
         audioSource.loop = true;
-        audioSource.volume = 0.4f;
+        //audioSource.volume = 0.4f;
         audioSource.volume = 0f; //FadeIn 할 거라 0으로 Play
         audioSource.time = 0;
         audioSource.Play();
