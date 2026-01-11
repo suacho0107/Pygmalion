@@ -22,7 +22,6 @@ public class SceneTransition : MonoBehaviour
     {
         playerPos.nextPosition = nextPos;
         playerPos.isChecked = true;
-
         Set_UIStateWork(nextScene);
     }
 
@@ -30,6 +29,9 @@ public class SceneTransition : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            if (BlockGlobalMap())
+                return;
+
             if (stageNpc == null && npc == null) // 기본: 미술관장 등 NPC null
             {
                 playerPos.nextPosition = nextPos;
@@ -79,6 +81,11 @@ public class SceneTransition : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D col)
     {
+        if (!col.CompareTag("Player")) return;
+
+        if (BlockGlobalMap())
+            return;
+
         if (fadeEffect != null && fadeEffect.gameObject.activeInHierarchy)
         {
             if (fadeEffect.isCompleted)
@@ -124,6 +131,16 @@ public class SceneTransition : MonoBehaviour
             SceneManager.LoadScene(nextScene);
     }
 
+    private bool BlockGlobalMap()
+    {
+        // UIManager 없으면(초기화 전) 막지 않음
+        if (UIManager.u_instance == null) return false;
+
+        // UI 상태가 Work인데 GlobalMap으로 가려는 경우만 차단
+        return UIManager.u_instance.Get_CurrentState() == Define.UI.UIState.Work
+               && nextScene == "GlobalMap";
+    }
+
     void Update_Library()
     {
         if (npc != null && SceneManager.GetActiveScene().name == "Library_B1F") // 도서관 B1 열람실
@@ -164,15 +181,15 @@ public class SceneTransition : MonoBehaviour
         if (sceneName == "Museum_Lobby" || sceneName == "Library_1F" || sceneName == "Park" || 
             sceneName == "CityHall_Lobby" || sceneName == "Broadcast_1F" || sceneName == "Hospital_1F")
         {
-            if(SceneManager.GetActiveScene().name == "GlobalMap" && sceneName == "Museum_Lobby")
-            {
-                //Debug.Log("삭제");
-                GetComponent<DeleteAllData>().DeleteAllJsonFiles();
-                if (FieldItemManager.Instance != null)
-                {
-                    FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
-                }
-            }
+            //if(SceneManager.GetActiveScene().name == "GlobalMap" && sceneName == "Museum_Lobby")
+            //{
+            //    //Debug.Log("삭제");
+            //    GetComponent<DeleteAllData>().DeleteAllJsonFiles();
+            //    if (FieldItemManager.Instance != null)
+            //    {
+            //        FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
+            //    }
+            //}
             if (UIManager.u_instance != null) /* to be moved */
             {
                 //UIManager.u_instance.Set_UIState(Define.UI.UIState.Work); /* to be deleted */

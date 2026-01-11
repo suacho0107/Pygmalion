@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     public  int     stageIndex = 0;
     public  bool    isRespawn = false;
     private bool needResetAllData = false;
+    public bool stateWork = false;
 
     void Awake()
     {
@@ -201,7 +202,7 @@ public class UIManager : MonoBehaviour
                 break;
 
             case UI.UIState.Work:
-                if (UIWork != null) UIWork.SetActive(true);
+                if (UIWork != null) { UIWork.SetActive(true); stateWork = true; }
                 break;
 
             case UI.UIState.End:

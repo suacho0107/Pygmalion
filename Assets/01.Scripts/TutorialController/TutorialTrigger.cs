@@ -28,6 +28,14 @@ public class TutorialTrigger : TutorialBase
             {
                 bool triggerActive = true;
 
+                if(obj.name == "triggerObj_GM")
+                {
+                    if (UIManager.u_instance.stateWork)
+                    {
+                        triggerActive = false;
+                    }
+                }
+
                 if (libraryRoom != null)
                 {
                     if (obj.name == "triggerObj_CR2")
