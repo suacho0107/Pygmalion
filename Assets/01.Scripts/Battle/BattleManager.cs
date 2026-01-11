@@ -263,6 +263,8 @@ public class BattleManager : MonoBehaviour
 
         if (_object == "player")
         {
+            PlaySFX(enemyAttackSFX);
+
             player.playerHp -= _attackpower;
             player.UpdatePlayer();
             StartCoroutine(battleUI.Shake(player.gameObject.transform, 0.2f, 10f));
