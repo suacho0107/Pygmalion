@@ -371,6 +371,7 @@ public class DialogueUI : MonoBehaviour
         {
             dialoguePanelImage.sprite = DescriptionPanel;
             namePanel.SetActive(false);
+            nameText.text = "";
         }
         dialoguePanel.SetActive(true);
 
@@ -525,11 +526,11 @@ public class DialogueUI : MonoBehaviour
         //초기화 & Setting
         dialogueManager.isDialogue = true;
         dialogueManager.isMessage = true;
-        //if(playerMove == null)
-        //{
-        //    playerMove = FindObjectOfType<PlayerMove>();
-        //    playerMove.ActiveInteract = true;
-        //}
+        if (playerMove != null)
+        {
+            playerMove.IsMoved = false;
+            playerMove.pState = PlayerMove.PlayerState.Interaction;
+        }
 
         dialogueText.text = "";
         descriptionText.text = "";
@@ -576,7 +577,11 @@ public class DialogueUI : MonoBehaviour
         dialogueManager.isExplain = false;
         dialogueManager.isNext = false;
         dialogueManager.isMessage = false;
-        playerMove.ActiveInteract = false;
+        if (playerMove != null)
+        {
+            playerMove.IsMoved = true;
+            playerMove.pState = PlayerMove.PlayerState.Move;
+        }
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);

@@ -111,29 +111,32 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueUI.EndMessage();
         }
-
-        //4. csv 있는 대사
-        var currentLine = dialogues[dialogueUI.lineCount];
-        var currentContext = dialogueUI.contextCount;
-
-        //4-1. skipNum 처리
-        if (!string.IsNullOrEmpty(currentLine.skipNum[currentContext]))
+        
+        if(dialogues != null) // null에러 방지용
         {
-            if (int.TryParse(currentLine.skipNum[currentContext], out int skipLine))
+            //4. csv 있는 대사
+            var currentLine = dialogues[dialogueUI.lineCount];
+            var currentContext = dialogueUI.contextCount;
+
+            //4-1. skipNum 처리
+            if (!string.IsNullOrEmpty(currentLine.skipNum[currentContext]))
             {
-                dialogueUI.lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
-                dialogueUI.contextCount = 0;
+                if (int.TryParse(currentLine.skipNum[currentContext], out int skipLine))
+                {
+                    dialogueUI.lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
+                    dialogueUI.contextCount = 0;
+                }
             }
-        }
 
-        //4-2. eventNum 처리 (선택지 있는 대화)
-        if (!string.IsNullOrEmpty(currentLine.eventNum[currentContext]))
-        {
-            EventDialogueHandler(currentLine.eventNum[currentContext]);
-        }
-        else //4-3. 일반 대사 처리
-        {
-            NormalDialogueHandler();
+            //4-2. eventNum 처리 (선택지 있는 대화)
+            if (!string.IsNullOrEmpty(currentLine.eventNum[currentContext]))
+            {
+                EventDialogueHandler(currentLine.eventNum[currentContext]);
+            }
+            else //4-3. 일반 대사 처리
+            {
+                NormalDialogueHandler();
+            }
         }
     }
 
