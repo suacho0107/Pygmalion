@@ -224,7 +224,7 @@ public class Statue : NPC
         if (isStatue && isEnemy && isChecked && isJudged && enterFight && !isFin)
         {
             enterFight = false;
-            Debug.Log("ResetEnterFight");
+            //Debug.Log("ResetEnterFight");
         }
     }
 
@@ -232,7 +232,7 @@ public class Statue : NPC
     {
         SceneTransport.previousStatue = filePath;
         SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-        Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+        //Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
 
         if(!enter1st) ChangeDialogueExplain(FILEINDEX, "1");
         StartCoroutine(PlaySound());

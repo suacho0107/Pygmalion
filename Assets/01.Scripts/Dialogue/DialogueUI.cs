@@ -421,6 +421,11 @@ public class DialogueUI : MonoBehaviour
         replaceText = replaceText.Replace("#", ","); //#을 ,로 변환
         replaceText = replaceText.Replace("@", "\n"); //@을 \n으로 변환
 
+        if (npc != null && npc.dialogueFileName == "Office-Day2-Storage_dialogue")
+        {
+            if(lineCount == 4 && contextCount == 0) ItemPopup();
+            if(lineCount == 9 && contextCount == 0) ItemImage.SetActive(false);
+        }
 
         //context 출력
         StartCoroutine(ContextTyping(contextText, replaceText));
