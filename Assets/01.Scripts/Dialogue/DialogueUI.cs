@@ -302,6 +302,7 @@ public class DialogueUI : MonoBehaviour
         //초기화
         dialogueManager.dialogues = _dialogues;
         dialogueManager.isDialogue = true;
+        dialogueManager.isEnd = false;
         
         if (playerMove != null)
         {
@@ -524,7 +525,11 @@ public class DialogueUI : MonoBehaviour
         //초기화 & Setting
         dialogueManager.isDialogue = true;
         dialogueManager.isMessage = true;
-        playerMove.ActiveInteract = true;
+        //if(playerMove == null)
+        //{
+        //    playerMove = FindObjectOfType<PlayerMove>();
+        //    playerMove.ActiveInteract = true;
+        //}
 
         dialogueText.text = "";
         descriptionText.text = "";

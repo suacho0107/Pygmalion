@@ -30,6 +30,7 @@ public class FightEndDialogue : MonoBehaviour
                 string message = "얼른 끝내고 퇴근해야지...";
 
                 dialogueUI.ShowMessage(message);
+                Debug.Log("showmessage");
             }
         }
         else if (PlayerPrefs.GetInt("PlayerRun", 0) == 1)
@@ -44,6 +45,7 @@ public class FightEndDialogue : MonoBehaviour
                 string message = "잠깐, 숨 좀 돌리고...";
 
                 dialogueUI.ShowMessage(message);
+                Debug.Log("showmessage");
             }
         }
     }
@@ -53,6 +55,7 @@ public class FightEndDialogue : MonoBehaviour
         yield return new WaitForEndOfFrame();
         PlayerPrefs.SetInt("PlayerLose", 0);
         PlayerPrefs.Save();
+        Debug.Log("ResetLoseSignal");
     }
 
     IEnumerator ResetRunSignal()
@@ -60,5 +63,6 @@ public class FightEndDialogue : MonoBehaviour
         yield return new WaitForEndOfFrame();
         PlayerPrefs.SetInt("PlayerRun", 0);
         PlayerPrefs.Save();
+        Debug.Log("ResetRunSignal");
     }
 }

@@ -63,7 +63,7 @@ public class MuseumGuard : StageNPC
                         {
                             ChangeDialogueFile(3);
                             // Statue isEnd랑 간섭 문제 발생
-                            if (dialogueManager.isEnd && currentNPC)
+                            if (currentNPC && dialogueManager.isEnd)
                             {
                                 questEnd = true;
                                 InventoryUI.instance.GetAnItem(10402);
@@ -77,7 +77,7 @@ public class MuseumGuard : StageNPC
                             if (dialogueUI.buttonIndexNPC == 2) // 퀘스트 수락
                             {
                                 //Debug.Log("최초 상호작용, 퀘스트 시작 전 아이템 미소지, 퀘스트 수락");
-                                if (dialogueManager.isEnd && currentNPC)
+                                if (currentNPC && dialogueManager.isEnd)
                                 {
                                     //Debug.Log("퀘스트 수락, isEnd");
                                     questStart = true;
@@ -89,7 +89,7 @@ public class MuseumGuard : StageNPC
                             }
                             else // 퀘스트 거절
                             {
-                                if (dialogueManager.isEnd && currentNPC)
+                                if (currentNPC && dialogueManager.isEnd)
                                 {
                                     questStart = false;
                                     ChangeDialogueFile(4);
@@ -104,7 +104,7 @@ public class MuseumGuard : StageNPC
                     else if (InventoryUI.instance.HasItem(10401)) // 최초 상호작용 후, 퀘스트 시작 전 템 소지
                     {
                         ChangeDialogueFile(3);
-                        if (dialogueManager.isEnd && currentNPC)
+                        if (currentNPC && dialogueManager.isEnd)
                         {
                             questEnd = true;
                             InventoryUI.instance.GetAnItem(10402);
@@ -117,7 +117,7 @@ public class MuseumGuard : StageNPC
                     {
                         ChangeDialogueFile(4);
 
-                        if (dialogueManager.isEnd && currentNPC) // 이거 왜 넣은 거지: 아마 다른 맵 넘어가기 전에 변수 상태 저장하려고
+                        if (currentNPC && dialogueManager.isEnd) // 이거 왜 넣은 거지: 아마 다른 맵 넘어가기 전에 변수 상태 저장하려고
                         {
                             SaveMGuardData();
                             dialogueManager.isEnd = false;
@@ -138,7 +138,7 @@ public class MuseumGuard : StageNPC
                     if (InventoryUI.instance.HasItem(10401)) // 퀘스트 시작, 아이템 소지
                     {
                         ChangeDialogueFile(1);
-                        if (dialogueManager.isEnd && currentNPC)
+                        if (currentNPC && dialogueManager.isEnd)
                         {
                             questEnd = true;
                             InventoryUI.instance.GetAnItem(10402);
@@ -150,7 +150,7 @@ public class MuseumGuard : StageNPC
                     else // 퀘스트 시작, 아이템 미소지
                     {
                         ChangeDialogueFile(2);
-                        if (dialogueManager.isEnd && currentNPC)
+                        if (currentNPC && dialogueManager.isEnd)
                         {
                             SaveMGuardData();
                             dialogueManager.isEnd = false;

@@ -50,7 +50,7 @@ public class StatueAudio : MonoBehaviour
     public void PlayEnterFight()
     {
         PlaySound(enterFight);
-        Debug.Log("enterFight play");
+        //Debug.Log("enterFight play");
     }
 
     //public void PlayRetry()

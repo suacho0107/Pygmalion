@@ -74,6 +74,12 @@ public class NPC : MonoBehaviour
                 interactionEvent.LoadDialogue(dialogueFileName);
             }
         }
+
+        if (this is Statue statue && statue.enter1st && !statue.trg_play)
+        {
+            statue.ResetEnterFight();
+            Debug.Log("NPC StartDialogue ResetEnterFight");
+        }
     }
    
 

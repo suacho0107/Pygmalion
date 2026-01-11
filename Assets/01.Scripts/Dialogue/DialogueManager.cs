@@ -59,7 +59,7 @@ public class DialogueManager : MonoBehaviour
         dialogueUI.selectButtons.SetActive(false);
 
         #region Image Popup
-        if (null != dialogueUI.Images)
+        if (null != dialogueUI.Images && dialogueUI.Images.Count > 0)
         {
             foreach (var image in dialogueUI.Images)
             {

@@ -25,6 +25,7 @@ public class Statue : NPC
 
     public bool enter1st = false;
     public bool enterFight = false;
+    public bool trg_play = false;
     public bool trg_nEnmy;
     public bool trg_destroyed;
 
@@ -90,6 +91,11 @@ public class Statue : NPC
     public void Judge()
     {
         //Debug.Log("Judge 넘어감");
+        if (enter1st)
+        {
+            ChangeDialogueFile(FILEINDEX);
+            explainNum = "1";
+        }
 
         if (sceneName.StartsWith("Museum")) // && !isChecked && !isJudged)
         {
@@ -126,20 +132,28 @@ public class Statue : NPC
                 {
                     if (isCorrect) // 적, 정답
                     {
-                        if (!enterFight)
+                        if (!enter1st && !enterFight)
                         {
                             Debug.Log("건드린다 > 정답");
                             isCorrect = true;
-                            statueAudio.PlayEnterFight();
-                            ChangeDialogueExplain(FILEINDEX, "1");
-                            statueScore.fightCount += 1;
-                            statueScore.SaveScore();
-                            enterFight = true;
-                            //Debug.Log("enterFight True");
-                            SceneTransport.previousStatue = filePath;
-                            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-                            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
-                            StartCoroutine(DelayLoadScene(2.2f, "Battle"));
+                            EnterFight();
+                            //statueAudio.PlayEnterFight();
+                            //ChangeDialogueExplain(FILEINDEX, "1");
+                            //statueScore.fightCount += 1;
+                            //statueScore.SaveScore();
+                            //enterFight = true;
+                            ////Debug.Log("enterFight True");
+                            //SceneTransport.previousStatue = filePath;
+                            //SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+                            //Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+                            //StartCoroutine(DelayLoadScene(1.2f, "Battle"));
+                            Debug.Log("적, 정답, 최초");
+                        }
+                        else if(enter1st && !enterFight && !trg_play) // 정답 전투 재진입
+                        {
+                            EnterFight();
+                            trg_play = true;
+                            Debug.Log("적, 정답, 재진입");
                         }
                     }
                     else // 적, 오답
@@ -148,22 +162,15 @@ public class Statue : NPC
                         if (!enter1st && !enterFight) // 오답 전투 최초 진입: 기록 효과음 재생
                         {
                             statueAudio.PlayPencil();
-
-                            SceneTransport.previousStatue = filePath;
-                            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-                            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
-
                             EnterFight();
-                            enter1st = true;
+                            Debug.Log("적, 오답, 최초");
                             //Debug.Log("오답 최초 진입 enter1st, enterFight True");
                         }
-                        else if (enter1st && !enterFight) // 오답 전투 재진입: 기록 효과음 재생 X
+                        else if (enter1st && !enterFight && !trg_play) // 오답 전투 재진입: 기록 효과음 재생 X
                         {
-                            SceneTransport.previousStatue = filePath;
-                            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-                            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
-
                             EnterFight();
+                            trg_play = true;
+                            Debug.Log("적, 오답, 재진입");
                             //Debug.Log("오답 재진입 enterFight True");
                         }
 
@@ -212,9 +219,22 @@ public class Statue : NPC
         }
     }
 
+    public void ResetEnterFight()
+    {
+        if (isStatue && isEnemy && isChecked && isJudged && enterFight && !isFin)
+        {
+            enterFight = false;
+            Debug.Log("ResetEnterFight");
+        }
+    }
+
     void EnterFight()
     {
-        ChangeDialogueExplain(FILEINDEX, "1");
+        SceneTransport.previousStatue = filePath;
+        SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+        Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+
+        if(!enter1st) ChangeDialogueExplain(FILEINDEX, "1");
         StartCoroutine(PlaySound());
         statueScore.fightCount += 1;
         statueScore.SaveScore();
@@ -323,7 +343,7 @@ public class Statue : NPC
             dialogueUI.ItemPopup();
         }
         StartDialogue();
-        Debug.Log("triggerDialogue");
+        //Debug.Log("triggerDialogue");
     }
 
     IEnumerator DelayLoadScene(float delay, string sceneName)
@@ -353,7 +373,7 @@ public class Statue : NPC
         statueAudio.PlayEnterFight();
 
         //yield return new WaitForSeconds(2f);
-        StartCoroutine(DelayLoadScene(2.2f, "Battle"));
+        StartCoroutine(DelayLoadScene(1.2f, "Battle"));
     }
 
     IEnumerator PlayReEnterSound()
