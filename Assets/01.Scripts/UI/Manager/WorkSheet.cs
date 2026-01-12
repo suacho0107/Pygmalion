@@ -44,9 +44,15 @@ public class WorkSheet : MonoBehaviour
         UpdateEndUI();
     }
 
-    private GRADE SetData()
+    private GRADE SetData(int stageIndex)
     {
-        int totalCount = 6;
+        int totalCount;
+        if (stageIndex == 0)
+            totalCount = 6;
+
+        if (stageIndex == 1)
+            totalCount = 5;
+
         int enemyCount = 1;     // TODO: totalCount(조각상 개수), enemyCount(적 개수) 모두 매개 변수화
 
         statueCount     = PlayerPrefs.GetInt("StatueCount");
@@ -115,7 +121,8 @@ public class WorkSheet : MonoBehaviour
         statueCount = PlayerPrefs.GetInt("StatueCount");
 
         // TODO: 스테이지별 조각상 개수와 적 조각상 개수를 업무 효율 계산식의 매개변수로 전달해줘야 함, SetData 함수의 매개변수로 전달
-        result = SetData();
+        int iStageIndex = UIManager.u_instance.stageIndex;
+        result = SetData(iStageIndex);
 
         _check.text         = statueCount.ToString();
         //_fight.text         = fightCount.ToString();
