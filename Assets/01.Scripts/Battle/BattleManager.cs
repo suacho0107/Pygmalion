@@ -381,19 +381,34 @@ public class BattleManager : MonoBehaviour
                 }
                 
             }
-            else if (state == State.LOSE || state == State.PLAYERTURN_RUN) //패배||도망 시
+            else if (state == State.LOSE) //패배 시
             {
                 if (enemy == Aphrodite.GetComponent<Enemy>())
                 {
-                    SceneManager.LoadScene("Museum_Lobby");
+                    SceneManager.LoadScene("Monologue_defeat");
                 }
                 else if (enemy == ReadingChild.GetComponent<Enemy>())
                 {
-                    SceneManager.LoadScene("Library_B1F");
+                    SceneManager.LoadScene("Monologue_defeat");
                 }
                 else if (enemy == Melpomene.GetComponent<Enemy>())
                 {
-                    SceneManager.LoadScene("Library_2F");
+                    SceneManager.LoadScene("Monologue_defeat");
+                }
+            }
+            else if(state == State.PLAYERTURN_RUN) // 도망 시
+            {
+                if (enemy == Aphrodite.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Monologue_run");
+                }
+                else if (enemy == ReadingChild.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Monologue_run");
+                }
+                else if (enemy == Melpomene.GetComponent<Enemy>())
+                {
+                    SceneManager.LoadScene("Monologue_run");
                 }
             }
             else
