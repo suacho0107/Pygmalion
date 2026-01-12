@@ -354,7 +354,7 @@ public class Statue : NPC
 
     IEnumerator DelayResult()
     {
-        Debug.Log("DelayResult");
+        //Debug.Log("DelayResult");
         yield return new WaitForSeconds(4f);
 
         //trg_destroyed = true;
