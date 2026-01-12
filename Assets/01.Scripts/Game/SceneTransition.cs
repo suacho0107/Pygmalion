@@ -181,15 +181,15 @@ public class SceneTransition : MonoBehaviour
         if (sceneName == "Museum_Lobby" || sceneName == "Library_1F" || sceneName == "Park" || 
             sceneName == "CityHall_Lobby" || sceneName == "Broadcast_1F" || sceneName == "Hospital_1F")
         {
-            //if(SceneManager.GetActiveScene().name == "GlobalMap" && sceneName == "Museum_Lobby")
-            //{
-            //    //Debug.Log("삭제");
-            //    GetComponent<DeleteAllData>().DeleteAllJsonFiles();
-            //    if (FieldItemManager.Instance != null)
-            //    {
-            //        FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
-            //    }
-            //}
+            if (SceneManager.GetActiveScene().name == "GlobalMap" && (sceneName == "Museum_Lobby" || sceneName == "Library_1F"))
+            {
+                //GlobalMap 내 트랜지션에 DeleteAllData 넣기
+                GetComponent<DeleteAllData>().DeleteAllJsonFiles();
+                if (FieldItemManager.Instance != null)
+                {
+                    FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
+                }
+            }
             if (UIManager.u_instance != null) /* to be moved */
             {
                 //UIManager.u_instance.Set_UIState(Define.UI.UIState.Work); /* to be deleted */
