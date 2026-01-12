@@ -522,10 +522,10 @@ public class Enemy : MonoBehaviour
     {
         StartCoroutine(battleManager.ContentTextWriter("조각상이 황금 사과를 던져 당신을 공격합니다."));
 
-        battleManager.battleAudioSource.Stop();
-        battleManager.battleAudioSource.clip = battleManager.enemyAttackSFX;
-        battleManager.battleAudioSource.time = 0;
-        battleManager.battleAudioSource.Play();
+        //battleManager.battleAudioSource.Stop();
+        //battleManager.battleAudioSource.clip = battleManager.enemyAttackSFX;
+        //battleManager.battleAudioSource.time = 0;
+        //battleManager.battleAudioSource.Play();
 
         battleManager.Damage("player", 15);
     }
