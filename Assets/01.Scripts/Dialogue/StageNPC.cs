@@ -68,7 +68,7 @@ public class StageNPC : NPC
                             }
                             else
                             {
-                                Debug.LogError("튜토 미완료");
+                                //Debug.LogError("튜토 미완료");
                             }
                         }
                         else

@@ -10,13 +10,16 @@ public class WorkSheet : MonoBehaviour
 {
     public enum GRADE { A, B, C, D, F, END }
 
+    [SerializeField] FadeEffect     fadeEffect;
     [SerializeField] GameObject     ToggleObject;
     [SerializeField] PlayerPosition playerPos;
     [SerializeField] Vector3        spawnPos;
+
     [SerializeField] Text           _check;
     [SerializeField] Text           _fight;
     [SerializeField] Text           _destroy;
     [SerializeField] Text           _efficiency;
+
     [SerializeField] Image[]        npcSigns;
 
     DataManager dataManager = null;
@@ -31,6 +34,7 @@ public class WorkSheet : MonoBehaviour
     private string  efficiency;
     public int      currency;
     private bool    isNext = false;
+    private bool    isCompleted = false;
 
     private void Start()
     {
@@ -207,7 +211,17 @@ public class WorkSheet : MonoBehaviour
     private void Update()
     {
         if (isNext && Input.GetKeyDown(KeyCode.Space))
+        {
+            fadeEffect.FadeOut(OnAfterFadeEffect);
+        }
+        
+        if (isCompleted)
             SpawnCompany();
+    }
+
+    public void OnAfterFadeEffect()
+    {
+        isCompleted = true;
     }
 
     public void SpawnCompany()

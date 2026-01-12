@@ -6563,17 +6563,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1313945354, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
+      propertyPath: fadeEffect
+      value: 
+      objectReference: {fileID: 2262102055385895081}
+    - target: {fileID: 1313945354, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
       propertyPath: npcSigns.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1313945354, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
       propertyPath: npcSigns.Array.data[0]
       value: 
-      objectReference: {fileID: 1313945354}
+      objectReference: {fileID: 1313945355}
     - target: {fileID: 1313945354, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
       propertyPath: npcSigns.Array.data[1]
       value: 
-      objectReference: {fileID: 1313945355}
+      objectReference: {fileID: 1313945354}
     - target: {fileID: 1313945354, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
       propertyPath: npcSigns.Array.data[2]
       value: 
@@ -6729,6 +6733,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1313945356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 305304964956393499, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
+  m_PrefabInstance: {fileID: 1313945352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1313945357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313945356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2cdb52253032b4d83900a1bff951a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
 --- !u!1 &1360671720
 GameObject:
   m_ObjectHideFlags: 0
@@ -8431,6 +8453,7 @@ MonoBehaviour:
   result: 0
   enter1st: 0
   enterFight: 0
+  trg_play: 0
   trg_nEnmy: 0
   trg_destroyed: 0
   isSpriteChanged: 0
@@ -8899,6 +8922,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3534663430395004627, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4106509476160126612, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4106509476160126613, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
