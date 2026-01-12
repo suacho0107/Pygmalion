@@ -78,7 +78,7 @@ public class NPC : MonoBehaviour
         if (this is Statue statue && statue.enter1st && !statue.trg_play)
         {
             statue.ResetEnterFight();
-            Debug.Log("NPC StartDialogue ResetEnterFight");
+            //Debug.Log("NPC StartDialogue ResetEnterFight");
         }
     }
    
