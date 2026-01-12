@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 11786295019559899}
   - component: {fileID: 11786295019559902}
   - component: {fileID: 11786295019559903}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: 02_TutorialDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
   interactionEvent: {fileID: 11786295019559896}
   csv: {fileID: 11786295019559903}
   statueScore: {fileID: 0}
@@ -63,29 +64,21 @@ MonoBehaviour:
     isFin: 0
     result: 0
     isSpriteChanged: 0
-    test1: 0
-    test2: 0
-    test3: 0
-    test4: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
     isInteract: 0
     isTutoDialogueChanged: 0
     isTutoFin: 0
-  spriteRenderer: {fileID: 0}
-  destroyedSprite: {fileID: 0}
-  isStatue: 0
-  isNPC: 1
-  isChecked: 0
-  isJudged: 0
-  isEnemy: 0
-  isCorrect: 0
-  tutorial: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
   isInteract: 0
-  isTutoDialogueChanged: 0
-  isTutoFin: 0
+  isObject: 0
   isOfficeTuto: 0
-  isFin: 0
-  result: 0
-  isSpriteChanged: 0
+  isDialogueChanged: 0
+  filePath: 
   dialogueFileName: Office-1-2_dialogue
   selectFileName: 
   explainNum: 
