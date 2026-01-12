@@ -473,7 +473,8 @@ public class DialogueUI : MonoBehaviour
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
-            else if (selectedNPC.dialogueFileName == "Check3_dialogue")
+            else if (selectedNPC.dialogueFileName == "Check3_dialogue" ||
+                     selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
             {
                 //Invoke("Set_UIStateEnd", 1.5f);
                 UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
