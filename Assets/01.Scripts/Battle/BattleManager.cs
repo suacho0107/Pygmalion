@@ -422,7 +422,7 @@ public class BattleManager : MonoBehaviour
         battleAudioSource.time = 0;
         battleAudioSource.Play();
 
-        Invoke("ResetPlaySFX", 3);
+        Invoke("ResetPlaySFX", 2);
     }
 
     private void ResetPlaySFX()
