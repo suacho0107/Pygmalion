@@ -329,7 +329,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -896,7 +896,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -1061,6 +1061,8 @@ GameObject:
   - component: {fileID: 227911557}
   - component: {fileID: 227911558}
   - component: {fileID: 227911559}
+  - component: {fileID: 227911561}
+  - component: {fileID: 227911560}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0 (3)"
   m_TagString: Untagged
@@ -1161,6 +1163,75 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.55, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &227911560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227911556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &227911561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227911556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 227911560}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 2
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &342653927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,7 +1647,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -2086,7 +2157,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -2243,6 +2314,8 @@ GameObject:
   - component: {fileID: 636250097}
   - component: {fileID: 636250098}
   - component: {fileID: 636250099}
+  - component: {fileID: 636250101}
+  - component: {fileID: 636250100}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0"
   m_TagString: Untagged
@@ -2343,6 +2416,75 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.55, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &636250100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636250096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &636250101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636250096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 636250100}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall2_dialogue
+  selectFileName: 
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &644716522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3475,6 +3617,8 @@ GameObject:
   - component: {fileID: 722308728}
   - component: {fileID: 722308729}
   - component: {fileID: 722308730}
+  - component: {fileID: 722308732}
+  - component: {fileID: 722308731}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0 (1)"
   m_TagString: Untagged
@@ -3575,6 +3719,75 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.55, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &722308731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722308727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &722308732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722308727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 722308731}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 4
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &735478998
 GameObject:
   m_ObjectHideFlags: 0
@@ -3586,6 +3799,8 @@ GameObject:
   - component: {fileID: 735478999}
   - component: {fileID: 735479001}
   - component: {fileID: 735479000}
+  - component: {fileID: 735479003}
+  - component: {fileID: 735479002}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0"
   m_TagString: Untagged
@@ -3686,6 +3901,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &735479002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735478998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &735479003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735478998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 735479002}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 10
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &856311763
 GameObject:
   m_ObjectHideFlags: 0
@@ -3846,6 +4130,8 @@ GameObject:
   - component: {fileID: 989906967}
   - component: {fileID: 989906969}
   - component: {fileID: 989906968}
+  - component: {fileID: 989906971}
+  - component: {fileID: 989906970}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0 (3)"
   m_TagString: Untagged
@@ -3946,6 +4232,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &989906970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989906966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 989906971}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 7
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
+--- !u!114 &989906971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989906966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
 --- !u!1 &1057023407
 GameObject:
   m_ObjectHideFlags: 0
@@ -3957,6 +4312,8 @@ GameObject:
   - component: {fileID: 1057023408}
   - component: {fileID: 1057023409}
   - component: {fileID: 1057023410}
+  - component: {fileID: 1057023412}
+  - component: {fileID: 1057023411}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0 (2)"
   m_TagString: Untagged
@@ -4057,6 +4414,75 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.55, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &1057023411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057023407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &1057023412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057023407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 1057023411}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 3
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &1057687682
 GameObject:
   m_ObjectHideFlags: 0
@@ -8828,6 +9254,8 @@ GameObject:
   - component: {fileID: 1542727262}
   - component: {fileID: 1542727264}
   - component: {fileID: 1542727263}
+  - component: {fileID: 1542727266}
+  - component: {fileID: 1542727265}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0 (1)"
   m_TagString: Untagged
@@ -8928,6 +9356,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1542727265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542727261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &1542727266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542727261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 1542727265}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 9
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!114 &1579593996 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6476482555113907205, guid: 131ad073c4a23b847a34c683ad66c0e1, type: 3}
@@ -9239,6 +9736,8 @@ GameObject:
   - component: {fileID: 1646709564}
   - component: {fileID: 1646709566}
   - component: {fileID: 1646709565}
+  - component: {fileID: 1646709568}
+  - component: {fileID: 1646709567}
   m_Layer: 6
   m_Name: "(\uBC29\uC9C0)\uC5F4\uB78C\uC2E4\uCC45\uC0C1_0 (2)"
   m_TagString: Untagged
@@ -9339,6 +9838,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1646709567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646709563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &1646709568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646709563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 1646709567}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: stage2_B1F_study hall_dialogue
+  selectFileName: 
+  explainNum: 8
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &1683404902
 GameObject:
   m_ObjectHideFlags: 0
@@ -9833,7 +10401,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -10228,7 +10796,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -10357,7 +10925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1938480094}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: "\uC5F4\uB78C\uC2E4\uCC45\uC0C1"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11417,7 +11985,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
@@ -11541,7 +12109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2145031524}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: "\uC5F4\uB78C\uC2E4\uCC45\uC0C1 (1)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11773,7 +12341,7 @@ MonoBehaviour:
     questStart: 0
     questEnd: 0
     unlock: 0
-  isInteract: 1
+  isInteract: 0
   isObject: 1
   isOfficeTuto: 0
   isDialogueChanged: 0
