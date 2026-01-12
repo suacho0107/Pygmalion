@@ -17,8 +17,10 @@ public class WorkSheet : MonoBehaviour
     [SerializeField] Text           _fight;
     [SerializeField] Text           _destroy;
     [SerializeField] Text           _efficiency;
-
     [SerializeField] Image[]        npcSigns;
+
+    DataManager dataManager = null;
+    EndAudio    endAudio;
 
     private int     statueCount;
     private int     fightCount;
@@ -30,11 +32,10 @@ public class WorkSheet : MonoBehaviour
     public int      currency;
     private bool    isNext = false;
 
-    DataManager dataManager = null;
-
     private void Start()
     {
         dataManager = DataManager.Instance;
+        endAudio = GetComponent<EndAudio>();
 
         UpdateEndUI();
     }
@@ -174,6 +175,8 @@ public class WorkSheet : MonoBehaviour
         playersignImage.fillOrigin = (int)Image.OriginHorizontal.Left;
         playersignImage.type = Image.Type.Filled;
         playersignImage.fillAmount = 0f;
+
+        endAudio.PlayPencil();
 
         // 애니메이션 코루틴 시작
         StartCoroutine(FillSignImage(playersignImage, 1f, 0.8f)); // 0.8초 동안 fillAmount 1까지
