@@ -50,8 +50,9 @@ public class WorkSheet : MonoBehaviour
         if (stageIndex == 0)
             totalCount = 6;
 
-        if (stageIndex == 1)
+        else if (stageIndex == 1)
             totalCount = 5;
+        else totalCount = 6;
 
         int enemyCount = 1;     // TODO: totalCount(조각상 개수), enemyCount(적 개수) 모두 매개 변수화
 

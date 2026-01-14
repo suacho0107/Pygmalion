@@ -400,15 +400,15 @@ public class BattleManager : MonoBehaviour
             {
                 if (enemy == Aphrodite.GetComponent<Enemy>())
                 {
-                    SceneManager.LoadScene("Monologue_run");
+                    SceneManager.LoadScene("Monologue_run_mus-1");
                 }
                 else if (enemy == ReadingChild.GetComponent<Enemy>())
                 {
-                    SceneManager.LoadScene("Monologue_run");
+                    SceneManager.LoadScene("Monologue_run_lib-1");
                 }
                 else if (enemy == Melpomene.GetComponent<Enemy>())
                 {
-                    SceneManager.LoadScene("Monologue_run");
+                    SceneManager.LoadScene("Monologue_run_lib-2");
                 }
             }
             else

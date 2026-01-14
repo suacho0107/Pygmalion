@@ -369,11 +369,11 @@ public class Statue : NPC
         //    statueAudio.PlayEnterFight();
         //}
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         statueAudio.PlayEnterFight();
 
         //yield return new WaitForSeconds(2f);
-        StartCoroutine(DelayLoadScene(1.2f, "Battle"));
+        StartCoroutine(DelayLoadScene(1.7f, "Battle"));
     }
 
     IEnumerator PlayReEnterSound()
