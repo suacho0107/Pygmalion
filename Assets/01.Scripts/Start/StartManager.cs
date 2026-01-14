@@ -56,14 +56,14 @@ public class StartManager : MonoBehaviour
         //상하 이동
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            if (selectedButtonIndex == 1 || selectedButtonIndex == 2)
+            if (selectedButtonIndex > 0)
             {
                 selectedButtonIndex--;
             }
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
-            if (selectedButtonIndex == 0 || selectedButtonIndex == 1)
+            if (selectedButtonIndex < 1)
             {
                 selectedButtonIndex++;
             }
@@ -72,28 +72,65 @@ public class StartManager : MonoBehaviour
         //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (selectedButtonIndex == 0) //startButton
+            if (selectedButtonIndex == 0) //시작하기z
             {
-                //SceneManager.LoadScene("Company_LobbyTuto-1");
                 StartCoroutine(FadeInOut(true, 1f));
             }
-            else if (selectedButtonIndex == 1) //battleButton
+            else if (selectedButtonIndex == 1) //종료하기
             {
-                SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-                Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
-                SceneManager.LoadScene("Battle");
-            }
-            else if (selectedButtonIndex == 2) //endButton
-            {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
-                #else
+#else
                 Application.Quit();
-                #endif
+#endif
             }
         }
         HighlightButton();
     }
+
+    //private void ButtonInputHandler()
+    //{
+    //    //상하 이동
+    //    if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+    //    {
+    //        if (selectedButtonIndex == 1 || selectedButtonIndex == 2)
+    //        {
+    //            selectedButtonIndex--;
+    //        }
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+    //    {
+    //        if (selectedButtonIndex == 0 || selectedButtonIndex == 1)
+    //        {
+    //            selectedButtonIndex++;
+    //        }
+    //    }
+
+    //    //선택
+    //    else if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        if (selectedButtonIndex == 0) //startButton
+    //        {
+    //            //SceneManager.LoadScene("Company_LobbyTuto-1");
+    //            StartCoroutine(FadeInOut(true, 1f));
+    //        }
+    //        else if (selectedButtonIndex == 1) //battleButton
+    //        {
+    //            SceneTransport.previousScene = SceneManager.GetActiveScene().name;
+    //            Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+    //            SceneManager.LoadScene("Battle");
+    //        }
+    //        else if (selectedButtonIndex == 2) //endButton
+    //        {
+    //            #if UNITY_EDITOR
+    //            UnityEditor.EditorApplication.isPlaying = false;
+    //            #else
+    //            Application.Quit();
+    //            #endif
+    //        }
+    //    }
+    //    HighlightButton();
+    //}
 
     private void HighlightButton()
     {
