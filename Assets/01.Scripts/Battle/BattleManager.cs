@@ -85,14 +85,14 @@ public class BattleManager : MonoBehaviour
         //if문 돌려서 알맞은 적 SetActive(true);
         if (uiManager != null)
         {
-            if (SceneTransport.previousScene == "Start") //랜덤 모드, Start에서 진입
-            {
-                //Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
-                isBattleMode = true;
-                SetEnemyRandom();
-            }
-            else
-            {
+            //if (SceneTransport.previousScene == "Start") //랜덤 모드, Start에서 진입
+            //{
+            //    //Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
+            //    isBattleMode = true;
+            //    SetEnemyRandom();
+            //}
+            //else
+            //{
                 int stage = UIManager.u_instance.stageIndex;
                 //Debug.Log($"현재 진행 스테이지: {stage}");
 
@@ -100,6 +100,9 @@ public class BattleManager : MonoBehaviour
                 {
                     case 0:
                         {
+                            //BackGround 설정
+                            battleUI.backgrounds.GetComponent<Image>().sprite = battleUI.museumBackground;
+
                             if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
                             {
                                 //Debug.Log("stage 인식: Aphrodite로 Battle 실행");
@@ -111,6 +114,9 @@ public class BattleManager : MonoBehaviour
                         }
                     case 1:
                         {
+                            //BackGround 설정
+                            battleUI.backgrounds.GetComponent<Image>().sprite = battleUI.libraryBackGround;
+
                             //Debug.Log("stage 인식: 도셔관");
 
                             if (SceneTransport.previousScene == "Library_B1F")
@@ -133,13 +139,13 @@ public class BattleManager : MonoBehaviour
                             break;
                         }
                 }
-            }
+            //}
         }
-        else //랜덤 모드
-        {
-            isBattleMode = true;
-            SetEnemyRandom();
-        }
+        //else //랜덤 모드
+        //{
+        //    isBattleMode = true;
+        //    SetEnemyRandom();
+        //}
         //Debug.Log($"Enemy set to: {enemy}"); //Delete
 
         // SceneTransport.previousStatue로 변경
@@ -226,30 +232,30 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-    private void SetEnemyRandom() //전투 모드에서 적 랜덤 설정
-    {
-        //임시 Random 구현
-        int r = Random.Range(0, 3);
+    //private void SetEnemyRandom() //전투 모드에서 적 랜덤 설정
+    //{
+    //    //임시 Random 구현
+    //    int r = Random.Range(0, 3);
 
-        if (r == 0)
-        {
-            Aphrodite.SetActive(true);
-            enemy = Aphrodite.GetComponent<Enemy>();
-        }
-        else if (r == 1)
-        {
-            ReadingChild.SetActive(true);
-            enemy = ReadingChild.GetComponent<Enemy>();
-        }
-        else //(r == 2)
-        {
-            Melpomene.SetActive(true);
-            enemy = Melpomene.GetComponent<Enemy>();
+    //    if (r == 0)
+    //    {
+    //        Aphrodite.SetActive(true);
+    //        enemy = Aphrodite.GetComponent<Enemy>();
+    //    }
+    //    else if (r == 1)
+    //    {
+    //        ReadingChild.SetActive(true);
+    //        enemy = ReadingChild.GetComponent<Enemy>();
+    //    }
+    //    else //(r == 2)
+    //    {
+    //        Melpomene.SetActive(true);
+    //        enemy = Melpomene.GetComponent<Enemy>();
 
-            //Melpomene, 최초 턴 표시
-            enemy.canMaskNarrative = true;
-        }
-    }
+    //        //Melpomene, 최초 턴 표시
+    //        enemy.canMaskNarrative = true;
+    //    }
+    //}
 
     public void Damage(string _object, int _attackpower, Part _part = null)
     {

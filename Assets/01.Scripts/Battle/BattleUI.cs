@@ -12,6 +12,11 @@ public class BattleUI : MonoBehaviour
     #endregion
 
     #region Variables
+    [Header("Backgrounds")]
+    public GameObject backgrounds;
+    public Sprite museumBackground;
+    public Sprite libraryBackGround;
+
     [Header("UI Elements")]
     public GameObject dialoguePanel;
     public Text contentText;
