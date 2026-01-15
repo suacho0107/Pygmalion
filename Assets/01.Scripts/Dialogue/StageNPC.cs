@@ -97,7 +97,7 @@ public class StageNPC : NPC
         {
             LibraryGuard();
 
-            if (!questEnd)
+            if (!questEnd) // 열람실 열쇠 상호작용
             {
                 string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
 
@@ -123,9 +123,9 @@ public class StageNPC : NPC
         #endregion
     }
 
-    void LibraryGuard()
+    void LibraryGuard() // 조각상 개수에 따른 대사
     {
-        if (isInteract && statueScore != null)
+        if (statueScore != null)
         {
             ChangeDialogueFileName("Guard_Check0_dialogue");
             if (statueScore.statueCount == 1) ChangeDialogueFileName("Guard_Check1_dialogue");

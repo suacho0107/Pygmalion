@@ -455,12 +455,14 @@ public class DialogueUI : MonoBehaviour
                 portrait.SetActive(false);
         }
 
+        if(npc.dialogueFileName == "Guard1_dialogue") UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
+
         if (npc is StageNPC selectedNPC)
         {
             selectedNPC.isInteract = true;
             //미술관장
-            if (selectedNPC.dialogueFileName == "Tutorial1_dialogue" ||
-                selectedNPC.dialogueFileName == "Guard1_dialogue")
+            if (selectedNPC.dialogueFileName == "Tutorial1_dialogue")
+                // || selectedNPC.dialogueFileName == "Guard1_dialogue")
             {
                 UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
             }

@@ -21,6 +21,9 @@ public class TutorialDialog : TutorialBase
         npc             = GetComponent<NPC>();
         player          = FindObjectOfType<PlayerMove>();
         dialogManager   = FindObjectOfType<DialogueManager>();
+        
+        npc.LoadNPCData();
+        if (npc.isInteract) return;
 
         if (player != null)
             player.IsMoved = false;
@@ -29,6 +32,12 @@ public class TutorialDialog : TutorialBase
 
     public override void Execute(TutorialController controller)
     {
+        if (npc.isInteract)
+        {
+            controller.SetNextTutorial();
+            return;
+        }
+
         // 현재 분기에 진행되는 대사 진행
         if (!isDialogueStarted)
         {
@@ -40,6 +49,12 @@ public class TutorialDialog : TutorialBase
 
         if (dialogManager.isEnd)
         {
+            if(npc.dialogueFileName == "Guard1_dialogue")
+            {
+                npc.isInteract = true;
+                npc.SaveNPCData();
+            }
+
             if (null != player)
                 player.IsAnimation = true;
             controller.SetNextTutorial();
