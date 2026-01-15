@@ -28,7 +28,7 @@ public class RequestStartState : IRequestState
 
                 request.StartDialogue();
             }
-            request.canSend = true;
+            if (request.dialogueManager.isEnd) request.canSend = true;
         }
     }
 

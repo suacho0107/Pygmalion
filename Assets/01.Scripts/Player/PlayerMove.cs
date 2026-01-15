@@ -311,8 +311,9 @@ public class PlayerMove : MonoBehaviour
 
         if (rayHit.collider != null)
         {
-            //Debug.Log("F키 활성화");
-            //FKeyDown();
+            DialogueManager dm = FindObjectOfType<DialogueManager>();
+            if (dm != null && (dm.isDialogue || dm.isMessage)) return;
+
             if (Input.GetKeyDown(KeyCode.F) && !keyDown)
             {
                 keyDown = true;
