@@ -110,7 +110,7 @@ public class LibraryLibrarian : StageNPC
 
         //Debug.Log("melEnd1");
         ChangeDialogueFile(1);
-        if (!trg1 && dialogueUI.lineCount == 7 && dialogueManager.isEnd && dialogueManager.CurrentNPC == this)
+        if (!trg1 && dialogueUI.lineCount == 7 && dialogueManager.CurrentNPC == this)
         {
             questStart = true;
             SaveStageNPCData();
