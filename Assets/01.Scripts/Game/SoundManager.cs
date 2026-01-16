@@ -88,7 +88,7 @@ public class SoundManager : MonoBehaviour
         {
             SetStageBGM(Stage.StageState.Museum);
         }
-        if (sceneName.StartsWith("Library"))
+        else if (sceneName.StartsWith("Library"))
         {
             SetStageBGM(Stage.StageState.Library);
         }
