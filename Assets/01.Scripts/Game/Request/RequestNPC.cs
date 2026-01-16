@@ -11,7 +11,7 @@ public class RequestNPC : NPC
     [SerializeField] public     GameObject[]    sendChat;
     [SerializeField] private    GameObject      replyChat;
 
-    [SerializeField] private    Button          replyButton;
+    [SerializeField] public    Button          replyButton;
 
     [SerializeField] private    Text            interactText;
     [SerializeField] private    Text            profileText;
@@ -33,6 +33,7 @@ public class RequestNPC : NPC
     private IRequestState currentState;
 
     private int processNum = 0;
+    private bool buttonOff = false;
 
     private void Start()
     {
@@ -50,7 +51,7 @@ public class RequestNPC : NPC
     {
         if (canSend)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 replyChat.SetActive(true);
                 canSend = false;

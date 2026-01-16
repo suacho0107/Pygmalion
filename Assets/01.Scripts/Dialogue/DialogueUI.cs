@@ -502,12 +502,14 @@ public class DialogueUI : MonoBehaviour
         {
             if (selectedRequestNPC.dialogueFileName == "request2_dialogue")
             {
-                selectedRequestNPC.RequestOff();
+                if (Input.GetKeyDown(KeyCode.Space))
+                    selectedRequestNPC.RequestOff();
             }
 
             if (selectedRequestNPC.dialogueFileName == "Office-Day2-request1_dialogue")
             {
-                selectedRequestNPC.RequestOffEx();
+                if (Input.GetKeyDown(KeyCode.Space))
+                    selectedRequestNPC.RequestOffEx();
             }
         }
 
