@@ -47,7 +47,7 @@ public class LibraryLocker : NPC
     {
         if (lockerId == "kiosk") // 키오스크: A열 306번, 2580
         {
-            if (dialogueManager.CurrentNPC == this && dialogueUI.lineCount == 3 && !unlock) // kiosk CSV 파일 대사 ID 3 출력 시 A 306 열림
+            if (dialogueManager.CurrentNPC == this && dialogueUI.lineCount == 5 && !unlock) // kiosk CSV 파일 대사 ID 3 출력 시 A 306 열림
             {
                 interactionImage.SetActive(true);
                 defaultImage.SetActive(false);
