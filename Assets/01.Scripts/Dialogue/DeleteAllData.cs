@@ -17,6 +17,9 @@ public class DeleteAllData : MonoBehaviour
 
         foreach (string file in jsonFiles)
         {
+            if (Path.GetFileName(file) == "inventoryItemList.json")
+                continue;
+
             try
             {
                 File.Delete(file);
