@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Define;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -31,6 +32,21 @@ public class SceneTransition : MonoBehaviour
         {
             if (BlockGlobalMap())
                 return;
+
+            if (SceneManager.GetActiveScene().name == "Company_Lobby-1" && gameObject.name == "Transition_O")
+            {
+                if (Define.UI.UIState.Start == UIManager.u_instance.Get_CurrentState())
+                {
+                    if (UIManager.u_instance.stageIndex == 0)
+                    {
+                        nextScene = "Company_Office-1";
+                    }
+                    if (UIManager.u_instance.stageIndex == 1)
+                    {
+                        nextScene = "Company_Office-2";
+                    }
+                }
+            }
 
             if (stageNpc == null && npc == null) // 기본: 미술관장 등 NPC null
             {
