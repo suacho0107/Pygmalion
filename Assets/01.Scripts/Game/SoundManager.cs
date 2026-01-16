@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip globalBGM;
     [SerializeField] private AudioClip museumBGM;
     [SerializeField] private AudioClip battleBGM;
+    [SerializeField] private AudioClip demoBGM;
 
     #region Singleton
     static SoundManager s_instance;
@@ -90,6 +91,10 @@ public class SoundManager : MonoBehaviour
         {
             SetStageBGM(Stage.StageState.Battle);
         }
+        else if (sceneName == "Demo_End")
+        {
+            SetStageBGM(Stage.StageState.DemoEnd);
+        }
         else
         {
             SetStageBGM(Stage.StageState.None);
@@ -113,6 +118,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case Stage.StageState.Battle:
                 bgmToPlay = battleBGM;
+                break;
+            case Stage.StageState.DemoEnd:
+                bgmToPlay = demoBGM;
                 break;
             default:
                 bgmToPlay = mainBGM;

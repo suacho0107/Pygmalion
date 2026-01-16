@@ -28,6 +28,7 @@ namespace Define
             Company,
             Global,
             Battle,
+            DemoEnd,
         }
     }
 }
