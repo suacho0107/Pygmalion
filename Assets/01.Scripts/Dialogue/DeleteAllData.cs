@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class DeleteAllData : MonoBehaviour
 {
-    public void DeleteInteractJsonFiles()
+    public void DeleteAllJsonFiles()
     {
-        Debug.Log("[DeleteAllData] DeleteInteractJsonFiles 호출됨");
+        Debug.Log("[DeleteAllData] DeleteAllJsonFiles 호출됨");
         PlayerPrefs.DeleteAll();
 
         string folderPath = Application.persistentDataPath;
+
         string[] jsonFiles = Directory.GetFiles(folderPath, "*.json");
 
         foreach (string file in jsonFiles)
@@ -37,17 +38,6 @@ public class DeleteAllData : MonoBehaviour
         else
         {
             //Debug.Log("삭제할 JSON 파일이 없습니다.");
-        }
-    }
-
-    public void DeleteItemList()
-    {
-        string itemListPath = Path.Combine(Application.persistentDataPath, "inventoryItemList.json");
-
-        if (File.Exists(itemListPath))
-        {
-            File.Delete(itemListPath);
-            Debug.Log("[DeleteAllData] inventoryItemList.json 삭제");
         }
     }
 }
