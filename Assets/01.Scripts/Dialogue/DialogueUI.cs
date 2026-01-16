@@ -455,9 +455,6 @@ public class DialogueUI : MonoBehaviour
                 portrait.SetActive(false);
         }
 
-        if(npc.dialogueFileName == "Guard1_dialogue") 
-            UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
-
         if (npc is StageNPC selectedNPC)
         {
             selectedNPC.isInteract = true;
@@ -475,6 +472,10 @@ public class DialogueUI : MonoBehaviour
             {
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
+            }
+            else if (selectedNPC.dialogueFileName == "Guard1_dialogue")
+            {
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
             }
             else if (selectedNPC.dialogueFileName == "Check3_dialogue" ||
                      selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
