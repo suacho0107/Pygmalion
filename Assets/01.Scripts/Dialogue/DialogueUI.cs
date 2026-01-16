@@ -478,8 +478,8 @@ public class DialogueUI : MonoBehaviour
             else if (selectedNPC.dialogueFileName == "Check3_dialogue" ||
                      selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
             {
-                //Invoke("Set_UIStateEnd", 1.5f);
-                UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
+                StartCoroutine(Set_UIStateEnd_Coroutine());
+                //Set_UIStateEnd();
             }
         }
 
@@ -525,6 +525,12 @@ public class DialogueUI : MonoBehaviour
         }
         #endregion
 
+    }
+
+    private IEnumerator Set_UIStateEnd_Coroutine()
+    {
+        yield return new WaitForSeconds(1.0f);
+        UIManager.u_instance.Set_UIState(Define.UI.UIState.End);
     }
     #endregion
 

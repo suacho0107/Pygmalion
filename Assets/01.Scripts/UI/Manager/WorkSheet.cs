@@ -23,6 +23,7 @@ public class WorkSheet : MonoBehaviour
     [SerializeField] Image[]        npcSigns;
 
     DataManager dataManager = null;
+    PlayerMove  playerMove;
     EndAudio    endAudio;
 
     private int     statueCount;
@@ -39,7 +40,11 @@ public class WorkSheet : MonoBehaviour
     private void Start()
     {
         dataManager = DataManager.Instance;
-        endAudio = GetComponent<EndAudio>();
+        endAudio = GetComponent<EndAudio>(); 
+        playerMove = FindObjectOfType<PlayerMove>();
+
+        if (null != playerMove && playerMove.IsMoved)
+            playerMove.IsMoved = false;
 
         UpdateEndUI();
     }

@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 46389568}
   - component: {fileID: 46389567}
   m_Layer: 0
-  m_Name: 05.5_TutorialDialog
+  m_Name: 09_TutorialDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -513,7 +513,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &46389567
 MonoBehaviour:
@@ -542,6 +542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorial_csvFileName: Office-Day2_end_dialogue
+  isMonologue: 0
 --- !u!61 &46389569
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1583,7 +1584,7 @@ GameObject:
   - component: {fileID: 374956043}
   - component: {fileID: 374956044}
   m_Layer: 0
-  m_Name: 04.5_TutorialDelay
+  m_Name: 05_TutorialDelay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1772,7 +1773,7 @@ GameObject:
   - component: {fileID: 440304962}
   - component: {fileID: 440304961}
   m_Layer: 0
-  m_Name: 05_TutorialTrigger
+  m_Name: 07_TutorialTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3437,7 +3438,7 @@ GameObject:
   - component: {fileID: 649575911}
   - component: {fileID: 649575910}
   m_Layer: 0
-  m_Name: 04.5_TutorialDialog
+  m_Name: 06_TutorialDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3471,6 +3472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorial_csvFileName: Office-Day2_bella1_dialogue
+  isMonologue: 0
 --- !u!61 &649575911
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9451,6 +9453,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5840627059077674116, guid: a96a482c6e00cca43b3263c630f24eed, type: 3}
+      propertyPath: m_Text
+      value: "\uC804\uC1A1"
+      objectReference: {fileID: 0}
     - target: {fileID: 5840627059606411649, guid: a96a482c6e00cca43b3263c630f24eed, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9675,6 +9681,51 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5840627060525609108, guid: a96a482c6e00cca43b3263c630f24eed, type: 3}
   m_PrefabInstance: {fileID: 1335668104}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1415185305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1415185307}
+  - component: {fileID: 1415185306}
+  m_Layer: 0
+  m_Name: 08_TutorialDelay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1415185306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415185305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fDelayTime: 0.8
+--- !u!4 &1415185307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415185305}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1390826020966183269}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1460172826
 GameObject:
   m_ObjectHideFlags: 0
@@ -9947,7 +9998,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.21}
+    oldSize: {x: 0.24, y: 0.2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -10137,7 +10188,7 @@ GameObject:
   - component: {fileID: 1783187270}
   - component: {fileID: 1783187271}
   m_Layer: 0
-  m_Name: 06_TutorialFadeEffect
+  m_Name: 10_TutorialFadeEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10156,7 +10207,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1783187271
 MonoBehaviour:
@@ -10515,7 +10566,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.21}
+    oldSize: {x: 0.24, y: 0.2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -11807,6 +11858,7 @@ Transform:
   - {fileID: 374956043}
   - {fileID: 649575908}
   - {fileID: 440304960}
+  - {fileID: 1415185307}
   - {fileID: 46389566}
   - {fileID: 1783187270}
   m_Father: {fileID: 0}
@@ -11834,6 +11886,7 @@ MonoBehaviour:
   - {fileID: 374956044}
   - {fileID: 649575910}
   - {fileID: 440304962}
+  - {fileID: 1415185306}
   - {fileID: 46389568}
   - {fileID: 1783187271}
   nextSceneName: Company_Lobby-2

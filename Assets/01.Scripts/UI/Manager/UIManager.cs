@@ -130,6 +130,8 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.Save();
             Debug.Log("StatueScore Reset");
         }
+        else if (scene.name == "Company_LobbyTuto-2")
+            UIManager.u_instance.Set_UIState(Define.UI.UIState.Ready);
 
         Assign_UIObject();
 

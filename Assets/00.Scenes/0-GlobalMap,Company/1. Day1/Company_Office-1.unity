@@ -1673,7 +1673,7 @@ GameObject:
   - component: {fileID: 440304962}
   - component: {fileID: 440304961}
   m_Layer: 0
-  m_Name: 05_TutorialTrigger
+  m_Name: 07_TutorialTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1692,7 +1692,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &440304961
 BoxCollider2D:
@@ -2062,7 +2062,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &502581304
 MonoBehaviour:
@@ -3611,7 +3611,7 @@ GameObject:
   - component: {fileID: 717945325}
   - component: {fileID: 717945326}
   m_Layer: 0
-  m_Name: 04.5_TutorialDialog
+  m_Name: 06_TutorialDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3630,6 +3630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorial_csvFileName: Office-Day1_sophia1_dialogue
+  isMonologue: 0
 --- !u!114 &717945326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3752,7 +3753,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &756148919
 GameObject:
@@ -4276,80 +4277,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 0.7}
   m_EdgeRadius: 0
---- !u!1 &805753181
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 805753182}
-  - component: {fileID: 805753184}
-  - component: {fileID: 805753183}
-  m_Layer: 0
-  m_Name: 03.5_TutorialTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &805753182
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805753181}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &805753183
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805753181}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &805753184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805753181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d11dd341e05af14d9b27e3026347cda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerObject:
-  - {fileID: 2076734300}
-  libraryRoom: {fileID: 0}
 --- !u!1 &810301832
 GameObject:
   m_ObjectHideFlags: 0
@@ -5369,7 +5296,7 @@ GameObject:
   - component: {fileID: 1044602249}
   - component: {fileID: 1044602248}
   m_Layer: 0
-  m_Name: 04.5_TutorialDelay
+  m_Name: 05_TutorialDelay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5401,7 +5328,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390826020966183269}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057687682
 GameObject:
@@ -10026,7 +9953,7 @@ GameObject:
   - component: {fileID: 1744197956}
   - component: {fileID: 1744197957}
   m_Layer: 0
-  m_Name: 05.5_TutorialDialog
+  m_Name: 09_TutorialDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10045,6 +9972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorial_csvFileName: Office-Day1_end_dialogue
+  isMonologue: 0
 --- !u!114 &1744197957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10180,7 +10108,7 @@ GameObject:
   - component: {fileID: 1783187270}
   - component: {fileID: 1783187271}
   m_Layer: 0
-  m_Name: 06_TutorialFadeEffect
+  m_Name: 10_TutorialFadeEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10390,6 +10318,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 639353802284706705, guid: a7fc9cd717630c14f92dbbe82fa62dda, type: 3}
   m_PrefabInstance: {fileID: 1863309330}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1886543434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1886543436}
+  - component: {fileID: 1886543435}
+  m_Layer: 0
+  m_Name: 08_TutorialDelay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1886543435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886543434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ffbdb0ae928f440bf9b45153ad467f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fDelayTime: 0.5
+--- !u!4 &1886543436
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886543434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1390826020966183269}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1898658278
 GameObject:
   m_ObjectHideFlags: 0
@@ -11981,11 +11954,11 @@ Transform:
   - {fileID: 1390826021975916494}
   - {fileID: 1390826021144677909}
   - {fileID: 673241191}
-  - {fileID: 805753182}
   - {fileID: 502581303}
   - {fileID: 1044602249}
   - {fileID: 717945330}
   - {fileID: 440304960}
+  - {fileID: 1886543436}
   - {fileID: 1744197961}
   - {fileID: 1783187270}
   m_Father: {fileID: 0}
@@ -12013,6 +11986,7 @@ MonoBehaviour:
   - {fileID: 1044602248}
   - {fileID: 717945325}
   - {fileID: 440304962}
+  - {fileID: 1886543435}
   - {fileID: 1744197956}
   - {fileID: 1783187271}
   nextSceneName: Company_Lobby-1
