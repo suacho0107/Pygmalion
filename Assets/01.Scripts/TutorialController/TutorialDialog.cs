@@ -13,6 +13,7 @@ public class TutorialDialog : TutorialBase
     private DialogueManager dialogManager;
     
     private bool isDialogueStarted = false;
+    public bool isMonologue = false;
 
     public override void Enter()
     {
@@ -23,7 +24,7 @@ public class TutorialDialog : TutorialBase
         dialogManager   = FindObjectOfType<DialogueManager>();
         
         npc.LoadNPCData();
-        if (npc.isInteract) return;
+        if (!isMonologue && npc.isInteract) return;
 
         if (player != null)
             player.IsMoved = false;
@@ -32,7 +33,7 @@ public class TutorialDialog : TutorialBase
 
     public override void Execute(TutorialController controller)
     {
-        if (npc.isInteract)
+        if (!isMonologue && npc.isInteract)
         {
             controller.SetNextTutorial();
             return;
