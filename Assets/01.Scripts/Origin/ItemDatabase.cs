@@ -17,7 +17,7 @@ public class ItemDatabase : MonoBehaviour
         itemList.Add(new Item(10301, "의문의 파편", "이게 뭐지?", "1-1손톱들", Item.ItemType.Quest));
         itemList.Add(new Item(20101, "열람실 열쇠", "도서관 B1 열람실의 잠금을 해제할 수 있다.", "열람실 열쇠", Item.ItemType.Use));
         itemList.Add(new Item(20102, "회의실A 열쇠", "도서관 1F 회의실A의 잠금을 해제할 수 있다.", "회의실A 열쇠", Item.ItemType.Use));
-        itemList.Add(new Item(20103, "수상한 액체가 든 병", "정체를 모르는 수상한 액체가 들어 있다.\n실수로 조각상에 뿌리면 부식될 수 있으니 주의하자.", "수상한 액체가 든 병", Item.ItemType.Use));
+        itemList.Add(new Item(20103, "수상한 액체가 든 병", "정체를 모르는 수상한 액체가 들어 있다. 실수로\n조각상에 뿌리면 부식될 수 있으니 주의하자.", "수상한 액체가 든 병", Item.ItemType.Use));
         itemList.Add(new Item(20104, "의문의 파편", "이게 뭐지?", "2-2발", Item.ItemType.Quest));
         itemList.Add(new Item(20201, "의문의 파편", "이게 뭐지?", "2-1손가락1개", Item.ItemType.Quest));
     }    
