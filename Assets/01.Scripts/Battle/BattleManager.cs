@@ -26,6 +26,9 @@ public class BattleManager : MonoBehaviour
     public GameObject ReadingChild;
     public GameObject Melpomene;
 
+    [Header("Player Position")]
+    [SerializeField] PlayerPosition playerPos;
+
     [Header("Audios & SFXs")]
     public AudioSource battleAudioSource;
     public AudioClip battleStartSFX;
@@ -108,6 +111,9 @@ public class BattleManager : MonoBehaviour
                                 //Debug.Log("stage 인식: Aphrodite로 Battle 실행");
                                 Aphrodite.SetActive(true);
                                 enemy = Aphrodite.GetComponent<Enemy>();
+                                
+                                playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+                                playerPos.isChecked = true;
                                 break;
                             }
                             break;
@@ -124,6 +130,9 @@ public class BattleManager : MonoBehaviour
                                 //Debug.Log("stage: 도서관, ReadingChild");
                                 ReadingChild.SetActive(true);
                                 enemy = ReadingChild.GetComponent<Enemy>();
+
+                                playerPos.nextPosition = new Vector3(-0.6f, 7f, 0f);
+                                playerPos.isChecked = true;
                                 break;
                             }
                             else if (SceneTransport.previousScene == "Library_2F")
@@ -134,6 +143,9 @@ public class BattleManager : MonoBehaviour
 
                                 //Melpomene, 최초 턴 표시
                                 enemy.canMaskNarrative = true;
+
+                                playerPos.nextPosition = new Vector3(-9f, -3f, 0f);
+                                playerPos.isChecked = true;
                                 break;
                             }
                             break;
