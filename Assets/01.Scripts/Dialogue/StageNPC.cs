@@ -109,20 +109,13 @@ public class StageNPC : NPC
 
                     if (transData.isInteract)
                     {
-                        // 조건 추가 : 
-                        int statueCount = 0;
-                        statueCount = PlayerPrefs.GetInt("StatueCount", statueCount);
-
-                        if (statueCount < 5)
+                        ChangeDialogueFileName("Guard_key_dialogue");
+                        DialogueManager dm = FindObjectOfType<DialogueManager>();
+                        if (dm.CurrentNPC == this)
                         {
-                            ChangeDialogueFileName("Guard_key_dialogue");
-                            DialogueManager dm = FindObjectOfType<DialogueManager>();
-                            if (dm.CurrentNPC == this)
-                            {
-                                InventoryUI.instance.GetAnItem(20101);
-                                //if (dm.isEnd) { InventoryUI.instance.GetAnItem(20101); Debug.Log("dm.isEnd"); }
-                                questEnd = true;
-                            }
+                            InventoryUI.instance.GetAnItem(20101);
+                            //if (dm.isEnd) { InventoryUI.instance.GetAnItem(20101); Debug.Log("dm.isEnd"); }
+                            questEnd = true;
                         }
                     }
                 }
@@ -147,7 +140,6 @@ public class StageNPC : NPC
         isTutoFin = true;
         //Debug.Log("TutorialFin 실행");
     }
-
     
     public void SaveStageNPCData()
     {
