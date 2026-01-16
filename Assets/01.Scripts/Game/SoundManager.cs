@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip companyBGM;
     [SerializeField] private AudioClip globalBGM;
     [SerializeField] private AudioClip museumBGM;
+    [SerializeField] private AudioClip libraryBGM;
     [SerializeField] private AudioClip battleBGM;
     [SerializeField] private AudioClip demoBGM;
 
@@ -87,6 +88,10 @@ public class SoundManager : MonoBehaviour
         {
             SetStageBGM(Stage.StageState.Museum);
         }
+        if (sceneName.StartsWith("Library"))
+        {
+            SetStageBGM(Stage.StageState.Library);
+        }
         else if (sceneName == "Battle")
         {
             SetStageBGM(Stage.StageState.Battle);
@@ -115,6 +120,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case Stage.StageState.Museum:
                 bgmToPlay = museumBGM;
+                break;
+            case Stage.StageState.Library:
+                bgmToPlay = libraryBGM;
                 break;
             case Stage.StageState.Battle:
                 bgmToPlay = battleBGM;
