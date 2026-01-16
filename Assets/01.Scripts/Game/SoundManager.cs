@@ -75,7 +75,7 @@ public class SoundManager : MonoBehaviour
     {
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName == "Company_Lobby" || sceneName == "Company_Office")
+        if (sceneName.StartsWith("Company"))
         {
             SetStageBGM(Stage.StageState.Company);
         }
