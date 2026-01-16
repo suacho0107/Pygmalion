@@ -72,6 +72,10 @@ public class TutorialController : MonoBehaviour
             playerPosition.nextPosition = nextPos;
             playerPosition.isChecked = true;
 
+            // (임시)데모 씬으로 전환
+            if (UIManager.u_instance.stageIndex >= 2)
+                nextSceneName = "Demo_End";
+
             SceneManager.LoadScene(nextSceneName);
         }
     }

@@ -52,15 +52,14 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        Assign_UIObject();
-
-        // GameManager
         string GetCurrentScene = SceneManager.GetActiveScene().name;
 
         if ("Monologue_success" == GetCurrentScene)
         {
             stageIndex++;
         }
+
+        Assign_UIObject();
     }
 
     private void Update()
