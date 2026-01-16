@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogueUI : MonoBehaviour
@@ -455,12 +456,22 @@ public class DialogueUI : MonoBehaviour
                 portrait.SetActive(false);
         }
 
+        if (SceneManager.GetActiveScene().name == "Library_1F")
+        {
+            // 471번줄 조건이 안걸려서 넣은 임시 조건문
+            if (npc.dialogueFileName == "Guard1_dialogue")
+                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
+
+            if (npc.dialogueFileName == "Guard_Check3_dialogue")
+                StartCoroutine(Set_UIStateEnd_Coroutine());
+        }
+
         if (npc is StageNPC selectedNPC)
         {
             selectedNPC.isInteract = true;
             //미술관장
             if (selectedNPC.dialogueFileName == "Tutorial1_dialogue")
-                // || selectedNPC.dialogueFileName == "Guard1_dialogue")
+                 //|| selectedNPC.dialogueFileName == "Guard1_dialogue")
             {
                 UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
             }
@@ -473,12 +484,8 @@ public class DialogueUI : MonoBehaviour
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
-            else if (selectedNPC.dialogueFileName == "Guard1_dialogue")
-            {
-                UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
-            }
-            else if (selectedNPC.dialogueFileName == "Check3_dialogue" ||
-                     selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
+            else if (selectedNPC.dialogueFileName == "Check3_dialogue")
+                    //|| selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
             {
                 StartCoroutine(Set_UIStateEnd_Coroutine());
                 //Set_UIStateEnd();

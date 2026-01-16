@@ -17,6 +17,7 @@ public class StageNPC : NPC
     public bool questEnd = false;
 
     string sceneName;
+
     //bool isDialogueChanged = false;
 
     //bool once;
@@ -108,13 +109,20 @@ public class StageNPC : NPC
 
                     if (transData.isInteract)
                     {
-                        ChangeDialogueFileName("Guard_key_dialogue");
-                        DialogueManager dm = FindObjectOfType<DialogueManager>();
-                        if (dm.CurrentNPC == this)
+                        // 조건 추가 : 
+                        int statueCount = 0;
+                        statueCount = PlayerPrefs.GetInt("StatueCount", statueCount);
+
+                        if (statueCount < 5)
                         {
-                            InventoryUI.instance.GetAnItem(20101);
-                            //if (dm.isEnd) { InventoryUI.instance.GetAnItem(20101); Debug.Log("dm.isEnd"); }
-                            questEnd = true;
+                            ChangeDialogueFileName("Guard_key_dialogue");
+                            DialogueManager dm = FindObjectOfType<DialogueManager>();
+                            if (dm.CurrentNPC == this)
+                            {
+                                InventoryUI.instance.GetAnItem(20101);
+                                //if (dm.isEnd) { InventoryUI.instance.GetAnItem(20101); Debug.Log("dm.isEnd"); }
+                                questEnd = true;
+                            }
                         }
                     }
                 }
