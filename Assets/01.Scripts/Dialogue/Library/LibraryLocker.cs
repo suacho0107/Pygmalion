@@ -12,7 +12,7 @@ public class LibraryLocker : NPC
 
     public bool unlock = false;
     bool saved;
-    bool getItem;
+    public bool questEnd;
 
     Collider2D col;
 
@@ -67,7 +67,8 @@ public class LibraryLocker : NPC
 
         if (lockerId == "A") // 사물함 A열: 키오스크로 잠금 해제 후 최초 상호작용 시 '회의실A 열쇠' 획득
         {
-            if(!unlock && PlayerPrefs.GetInt("Kiosk", 0) == 1) // kiosk unlock 시 상호작용 가능
+            if (questEnd) InteractEnd();
+            if (!unlock && PlayerPrefs.GetInt("Kiosk", 0) == 1) // kiosk unlock 시 상호작용 가능
             {
                 unlock = true;
                 SaveData();
@@ -77,20 +78,23 @@ public class LibraryLocker : NPC
                 ColliderControl();
             }
 
-            if (dialogueManager.CurrentNPC == this && isInteract == true && !getItem) // 잠금 해제 후 최초 상호작용 시 '회의실A 열쇠' 획득
+            if (dialogueManager.CurrentNPC == this && isInteract == true && !questEnd) // 잠금 해제 후 최초 상호작용 시 '회의실A 열쇠' 획득
             {
                 InventoryUI.instance.GetAnItem(20102);
                 InteractEnd();
-                getItem = true;
+                questEnd = true;
+                SaveData();
             }
         }
         else if (lockerId == "B") // 사물함 B열: 최초 상호작용 시 '수상한 액체가 든 병' 획득
         {
-            if (dialogueManager.CurrentNPC == this && isInteract == true && !getItem)
+            if (questEnd) InteractEnd();
+            if (dialogueManager.CurrentNPC == this && isInteract == true && !questEnd)
             {
                 InventoryUI.instance.GetAnItem(20103);
                 InteractEnd();
-                getItem = true;
+                questEnd = true;
+                SaveData();
             }
         }
     }
@@ -99,11 +103,11 @@ public class LibraryLocker : NPC
     {
         if (col != null) col.enabled = false;
 
-        if (!saved)
-        {
-            SaveData();
-            saved = true;
-        }
+        //if (!saved)
+        //{
+        //    SaveData();
+        //    saved = true;
+        //}
     }
 
     void ColliderControl()
@@ -123,6 +127,7 @@ public class LibraryLocker : NPC
     {
         npcData.isInteract = isInteract;
         npcData.unlock = unlock;
+        npcData.questEnd = questEnd;
 
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
@@ -139,6 +144,7 @@ public class LibraryLocker : NPC
 
             isInteract = npcData.isInteract;
             unlock = npcData.unlock;
+            questEnd = npcData.questEnd;
         }
     }
 }
