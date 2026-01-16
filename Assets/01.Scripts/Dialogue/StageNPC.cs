@@ -100,6 +100,7 @@ public class StageNPC : NPC
 
             if (!questEnd) // 열람실 열쇠 상호작용
             {
+                if (statueScore.statueCount == 5) return; // 스테이지 완료 시 스킵
                 string transPath = Application.persistentDataPath + "/interactObj_S_data.json";
 
                 if (File.Exists(transPath))
