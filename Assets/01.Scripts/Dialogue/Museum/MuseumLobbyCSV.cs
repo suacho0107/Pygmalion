@@ -32,7 +32,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                 }
                 else if (sceneName.StartsWith("Company_TutorialOffice"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "Office-2-1_dialogue" };
+                    npcs[0].dialogueFiles = new string[] { "Office-2-1_dialogue", "Office-2-2_dialogue" };
                     npcs[0].selectFiles = new string[] { "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];

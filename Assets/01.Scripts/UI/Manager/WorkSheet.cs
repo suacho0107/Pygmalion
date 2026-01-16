@@ -244,6 +244,7 @@ public class WorkSheet : MonoBehaviour
         playerPos.nextPosition = spawnPos;
         playerPos.isChecked = true;
 
+        UIManager.u_instance.stageIndex++;
         SceneManager.LoadScene("Monologue_success");
 
         #region refactor

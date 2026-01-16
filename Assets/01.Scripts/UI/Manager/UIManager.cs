@@ -52,13 +52,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        string GetCurrentScene = SceneManager.GetActiveScene().name;
-
-        if ("Monologue_success" == GetCurrentScene)
-        {
-            stageIndex++;
-        }
-
         Assign_UIObject();
     }
 
