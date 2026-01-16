@@ -97,7 +97,8 @@ public class UIManager : MonoBehaviour
         {
             if (delete != null)
             {
-                delete.DeleteAllJsonFiles();
+                delete.DeleteInteractJsonFiles();
+                delete.DeleteItemList();
             }
             else
             {

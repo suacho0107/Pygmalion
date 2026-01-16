@@ -200,7 +200,7 @@ public class SceneTransition : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "GlobalMap" && (sceneName == "Museum_Lobby" || sceneName == "Library_1F"))
             {
                 //GlobalMap 내 트랜지션에 DeleteAllData 넣기
-                GetComponent<DeleteAllData>().DeleteAllJsonFiles();
+                GetComponent<DeleteAllData>().DeleteInteractJsonFiles();
                 if (FieldItemManager.Instance != null)
                 {
                     FieldItemManager.Instance.ResetFieldItems(); // 필드 아이템 관련 데이터 삭제
