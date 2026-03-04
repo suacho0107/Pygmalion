@@ -143,10 +143,17 @@ public class Player : MonoBehaviour
 
     public void SelectInventory()
     {
-        ////State
-        //battleManager.state = BattleManager.State.PLAYERTURN_INVENTORY;
+        //UI
+        battleUI.dialogueButtons.gameObject.SetActive(false);
 
-        //구현예정
+        //State
+        battleManager.state = BattleManager.State.PLAYERTURN_INVENTORY;
+
+        InventoryUI.instance.inventoryPanel.SetActive(true);
+        InventoryUI.instance.activeItem = true;
+        InventoryUI.instance.selectedItem = 0;
+        InventoryUI.instance.ShowItem();
+        InventoryUI.instance.activeInventory = true;
     }
 
     public void SelectRun()

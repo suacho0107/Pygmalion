@@ -5,6 +5,19 @@ using UnityEngine;
 public class ItemDatabase : MonoBehaviour
 {
     public List<Item> itemList = new List<Item>();
+
+    public void ItemEffect(int _itemID)
+    {
+        switch (_itemID)
+        {
+            case 10402:
+                Debug.Log("비타5000 효과");
+                break;
+            case 10403:
+                Debug.Log("포도주 효과");
+                break;
+        }
+    }
     
     void Start()
     {

@@ -18,6 +18,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryBackground;
 
     public bool activeInventory = false;
+    public bool battleInventory;
 
     private InventorySlot[] slots;          // 인벤토리 슬롯 리스트
 
@@ -33,7 +34,7 @@ public class InventoryUI : MonoBehaviour
 
     public int selectedItem;
 
-    private bool activeItem;
+    public bool activeItem;
 
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
@@ -64,9 +65,12 @@ public class InventoryUI : MonoBehaviour
         else
         {
             //RemoveSlot();
-            Description_Icon.sprite = null;
-            DescriptionName_text.text = "";
-            DescriptionName_text.text = "";
+            if (!battleInventory)
+            {
+                Description_Icon.sprite = null;
+                DescriptionName_text.text = "";
+                DescriptionName_text.text = "";
+            }
         }
     }
 
@@ -77,9 +81,12 @@ public class InventoryUI : MonoBehaviour
         color.a = 0f;
         for (int i = 0; i < inventoryItemList.Count; i++)
             slots[i].selected_Item.GetComponent<Image>().color = color;
-        DescriptionName_text.text = inventoryItemList[selectedItem].itemName;
         Description_Text.text = inventoryItemList[selectedItem].itemDescription;
-        Description_Icon.sprite = inventoryItemList[selectedItem].itemIcon;
+        if (!battleInventory)
+        {
+            DescriptionName_text.text = inventoryItemList[selectedItem].itemName;
+            Description_Icon.sprite = inventoryItemList[selectedItem].itemIcon;
+        }
         StartCoroutine(SelectedItemEffectCoroutine());
     }
 
@@ -103,6 +110,25 @@ public class InventoryUI : MonoBehaviour
 
             yield return new WaitForSeconds(0.3f);
         }
+    }
+
+    public void UseAnItem(int _itemID)
+    {
+        for (int i = 0; i < inventoryItemList.Count; i++)
+        {
+            if (inventoryItemList[i].itemID == _itemID)
+            {
+                ItemDB.ItemEffect(_itemID);
+                if (inventoryItemList[i].itemCount > 1) inventoryItemList[i].itemCount--;
+                else inventoryItemList.RemoveAt(i);
+                SaveInventory();
+
+                ShowItem();
+                break;
+            }
+        }
+        Debug.Log("아이템 사용");
+        return;
     }
 
     public void GetAnItem(int _itemID)
@@ -180,7 +206,7 @@ public class InventoryUI : MonoBehaviour
         if (inventoryItemList == null || inventoryItemList.Count == 0)
         {
             inventoryItemList = new List<Item>();
-            //DefaultItmes();
+            DefaultItmes();
             //SaveInventory(); DefaultItems로 이동
         }
         else
@@ -195,10 +221,12 @@ public class InventoryUI : MonoBehaviour
     void DefaultItmes()
     {
         //inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
-        //inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
+        inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
         //inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(20102, "회의실 열쇠", "회의실 열쇠 설명", "회의실 열쇠", Item.ItemType.Use));
-        //inventoryItemList.Add(new Item(20101, "열람실 열쇠", "열람실 열쇠 설명", "열람실 열쇠", Item.ItemType.Use));
+        inventoryItemList.Add(new Item(20101, "열람실 열쇠", "열람실 열쇠 설명", "열람실 열쇠", Item.ItemType.Use));
+        inventoryItemList.Add(new Item(10402, "비타5000", "요즘 인기 최고인 에너지드링크.\n피로와 상처를 순식간에 회복시켜준다.", "비타5000", Item.ItemType.Use));
+        inventoryItemList.Add(new Item(10403, "포도주", "술과 축제의 신 디오니소스가 특별히 만든 포도주.\n생명력이 깃들어 죽어가던 사람도 살아난다고 한다.", "포도주", Item.ItemType.Use));
         //SaveInventory();
         //Debug.Log("DefualtItem");
     }
@@ -207,10 +235,14 @@ public class InventoryUI : MonoBehaviour
     {
         instance = this;
         ItemDB = FindObjectOfType<ItemDatabase>();
+        
         inventoryPanel.SetActive(activeInventory);
-        currencyPanel.SetActive(activeInventory);
-        infoPanel.SetActive(activeInventory);
-        inventoryBackground.SetActive(activeInventory);
+        if (!battleInventory)
+        {
+            currencyPanel.SetActive(activeInventory);
+            infoPanel.SetActive(activeInventory);
+            inventoryBackground.SetActive(activeInventory);
+        }
 
         inventoryItemList = new List<Item>();
         // GridSlot의 자식객체 저장
@@ -221,33 +253,36 @@ public class InventoryUI : MonoBehaviour
     }
 
     void Update()
-    {        
-        if(Input.GetKeyDown(KeyCode.Tab))
+    {
+        if (!battleInventory) // 일반 씬 인벤토리 *전투 씬 인벤토리는 BattleUI에
         {
-            //Debug.Log("Tab");
-            activeInventory = !activeInventory;
-
-            if (activeInventory == true)
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                inventoryPanel.SetActive(true);
-                currencyPanel.SetActive(true);
-                infoPanel.SetActive(true);
-                inventoryBackground.SetActive(true);
-                activeItem = true;
-                ShowItem();
-                selectedItem = 0;
+                //Debug.Log("Tab");
+                activeInventory = !activeInventory;
 
-                Currency_Text.text = DataManager.Instance.currency.ToString();
-            }
-            else
-            {
-                StopAllCoroutines();
-                inventoryPanel.SetActive(false);
-                currencyPanel.SetActive(false);
-                infoPanel.SetActive(false);
-                inventoryBackground.SetActive(false);
-                activeItem = false;
-                SaveInventory();
+                if (activeInventory == true)
+                {
+                    inventoryPanel.SetActive(true);
+                    currencyPanel.SetActive(true);
+                    infoPanel.SetActive(true);
+                    inventoryBackground.SetActive(true);
+                    activeItem = true;
+                    ShowItem();
+                    selectedItem = 0;
+
+                    Currency_Text.text = DataManager.Instance.currency.ToString();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    inventoryPanel.SetActive(false);
+                    currencyPanel.SetActive(false);
+                    infoPanel.SetActive(false);
+                    inventoryBackground.SetActive(false);
+                    activeItem = false;
+                    SaveInventory();
+                }
             }
         }
 
@@ -293,7 +328,7 @@ public class InventoryUI : MonoBehaviour
                     }
                     else if (Input.GetKeyDown(KeyCode.F))
                     {
-                        // 아이템 사용 여부
+                        UseAnItem(inventoryItemList[selectedItem].itemID);
                     }
                 }
             }

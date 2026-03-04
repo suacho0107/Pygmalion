@@ -53,6 +53,7 @@ public class BattleManager : MonoBehaviour
     public bool isStatePLAYERTURN_ATTACK_PartSelecting = false; //PLAYERTURN_ATTACK에서 공격할 Part 선택 시
     public bool isStatePLAYERTURN_RUN = false; //State PLAYERTURN_RUN동안 true
     public bool isStateENEMYTURN = false; //State ENEMYTURM동안 true
+    public bool isStateInventory = false;
     private bool isStateEND = false; //State WIN, LOSE시 true
 
     public bool isContentTextWriting = false; //ContentTextWrite 중복 실행 방지
@@ -66,7 +67,7 @@ public class BattleManager : MonoBehaviour
     {
         PLAYERTURN_START,
         PLAYERTURN_ATTACK,
-        //PLAYERTURN_INVENTORY, //미사용, Inventory 추가 시 사용 예정
+        PLAYERTURN_INVENTORY, //미사용, Inventory 추가 시 사용 예정
         PLAYERTURN_RUN,
         ENEMYTURN,
         WIN,
@@ -96,27 +97,32 @@ public class BattleManager : MonoBehaviour
             //}
             //else
             //{
-                int stage = UIManager.u_instance.stageIndex;
-                //Debug.Log($"현재 진행 스테이지: {stage}");
+                //int stage = UIManager.u_instance.stageIndex;
+            int stage = 0;
+            //Debug.Log($"현재 진행 스테이지: {stage}");
 
-                switch (stage)
+            switch (stage)
                 {
                     case 0:
                         {
                             //BackGround 설정
                             battleUI.backgrounds.GetComponent<Image>().sprite = battleUI.museumBackground;
+                        Aphrodite.SetActive(true);
+                        enemy = Aphrodite.GetComponent<Enemy>();
 
-                            if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
-                            {
-                                //Debug.Log("stage 인식: Aphrodite로 Battle 실행");
-                                Aphrodite.SetActive(true);
-                                enemy = Aphrodite.GetComponent<Enemy>();
-                                
-                                playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
-                                playerPos.isChecked = true;
-                                break;
-                            }
-                            break;
+                        playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+                        playerPos.isChecked = true;
+                        //if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
+                        //{
+                        //    //Debug.Log("stage 인식: Aphrodite로 Battle 실행");
+                        //    Aphrodite.SetActive(true);
+                        //    enemy = Aphrodite.GetComponent<Enemy>();
+
+                        //    playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+                        //    playerPos.isChecked = true;
+                        //    break;
+                        //}
+                        break;
                         }
                     case 1:
                         {
@@ -213,6 +219,13 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerRun(); //SaveRun으로 함수명 변경해서 player.Run 안에 넣을 수 있나요?
                     StartCoroutine(player.Run());
+                }
+                break;
+
+            case State.PLAYERTURN_INVENTORY:
+                if (!isStateInventory)
+                {
+                    //player.SelectInventory();
                 }
                 break;
 
