@@ -302,7 +302,10 @@ public class BattleUI : MonoBehaviour
         InventoryUI.instance.inventoryPanel.SetActive(false);
         InventoryUI.instance.activeItem = false;
         InventoryUI.instance.SaveInventory();
+        contentText.text = "";
+        battleManager.isStatePLAYERTURN = false;
         battleManager.state = BattleManager.State.PLAYERTURN_START;
+        //battleManager.isStatePLAYERTURN = true;
     }
     #endregion
 
