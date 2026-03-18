@@ -57,6 +57,22 @@ public class InventoryUI : MonoBehaviour
         {
             slots[i].gameObject.SetActive(true);
             slots[i].AddItem(inventoryItemList[i]);
+            //if (!battleInventory) // 일반 인벤토리
+            //{
+            //    slots[i].gameObject.SetActive(true);
+            //    slots[i].AddItem(inventoryItemList[i]);
+            //}
+            //else // 전투 인벤토리에는 전투 아이템만
+            //{
+            //    if (inventoryItemList[i].itemType == Item.ItemType.Battle)
+            //    {
+            //        for(int j = 0; j < 5; j++)
+            //        {
+            //            slots[j].gameObject.SetActive(true);
+            //            slots[j].AddItem(inventoryItemList[i]);
+            //        }
+            //    }
+            //}
         }
 
         /* count 0 일 때 아래 함수 호출되면 에러나길래 막아뒀습니다! */
