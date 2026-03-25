@@ -298,6 +298,7 @@ public class BattleUI : MonoBehaviour
     private void EscapeInventory()
     {
         InventoryUI.instance.activeInventory = false;
+        InventoryUI.instance.activeSelect = false;
         StopAllCoroutines();
         InventoryUI.instance.inventoryPanel.SetActive(false);
         InventoryUI.instance.activeItem = false;

@@ -223,6 +223,7 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case State.PLAYERTURN_INVENTORY:
+                InventoryUI.instance.activeSelect = true;
                 if (!isStateInventory)
                 {
                     //player.SelectInventory();
