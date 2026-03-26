@@ -80,6 +80,13 @@ public class BattleUI : MonoBehaviour
                 PartButtonInputHandler();
             }
         }
+        //else if (battleManager.state == BattleManager.State.PLAYERTURN_INVENTORY) // 인벤토리 종료
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        EscapeInventory();
+        //    }
+        //}
     }
     #endregion
 
@@ -128,7 +135,7 @@ public class BattleUI : MonoBehaviour
                 player.SelectAttack();
                 dialogueButtons.SetActive(false);
             }
-            else if (selectedButtonText == "소지품을 확인한디")
+            else if (selectedButtonText == "소지품을 확인한다")
             {
                 player.SelectInventory();
                 //SelectInventory() 함수 내용 작성 필요
@@ -262,6 +269,8 @@ public class BattleUI : MonoBehaviour
             battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = false;
             battleManager.state = BattleManager.State.PLAYERTURN_START;
 
+            if (InventoryUI.instance.activeInventory) InventoryUI.instance.activeInventory = false;
+
             //초기화
             currentPartPageIndex = 0;
             currentPartButtonIndex = 0;
@@ -285,6 +294,22 @@ public class BattleUI : MonoBehaviour
 
         return targetButtonIndex < lastButtonIndex;        
     }
+
+    #region EscapeInventory Legacy
+    //private void EscapeInventory() // InventoryUI UseAnItem()으로 이동, ESC 삭제
+    //{
+    //    InventoryUI.instance.activeInventory = false;
+    //    InventoryUI.instance.activeSelect = false;
+    //    StopAllCoroutines();
+    //    InventoryUI.instance.inventoryPanel.SetActive(false);
+    //    InventoryUI.instance.activeItem = false;
+    //    InventoryUI.instance.SaveInventory();
+    //    contentText.text = "";
+    //    battleManager.isStatePLAYERTURN = false;
+    //    battleManager.state = BattleManager.State.PLAYERTURN_START;
+    //    //battleManager.isStatePLAYERTURN = true;
+    //}
+    #endregion
     #endregion
 
     #region DialogueButton

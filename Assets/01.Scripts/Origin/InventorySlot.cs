@@ -14,7 +14,7 @@ public class InventorySlot : MonoBehaviour
         icon.sprite = _item.itemIcon;
 
         // 소모품인 경우
-        if(Item.ItemType.Use == _item.itemType)
+        if(Item.ItemType.Battle == _item.itemType)
         {
             if (_item.itemCount > 0)            
                 itemCount_Text.text = "x " + _item.itemCount.ToString();       

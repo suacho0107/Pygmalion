@@ -17,6 +17,7 @@ public class Item
         Use,    // 소모품
         Equip,  // 장비
         Quest,  // 퀘스트템
+        Battle, // 전투 소모템
         Etc     // 기타
     }
 
