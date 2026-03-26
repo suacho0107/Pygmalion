@@ -206,13 +206,20 @@ public class InventoryUI : MonoBehaviour
                 if (selectedItem < 0) selectedItem = 0;
 
                 ShowItem();
-                Debug.Log("아이템 사용");
-                return;
+                //Debug.Log("아이템 사용");
+                //return;
                 //break;
             }
         }
-        //Debug.Log("아이템 사용");
-        //return;
+
+        activeInventory = false;
+        activeSelect = false;
+        //StopAllCoroutines();
+        inventoryPanel.SetActive(false);
+        activeItem = false;
+        SaveInventory();
+        Debug.Log("아이템 사용");
+        return;
     }
 
     public void GetAnItem(int _itemID)
@@ -428,6 +435,11 @@ public class InventoryUI : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
                     UseAnItem(currentList[selectedItem].itemID);
+                    /* 아이템 사용 시 적 턴으로 넘기기 -> 아이템을 사용했다. 등의 대사 필요?
+                     * -> State에 아이템 사용 턴 추가?
+                    */
+                    BattleManager battleManager = FindObjectOfType<BattleManager>();
+                    battleManager.state = BattleManager.State.ENEMYTURN;
                 }
             }
             #region legacy
