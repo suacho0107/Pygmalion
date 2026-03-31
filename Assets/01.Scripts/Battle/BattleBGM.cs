@@ -4,56 +4,52 @@ using UnityEngine;
 
 public class BattleBGM : MonoBehaviour
 {
-    AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
 
-    private void Awake()
+    private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        Play();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        PlayBGM();
-        StartCoroutine(FadeInOutBGM(true, 2f));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void PlayBGM()
+    void Play()
     {
         audioSource.Stop();
         audioSource.loop = true;
-        //audioSource.volume = 0.4f;
-        audioSource.volume = 0f; //FadeIn 할 거라 0으로 Play
+        audioSource.volume = 0f;
         audioSource.time = 0;
         audioSource.Play();
+        FadeIn(2f);
     }
 
-    public IEnumerator FadeInOutBGM(bool _isFadeIn, float _duration)
+    #region Fade
+    private void FadeIn(float duration)
     {
+        StartCoroutine(Fade(true, duration));
+    }
+
+    public void FadeOut(float duration)
+    {
+        StartCoroutine(Fade(false, duration));
+    }
+
+    private IEnumerator Fade(bool isFadeIn, float duration)
+    {
+        float start = isFadeIn ? 0f : 0.4f;
+        float end = isFadeIn ? 0.4f : 0f;
         float time = 0f;
 
-        float startVolume = _isFadeIn ? 0f : 0.4f;
-        float endVolume = _isFadeIn ? 0.4f : 0f;
+        audioSource.volume = start;
 
-        audioSource.volume = startVolume;
-
-        while (time < _duration)
+        while (time < duration)
         {
-            float t = time / _duration;
-
-            float volume = Mathf.Lerp(startVolume, endVolume, t);
-            audioSource.volume = volume;
+            float t = time / duration;
+            audioSource.volume = Mathf.Lerp(start, end, t);
 
             time += Time.deltaTime;
             yield return null;
         }
 
-        audioSource.volume = endVolume;
+        audioSource.volume = end;
     }
+    #endregion
 }

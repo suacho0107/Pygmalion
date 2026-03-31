@@ -6,14 +6,13 @@ using UnityEngine.UI;
 public class BattleUI : MonoBehaviour
 {
     #region References
-    BattleManager battleManager;
-    Player player;
-    Enemy enemy;
+    [SerializeField] private BattleManager battleManager;
+    private Enemy enemy;
     #endregion
 
     #region Variables
     [Header("Backgrounds")]
-    public GameObject backgrounds;
+    public Image background;
     public Sprite museumBackground;
     public Sprite libraryBackGround;
 
@@ -21,74 +20,83 @@ public class BattleUI : MonoBehaviour
     public GameObject dialoguePanel;
     public Text contentText;
 
-    public GameObject blackBoard;
-    public GameObject blackCircle;
+    [SerializeField] private GameObject blackBoard;
+    [SerializeField] private GameObject blackCircle;
 
-    [Header("Dialogue UI")]
-    public GameObject dialogueButtons;
-    private List<GameObject> dialogueButtonList = new List<GameObject>();
+    [Header("DialogueSelect UI")]
+    [SerializeField] private GameObject dialogueButtons;
+    private List<GameObject> dialogueButtonList = new();
 
-    public bool isFadeInOut;
+    private int currentDialogueButtonIndex;
 
     [Header("PartSelect UI")]
-    public GameObject partButtons;
-    private List<GameObject> partButtonList = new List<GameObject>();
+    [SerializeField] private GameObject partButtons;
+    private List<GameObject> partButtonList = new();
 
-    public GameObject pageArrows;
-    private Image prePageArrow;
-    private Image nextPageArrow;
+    [SerializeField] private GameObject pageArrows;
+    [SerializeField] private Image prePageArrow;
+    [SerializeField] private Image nextPageArrow;
 
-    [Header("Button Sprites")]
-    public Sprite ButtonDefault;
-    public Sprite ButtonHighlighted;
-
-    [Header("HpBoxes & HpBox Sprites")]
-    public GameObject hpBoxes;
-    public Sprite hpBoxEmpty;
-    public Sprite hpBoxFull;
-
-    [Header("Dialogue & PartSelect Control")]
-    private int currentDialogueButtonIndex;
     private int currentPartPageIndex;
     public int currentPartButtonIndex;
+
+    [Header("Button Sprites")]
+    [SerializeField] private Sprite ButtonDefault;
+    [SerializeField] private Sprite ButtonHighlighted;
+
+    [Header("HpBoxes & HpBox Sprites")]
+    [SerializeField] private Sprite hpBoxEmpty;
+    [SerializeField] private Sprite hpBoxFull;
+
+    [Header("Flags")]
+    private bool isFading;
+    public bool isTyping;
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
-        battleManager = FindObjectOfType<BattleManager>();
-        player = FindObjectOfType<Player>();
         enemy = FindObjectOfType<Enemy>();
 
-        prePageArrow = pageArrows.transform.Find("Image_PrePageArrow").GetComponent<Image>();
-        nextPageArrow = pageArrows.transform.Find("Image_NextPageArrow").GetComponent<Image>();
+        SetDialogueButtons();
+        SetPartButtons();
+    }
+
+    private void Start()
+    {
+        FadeInCircle(2f);
     }
 
     void Update()
     {
-        if (dialogueButtons.activeSelf && !isFadeInOut && !battleManager.isContentTextWriting)
+        if (isFading || isTyping)
         {
-            if (Input.anyKeyDown)
-            {
-                DialogueButtonInputHandler();
-            }
+            return;
         }
-        else if (battleManager.isStatePLAYERTURN_ATTACK_PartSelecting && !isFadeInOut && !battleManager.isContentTextWriting)
-        {
-            if (Input.anyKeyDown) //키 입력 시에만
-            {
-                PartButtonInputHandler();
-            }
-        }
-        //else if (battleManager.state == BattleManager.State.PLAYERTURN_INVENTORY) // 인벤토리 종료
-        //{
-        //    if (Input.GetKeyDown(KeyCode.Escape))
-        //    {
-        //        EscapeInventory();
-        //    }
-        //}
+
+        HandleInput();
     }
     #endregion
+
+    private void HandleInput()
+    {
+        switch (battleManager.state)
+        {
+            case BattleManager.State.PLAYERTURN_START:
+                if (dialogueButtons.activeSelf)
+                {
+                    DialogueButtonInputHandler();
+                }
+                break;
+
+            case BattleManager.State.PLAYERTURN_ATTACK:
+                if (partButtons.activeSelf)
+                {
+                    PartButtonInputHandler();
+                }
+                break;
+        }
+    }
 
     #region ButtonInputHandlers
     private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성됨
@@ -108,7 +116,6 @@ public class BattleUI : MonoBehaviour
                 currentDialogueButtonIndex += 2;
             }
         }
-
         //좌우 이동
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
@@ -128,24 +135,23 @@ public class BattleUI : MonoBehaviour
         //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            string selectedButtonText = dialogueButtonList[currentDialogueButtonIndex].GetComponentInChildren<Text>().text;
+            switch (currentDialogueButtonIndex)
+            {
+                case 0: //공격한다
+                    battleManager.OnSelectAttack();
+                    break;
 
-            if (selectedButtonText == "공격한다")
-            {
-                player.SelectAttack();
-                dialogueButtons.SetActive(false);
+                case 1: //소지품을 확인한다
+                    battleManager.OnSelectInventory();
+                    break;
+
+                case 2: //도망친다
+                    battleManager.OnSelectRun();
+                    break;
             }
-            else if (selectedButtonText == "소지품을 확인한다")
-            {
-                player.SelectInventory();
-                //SelectInventory() 함수 내용 작성 필요
-            }
-            else if (selectedButtonText == "도망친다")
-            {
-                player.SelectRun();
-                dialogueButtons.SetActive(false);
-            }
-            //dialogueButtons.SetActive(false); //Inventory 구현 이후에 if문 안에 빼고 이거 사용
+            
+        //초기화
+        currentDialogueButtonIndex = 0;
         }
 
         HighlightDialogueButton();
@@ -171,7 +177,6 @@ public class BattleUI : MonoBehaviour
                 }
             }
         }
-
         //좌우 이동
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
@@ -228,55 +233,58 @@ public class BattleUI : MonoBehaviour
                 }
             }
         }
-
+        //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             int selectedPartIndex = currentPartPageIndex * 4 + currentPartButtonIndex;
-
-            if (selectedPartIndex < enemy.partComponents.Count)
+            if (selectedPartIndex >= enemy.parts.Count)
             {
-                //Melpomene Mask-Head 우선순위
-                if (enemy.enemyName == "Melpomene" && enemy.isMasked && enemy.parts[selectedPartIndex] == "Head")
-                {
-                    return;
-                }
-
-                if (enemy.isDestroyed[selectedPartIndex])
-                {
-                    Debug.Log("This part is already destroyed"); //Delete
-                }
-                else
-                {
-                    StartCoroutine(player.PlayerAttack(enemy.partComponents[selectedPartIndex]));
-
-                    battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = false;
-                }
-
-                //초기화
-                currentPartPageIndex = 0;
-                currentPartButtonIndex = 0;
-                pageArrows.SetActive(false);
+                return;
             }
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //UI초기화
-            contentText.text = "";
-            partButtons.SetActive(false);
 
-            battleManager.isStatePLAYERTURN = false;
-            battleManager.isStatePLAYERTURN_ATTACK = false;
-            battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = false;
-            battleManager.state = BattleManager.State.PLAYERTURN_START;
+            Part selectedPart = enemy.parts[selectedPartIndex];
 
-            if (InventoryUI.instance.activeInventory) InventoryUI.instance.activeInventory = false;
+            //Melpomene 예외
+            if (enemy.enemyType == EnemyType.Melpomene && !enemy.IsPartDestroyed(PartType.Mask) && selectedPart.partType == PartType.Head)
+            {
+                return;
+            }
+
+            if (enemy.IsPartDestroyed(selectedPart.partType))
+            {
+                Debug.Log("This part is already destroyed"); //Delete
+                return;
+            }
+            else
+            {
+                battleManager.OnSelectPart(selectedPart);
+            }
+
+            ResetUI();
 
             //초기화
             currentPartPageIndex = 0;
             currentPartButtonIndex = 0;
-            pageArrows.SetActive(false);
+            //pageArrows.SetActive(false);
+        }
+        //취소
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ResetUI();
+            ////UI초기화
+            //contentText.text = "";
+            //partButtons.SetActive(false);
+
+            battleManager.ChangeState(BattleManager.State.PLAYERTURN_START);
+
+            //초기화
+            currentPartPageIndex = 0;
+            currentPartButtonIndex = 0;
+            //pageArrows.SetActive(false);
         }
         //Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
+
+
 
         HighlightPartButton();
     }
@@ -292,7 +300,7 @@ public class BattleUI : MonoBehaviour
 
         int lastButtonIndex = enemy.parts.Count - _pageIndex * 4;
 
-        return targetButtonIndex < lastButtonIndex;        
+        return targetButtonIndex < lastButtonIndex;
     }
 
     #region EscapeInventory Legacy
@@ -324,7 +332,9 @@ public class BattleUI : MonoBehaviour
             dialogueButtonList.Add(dialogueButton);
         }
 
+        //초기화
         currentDialogueButtonIndex = 0;
+
         HighlightDialogueButton();
     }
 
@@ -357,24 +367,26 @@ public class BattleUI : MonoBehaviour
 
     public void UpdatePartButtons() //page 바뀔 때마다 실행
     {
-        int startIndex = currentPartPageIndex * 4;
+        int pageStartIndex = currentPartPageIndex * 4;
+        int partCount = enemy.parts.Count;
 
         for (int i = 0; i < partButtonList.Count; i++)
         {
-            int partIndex = startIndex + i;
+            int partIndex = pageStartIndex + i;
             GameObject partButton = partButtonList[i];
-            //Debug.Log($"partButton 이름: {partButton}"); //Delete
 
-            if (partIndex < enemy.parts.Count) //part 개수 만큼만
+            if (partIndex < partCount) //part 개수 만큼만
             {
+                Part part = enemy.parts[partIndex];
+
                 partButton.SetActive(true);
 
-                Text partText = partButton.transform.Find("Text (Legacy)").GetComponent<Text>();                
-                Color partColor = enemy.isDestroyed[partIndex] ? Color.grey : Color.white; //isdetroyed로 동작
-                partText.text = enemy.ReplacePartText(enemy.parts[partIndex]); //part 영->한 번역
+                Text partText = partButton.transform.Find("Text (Legacy)").GetComponent<Text>();
+                partText.text = TranslatePart(part); //part 영->한 번역
 
+                Color partColor = enemy.IsPartDestroyed(part.partType) ? Color.grey : Color.white; //isdetroyed로 동작
                 //Melpomene Mask-Head 우선순위
-                if (enemy.enemyName == "Melpomene" && enemy.isMasked && enemy.parts[partIndex] == "Head")
+                if (enemy.enemyType == EnemyType.Melpomene && !enemy.IsPartDestroyed(PartType.Mask) && part.partType == PartType.Head)
                 {
                     partColor = Color.grey;
                 }
@@ -382,7 +394,7 @@ public class BattleUI : MonoBehaviour
                 partText.color = partColor;
 
                 GameObject hpBoxes = partButton.transform.Find("HpBoxes").gameObject;
-                UpdateHpBoxes(hpBoxes, enemy.partComponents[partIndex]);
+                UpdateHpBoxes(hpBoxes, part);
             }
             else
             {
@@ -408,7 +420,6 @@ public class BattleUI : MonoBehaviour
         {
             prePageArrow.gameObject.SetActive(false);
         }
-
         //nextPageArrow
         if (currentPartPageIndex < totalPages - 1)
         {
@@ -426,14 +437,14 @@ public class BattleUI : MonoBehaviour
         {
             GameObject partButton = partButtonList[i];
 
-            if(!partButton.activeSelf)
+            if (!partButton.activeSelf)
             {
                 continue;
             }
 
             int partIndex = currentPartPageIndex * 4 + i;
 
-            if (partIndex < enemy.partComponents.Count)
+            if (partIndex < enemy.parts.Count)
             {
                 bool isSelected = (i == currentPartButtonIndex) && partButton.activeSelf;
                 partButton.GetComponent<Image>().sprite = isSelected ? ButtonHighlighted : ButtonDefault;
@@ -448,12 +459,217 @@ public class BattleUI : MonoBehaviour
         {
             GameObject hpBox = _hpBoxes.transform.GetChild(i).gameObject;
 
-            hpBox.SetActive(i < _part.partMaxHp);
-            hpBox.GetComponent<Image>().sprite = (i < _part.partHp) ? hpBoxFull : hpBoxEmpty; //part별 남은 hp
+            hpBox.SetActive(i < _part.maxHp);
+            hpBox.GetComponent<Image>().sprite = (i < _part.hp) ? hpBoxFull : hpBoxEmpty; //part별 남은 hp
         }
     }
     #endregion
 
+    #region PlayerTurn UI
+    public void Playerturn_Start()
+    {
+        ResetUI();
+        StartCoroutine(TypeWriter("어떤 행동을 할까?"));
+
+        dialogueButtons.SetActive(true);
+    }
+
+    public void Playerturn_Attack()
+    {
+        ResetUI();
+        contentText.text = "어느 부위를 공격할까?";
+
+        UpdatePartButtons();
+        partButtons.SetActive(true);
+
+    }
+
+    public void PlayerTurn_Inventory()
+    {
+        Debug.Log($"PlayerTurn_Inventory 실행");
+
+        ResetUI();
+
+        InventoryUI.instance.inventoryPanel.SetActive(true);
+        InventoryUI.instance.activeItem = true;
+        InventoryUI.instance.selectedItem = 0;
+        InventoryUI.instance.ShowItem();
+        InventoryUI.instance.activeInventory = true;
+    }
+    #endregion
+
+    public void ResetUI()
+    {
+        contentText.text = "";
+
+        dialogueButtons.SetActive(false);
+
+        partButtons.SetActive(false);
+        pageArrows.SetActive(false);
+    }
+
+    #region Fade
+    #region Board
+    public void FadeInBoard(float duration)
+    {
+        if (isFading)
+        {
+            return;
+        }
+        StartCoroutine(FadeBoard(true, duration));
+    }
+
+    public void FadeOutBoard(float duration)
+    {
+        if (isFading)
+        {
+            return;
+        }
+        StartCoroutine(FadeBoard(false, duration));
+    }
+
+    private IEnumerator FadeBoard(bool isFadeIn, float duration)
+    {
+        isFading = true;
+
+        blackBoard.SetActive(true);
+
+        Image image = blackBoard.GetComponent<Image>();
+
+        float start = isFadeIn ? 1f : 0f;
+        float end = isFadeIn ? 0f : 1f;
+        float time = 0f;
+        Color color = image.color;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            color.a = Mathf.Lerp(start, end, t);
+            image.color = color;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+        color.a = end;
+        image.color = color;
+
+        isFading = false;
+    }
+    #endregion
+
+    #region Circle
+    public void FadeInCircle(float duration)
+    {
+        if (isFading)
+        {
+            return;
+        }
+        StartCoroutine(FadeCircle(true, duration));
+    }
+
+    public void FadeOutCircle(float duration)
+    {
+        if (isFading)
+        {
+            return;
+        }
+        StartCoroutine(FadeCircle(false, duration));
+    }
+
+    private IEnumerator FadeCircle(bool isFadeIn, float duration)
+    {
+        isFading = true;
+
+        blackCircle.SetActive(true);
+        RectTransform circle = blackCircle.GetComponent<RectTransform>();
+
+        float start = isFadeIn ? 2250 : 0;
+        float end = isFadeIn ? 0 : 2250;
+        float time = 0f;
+        circle.sizeDelta = new Vector2(start, start);
+
+        while (time < duration)
+        {
+            float t = time / duration;
+
+            float size = Mathf.Lerp(start, end, t);
+            circle.sizeDelta = new Vector2(size, size);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        //마지막 값 보정
+        circle.sizeDelta = new Vector2(end, end);
+
+        isFading = false;
+    }
+    #endregion
+    #endregion
+
+    public IEnumerator Shake(Transform _target, float _dration, float _strength) //duration = 0.2f, strength = 10f)
+    {
+        Vector3 originPos = _target.localPosition;
+        float elapsed = 0f;
+
+        //_dration(sec) 동안 _strength만큼 흔들림
+        while (elapsed < _dration)
+        {
+            float x = Random.Range(-1f, 1f) * _strength;
+            float y = Random.Range(-1f, 1f) * _strength;
+
+            _target.localPosition = originPos + new Vector3(x, y, 0);
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        //위치 초기화
+        transform.localPosition = originPos;
+    }
+
+    public IEnumerator UpdateHpBar(Image hpBar, int newHp, int maxHp)
+    {
+        float start = hpBar.fillAmount;
+        float end = (float)newHp / maxHp;
+        float time = 0f;
+        float duration = 0.5f;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            hpBar.fillAmount = Mathf.Lerp(start, end, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+        hpBar.fillAmount = end;
+    }
+
+    #region TypeWriter
+    public IEnumerator TypeWriter(string _text)
+    {
+        if (isTyping)
+        {
+            yield return new WaitUntil(() => !isTyping);
+        }
+
+        isTyping = true;
+        contentText.text = "";
+
+        for (int i = 0; i < _text.Length; i++)
+        {
+            contentText.text += _text[i];
+            yield return new WaitForSeconds(0.03f);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        isTyping = false;
+    }
+    #endregion
+
+    #region Utility 
     public int FindListIndex(List<string> _list, string _element)
     {
         return _list.IndexOf(_element);
@@ -477,113 +693,106 @@ public class BattleUI : MonoBehaviour
         bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
         return hasFinal ? _particleWithFinal : _particleWithoutFinal;
     }
+    #endregion
 
-    #region Fade In/Out
-    public IEnumerator FadeInOut(bool _isFadeIn, float _duration)
+    #region State UI
+    public void Win()
     {
-        isFadeInOut = true;
-
-        blackBoard.SetActive(true);
-        Image image = blackBoard.GetComponent<Image>();
-
-        //Fade In/Out 설정
-        float startAlpha = _isFadeIn ? 1f : 0f;
-        float endAlpha = _isFadeIn ? 0f : 1f;
-
-        //초기화
-        float time = 0f;
-        Color color = image.color;
-
-        while (time < _duration)
-        {
-            float t = time / _duration;
-            color.a = Mathf.Lerp(startAlpha, endAlpha, t);
-            image.color = color;
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        // 마지막 값 보정
-        color.a = endAlpha;
-        image.color = color;
-
-        isFadeInOut = false;
+        ResetUI();
+        FadeOutBoard(2f);
     }
 
-    public IEnumerator FadeInOutCircle(bool _isFadeIn, float _duration)
+    public void Lose()
     {
-        isFadeInOut = true;
+        StartCoroutine(TypeWriter("눈앞이 흐려진다..."));
+        FadeOutBoard(2f);
+    }
 
-        blackCircle.SetActive(true);
-        RectTransform circle = blackCircle.GetComponent<RectTransform>();
+    public void Run()
+    {
+        ResetUI();
+        dialoguePanel.SetActive(false);
+        FadeOutCircle(2f);
+    }
 
-        //Fade In/Out 설정
-        float startSize = _isFadeIn ? 2250 : 0;
-        float endSize = _isFadeIn ? 0 : 2250;
-
-        //초기화
-        float time = 0f;
-        circle.sizeDelta = new Vector2(startSize, startSize);
-        
-        while (time < _duration)
+    public void SetBackground(int stage)
+    {
+        switch (stage)
         {
-            float t = time / _duration;
+            case 0: //미술관
+                background.sprite = museumBackground;
+                break;
 
-            float size = Mathf.Lerp(startSize, endSize, t);
-            circle.sizeDelta = new Vector2(size, size);
-
-            time += Time.deltaTime;
-            yield return null;
+            case 1: //도서관
+                background.sprite = libraryBackGround;
+                break;
         }
-
-        //마지막 값 보정
-        circle.sizeDelta = new Vector2(endSize, endSize);
-
-        isFadeInOut = false;
     }
     #endregion
 
-    public IEnumerator Shake(Transform _target, float _dration, float _strength)
+    #region Translation
+    public string TranslateEnemy(Enemy enemy)
     {
-        Vector3 originPos = _target.localPosition;
-        float elapsed = 0f;
+        EnemyType origin = enemy.enemyType;
+        string translated;
 
-        //_dration(sec) 동안 _strength만큼 흔들림
-        while (elapsed < _dration)
+        if (origin == EnemyType.Aphrodite)
         {
-            float x = Random.Range(-1f, 1f) * _strength;
-            float y = Random.Range(-1f, 1f) * _strength;
-
-            _target.localPosition = originPos + new Vector3(x, y, 0);
-            elapsed += Time.deltaTime;
-
-            yield return null;
+            translated = "아프로디테";
+        }
+        else if (origin == EnemyType.ReadingChild)
+        {
+            translated = "책을 읽는 아이";
+        }
+        else if (origin == EnemyType.Melpomene)
+        {
+            translated = "멜포메네";
+        }
+        else
+        {
+            translated = enemy.name;
         }
 
-        //위치 초기화
-        transform.localPosition = originPos;
+        return translated;
     }
 
-    public IEnumerator UpdateHpBar(Image _hpBar, int _maxHp, int _newHp, float _duration)
+    public string TranslatePart(Part part)
     {
-        float time = 0f;
+        PartType origin = part.partType;
 
-        // 현재 HPBar 상태를 시작값으로 사용
-        float startFill = _hpBar.fillAmount;
-        float endFill = (float)_newHp / _maxHp;
-
-        while (time < _duration)
+        if (origin == PartType.Head)
         {
-            float t = time / _duration;
-
-            _hpBar.fillAmount = Mathf.Lerp(startFill, endFill, t);
-
-            time += Time.deltaTime;
-            yield return null;
+            return "머리";
         }
-
-        //마지막 값 보정
-        _hpBar.fillAmount = endFill;
+        else if (origin == PartType.Mask)
+        {
+            return "가면";
+        }
+        else if (origin == PartType.Body)
+        {
+            return "몸통";
+        }
+        else if (origin == PartType.LArm)
+        {
+            return "왼팔";
+        }
+        else if (origin == PartType.RArm)
+        {
+            return "오른팔";
+        }
+        else if (origin == PartType.LLeg)
+        {
+            return "왼다리";
+        }
+        else if (origin == PartType.RLeg)
+        {
+            return "오른다리";
+        }
+        else
+        {
+            return part.name;
+        }
     }
+    #endregion
 }
+

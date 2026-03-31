@@ -5,59 +5,32 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-//https://docs.google.com/spreadsheets/d/1WOir0B9rY5R9YenzHMaeoO7qPDyfnq_Oio72uTV6gRk/edit?gid=1948295636#gid=1948295636
-
 public class BattleManager : MonoBehaviour
 {
     #region References
-    BattleUI battleUI;
-    Player player;
-    Enemy enemy;
-    Part part;
-    UIManager uiManager;
-    BattleBGM battleBGM;
+    [SerializeField] private BattleUI battleUI;
+    [SerializeField] private BattleSFX battleSFX;
+    [SerializeField] private BattleBGM battleBGM;
+    [SerializeField] private Player player;
+    private Enemy enemy;
 
     public NPCData npcData = new NPCData();
     #endregion
 
     #region Variables
-    [Header("Enemys")]
+    #region Enemy Objects
+    [Header("Enemies")]
     public GameObject Aphrodite;
     public GameObject ReadingChild;
     public GameObject Melpomene;
+    #endregion
 
     [Header("Player Position")]
-    [SerializeField] PlayerPosition playerPos;
+    [SerializeField] private PlayerPosition playerPos;
 
-    [Header("Audios & SFXs")]
-    public AudioSource battleAudioSource;
-    public AudioClip battleStartSFX;
-    public AudioClip playerAttackSFX;
-    public AudioClip enemyAttackSFX;
-    public AudioClip playerWinSFX;
-    public AudioClip playerLoseSFX;
-    public AudioClip playerRunSFX;
-
-    public string currentPart; //Select 시 partText
-
-    public bool isWin;
+    private bool isWin;
     private bool _enter1st;
     private bool _enterFight;
-    //private string filePath;
-
-    [Header("Controls")]
-    private bool isBattleMode = false;
-
-    public bool isStatePLAYERTURN = false; //State PLAYERTURN동안 true
-    public bool isStatePLAYERTURN_ATTACK = false; //State PLAYERTURN_ATTACK동안 true
-    public bool isStatePLAYERTURN_ATTACK_PartSelecting = false; //PLAYERTURN_ATTACK에서 공격할 Part 선택 시
-    public bool isStatePLAYERTURN_RUN = false; //State PLAYERTURN_RUN동안 true
-    public bool isStateENEMYTURN = false; //State ENEMYTURM동안 true
-    public bool isStateInventory = false;
-    private bool isStateEND = false; //State WIN, LOSE시 true
-
-    public bool isContentTextWriting = false; //ContentTextWrite 중복 실행 방지
-    private bool isSFXPlaying = false;
     #endregion
 
     #region State
@@ -65,418 +38,271 @@ public class BattleManager : MonoBehaviour
 
     public enum State
     {
+        START,
         PLAYERTURN_START,
         PLAYERTURN_ATTACK,
-        PLAYERTURN_INVENTORY, //미사용, Inventory 추가 시 사용 예정
-        PLAYERTURN_RUN,
+        PLAYERTURN_INVENTORY,
         ENEMYTURN,
         WIN,
         LOSE,
+        RUN
+    }
+
+    public void ChangeState(State newState)
+    {
+        state = newState;
+
+        Debug.Log($"BattleManager State: {state}");
+
+        switch (state)
+        {
+            case State.START:
+                StartBattle();
+                break;
+
+            case State.PLAYERTURN_START:
+                player.StartTurn();
+                break;
+
+            case State.PLAYERTURN_ATTACK:
+                player.AttackTurn();
+                break;
+
+            case State.PLAYERTURN_INVENTORY:
+                player.InventoryTurn();
+                break;
+
+            case State.ENEMYTURN:
+                StartCoroutine(enemy.StartTurn());
+                break;
+
+            case State.WIN:
+                StartCoroutine(Win());
+                break;
+
+            case State.LOSE:
+                StartCoroutine(Lose());
+                break;
+
+            case State.RUN:
+                StartCoroutine(Run());
+                break;
+        }
     }
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
-        battleUI = FindObjectOfType<BattleUI>();
-        player = FindObjectOfType<Player>();
-        enemy = FindObjectOfType<Enemy>();
-        part = FindObjectOfType<Part>();
-        uiManager = FindObjectOfType<UIManager>();
-        battleBGM = FindObjectOfType<BattleBGM>();
+        SetEnemyByStage();
 
-        //Enemy setting
-        //if문 돌려서 알맞은 적 SetActive(true);
-        if (uiManager != null)
-        {
-            //if (SceneTransport.previousScene == "Start") //랜덤 모드, Start에서 진입
-            //{
-            //    //Debug.Log($"UIManamger != null, previousScene == {SceneTransport.previousScene}");
-            //    isBattleMode = true;
-            //    SetEnemyRandom();
-            //}
-            //else
-            //{
-                //int stage = UIManager.u_instance.stageIndex;
-            int stage = 0;
-            //Debug.Log($"현재 진행 스테이지: {stage}");
-
-            switch (stage)
-                {
-                    case 0:
-                        {
-                            //BackGround 설정
-                            battleUI.backgrounds.GetComponent<Image>().sprite = battleUI.museumBackground;
-                        Aphrodite.SetActive(true);
-                        enemy = Aphrodite.GetComponent<Enemy>();
-
-                        playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
-                        playerPos.isChecked = true;
-                        //if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
-                        //{
-                        //    //Debug.Log("stage 인식: Aphrodite로 Battle 실행");
-                        //    Aphrodite.SetActive(true);
-                        //    enemy = Aphrodite.GetComponent<Enemy>();
-
-                        //    playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
-                        //    playerPos.isChecked = true;
-                        //    break;
-                        //}
-                        break;
-                        }
-                    case 1:
-                        {
-                            //BackGround 설정
-                            battleUI.backgrounds.GetComponent<Image>().sprite = battleUI.libraryBackGround;
-
-                            //Debug.Log("stage 인식: 도셔관");
-
-                            if (SceneTransport.previousScene == "Library_B1F")
-                            {
-                                //Debug.Log("stage: 도서관, ReadingChild");
-                                ReadingChild.SetActive(true);
-                                enemy = ReadingChild.GetComponent<Enemy>();
-
-                                playerPos.nextPosition = new Vector3(-0.6f, 7f, 0f);
-                                playerPos.isChecked = true;
-                                break;
-                            }
-                            else if (SceneTransport.previousScene == "Library_2F")
-                            {
-                                //Debug.Log("stage: 도서관, Melpomene");
-                                Melpomene.SetActive(true);
-                                enemy = Melpomene.GetComponent<Enemy>();
-
-                                //Melpomene, 최초 턴 표시
-                                enemy.canMaskNarrative = true;
-
-                                playerPos.nextPosition = new Vector3(-9f, -3f, 0f);
-                                playerPos.isChecked = true;
-                                break;
-                            }
-                            break;
-                        }
-                }
-            //}
-        }
-        //else //랜덤 모드
-        //{
-        //    isBattleMode = true;
-        //    SetEnemyRandom();
-        //}
-        //Debug.Log($"Enemy set to: {enemy}"); //Delete
-
-        // SceneTransport.previousStatue로 변경
-        //filePath = Application.persistentDataPath + "/stage1_statue 3_data.json";
         LoadFightData();
     }
 
     private void Start()
     {
-        //Set, 최초 1회만 실행
+        ChangeState(State.START);
+    }
+
+
+    #endregion
+    private void SetEnemyByStage()
+    {
+        if (UIManager.u_instance != null)
+        {
+            int stage = UIManager.u_instance.stageIndex;
+
+            battleUI.SetBackground(stage);
+
+            switch (stage)
+            {
+                case 0:
+                    {
+                        if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
+                        {
+                            Aphrodite.SetActive(true);
+                            enemy = Aphrodite.GetComponent<Enemy>();
+
+                            playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+                            playerPos.isChecked = true;
+                            break;
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        if (SceneTransport.previousScene == "Library_B1F")
+                        {
+                            ReadingChild.SetActive(true);
+                            enemy = ReadingChild.GetComponent<Enemy>();
+
+                            playerPos.nextPosition = new Vector3(-0.6f, 7f, 0f);
+                            playerPos.isChecked = true;
+                        }
+                        else if (SceneTransport.previousScene == "Library_2F")
+                        {
+                            Melpomene.SetActive(true);
+                            enemy = Melpomene.GetComponent<Enemy>();
+
+                            playerPos.nextPosition = new Vector3(-9f, -3f, 0f);
+                            playerPos.isChecked = true;
+                        }
+                        break;
+                    }
+                default:
+                    Aphrodite.SetActive(true);
+                    enemy = Aphrodite.GetComponent<Enemy>();
+
+                    playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+                    playerPos.isChecked = true;
+                    break;
+            }
+        }
+        else
+        {
+            Aphrodite.SetActive(true);
+            enemy = Aphrodite.GetComponent<Enemy>();
+            //Melpomene.SetActive(true);
+            //enemy = Melpomene.GetComponent<Enemy>();
+
+            playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+            playerPos.isChecked = true;
+        }
+    }
+
+    private void StartBattle()
+    {
         player.SetPlayer();
         enemy.SetEnemy();
 
-        //Update, 매 턴마다 실행
-        player.UpdatePlayer();
-        enemy.UpdateEnemy();
-
-        //UI, Buttons
-        battleUI.SetDialogueButtons();
-        battleUI.SetPartButtons();
-
-        //Ui, BlackBoard
-        //battleUI.blackBoard.SetActive(true);
-        //battleUI.blackCircle.SetActive(true);
-        //StartCoroutine(battleUI.FadeInOut(true, 1f));
-        StartCoroutine(battleUI.FadeInOutCircle(true, 2f));
-
-        state = State.PLAYERTURN_START;
-        //PlaySFX(battleStartSFX);
+        ChangeState(State.PLAYERTURN_START);
     }
 
-    private void Update()
+    public void OnSelectAttack()
     {
-        switch (state)
-        {
-            //PLAYERTURN
-            case State.PLAYERTURN_START:
-                if (!isStatePLAYERTURN)
-                {
-                    player.PlayerTurnStart();
-                }
-                break;
-
-            case State.PLAYERTURN_ATTACK:
-                if (!isStatePLAYERTURN_ATTACK)
-                {
-                    player.PlayerTurnAttack();
-                }
-                break;
-
-            case State.PLAYERTURN_RUN:
-                if (!isStatePLAYERTURN_RUN)
-                {
-                    PlayerRun(); //SaveRun으로 함수명 변경해서 player.Run 안에 넣을 수 있나요?
-                    StartCoroutine(player.Run());
-                }
-                break;
-
-            case State.PLAYERTURN_INVENTORY:
-                InventoryUI.instance.activeSelect = true;
-                if (!isStateInventory)
-                {
-                    //player.SelectInventory();
-                }
-                break;
-
-            //ENEMYTURN
-            case State.ENEMYTURN:
-                if (!isStateENEMYTURN)
-                {
-                    StartCoroutine(enemy.EnemyTurnStart()); //Coroutine화 했음
-                }
-                break;
-
-            //END
-            case State.WIN:
-                if (!isStateEND)
-                {
-                    isStateEND = true;
-                    StartCoroutine(Win());
-                }
-                break;
-
-            case State.LOSE:
-                if (!isStateEND)
-                {
-                    isStateEND = true;
-                    StartCoroutine(Lose());
-                }
-                break;
-        }
+        ChangeState(State.PLAYERTURN_ATTACK);
     }
-    #endregion
 
-    //private void SetEnemyRandom() //전투 모드에서 적 랜덤 설정
-    //{
-    //    //임시 Random 구현
-    //    int r = Random.Range(0, 3);
-
-    //    if (r == 0)
-    //    {
-    //        Aphrodite.SetActive(true);
-    //        enemy = Aphrodite.GetComponent<Enemy>();
-    //    }
-    //    else if (r == 1)
-    //    {
-    //        ReadingChild.SetActive(true);
-    //        enemy = ReadingChild.GetComponent<Enemy>();
-    //    }
-    //    else //(r == 2)
-    //    {
-    //        Melpomene.SetActive(true);
-    //        enemy = Melpomene.GetComponent<Enemy>();
-
-    //        //Melpomene, 최초 턴 표시
-    //        enemy.canMaskNarrative = true;
-    //    }
-    //}
-
-    public void Damage(string _object, int _attackpower, Part _part = null)
+    public void OnSelectInventory()
     {
-        //혼란
-        if (player.isConfused)
-        {
-            player.playerHp -= _attackpower * 10;
-            player.UpdatePlayer();
-            StartCoroutine(battleUI.Shake(player.gameObject.transform, 0.2f, 10f));
-            return;
-        }
-
-        if (_object == "player")
-        {
-            PlaySFX(enemyAttackSFX);
-
-            player.playerHp -= _attackpower;
-            player.UpdatePlayer();
-            StartCoroutine(battleUI.Shake(player.gameObject.transform, 0.2f, 10f));
-        }
-        else if (_object == "enemy" && _part != null)
-        {
-            float attackpower = (float)_attackpower * enemy.increaseAttackPower;
-
-            _attackpower = (int)attackpower;
-            _part.partHp -= _attackpower;
-
-            if (_part.name == enemy.mainPart && _part.partHp <= 0) //이번 공격으로 mainpart가 파괴될 시
-            {
-                enemy.isMainPartDestroyed = true;
-            }
-
-            enemy.UpdateEnemy();
-            StartCoroutine(battleUI.Shake(enemy.gameObject.transform, 0.2f, 10f));
-        }
+        ChangeState(State.PLAYERTURN_INVENTORY);
     }
 
-    private void PlayerRun() // 추가 코드
+    public void OnSelectRun()
     {
-        if (!isBattleMode)
-        {
-            isWin = false;
-            _enter1st = true;
-            _enterFight = true;
-            SaveFightData();
-
-            PlayerPrefs.SetInt("PlayerRun", 1);
-            PlayerPrefs.Save();
-        }
+        ChangeState(State.RUN);
     }
+
+    public void OnSelectPart(Part part)
+    {
+        StartCoroutine(player.Attack(part));
+    }
+
 
     #region Battle End
     private IEnumerator Win()
     {
-        PlaySFX(playerWinSFX);
+        battleUI.Win();
+        battleSFX.Play(battleSFX.win);
+        battleBGM.FadeOut(2f);
 
-        //UI & BGM
-        StartCoroutine(battleUI.FadeInOut(false, 2f));
-        StartCoroutine(battleBGM.FadeInOutBGM(false, 2f));
+        //Data
+        isWin = true;
+        _enter1st = true;
+        _enterFight = true;
+        SaveFightData();
 
-        if (!isBattleMode)
-        {
-            //Data
-            isWin = true;
-            _enter1st = true;
-            _enterFight = true;
-            SaveFightData();
+        PlayerPrefs.SetInt("PlayerWin", 1);
+        PlayerPrefs.Save();
 
-            PlayerPrefs.SetInt("PlayerWin", 1);
-            PlayerPrefs.Save();
-        }
-
-        yield return new WaitForSeconds(playerWinSFX.length);
-        //Invoke("ExitBattleScene", 1); //이거 기다리지 말아야 할 것 같은데?
-        ExitBattleScene(); //문제 생기면 롤백
+        yield return new WaitForSeconds(battleSFX.win.length);
+        ExitBattleScene();
     }
 
     private IEnumerator Lose()
     {
-        PlaySFX(playerLoseSFX);
+        battleUI.Lose();
+        battleSFX.Play(battleSFX.lose);
+        battleBGM.FadeOut(2f);
 
-        //UI & BGM
-        StartCoroutine(ContentTextWriter("눈앞이 흐려진다..."));
-        StartCoroutine(battleUI.FadeInOut(false, 2f));
-        StartCoroutine(battleBGM.FadeInOutBGM(false, 2f));
+        //Data
+        isWin = false;
+        _enter1st = true;
+        _enterFight = true;
+        SaveFightData();
 
+        PlayerPrefs.SetInt("PlayerLose", 1);
+        PlayerPrefs.Save();
 
-        //구현예정
-
-        if (!isBattleMode)
-        {
-            isWin = false;
-            _enter1st = true;
-            _enterFight = true;
-            SaveFightData();
-
-            PlayerPrefs.SetInt("PlayerLose", 1);
-            PlayerPrefs.Save();
-        }
-
-        yield return new WaitForSeconds(playerWinSFX.length);
+        yield return new WaitForSeconds(battleSFX.win.length);
         ExitBattleScene();
-        //Invoke("ExitBattleScene", 2); //함수 Lose() Coroutine화 예정
+    }
+
+    public IEnumerator Run()
+    {
+        if (enemy.enemyType == EnemyType.Melpomene && !enemy.IsPartDestroyed(PartType.Body)) //멜포메네
+        {
+            Melpomene melpomene = FindObjectOfType<Melpomene>();
+            melpomene.Redemption();
+
+            yield return new WaitForSeconds(1.5f);
+            ChangeState(BattleManager.State.ENEMYTURN);
+        }
+        else
+        {
+            //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
+
+            battleUI.Run();
+            battleSFX.Play(battleSFX.run);
+            battleBGM.FadeOut(2f);
+
+            yield return new WaitForSeconds(2f); //SFX가 길어서 그냥 2초 듣고 잘라
+            ExitBattleScene();
+        }
     }
 
     public void ExitBattleScene()
     {
         string path = SceneTransport.previousStatue;
-        if (isBattleMode)
+
+        if (state == State.WIN) //승리 시
         {
-            SceneManager.LoadScene("Start");
+            if (enemy.enemyType == EnemyType.Aphrodite)
+            {
+                SceneManager.LoadScene("Museum_ExhibitionRoom2");
+            }
+            else if (enemy.enemyType == EnemyType.ReadingChild)
+            {
+                SceneManager.LoadScene("Library_B1F");
+            }
+            else if (enemy.enemyType == EnemyType.Melpomene)
+            {
+                SceneManager.LoadScene("Library_2F");
+            }
         }
-        else
+        else if (state == State.LOSE) //패배 시
         {
-            if (state == State.WIN) //승리 시
+            SceneManager.LoadScene("Monologue_defeat");
+        }
+        else if (state == State.RUN) // 도망 시
+        {
+            if (enemy.enemyType == EnemyType.Aphrodite)
             {
-                //SceneTransport.previousStatue = null;
-                if (enemy == Aphrodite.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Museum_ExhibitionRoom2");
-                }
-                else if (enemy == ReadingChild.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Library_B1F");
-                }
-                else if (enemy == Melpomene.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Library_2F");
-                }
-                
+                SceneManager.LoadScene("Monologue_run_mus-1");
             }
-            else if (state == State.LOSE) //패배 시
+            else if (enemy.enemyType == EnemyType.ReadingChild)
             {
-                if (enemy == Aphrodite.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Monologue_defeat");
-                }
-                else if (enemy == ReadingChild.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Monologue_defeat");
-                }
-                else if (enemy == Melpomene.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Monologue_defeat");
-                }
+                SceneManager.LoadScene("Monologue_run_lib-1");
             }
-            else if(state == State.PLAYERTURN_RUN) // 도망 시
+            else if (enemy.enemyType == EnemyType.Melpomene)
             {
-                if (enemy == Aphrodite.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Monologue_run_mus-1");
-                }
-                else if (enemy == ReadingChild.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Monologue_run_lib-1");
-                }
-                else if (enemy == Melpomene.GetComponent<Enemy>())
-                {
-                    SceneManager.LoadScene("Monologue_run_lib-2");
-                }
-            }
-            else
-            {
-                return;
+                SceneManager.LoadScene("Monologue_run_lib-2");
             }
         }
     }
     #endregion
 
-    #region SFX
-    public void PlaySFX(AudioClip audioClip)
-    {
-        //Debug.Log("PlayerSFX 실행");
 
-        if (isSFXPlaying)
-        {
-            return;
-        }
-
-        isSFXPlaying = true;
-        
-        battleAudioSource.Stop();
-        battleAudioSource.clip = audioClip;
-        //audioSource.loop = false;
-        battleAudioSource.time = 0;
-        battleAudioSource.Play();
-
-        Invoke("ResetPlaySFX", 2);
-    }
-
-    private void ResetPlaySFX()
-    {
-        isSFXPlaying = false;
-    }
-    #endregion
 
     #region Save/Load Data
     public void SaveFightData()
@@ -524,26 +350,4 @@ public class BattleManager : MonoBehaviour
         }
     }
     #endregion
-
-    public IEnumerator ContentTextWriter(string _text)
-    {
-        // 이미 코루틴이 실행 중이라면 중복 실행 방지
-        if (isContentTextWriting)
-        {
-            yield break;
-        }
-
-        isContentTextWriting = true;
-        battleUI.contentText.text = "";
-
-        for (int i = 0; i < _text.Length; i++)
-        {
-            battleUI.contentText.text += _text[i];
-            yield return new WaitForSeconds(0.03f);
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
-        isContentTextWriting = false;
-    }
 }

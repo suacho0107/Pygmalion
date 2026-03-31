@@ -6,20 +6,19 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     #region References
-    BattleUI battleUI;
-    BattleManager battleManager;
-    Enemy enemy;
-    BattleBGM battleBGM;
+    [SerializeField] private BattleManager battleManager;
+    [SerializeField] private BattleUI battleUI;
+    [SerializeField] private BattleSFX battleSFX;
+    private Enemy enemy;
     #endregion
 
     #region Variables
-    public int playerHp;
-    private int playerMaxHp = 100; //임의 설정
+    public int hp;
+    private int maxHp = 100;
 
-    private int attackDamage = 1; //피 1칸씩 깔 거임
+    private int attackPower = 1; //피 1칸씩 깔 거임
 
-    //public Slider playerHpBar;
-    public Image playerHpBar;
+    [SerializeField] private Image hpBar;
 
     public bool isCharmed; //매혹
     public bool isConfused; //혼란
@@ -28,180 +27,108 @@ public class Player : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        battleManager = FindObjectOfType<BattleManager>();
-        battleUI = FindObjectOfType<BattleUI>();
         enemy = FindObjectOfType<Enemy>();
-        battleBGM = FindObjectOfType<BattleBGM>();
     }
     #endregion
 
-    #region Set & Update
     public void SetPlayer() //사실상 SetPlayerHP임
     {
-        playerHp = playerMaxHp; //Hp 초기화; 재진입 구현 시 수정
+        hp = maxHp; //재진입 구현 시 수정
+        UpdatePlayer();
     }
 
     public void UpdatePlayer() //UpdatePlayerHp(), 매 턴마다 실행
     {
-        //playerHpBar.value = (float)playerHp / playerMaxHp;
-        //playerHpBar.fillAmount = (float)playerHp / playerMaxHp;
-        StartCoroutine(battleUI.UpdateHpBar(playerHpBar, playerMaxHp, playerHp, 0.5f));
-    }
-    #endregion
-
-    #region PlayerTurn Control
-    public void PlayerTurnStart()
-    {
-        //UI
-        StartCoroutine(battleManager.ContentTextWriter("어떤 행동을 할까?"));
-        battleUI.dialogueButtons.gameObject.SetActive(true);
-
-        //State
-        battleManager.isStatePLAYERTURN = true;
-    }
-    public void PlayerTurnAttack()
-    {
-        //State
-        battleManager.isStatePLAYERTURN_ATTACK = true;
-
-        //UI
-        battleUI.contentText.text = "어느 부위를 공격할까?";
-        battleUI.UpdatePartButtons();
-        battleUI.partButtons.SetActive(true);
-
-        //Next State
-        battleManager.isStatePLAYERTURN_ATTACK_PartSelecting = true;
+        StartCoroutine(battleUI.UpdateHpBar(hpBar, hp, maxHp));
     }
 
-    public IEnumerator PlayerAttack(Part _part)
+    #region Turn Flow
+    public void StartTurn()
     {
-        //UI
-        battleUI.contentText.text = "";
-        battleUI.partButtons.SetActive(false);
+        battleUI.Playerturn_Start();
+    }
 
-        yield return new WaitForSeconds(0.1f);
+    public void AttackTurn()
+    {
+        battleUI.Playerturn_Attack();
+    }
 
-        if (isConfused) //혼란 시 공격 대사
+    public void InventoryTurn()
+    {
+        battleUI.PlayerTurn_Inventory();
+    }
+
+    public IEnumerator Attack(Part part)
+    {
+        battleUI.ResetUI();
+
+        battleSFX.Play(battleSFX.playerAttack);
+
+        if (isConfused) // 혼란 상태: 자기 자신 공격
         {
-            StartCoroutine(battleManager.ContentTextWriter("당신은 순간 혼란에 빠져 스스로를 공격합니다."));
+            StartCoroutine(battleUI.TypeWriter("당신은 순간 혼란에 빠져 스스로를 공격합니다."));
+
+            Damaged(attackPower);
         }
-        else //일반 공격 대사
+        else // 일반 공격
         {
-            StartCoroutine(battleManager.ContentTextWriter($"{enemy.ReplaceEnemyText(enemy.name)}의 {enemy.ReplacePartText(_part.name)}{battleUI.KorParticle(enemy.ReplacePartText(_part.name), "을", "를")} 공격합니다."));
-        }
+            StartCoroutine(battleUI.TypeWriter($"{battleUI.TranslateEnemy(enemy)}의 {battleUI.TranslatePart(part)}{battleUI.KorParticle(battleUI.TranslatePart(part), "을", "를")} 공격합니다."));
 
-        //SFXs
-        battleManager.battleAudioSource.Stop();
-        battleManager.battleAudioSource.clip = battleManager.playerAttackSFX;
-        battleManager.battleAudioSource.time = 0;
-        battleManager.battleAudioSource.Play();
-
-        //Attack
-        battleManager.Damage("enemy", attackDamage, _part); //attackDamage만큼 partHp 차감
-        if (enemy.name == "Melpomene" && _part.name == "Head" && _part.partHp <= 0) //머리 파괴 시
-        {
-            enemy.canLArmNarrative = true;
+            part.Damaged(attackPower);
         }
 
         yield return new WaitForSeconds(1.5f);
-        PlayerTurnEnd();
+
+        EndTurn();
     }
 
-    private void PlayerTurnEnd()
+    private void EndTurn()
     {
-        //초기화
+        // 상태 초기화
         isConfused = false;
 
-        if (enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, enemy.mainPart)]) //WIN
+        //Inventory UI
+        if (InventoryUI.instance.activeInventory)
         {
-            battleManager.state = BattleManager.State.WIN;
-        }
-        else if (playerHp <= 0) //LOSE
-        {
-            battleManager.state = BattleManager.State.LOSE;
-        }
-        else //Next
-        {
-            battleManager.state = BattleManager.State.ENEMYTURN;
+            InventoryUI.instance.activeInventory = false;
         }
 
-        //초기화
-        battleManager.isStatePLAYERTURN = false;
-        battleManager.isStatePLAYERTURN_ATTACK = false;
-    }
-    #endregion
-
-    #region Select Control
-    public void SelectAttack()
-    {   
-        //UI
-        battleUI.dialogueButtons.gameObject.SetActive(false);
-
-        //State
-        battleManager.state = BattleManager.State.PLAYERTURN_ATTACK;
-    }
-
-    public void SelectInventory()
-    {
-        //UI
-        battleUI.dialogueButtons.gameObject.SetActive(false);
-
-        //State
-        battleManager.state = BattleManager.State.PLAYERTURN_INVENTORY;
-
-        InventoryUI.instance.inventoryPanel.SetActive(true);
-        InventoryUI.instance.activeItem = true;
-        InventoryUI.instance.selectedItem = 0;
-        InventoryUI.instance.ShowItem();
-        InventoryUI.instance.activeInventory = true;
-    }
-
-    public void SelectRun()
-    {
-        //State
-        battleManager.state = BattleManager.State.PLAYERTURN_RUN;
-    }
-
-    #endregion
-
-    public IEnumerator Run()
-    {
-        //State
-        battleManager.isStatePLAYERTURN_RUN = true;
-
-        if (enemy.enemyName == "Melpomene" && !enemy.isDestroyed[battleUI.FindListIndex(enemy.parts, "Body")]) //멜포메네
+        // 패배 조건
+        if (hp <= 0)
         {
-            enemy.Melpomene_Redemption();
-
-            //Next State
-            yield return new WaitForSeconds(2f);
-            battleManager.state = BattleManager.State.ENEMYTURN;
-
-            battleManager.isStatePLAYERTURN = false;
+            battleManager.ChangeState(BattleManager.State.LOSE);
         }
+        // 승리 조건
+        else if (enemy.IsMainPartDestroyed())
+        {
+            battleManager.ChangeState(BattleManager.State.WIN);
+        }
+        // 다음 턴
         else
         {
-            //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
-
-            //UI & BGM
-            battleUI.contentText.text = "";
-            battleUI.dialoguePanel.SetActive(false);
-            //StartCoroutine(battleUI.FadeInOut(false, 2f));
-            StartCoroutine(battleUI.FadeInOutCircle(false, 2f));
-            StartCoroutine(battleBGM.FadeInOutBGM(false, 2f));
-
-            ////SFX
-            //battleManager.PlaySFX(battleManager.playerRunSFX);
-            //이것만 소리 안 나서 그냥 냅다 실행하기
-            battleManager.battleAudioSource.Stop();
-            battleManager.battleAudioSource.clip = battleManager.playerRunSFX;
-            battleManager.battleAudioSource.time = 0;
-            battleManager.battleAudioSource.Play();
-
-            //Next
-            yield return new WaitForSeconds(2f); //SFX가 길어서 그냥 2초 듣고 잘라
-            //yield return new WaitForSeconds(battleManager.playerRunSFX.length);
-            battleManager.ExitBattleScene();
+            battleManager.ChangeState(BattleManager.State.ENEMYTURN);
         }
-    }    
+    }
+    #endregion
+
+    #region Damage
+    public void Damaged(int damage)
+    {
+        if (isConfused)
+        {
+            damage *= 10;
+        }
+
+        StartCoroutine(battleUI.Shake(gameObject.transform, 0.2f, 10f));
+
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            hp = 0;
+        }
+
+        UpdatePlayer();
+    }
+    #endregion
 }
