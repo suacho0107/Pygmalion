@@ -10,26 +10,34 @@ public class BattleUI : MonoBehaviour
     private Enemy enemy;
     #endregion
 
-    #region Variables
+    #region Background
     [Header("Backgrounds")]
     public Image background;
     public Sprite museumBackground;
     public Sprite libraryBackGround;
+    #endregion
 
-    [Header("UI Elements")]
+    #region Dialogue UI
+    [Header("Dialogue UI")]
     public GameObject dialoguePanel;
     public Text contentText;
+    #endregion
 
+    #region Fade Objects
+    [Header("Fade Objects")]
     [SerializeField] private GameObject blackBoard;
     [SerializeField] private GameObject blackCircle;
+    #endregion
 
-    [Header("DialogueSelect UI")]
+    #region Dialogue Buttons
+    [Header("Dialogue Buttons")]
     [SerializeField] private GameObject dialogueButtons;
     private List<GameObject> dialogueButtonList = new();
-
     private int currentDialogueButtonIndex;
+    #endregion
 
-    [Header("PartSelect UI")]
+    #region Part Buttons
+    [Header("Part Buttons")]
     [SerializeField] private GameObject partButtons;
     private List<GameObject> partButtonList = new();
 
@@ -39,7 +47,9 @@ public class BattleUI : MonoBehaviour
 
     private int currentPartPageIndex;
     public int currentPartButtonIndex;
+    #endregion
 
+    #region Sprites
     [Header("Button Sprites")]
     [SerializeField] private Sprite ButtonDefault;
     [SerializeField] private Sprite ButtonHighlighted;
@@ -47,7 +57,9 @@ public class BattleUI : MonoBehaviour
     [Header("HpBoxes & HpBox Sprites")]
     [SerializeField] private Sprite hpBoxEmpty;
     [SerializeField] private Sprite hpBoxFull;
+    #endregion
 
+    #region Flags
     [Header("Flags")]
     private bool isFading;
     public bool isTyping;
@@ -78,6 +90,7 @@ public class BattleUI : MonoBehaviour
     }
     #endregion
 
+    #region Input Handling
     private void HandleInput()
     {
         switch (battleManager.state)
@@ -97,8 +110,9 @@ public class BattleUI : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
-    #region ButtonInputHandlers
+    #region Dialogue Button
     private void DialogueButtonInputHandler() //버튼 3개 기준으로 작성됨
     {
         //상하 이동
@@ -157,6 +171,17 @@ public class BattleUI : MonoBehaviour
         HighlightDialogueButton();
     }
 
+    private void HighlightDialogueButton()
+    {
+        for (int i = 0; i < dialogueButtonList.Count; i++)
+        {
+            Image image = dialogueButtonList[i].GetComponent<Image>();
+            image.sprite = (i == currentDialogueButtonIndex) ? ButtonHighlighted : ButtonDefault;
+        }
+    }
+    #endregion
+
+    #region Part Button
     private void PartButtonInputHandler()
     {
         //상하 이동
@@ -267,6 +292,7 @@ public class BattleUI : MonoBehaviour
             currentPartButtonIndex = 0;
             //pageArrows.SetActive(false);
         }
+        /*
         //취소
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -282,11 +308,31 @@ public class BattleUI : MonoBehaviour
             currentPartButtonIndex = 0;
             //pageArrows.SetActive(false);
         }
+        */
         //Debug.Log($"현재 페이지: {currentPartPageIndex}, 선택된 버튼 인덱스: {currentPartButtonIndex}"); //delete
 
-
-
         HighlightPartButton();
+    }
+
+    private void HighlightPartButton()
+    {
+        for (int i = 0; i < partButtonList.Count; i++)
+        {
+            GameObject partButton = partButtonList[i];
+
+            if (!partButton.activeSelf)
+            {
+                continue;
+            }
+
+            int partIndex = currentPartPageIndex * 4 + i;
+
+            if (partIndex < enemy.parts.Count)
+            {
+                bool isSelected = (i == currentPartButtonIndex) && partButton.activeSelf;
+                partButton.GetComponent<Image>().sprite = isSelected ? ButtonHighlighted : ButtonDefault;
+            }
+        }
     }
 
     private bool isThereButton(int _pageIndex, int _buttonIndex, int _increraseButtonIndex)
@@ -302,6 +348,7 @@ public class BattleUI : MonoBehaviour
 
         return targetButtonIndex < lastButtonIndex;
     }
+    #endregion
 
     #region EscapeInventory Legacy
     //private void EscapeInventory() // InventoryUI UseAnItem()으로 이동, ESC 삭제
@@ -317,10 +364,9 @@ public class BattleUI : MonoBehaviour
     //    battleManager.state = BattleManager.State.PLAYERTURN_START;
     //    //battleManager.isStatePLAYERTURN = true;
     //}
-    #endregion
-    #endregion
+    #endregion\
 
-    #region DialogueButton
+    #region UI Setup
     public void SetDialogueButtons()
     {
         dialogueButtonList.Clear(); //중복추가 방지
@@ -338,17 +384,6 @@ public class BattleUI : MonoBehaviour
         HighlightDialogueButton();
     }
 
-    private void HighlightDialogueButton()
-    {
-        for (int i = 0; i < dialogueButtonList.Count; i++)
-        {
-            Image image = dialogueButtonList[i].GetComponent<Image>();
-            image.sprite = (i == currentDialogueButtonIndex) ? ButtonHighlighted : ButtonDefault;
-        }
-    }
-    #endregion
-
-    #region PartButton
     public void SetPartButtons()
     {
         partButtonList.Clear(); //중복추가 방지
@@ -431,28 +466,6 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    private void HighlightPartButton()
-    {
-        for (int i = 0; i < partButtonList.Count; i++)
-        {
-            GameObject partButton = partButtonList[i];
-
-            if (!partButton.activeSelf)
-            {
-                continue;
-            }
-
-            int partIndex = currentPartPageIndex * 4 + i;
-
-            if (partIndex < enemy.parts.Count)
-            {
-                bool isSelected = (i == currentPartButtonIndex) && partButton.activeSelf;
-                partButton.GetComponent<Image>().sprite = isSelected ? ButtonHighlighted : ButtonDefault;
-            }
-
-        }
-    }
-
     public void UpdateHpBoxes(GameObject _hpBoxes, Part _part)
     {
         for (int i = 0; i < _hpBoxes.transform.childCount; i++)
@@ -501,6 +514,7 @@ public class BattleUI : MonoBehaviour
     }
     #endregion
 
+    #region Common UI
     public void ResetUI()
     {
         contentText.text = "";
@@ -510,7 +524,9 @@ public class BattleUI : MonoBehaviour
         partButtons.SetActive(false);
         pageArrows.SetActive(false);
     }
+    #endregion
 
+    #region Effects
     #region Fade
     #region Board
     public void FadeInBoard(float duration)
@@ -630,7 +646,9 @@ public class BattleUI : MonoBehaviour
         //위치 초기화
         transform.localPosition = originPos;
     }
+    #endregion
 
+    #region Animation
     public IEnumerator UpdateHpBar(Image hpBar, int newHp, int maxHp)
     {
         float start = hpBar.fillAmount;
@@ -649,7 +667,6 @@ public class BattleUI : MonoBehaviour
         hpBar.fillAmount = end;
     }
 
-    #region TypeWriter
     public IEnumerator TypeWriter(string _text)
     {
         if (isTyping)
@@ -669,32 +686,6 @@ public class BattleUI : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         isTyping = false;
-    }
-    #endregion
-
-    #region Utility 
-    public int FindListIndex(List<string> _list, string _element)
-    {
-        return _list.IndexOf(_element);
-    }
-
-    public string KorParticle(string _word, string _particleWithFinal, string _particleWithoutFinal)
-    {
-        if (string.IsNullOrEmpty(_word))
-        {
-            return _particleWithoutFinal;
-        }
-
-        char lastChar = _word[_word.Length - 1]; //마지막 글자
-
-        if (lastChar < 0xAC00 || lastChar > 0xD7A3) //한글 여부 확인
-        {
-            return _particleWithoutFinal;
-        }
-
-        //받침 여부
-        bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
-        return hasFinal ? _particleWithFinal : _particleWithoutFinal;
     }
     #endregion
 
@@ -730,6 +721,32 @@ public class BattleUI : MonoBehaviour
                 background.sprite = libraryBackGround;
                 break;
         }
+    }
+    #endregion
+
+    #region Utility 
+    public int FindListIndex(List<string> _list, string _element)
+    {
+        return _list.IndexOf(_element);
+    }
+
+    public string KorParticle(string _word, string _particleWithFinal, string _particleWithoutFinal)
+    {
+        if (string.IsNullOrEmpty(_word))
+        {
+            return _particleWithoutFinal;
+        }
+
+        char lastChar = _word[_word.Length - 1]; //마지막 글자
+
+        if (lastChar < 0xAC00 || lastChar > 0xD7A3) //한글 여부 확인
+        {
+            return _particleWithoutFinal;
+        }
+
+        //받침 여부
+        bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
+        return hasFinal ? _particleWithFinal : _particleWithoutFinal;
     }
     #endregion
 
@@ -798,4 +815,3 @@ public class BattleUI : MonoBehaviour
     }
     #endregion
 }
-

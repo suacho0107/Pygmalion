@@ -12,14 +12,18 @@ public class Player : MonoBehaviour
     private Enemy enemy;
     #endregion
 
-    #region Variables
+    #region Player Info
+    [Header("Player Info")]
     public int hp;
     private int maxHp = 100;
 
     private int attackPower = 1; //피 1칸씩 깔 거임
 
     [SerializeField] private Image hpBar;
+    #endregion
 
+    #region status
+    [Header("Status")]
     public bool isCharmed; //매혹
     public bool isConfused; //혼란
     #endregion
@@ -31,6 +35,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+    #region Initialization
     public void SetPlayer() //사실상 SetPlayerHP임
     {
         hp = maxHp; //재진입 구현 시 수정
@@ -41,6 +46,7 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(battleUI.UpdateHpBar(hpBar, hp, maxHp));
     }
+    #endregion
 
     #region Turn Flow
     public void StartTurn()
@@ -51,11 +57,6 @@ public class Player : MonoBehaviour
     public void AttackTurn()
     {
         battleUI.Playerturn_Attack();
-    }
-
-    public void InventoryTurn()
-    {
-        battleUI.PlayerTurn_Inventory();
     }
 
     public IEnumerator Attack(Part part)
@@ -80,6 +81,11 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         EndTurn();
+    }
+
+    public void InventoryTurn()
+    {
+        battleUI.PlayerTurn_Inventory();
     }
 
     private void EndTurn()

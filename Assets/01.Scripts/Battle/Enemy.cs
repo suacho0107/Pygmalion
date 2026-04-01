@@ -15,17 +15,23 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Player player;
     #endregion
 
-    #region Variables
+    #region Enemy Info
     [Header("Enemy Info")]
     public EnemyType enemyType;
 
     public int hp;
     private int maxHp;
     [SerializeField] protected Image hpBar;
+    #endregion
 
+    #region Parts
+    [Header("Parts")]
     public List<Part> parts = new();
     protected Part mainPart;
+    #endregion
 
+    #region Skill System
+    [Header("Skill System")]
     protected List<Action> skills = new();
 
     protected float increaseAttackPower = 1.0f;
@@ -72,24 +78,6 @@ public abstract class Enemy : MonoBehaviour
     }
     #endregion
 
-    #region Part
-    protected Part GetPart(PartType type)
-    {
-        return parts.Find(p => p.partType == type);
-    }
-
-    public bool IsPartDestroyed(PartType type)
-    {
-        Part part = GetPart(type);
-        return part == null || part.IsDestroyed;
-    }
-
-    public bool IsMainPartDestroyed()
-    {
-        return mainPart == null || mainPart.IsDestroyed;
-    }
-    #endregion
-
     #region Turn Flow
     public IEnumerator StartTurn()
     {
@@ -133,7 +121,25 @@ public abstract class Enemy : MonoBehaviour
     }
     #endregion
 
-    #region Skill
+    #region Part Logic
+    protected Part GetPart(PartType type)
+    {
+        return parts.Find(p => p.partType == type);
+    }
+
+    public bool IsPartDestroyed(PartType type)
+    {
+        Part part = GetPart(type);
+        return part == null || part.IsDestroyed;
+    }
+
+    public bool IsMainPartDestroyed()
+    {
+        return mainPart == null || mainPart.IsDestroyed;
+    }
+    #endregion
+
+    #region Skill Logic
     protected abstract IEnumerator EnemySkill();
 
     protected void AddSkill(float? probability, Action skill, bool partAlive)

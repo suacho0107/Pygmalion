@@ -17,7 +17,6 @@ public class BattleManager : MonoBehaviour
     public NPCData npcData = new NPCData();
     #endregion
 
-    #region Variables
     #region Enemy Objects
     [Header("Enemies")]
     public GameObject Aphrodite;
@@ -25,9 +24,12 @@ public class BattleManager : MonoBehaviour
     public GameObject Melpomene;
     #endregion
 
+    #region Player Position
     [Header("Player Position")]
     [SerializeField] private PlayerPosition playerPos;
+    #endregion
 
+    #region Battle Flags
     private bool isWin;
     private bool _enter1st;
     private bool _enterFight;
@@ -51,7 +53,6 @@ public class BattleManager : MonoBehaviour
     public void ChangeState(State newState)
     {
         state = newState;
-
         Debug.Log($"BattleManager State: {state}");
 
         switch (state)
@@ -103,9 +104,9 @@ public class BattleManager : MonoBehaviour
     {
         ChangeState(State.START);
     }
-
-
     #endregion
+
+    #region Battle Setup
     private void SetEnemyByStage()
     {
         if (UIManager.u_instance != null)
@@ -177,7 +178,9 @@ public class BattleManager : MonoBehaviour
 
         ChangeState(State.PLAYERTURN_START);
     }
+    #endregion
 
+    #region Player Input
     public void OnSelectAttack()
     {
         ChangeState(State.PLAYERTURN_ATTACK);
@@ -197,6 +200,7 @@ public class BattleManager : MonoBehaviour
     {
         StartCoroutine(player.Attack(part));
     }
+    #endregion
 
 
     #region Battle End
@@ -260,7 +264,9 @@ public class BattleManager : MonoBehaviour
             ExitBattleScene();
         }
     }
+    #endregion
 
+    #region Scene Control
     public void ExitBattleScene()
     {
         string path = SceneTransport.previousStatue;
@@ -304,7 +310,7 @@ public class BattleManager : MonoBehaviour
 
 
 
-    #region Save/Load Data
+    #region Save / Load
     public void SaveFightData()
     {
         //string json = JsonUtility.ToJson(npcData);
