@@ -495,6 +495,9 @@ public class BattleUI : MonoBehaviour
         InventoryUI.instance.selectedItem = 0;
         InventoryUI.instance.ShowItem();
         InventoryUI.instance.activeInventory = true;
+
+        InventoryUI.instance.activeSelect = false;
+        InventoryUI.instance.keyUp = true;
     }
     #endregion
 

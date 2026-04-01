@@ -44,6 +44,8 @@ public class InventoryUI : MonoBehaviour
 
     public bool activeSelect;               // 템 선택 가능 타이밍
 
+    public bool keyUp = false;              // 스페이스바 입력 조절(activeSelect)
+
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     string filePath = "/inventoryItemList.json";
@@ -215,6 +217,7 @@ public class InventoryUI : MonoBehaviour
         activeInventory = false;
         activeSelect = false;
         //StopAllCoroutines();
+        keyUp = false;
         inventoryPanel.SetActive(false);
         activeItem = false;
         SaveInventory();
@@ -378,6 +381,17 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
+        if(activeInventory && activeItem && battleInventory && keyUp)
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                keyUp = false;
+                activeSelect = true;
+            }
+
+            return;
+        }
+
         if (activeInventory && activeItem && activeSelect)
         {
             List<Item> currentList = CurrentItemList();
@@ -435,9 +449,7 @@ public class InventoryUI : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
                     UseAnItem(currentList[selectedItem].itemID);
-                    /* 아이템 사용 시 적 턴으로 넘기기 -> 아이템을 사용했다. 등의 대사 필요?
-                     * -> State에 아이템 사용 턴 추가?
-                    */
+
                     BattleManager battleManager = FindObjectOfType<BattleManager>();
                     battleManager.state = BattleManager.State.ENEMYTURN;
                 }
