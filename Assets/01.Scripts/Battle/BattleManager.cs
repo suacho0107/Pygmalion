@@ -29,6 +29,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private PlayerPosition playerPos;
     #endregion
 
+    public Dictionary<EnemyType, int> runHpDict = new Dictionary<EnemyType, int>();
+
     #region Battle Flags
     private bool isWin;
     private bool _enter1st;
@@ -254,6 +256,16 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            //Data
+            isWin = false;
+            _enter1st = true;
+            _enterFight = true;
+            runHpDict[enemy.enemyType] = player.hp;
+            SaveFightData(true);
+
+            PlayerPrefs.SetInt("PlayerLose", 1);
+            PlayerPrefs.Save();
+
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
 
             battleUI.Run();
@@ -311,7 +323,7 @@ public class BattleManager : MonoBehaviour
 
 
     #region Save / Load
-    public void SaveFightData()
+    public void SaveFightData(bool isRun = false)
     {
         //string json = JsonUtility.ToJson(npcData);
         //File.WriteAllText(filePath, json);
@@ -324,9 +336,19 @@ public class BattleManager : MonoBehaviour
             string json = File.ReadAllText(path);
             NPCData data = JsonUtility.FromJson<NPCData>(json);
 
-            data.isFin = isWin;
-            data.enter1st = _enter1st;
-            data.enterFight = _enterFight;
+            if (isRun == false)
+            {
+                data.isFin = isWin;
+                data.enter1st = _enter1st;
+                data.enterFight = _enterFight;
+            }
+
+            //Run 이후 재진입, Dictionary → List 변환
+            data.runHpList.Clear();
+            foreach (var kvp in runHpDict)
+            {
+                data.runHpList.Add(new RunHpData { enemyType = kvp.Key, playerHp = kvp.Value });
+            }
 
             File.WriteAllText(path, JsonUtility.ToJson(data));
             Debug.Log(path + " 전투 데이터 저장");
@@ -353,6 +375,13 @@ public class BattleManager : MonoBehaviour
             isWin = data.isFin;
             _enter1st = data.enter1st;
             _enterFight = data.enterFight;
+
+            //Run 이후 재진입, List → Dictionary 변환
+            runHpDict.Clear();
+            foreach (var hpData in data.runHpList)
+            {
+                runHpDict[hpData.enemyType] = hpData.playerHp;
+            }
         }
     }
     #endregion

@@ -38,7 +38,9 @@ public class Player : MonoBehaviour
     #region Initialization
     public void SetPlayer() //사실상 SetPlayerHP임
     {
-        hp = maxHp; //재진입 구현 시 수정
+        //hp = maxHp; //재진입 구현 시 수정
+        hp = (battleManager.runHpDict.TryGetValue(enemy.enemyType, out int savedHp)) ? savedHp : maxHp;
+
         UpdatePlayer();
     }
 

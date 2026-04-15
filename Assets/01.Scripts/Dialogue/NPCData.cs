@@ -28,4 +28,13 @@ public class NPCData
     public bool questEnd;
     public bool unlock;
     //public string judgeState;
+
+    public List<RunHpData> runHpList = new List<RunHpData>(); //Battle Run 이후 재진입
+}
+
+[System.Serializable]
+public class RunHpData
+{
+    public EnemyType enemyType;
+    public int playerHp;
 }
