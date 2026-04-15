@@ -9,6 +9,7 @@ public class DeleteAllData : MonoBehaviour
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "Demo_End") { DeleteAllJsonFiles(); DeleteItemList(); }
+        InventoryUI.instance.RemoveUseItem();
     }
 
     public void DeleteAllJsonFiles()

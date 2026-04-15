@@ -254,6 +254,15 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            //Data
+            isWin = false;
+            _enter1st = true;
+            _enterFight = true;
+            SaveFightData();
+
+            PlayerPrefs.SetInt("PlayerLose", 1);
+            PlayerPrefs.Save();
+
             //여기서 bool로 도망 여부 저장해서 재진입 시 Setting 변경하기?
 
             battleUI.Run();
