@@ -63,7 +63,7 @@ public class StartManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
-            if (selectedButtonIndex < 1)
+            if (selectedButtonIndex < buttons.transform.childCount - 1)
             {
                 selectedButtonIndex++;
             }
@@ -72,11 +72,15 @@ public class StartManager : MonoBehaviour
         //선택
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (selectedButtonIndex == 0) //시작하기z
+            if (selectedButtonIndex == 0) //시작하기
             {
                 StartCoroutine(FadeInOut(true, 1f));
             }
-            else if (selectedButtonIndex == 1) //종료하기
+            else if (selectedButtonIndex == 1) // 이어하기
+            {
+                SaveManager.s_instance.LoadData();
+            }
+            else if (selectedButtonIndex == 2) //종료하기
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
