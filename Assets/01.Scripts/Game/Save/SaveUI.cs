@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SaveUI : MonoBehaviour
 {
-    [SerializeField] GameObject SLPanel;
+    [SerializeField] GameObject SavePanel;
 
     private Scene currentScene;
 
@@ -13,7 +14,7 @@ public class SaveUI : MonoBehaviour
 
     void Start()
     {
-        SLPanel.SetActive(false);
+        SavePanel.SetActive(false);
     }
 
     void Update()
@@ -21,13 +22,12 @@ public class SaveUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isPanelOn = !isPanelOn;
-            SLPanel.SetActive(isPanelOn);
+            SavePanel.SetActive(isPanelOn);
         }        
     }
 
     public void OnSaveData()
     {
-        // Save
-        currentScene = SceneManager.GetActiveScene();
+        SaveManager.s_instance.SaveData();
     }
 }
