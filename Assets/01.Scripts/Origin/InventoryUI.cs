@@ -376,6 +376,7 @@ public class InventoryUI : MonoBehaviour
                     infoPanel.SetActive(true);
                     inventoryBackground.SetActive(true);
                     activeItem = true;
+                    activeSelect = true;
                     ShowItem();
                     selectedItem = 0;
 
@@ -389,6 +390,7 @@ public class InventoryUI : MonoBehaviour
                     infoPanel.SetActive(false);
                     inventoryBackground.SetActive(false);
                     activeItem = false;
+                    activeSelect = false;
                     SaveInventory();
                 }
             }
