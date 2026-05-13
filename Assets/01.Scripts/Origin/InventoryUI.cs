@@ -12,6 +12,7 @@ public class InventoryUI : MonoBehaviour
 {
     public static InventoryUI instance;
     private ItemDatabase ItemDB;
+    DialogueUI dialogueUI;
     public GameObject inventoryPanel;
     public GameObject currencyPanel;
     public GameObject infoPanel;
@@ -289,6 +290,13 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    public void RemoveUseItem() // 스테이지 종료 시 공략 아이템 삭제
+    {
+        inventoryItemList.RemoveAll(item => item.itemType == Item.ItemType.Use);
+        SaveInventory();
+        //Debug.Log("공략 아이템 삭제");
+    }
+
     public void SaveInventory()
     {
         ListJSON.SaveList(inventoryItemList, filePath);
@@ -314,6 +322,8 @@ public class InventoryUI : MonoBehaviour
 
     void DefaultItmes()
     {
+        inventoryItemList.Add(new Item(20101, "열람실 열쇠", "도서관 B1 열람실의 잠금을 해제할 수 있다.", "열람실 열쇠", Item.ItemType.Use));
+        inventoryItemList.Add(new Item(20102, "회의실A 열쇠", "도서관 1F 회의실A의 잠금을 해제할 수 있다.", "회의실A 열쇠", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
         inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
         //inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
@@ -329,6 +339,7 @@ public class InventoryUI : MonoBehaviour
     {
         instance = this;
         ItemDB = FindObjectOfType<ItemDatabase>();
+        dialogueUI = FindObjectOfType<DialogueUI>();
         
         inventoryPanel.SetActive(activeInventory);
         if (!battleInventory)
@@ -351,6 +362,8 @@ public class InventoryUI : MonoBehaviour
     {
         if (!battleInventory) // 일반 씬 인벤토리 *전투 씬 인벤토리는 BattleUI에
         {
+            if (dialogueUI.dialoguePanel.activeInHierarchy) return; // 대화창 활성화 시 인벤토리 사용 불가
+
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 //Debug.Log("Tab");
@@ -364,6 +377,7 @@ public class InventoryUI : MonoBehaviour
                     inventoryBackground.SetActive(true);
                     activeSelect = true;
                     activeItem = true;
+                    activeSelect = true;
                     ShowItem();
                     selectedItem = 0;
 
@@ -377,6 +391,7 @@ public class InventoryUI : MonoBehaviour
                     infoPanel.SetActive(false);
                     inventoryBackground.SetActive(false);
                     activeItem = false;
+                    activeSelect = false;
                     SaveInventory();
                 }
             }

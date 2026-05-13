@@ -14,10 +14,11 @@ public class Item
 
     public enum ItemType
     {
-        Use,    // 소모품
+        Use,    // 소모품(공략)
         Equip,  // 장비
-        Quest,  // 퀘스트템
-        Battle, // 전투 소모템
+        Quest,  // 퀘스트
+        Battle, // 전투 소모품
+        Shard,  // 신체 파편
         Etc     // 기타
     }
 
