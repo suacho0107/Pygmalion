@@ -61,6 +61,11 @@ public class FieldItemManager : MonoBehaviour
         SaveCollectedItems();
     }
 
+    public List<FieldItemData> GetCollectedItems()
+    {
+        return collectedItems;
+    }
+
     public bool IsCollected(int itemID)
     {
         return collectedItems.Exists(item => item.itemID == itemID && item.isCollected);

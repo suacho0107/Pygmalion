@@ -362,6 +362,7 @@ public class InventoryUI : MonoBehaviour
                     currencyPanel.SetActive(true);
                     infoPanel.SetActive(true);
                     inventoryBackground.SetActive(true);
+                    activeSelect = true;
                     activeItem = true;
                     ShowItem();
                     selectedItem = 0;
