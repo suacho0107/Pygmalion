@@ -17,46 +17,57 @@ public class Melpomene : Enemy
         base.Awake();
         mainPart = GetPart(PartType.LArm);
 
-        // Narrative 초기화
+        //Narrative 발동 가능 여부
         canNarrative[PartType.Mask] = true;
         canNarrative[PartType.LArm] = false; //IsPartDestroyed(PartType.Head);
 
+        //Narrative 발동 여부
         narrativeActivated[PartType.Mask] = false;
         narrativeActivated[PartType.LArm] = false;
     }
 
     protected override IEnumerator EnemySkill()
     {
-        // Narrative 발동 체크
-        foreach (var part in canNarrative.Keys)
+        //LArm Narrative Check
+        if (IsPartDestroyed(PartType.Mask) && IsPartDestroyed(PartType.Head))
         {
-            if (canNarrative[part] && !IsPartDestroyed(part) && Random.value < 0.4f)
+            canNarrative[PartType.LArm] = true;
+        }
+
+        //Narrative 실행
+        foreach (var part in new List<PartType>(canNarrative.Keys))
+        {
+            // 최초 1회만
+            if (canNarrative[part] && !narrativeActivated[part] && !IsPartDestroyed(part))
             {
-                Narrative(part);
+                if(Random.value < 0.4f)
+                {
+                    yield return StartCoroutine(Narrative(part));
+                }
             }
         }
 
-        // Narrative 누적 효과
-        foreach (var active in narrativeActivated.Values)
+        //Narrative 지속 효과
+        foreach (var pair in narrativeActivated)
         {
-            if (active)
+            if (pair.Value)
             {
                 confusionRate += 0.05f;
-            }                
+            }
         }
+        Debug.Log($"confusionRate = {confusionRate}");
 
-        // Finale 조건
+        //Finale
         if (!IsPartDestroyed(PartType.Body) && confusionRate >= 1f)
         {
             Finale();
-            yield return null;
             yield break;
         }
 
         ResetSkill();
 
-        AddSkill(null, Shout, IsPartDestroyed(PartType.Mask) && !IsPartDestroyed(PartType.Head));
-        AddSkill(null, Slap, IsPartDestroyed(PartType.RArm) && !IsPartDestroyed(PartType.LArm));
+        AddSkill(null, Shout, IsPartDestroyed(PartType.Mask)&&!IsPartDestroyed(PartType.Head));
+        AddSkill(null, Slap, IsPartDestroyed(PartType.RArm)&&!IsPartDestroyed(PartType.LArm));
 
         if (!IsPartDestroyed(PartType.RArm))
         {
@@ -66,12 +77,15 @@ public class Melpomene : Enemy
         {
             RandomSkill();
         }
-        else if (Random.value < confusionRate)
+
+        //isConfused
+        if (Random.value < confusionRate)
         {
             player.isConfused = true;
         }
 
         yield return null;
+
     }
 
     #region Melpomene_Skills
@@ -82,7 +96,7 @@ public class Melpomene : Enemy
         Deal(30);
     }
 
-    private void Narrative(PartType part) //운명의 서사
+    private IEnumerator Narrative(PartType part) //운명의 서사
     {
         Debug.Log($"Narrative({part});");
 
@@ -101,6 +115,8 @@ public class Melpomene : Enemy
             damage = 10;
         }
         narrativeActivated[part] = true;
+
+        yield return new WaitForSeconds(2f);
 
         Deal(damage); //Mask, LArm 같은 Skill, 데미지 차이
     }
