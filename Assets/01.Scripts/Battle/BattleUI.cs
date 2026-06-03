@@ -503,6 +503,24 @@ public class BattleUI : MonoBehaviour
 
         ResetUI();
 
+        if (!InventoryUI.instance.HasBattleItem())
+        {
+            Debug.Log("전투 아이템 미보유");
+
+            StartCoroutine(NoBattleItem());
+
+            /*
+            contentText.text = "사용 가능한 아이템이 없습니다.";
+
+            if (!isTyping)
+            {
+                battleManager.ChangeState(BattleManager.State.PLAYERTURN_START);
+            }
+            */
+
+            return;
+        }
+
         InventoryUI.instance.inventoryPanel.SetActive(true);
         InventoryUI.instance.activeItem = true;
         InventoryUI.instance.selectedItem = 0;
@@ -747,6 +765,15 @@ public class BattleUI : MonoBehaviour
         //받침 여부
         bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
         return hasFinal ? _particleWithFinal : _particleWithoutFinal;
+    }
+
+    private IEnumerator NoBattleItem()
+    {
+        yield return StartCoroutine(TypeWriter("사용 가능한 아이템이 없습니다."));
+
+        yield return new WaitForSeconds(1f);
+
+        battleManager.ChangeState(BattleManager.State.PLAYERTURN_START);
     }
     #endregion
 

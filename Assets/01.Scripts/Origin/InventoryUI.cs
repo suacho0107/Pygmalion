@@ -66,6 +66,11 @@ public class InventoryUI : MonoBehaviour
             }
         }
     }
+    public bool HasBattleItem()
+    {
+        LoadBattleItemList();
+        return battleItemList.Count > 0;
+    }
 
     public void RemoveSlot()
     {

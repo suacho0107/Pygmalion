@@ -204,7 +204,6 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-
     #region Battle End
     private IEnumerator Win()
     {
@@ -248,6 +247,8 @@ public class BattleManager : MonoBehaviour
     {
         if (enemy.enemyType == EnemyType.Melpomene && !enemy.IsPartDestroyed(PartType.Body)) //멜포메네
         {
+            battleUI.ResetUI();
+
             Melpomene melpomene = FindObjectOfType<Melpomene>();
             melpomene.Redemption();
 
@@ -320,8 +321,6 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-
-
     #region Save / Load
     public void SaveFightData(bool isRun = false)
     {
@@ -381,6 +380,47 @@ public class BattleManager : MonoBehaviour
             foreach (var hpData in data.runHpList)
             {
                 runHpDict[hpData.enemyType] = hpData.playerHp;
+            }
+        }
+    }
+    #endregion
+
+    #region Item Effect\
+    public void Vita5000() //비타5000
+    {
+        if (player.isMaxhp)
+        {
+            Debug.Log("풀피라서 사용 불가");
+            StartCoroutine(battleUI.TypeWriter("지금은 사용할 수 없다."));
+            return;
+        }
+
+        StartCoroutine(battleUI.TypeWriter("[비타 5000]을 꿀꺽꿀꺽 마셨다.\n기운이 넘친다!"));
+        player.Heal((int)(player.maxHp * 0.5));
+    }
+
+    public void Wine() //포도주
+    {
+        if(player.isMaxhp)
+        {
+            Debug.Log("풀피라서 사용 불가");
+            StartCoroutine(battleUI.TypeWriter("지금은 사용할 수 없다."));
+            return;
+        }
+
+        StartCoroutine(battleUI.TypeWriter("[포도주]를 꿀꺽꿀꺽 마셨다.\n생명력이 느껴진다!"));
+        player.Heal((int)(player.maxHp * 0.99));
+    }
+
+    public void SuspiciousPotion() //수상한 액체가 든 병
+    {
+        StartCoroutine(battleUI.TypeWriter("[수상한 액체가 든 병]을 조각상에 던진다."));
+
+        foreach (Part part in enemy.parts)
+        {
+            if (!part.IsDestroyed)
+            {
+                part.Damaged(1);
             }
         }
     }
