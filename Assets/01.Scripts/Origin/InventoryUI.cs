@@ -152,7 +152,7 @@ public class InventoryUI : MonoBehaviour
         Color color = slots[0].selected_Item.GetComponent<Image>().color;
         color.a = 0f;
 
-        for (int i = 0; i < inventoryItemList.Count; i++)
+        for (int i = 0; i < currentList.Count; i++)
             slots[i].selected_Item.GetComponent<Image>().color = color;
 
         Description_Text.text = currentList[selectedItem].itemDescription;
