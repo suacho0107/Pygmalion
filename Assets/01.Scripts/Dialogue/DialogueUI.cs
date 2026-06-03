@@ -32,6 +32,7 @@ public class DialogueUI : MonoBehaviour
     public Text dialogueText;
     public Text descriptionText;
     private Text nameText;
+    private int portraitText;
 
     public GameObject dialogueNext;
 
@@ -315,6 +316,7 @@ public class DialogueUI : MonoBehaviour
         dialogueText.text = "";
         descriptionText.text = "";
         nameText.text = "";
+        portraitText = 0;
 
         //explainNum 없으면 첫 대사
         if (string.IsNullOrEmpty(explainNum))
@@ -387,15 +389,28 @@ public class DialogueUI : MonoBehaviour
             }
         }
 
-        int portraitIndex = -1;
-
+        int portraitNum = 0;
         for (int i = 0; i < Portraits.Count; i++)
         {
+            // 이름 선택
             if (Portraits[i].name == nameText.text)
             {
-                portraitIndex = i;
                 currentPortrait = Portraits[i];
                 currentPortrait.SetActive(true);
+
+                portraitNum = dialogueManager.dialogues[lineCount].portraits[contextCount];
+
+                for (int child = 0; child < currentPortrait.transform.childCount; child++)
+                {
+                    currentPortrait.transform.GetChild(child).gameObject.SetActive(false);
+                }
+
+                // 표정 선택
+                if (portraitNum >= 0 && portraitNum <= currentPortrait.transform.childCount)
+                {
+                    currentPortrait.transform.GetChild(portraitNum - 1).gameObject.SetActive(true);
+                }
+
                 break;
             }
         }
@@ -407,7 +422,7 @@ public class DialogueUI : MonoBehaviour
         }
         else
         {
-            if (portraitIndex <= 3)
+            if (portraitNum <= 3)
             {
                 contextText = descriptionText;
             }
