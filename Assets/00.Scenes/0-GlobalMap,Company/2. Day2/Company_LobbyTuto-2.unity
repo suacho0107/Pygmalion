@@ -223,6 +223,80 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3662297088307180539, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
   m_PrefabInstance: {fileID: 1700758334}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &141759940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 141759941}
+  - component: {fileID: 141759943}
+  - component: {fileID: 141759942}
+  m_Layer: 0
+  m_Name: 05_GMTriger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &141759941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141759940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 560548298}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &141759942
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141759940}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!114 &141759943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141759940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d11dd341e05af14d9b27e3026347cda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerObject:
+  - {fileID: 733362257}
+  libraryRoom: {fileID: 0}
 --- !u!1 &152390109
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +398,71 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.18}
   m_Size: {x: 0.55, y: 0.23}
   m_Direction: 1
+--- !u!1001 &154700564
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 560548298}
+    m_Modifications:
+    - target: {fileID: 11786295019559845, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_Name
+      value: 04_TutorialDialog
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559897, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: dialogueFileName
+      value: Office-Day2-Lobby1_dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559902, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: tutorial_csvFileName
+      value: Office-Day2-Lobby1_dialogue
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e25459c54602b1643ae60179eed2af23, type: 3}
 --- !u!1 &218360583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,6 +1263,7 @@ MonoBehaviour:
   - {fileID: 1700267874}
   - {fileID: 1670122951}
   - {fileID: 1003796155}
+  - {fileID: 1709758529}
   - {fileID: 1334602469}
   nextSceneName: Company_OfficeTuto-2
   sceneController: {fileID: 0}
@@ -1142,10 +1282,18 @@ Transform:
   - {fileID: 1700267873}
   - {fileID: 1670122950}
   - {fileID: 1003796154}
+  - {fileID: 1709758534}
   - {fileID: 1334602468}
+  - {fileID: 141759941}
+  - {fileID: 597608607}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &597608607 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+  m_PrefabInstance: {fileID: 892183410}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &639378363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1565,7 +1713,27 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 15, y: -3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 13
+      m_TileSpriteIndex: 13
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -7, y: -2, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 13
+      m_TileSpriteIndex: 13
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 15, y: -2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 13
@@ -1585,7 +1753,27 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 15, y: -1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 13
+      m_TileSpriteIndex: 13
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -7, y: 0, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 13
+      m_TileSpriteIndex: 13
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 1
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 15, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 13
@@ -2023,7 +2211,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 52
+  - m_RefCount: 56
     m_Data: {fileID: 11400000, guid: 1f9b6b34f700321439f48e7296556383, type: 2}
   - m_RefCount: 14
     m_Data: {fileID: 11400000, guid: 61177f3bfa543094fadcb93a95621533, type: 2}
@@ -2058,7 +2246,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 52
+  - m_RefCount: 56
     m_Data: {fileID: -611005675, guid: 22daf4aca63371a4d86798fbd111bb65, type: 3}
   - m_RefCount: 14
     m_Data: {fileID: -2102381617, guid: 22daf4aca63371a4d86798fbd111bb65, type: 3}
@@ -2121,7 +2309,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 69
+  - m_RefCount: 73
     m_Data:
       e00: 1
       e01: 0
@@ -2142,7 +2330,7 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 18
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 52
+  - m_RefCount: 56
     m_Data: {r: 0, g: 0, b: 0, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -2191,6 +2379,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 66694542}
     m_Modifications:
+    - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
+      propertyPath: npc
+      value: 
+      objectReference: {fileID: 733362261}
+    - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
+      propertyPath: block
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4282008142060623723, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
       propertyPath: nextPos.x
       value: -17.2
@@ -2303,6 +2503,81 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &733362257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4282008142060623724, guid: 65f3e9a9328251b40874be21dcccb841, type: 3}
+  m_PrefabInstance: {fileID: 677878904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &733362260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733362257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
+--- !u!114 &733362261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733362257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 733362260}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+    runHpList: []
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: Office-Day2-Lobby2_dialogue
+  selectFileName: 
+  explainNum: 
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
 --- !u!1 &869265117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,6 +2686,71 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2586536115154895122, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
   m_PrefabInstance: {fileID: 5546669314124813227}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &892183410
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 560548298}
+    m_Modifications:
+    - target: {fileID: 11786295019559845, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_Name
+      value: 06_GMDialog
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559897, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: dialogueFileName
+      value: Office-Day2-Lobby2_dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11786295019559902, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+      propertyPath: tutorial_csvFileName
+      value: Office-Day2-Lobby2_dialogue
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e25459c54602b1643ae60179eed2af23, type: 3}
 --- !u!1001 &927300551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6250,7 +6590,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.21}
+    oldSize: {x: 0.24, y: 0.2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -6291,7 +6631,7 @@ GameObject:
   - component: {fileID: 1334602468}
   - component: {fileID: 1334602469}
   m_Layer: 0
-  m_Name: 04_TutorialFadeEffect
+  m_Name: 07_TutorialFadeEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6310,7 +6650,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 560548298}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1334602469
 MonoBehaviour:
@@ -6966,6 +7306,22 @@ GameObject:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 69328299403544556, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
   m_PrefabInstance: {fileID: 1700758334}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1709758529 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11786295019559902, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+  m_PrefabInstance: {fileID: 154700564}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b18856d5dba9244418e773021581f278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1709758534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 11786295019559898, guid: e25459c54602b1643ae60179eed2af23, type: 3}
+  m_PrefabInstance: {fileID: 154700564}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1739631319
 GameObject:

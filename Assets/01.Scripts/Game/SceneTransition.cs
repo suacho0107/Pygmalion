@@ -18,6 +18,7 @@ public class SceneTransition : MonoBehaviour
     public StageNPC stageNpc; // StageNPC 직접 할당
     public NPC npc; // NPC
     bool enter = false;
+    [SerializeField] bool block = false;
 
     void LoadNextScene()
     {
@@ -31,7 +32,17 @@ public class SceneTransition : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             if (BlockGlobalMap())
+            {
+                if(npc != null || stageNpc != null)
+                {
+                    if (!enter)
+                    {
+                        enter = true;
+                        npc.StartDialogue();
+                    }
+                }
                 return;
+            }
 
             if (SceneManager.GetActiveScene().name == "Company_Lobby-1" && gameObject.name == "Transition_O")
             {
@@ -152,9 +163,9 @@ public class SceneTransition : MonoBehaviour
         // UIManager 없으면(초기화 전) 막지 않음
         if (UIManager.u_instance == null) return false;
 
-        // UI 상태가 Work인데 GlobalMap으로 가려는 경우만 차단
-        return UIManager.u_instance.Get_CurrentState() == Define.UI.UIState.Work
-               && nextScene == "GlobalMap";
+        // UI 상태가 Work인데 GlobalMap으로 가려는 경우/(코드 추가) 인스펙터에서 block true로 설정한 경우에만 차단
+        return block == true || (UIManager.u_instance.Get_CurrentState() == Define.UI.UIState.Work
+               && nextScene == "GlobalMap");
     }
 
     void Update_Library()
