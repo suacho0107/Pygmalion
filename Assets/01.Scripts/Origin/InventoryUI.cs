@@ -193,6 +193,14 @@ public class InventoryUI : MonoBehaviour
         {
             if (inventoryItemList[i].itemID == _itemID)
             {
+                BattleManager battleManager = FindObjectOfType<BattleManager>();
+
+                if (!battleManager.CanUseItem(_itemID)) //사용 가능 여부 먼저 검사
+                {
+                    StartCoroutine(battleManager.CannotUseItem());
+                    return;
+                }
+
                 ItemDB.ItemEffect(_itemID);
                 if (inventoryItemList[i].itemCount > 1) inventoryItemList[i].itemCount--;
                 else inventoryItemList.RemoveAt(i);

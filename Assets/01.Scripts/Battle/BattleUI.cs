@@ -10,6 +10,7 @@ public class BattleUI : MonoBehaviour
     private Enemy enemy;
     #endregion
 
+    #region Variables
     #region Background
     [Header("Backgrounds")]
     public Image background;
@@ -63,6 +64,7 @@ public class BattleUI : MonoBehaviour
     [Header("Flags")]
     private bool isFading;
     public bool isTyping;
+    #endregion
     #endregion
 
     #region Unity Methods
@@ -535,7 +537,11 @@ public class BattleUI : MonoBehaviour
     #region Common UI
     public void ResetUI()
     {
+        Debug.Log("ResetUI 호출 전 : " + contentText.text);
+
         contentText.text = "";
+
+        Debug.Log("ResetUI 호출 후 : " + contentText.text);
 
         dialogueButtons.SetActive(false);
 
@@ -687,6 +693,8 @@ public class BattleUI : MonoBehaviour
 
     public IEnumerator TypeWriter(string _text)
     {
+        Debug.Log("TypeWriter 시작 전 : " + contentText.text);
+
         if (isTyping)
         {
             yield return new WaitUntil(() => !isTyping);
@@ -694,6 +702,8 @@ public class BattleUI : MonoBehaviour
 
         isTyping = true;
         contentText.text = "";
+
+        Debug.Log("초기화 후 : " + contentText.text);
 
         for (int i = 0; i < _text.Length; i++)
         {
