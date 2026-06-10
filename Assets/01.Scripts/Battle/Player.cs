@@ -69,13 +69,13 @@ public class Player : MonoBehaviour
 
         if (isConfused) // 혼란 상태: 자기 자신 공격
         {
-            StartCoroutine(battleUI.TypeWriter("당신은 순간 혼란에 빠져 스스로를 공격합니다."));
+            StartCoroutine(battleUI.TypeWriter(" 당신은 순간 혼란에 빠져 스스로를 공격합니다."));
 
             Damaged(attackPower);
         }
         else // 일반 공격
         {
-            StartCoroutine(battleUI.TypeWriter($"{battleUI.TranslateEnemy(enemy)}의 {battleUI.TranslatePart(part)}{battleUI.KorParticle(battleUI.TranslatePart(part), "을", "를")} 공격합니다."));
+            StartCoroutine(battleUI.TypeWriter($" {battleUI.TranslateEnemy(enemy)}의 {battleUI.TranslatePart(part)}{battleUI.KorParticle(battleUI.TranslatePart(part), "을", "를")} 공격합니다."));
 
             part.Damaged(attackPower);
         }

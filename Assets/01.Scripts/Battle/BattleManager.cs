@@ -163,10 +163,10 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            Aphrodite.SetActive(true);
-            enemy = Aphrodite.GetComponent<Enemy>();
-            //Melpomene.SetActive(true);
-            //enemy = Melpomene.GetComponent<Enemy>();
+            //Aphrodite.SetActive(true);
+            //enemy = Aphrodite.GetComponent<Enemy>();
+            Melpomene.SetActive(true);
+            enemy = Melpomene.GetComponent<Enemy>();
 
             playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
             playerPos.isChecked = true;

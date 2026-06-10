@@ -20,6 +20,7 @@ public class DialogueParser : MonoBehaviour
             dialgoue.name = row[1];
 
             //List 생성
+            List<int> portraitList = new List<int>();
             List<string> contextList = new List<string>();
             List<string> eventList = new List<string>();
             List<string> skipList = new List<string>();
@@ -44,9 +45,10 @@ public class DialogueParser : MonoBehaviour
 
             do
             {
-                contextList.Add(row.Length > 2 ? row[2] : ""); // 열의 길이를 체크하고 부족하면 빈 문자열 추가
-                eventList.Add(row.Length > 3 ? row[3] : "");
-                skipList.Add(row.Length > 4 ? row[4] : "");
+                portraitList.Add(row.Length > 2 ? int.Parse(row[2]) : 0); // 열의 길이를 체크하고 부족하면 빈 문자열 추가
+                contextList.Add(row.Length > 3 ? row[3] : "");
+                eventList.Add(row.Length > 4 ? row[4] : "");
+                skipList.Add(row.Length > 5 ? row[5] : "");
 
                 if (++i < data.Length - 1)
                 {
@@ -61,10 +63,10 @@ public class DialogueParser : MonoBehaviour
 
 
             //List 배열화
+            dialgoue.portraits = portraitList.ToArray();
             dialgoue.contexts = contextList.ToArray();
             dialgoue.eventNum = eventList.ToArray();
             dialgoue.skipNum = skipList.ToArray();
-
 
             dialogueList.Add(dialgoue);
         }

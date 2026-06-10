@@ -11,6 +11,9 @@ public class Dialogue
     [Tooltip("대사 내용")]
     public string[] contexts;
 
+    [Tooltip("초상화 번호")]
+    public int[] portraits;
+
     [Tooltip("이벤트 번호")]
     public string[] eventNum;
 

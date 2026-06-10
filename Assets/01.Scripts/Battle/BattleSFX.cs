@@ -20,7 +20,7 @@ public class BattleSFX : MonoBehaviour
 
     public void Play(AudioClip clip)
     {
-        Debug.Log($"Play({clip})");
+        //Debug.Log($"Play({clip})");
         if (isPlaying)
         {
             ResetPlay();

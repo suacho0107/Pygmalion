@@ -36,8 +36,9 @@ public class RequestEndState : IRequestState
 
             if (!isEnd && Input.GetKeyDown(KeyCode.Space))
             {
-                request.StartDialogue();
+                //request.StartDialogue();
                 isEnd = true;
+                request.RequestOff();
             }
         }
     }
