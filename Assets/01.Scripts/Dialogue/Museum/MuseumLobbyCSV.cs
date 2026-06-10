@@ -72,7 +72,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                 if (sceneName.StartsWith("Museum_Lobby"))
                 {
                     npcs[0].dialogueFiles = new string[] { "stage1_lobby_dialogue", "Stage1LobbyStatue1_dialogue", "Stage1LobbyStatue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
-                    npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
+                    npcs[0].selectFiles = new string[] { "", "judge-statue2_select", "judge-checking2_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
@@ -88,38 +88,38 @@ public class MuseumLobbyCSV : MonoBehaviour
                 }
                 else if (sceneName.StartsWith("Museum_ExhibitionRoom1"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "stage1_exhibit1_dialogue", "Stage1Exhibit1Statue2_dialogue", "Stage1Exhibit1Statue2_dialogue", "battle2_dialogue", "Destroyed_dialogue" };
-                    npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
+                    npcs[0].dialogueFiles = new string[] { "stage1_exhibit1_dialogue", "Museum-Ex1_Statue2_dialogue", "Museum-Ex1_Statue2_dialogue", "battle2_dialogue", "Destroyed_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "judge-statue3_select", "judge-checking3_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
                 else if (sceneName.StartsWith("Museum_ExhibitionRoom2"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "stage1_exhibit2_dialogue", "Stage1Exhibit2Statue3_dialogue", "Stage1Exhibit2Statue3_dialogue", "battle3_dialogue", "Destroyed_dialogue", "Stage1_battle3-Win_dialogue" };
-                    npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "", "" };
+                    npcs[0].dialogueFiles = new string[] { "stage1_exhibit2_dialogue", "Museum-Ex2_Statue3_dialogue", "Museum-Ex2_Statue3_dialogue", "battle3_dialogue", "Destroyed_dialogue", "Stage1_battle3-Win_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "judge-statue4_select", "judge-checking4_select", "", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
 
-                    npcs[1].dialogueFiles = new string[] { "stage1_exhibit2_dialogue", "Stage1Exhibit2Statue4_dialogue", "Stage1Exhibit2Statue4_dialogue", "battle4_dialogue", "Destroyed_dialogue" };
-                    npcs[1].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
+                    npcs[1].dialogueFiles = new string[] { "stage1_exhibit2_dialogue", "Museum-Ex2_Statue4_dialogue", "Museum-Ex2_Statue4_dialogue", "battle4_dialogue", "Destroyed_dialogue" };
+                    npcs[1].selectFiles = new string[] { "", "judge-statue3_select", "judge-checking3_select", "", "" };
                     npcs[1].currentIndex = 0;
                     npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
                     npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
                 }
                 else if (sceneName.StartsWith("Museum_ExhibitionRoom3"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "stage1_exhibit3_dialogue", "Stage1Exhibit3Statue6_dialogue", "Stage1Exhibit3Statue6_dialogue", "battle6_dialogue", "Destroyed_dialogue" };
-                    npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
+                    npcs[0].dialogueFiles = new string[] { "stage1_exhibit3_dialogue", "Museum-Ex3_Statue6_dialogue", "Museum-Ex3_Statue6_dialogue", "battle6_dialogue", "Destroyed_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "judge-statue3_select", "judge-checking3_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
                 else if (sceneName.StartsWith("Museum_Garden"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "Stage1GardenStatue5_dialogue", "Stage1GardenStatue5_dialogue", "Stage1GardenStatue5_dialogue", "battle5_dialogue", "Destroyed_dialogue" };
-                    npcs[0].selectFiles = new string[] { "", "judge1_select", "judge2_select", "", "" };
+                    npcs[0].dialogueFiles = new string[] { "Stage1GardenStatue5_dialogue", "Museum-Garden_Statue5-1_dialogue", "Museum-Garden_Statue5-2_dialogue", "battle5_dialogue", "Destroyed_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "judge-statue4_select", "judge-checking4_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
