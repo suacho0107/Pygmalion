@@ -537,11 +537,7 @@ public class BattleUI : MonoBehaviour
     #region Common UI
     public void ResetUI()
     {
-        Debug.Log("ResetUI 호출 전 : " + contentText.text);
-
         contentText.text = "";
-
-        Debug.Log("ResetUI 호출 후 : " + contentText.text);
 
         dialogueButtons.SetActive(false);
 
@@ -673,22 +669,28 @@ public class BattleUI : MonoBehaviour
     #endregion
 
     #region Animation
-    public IEnumerator UpdateHpBar(Image hpBar, int newHp, int maxHp)
+    //public IEnumerator UpdateHpBar(Image hpBar, int newHp, int maxHp)
+    public IEnumerator UpdateHpBar(HpBarUI hpBar, int newHp, int maxHp)
     {
-        float start = hpBar.fillAmount;
+        //float start = hpBar.fillAmount;
+        float start = hpBar.FillAmount;
         float end = (float)newHp / maxHp;
+
         float time = 0f;
         float duration = 0.5f;
 
         while (time < duration)
         {
             float t = time / duration;
-            hpBar.fillAmount = Mathf.Lerp(start, end, t);
+            //hpBar.fillAmount = Mathf.Lerp(start, end, t);
+            hpBar.FillAmount = Mathf.Lerp(start, end, t);
 
             time += Time.deltaTime;
             yield return null;
         }
-        hpBar.fillAmount = end;
+
+        //hpBar.fillAmount = end;
+        hpBar.FillAmount = end;
     }
 
     public IEnumerator TypeWriter(string _text)
@@ -720,6 +722,8 @@ public class BattleUI : MonoBehaviour
     #region State UI
     public void Win()
     {
+        enemy.Die();
+
         ResetUI();
         FadeOutBoard(2f);
     }

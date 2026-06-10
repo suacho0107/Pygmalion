@@ -20,7 +20,8 @@ public class Player : MonoBehaviour
 
     private int attackPower = 1; //ÇÇ 1Ä­¾¿ ±ò °ÅÀÓ
 
-    [SerializeField] private Image hpBar;
+    //[SerializeField] private Image hpBar;
+    [SerializeField] private HpBarUI hpBar;
     #endregion
 
     #region status
