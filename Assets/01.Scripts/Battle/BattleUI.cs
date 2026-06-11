@@ -674,7 +674,9 @@ public class BattleUI : MonoBehaviour
     {
         //float start = hpBar.fillAmount;
         float start = hpBar.FillAmount;
-        float end = (float)newHp / maxHp;
+        //float end = (float)newHp / maxHp;
+        float ratio = (float)newHp / maxHp;
+        float end = Mathf.Pow(ratio, 1.4f); // 시각 보정
 
         float time = 0f;
         float duration = 0.5f;
@@ -783,7 +785,7 @@ public class BattleUI : MonoBehaviour
 
     private IEnumerator NoBattleItem()
     {
-        yield return StartCoroutine(TypeWriter("사용 가능한 아이템이 없습니다."));
+        yield return StartCoroutine(TypeWriter("주머니가 텅 비어 있다..."));
 
         yield return new WaitForSeconds(1f);
 

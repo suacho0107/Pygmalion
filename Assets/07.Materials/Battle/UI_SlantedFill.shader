@@ -7,8 +7,8 @@ Shader "UI/SlantedFill"
 
         _FillAmount("Fill Amount", Range(0,1)) = 1
 
-            // 기울기 강도 (0 = 수직, 값 클수록 더 눕는다)
-            _Slope("Slope", Range(0.01, 1)) = 0.05
+        // 기울기 강도 (0 = 수직, 값 클수록 더 눕는다)
+        _Slope("Slope", Range(0.01, 1)) = 0.05
     }
 
         SubShader
@@ -70,21 +70,21 @@ Shader "UI/SlantedFill"
                 {
                     fixed4 col = tex2D(_MainTex, i.uv) * i.color;
 
-                    //// 기울어진 Fill
-                    //float border = _FillAmount + (i.uv.y * _Slope);
+                    // 사선 마스크 계산
+                    float mask = i.uv.x - i.uv.y * _Slope;
+                    
+                    // mask의 실제 범위
+                    float minMask = -_Slope;
+                    float maxMask = 1.0;
+                    
+                    // 0~1로 정규화
+                    float normalized = (mask - minMask) / (maxMask - minMask);
 
-                    //if (i.uv.x > border)
-                    //discard;
-
-                    // 핵심: UI 안정형 사선 mask
-                    float mask = i.uv.x - (i.uv.y * _Slope);
-                    float fill = _FillAmount;
-
-                    if (mask > fill)
+                    //FillAmount와 비교
+                    if (normalized > _FillAmount)
                     {
                         discard;
                     }
-
 
                     return col;
                 }
