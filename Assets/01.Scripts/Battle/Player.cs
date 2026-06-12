@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     #region Player Info
     [Header("Player Info")]
     public int hp;
-    private int maxHp = 100;
+    public int maxHp = 100;
+    public bool isMaxhp => hp >= maxHp;
 
     private int attackPower = 1; //ÇÇ 1Ä­¾¿ ±ò °ÅÀÓ
 
-    [SerializeField] private Image hpBar;
+    //[SerializeField] private Image hpBar;
+    [SerializeField] private HpBarUI hpBar;
     #endregion
 
     #region status
@@ -119,7 +121,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region Damage
+    #region Damage & Heal
     public void Damaged(int damage)
     {
         if (isConfused)
@@ -134,6 +136,18 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
+        }
+
+        UpdatePlayer();
+    }
+
+    public void Heal(int heal)
+    {
+        hp += heal;
+
+        if (hp > maxHp)
+        {
+            hp = maxHp;
         }
 
         UpdatePlayer();

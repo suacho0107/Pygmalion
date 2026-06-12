@@ -21,7 +21,8 @@ public abstract class Enemy : MonoBehaviour
 
     public int hp;
     private int maxHp;
-    [SerializeField] protected Image hpBar;
+    //[SerializeField] protected Image hpBar;
+    [SerializeField] protected HpBarUI hpBar;
     #endregion
 
     #region Parts
@@ -182,6 +183,12 @@ public abstract class Enemy : MonoBehaviour
 
         int Damage = Mathf.RoundToInt(baseDamage * increaseAttackPower);
         player.Damaged(Damage);
+    }
+
+    public void Die()
+    {
+        hp = 0;
+        StartCoroutine(battleUI.UpdateHpBar(hpBar, hp, maxHp));
     }
     #endregion
 }

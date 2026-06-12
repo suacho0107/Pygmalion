@@ -8,15 +8,24 @@ public class ItemDatabase : MonoBehaviour
 
     public void ItemEffect(int _itemID)
     {
-        switch (_itemID)
-        {
-            case 10402:
-                Debug.Log("비타5000 효과");
-                break;
-            case 10403:
-                Debug.Log("포도주 효과");
-                break;
-        }
+        BattleManager battleManager = FindObjectOfType<BattleManager>();
+        StartCoroutine(battleManager.ItemEffect(_itemID));
+
+        //switch (_itemID)
+        //{
+        //    case 10402:
+        //        Debug.Log("비타5000 효과");
+        //        battleManager.Vita5000();
+        //        break;
+        //    case 10403:
+        //        Debug.Log("포도주 효과");
+        //        battleManager.Wine();
+        //        break;
+        //    case 20103:
+        //        Debug.Log("수상한 액체가 든 병 효과");
+        //        battleManager.SuspiciousPotion();
+        //        break;
+        //}
     }
     
     void Start()

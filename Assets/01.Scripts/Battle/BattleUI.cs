@@ -10,6 +10,7 @@ public class BattleUI : MonoBehaviour
     private Enemy enemy;
     #endregion
 
+    #region Variables
     #region Background
     [Header("Backgrounds")]
     public Image background;
@@ -63,6 +64,7 @@ public class BattleUI : MonoBehaviour
     [Header("Flags")]
     private bool isFading;
     public bool isTyping;
+    #endregion
     #endregion
 
     #region Unity Methods
@@ -503,6 +505,24 @@ public class BattleUI : MonoBehaviour
 
         ResetUI();
 
+        if (!InventoryUI.instance.HasBattleItem())
+        {
+            Debug.Log("전투 아이템 미보유");
+
+            StartCoroutine(NoBattleItem());
+
+            /*
+            contentText.text = "사용 가능한 아이템이 없습니다.";
+
+            if (!isTyping)
+            {
+                battleManager.ChangeState(BattleManager.State.PLAYERTURN_START);
+            }
+            */
+
+            return;
+        }
+
         InventoryUI.instance.inventoryPanel.SetActive(true);
         InventoryUI.instance.activeItem = true;
         InventoryUI.instance.selectedItem = 0;
@@ -649,26 +669,36 @@ public class BattleUI : MonoBehaviour
     #endregion
 
     #region Animation
-    public IEnumerator UpdateHpBar(Image hpBar, int newHp, int maxHp)
+    //public IEnumerator UpdateHpBar(Image hpBar, int newHp, int maxHp)
+    public IEnumerator UpdateHpBar(HpBarUI hpBar, int newHp, int maxHp)
     {
-        float start = hpBar.fillAmount;
-        float end = (float)newHp / maxHp;
+        //float start = hpBar.fillAmount;
+        float start = hpBar.FillAmount;
+        //float end = (float)newHp / maxHp;
+        float ratio = (float)newHp / maxHp;
+        float end = Mathf.Pow(ratio, 1.4f); // 시각 보정
+
         float time = 0f;
         float duration = 0.5f;
 
         while (time < duration)
         {
             float t = time / duration;
-            hpBar.fillAmount = Mathf.Lerp(start, end, t);
+            //hpBar.fillAmount = Mathf.Lerp(start, end, t);
+            hpBar.FillAmount = Mathf.Lerp(start, end, t);
 
             time += Time.deltaTime;
             yield return null;
         }
-        hpBar.fillAmount = end;
+
+        //hpBar.fillAmount = end;
+        hpBar.FillAmount = end;
     }
 
     public IEnumerator TypeWriter(string _text)
     {
+        Debug.Log("TypeWriter 시작 전 : " + contentText.text);
+
         if (isTyping)
         {
             yield return new WaitUntil(() => !isTyping);
@@ -676,6 +706,8 @@ public class BattleUI : MonoBehaviour
 
         isTyping = true;
         contentText.text = "";
+
+        Debug.Log("초기화 후 : " + contentText.text);
 
         for (int i = 0; i < _text.Length; i++)
         {
@@ -692,6 +724,8 @@ public class BattleUI : MonoBehaviour
     #region State UI
     public void Win()
     {
+        enemy.Die();
+
         ResetUI();
         FadeOutBoard(2f);
     }
@@ -747,6 +781,15 @@ public class BattleUI : MonoBehaviour
         //받침 여부
         bool hasFinal = (lastChar - 0xAC00) % 28 != 0;
         return hasFinal ? _particleWithFinal : _particleWithoutFinal;
+    }
+
+    private IEnumerator NoBattleItem()
+    {
+        yield return StartCoroutine(TypeWriter("주머니가 텅 비어 있다..."));
+
+        yield return new WaitForSeconds(1f);
+
+        battleManager.ChangeState(BattleManager.State.PLAYERTURN_START);
     }
     #endregion
 

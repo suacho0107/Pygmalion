@@ -17,6 +17,7 @@ public class BattleManager : MonoBehaviour
     public NPCData npcData = new NPCData();
     #endregion
 
+    #region Variables
     #region Enemy Objects
     [Header("Enemies")]
     public GameObject Aphrodite;
@@ -36,6 +37,7 @@ public class BattleManager : MonoBehaviour
     private bool _enter1st;
     private bool _enterFight;
     #endregion
+#endregion
 
     #region State
     public State state;
@@ -165,6 +167,8 @@ public class BattleManager : MonoBehaviour
         {
             //Aphrodite.SetActive(true);
             //enemy = Aphrodite.GetComponent<Enemy>();
+            //ReadingChild.SetActive(true);
+            //enemy = ReadingChild.GetComponent<Enemy>();
             Melpomene.SetActive(true);
             enemy = Melpomene.GetComponent<Enemy>();
 
@@ -203,7 +207,6 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(player.Attack(part));
     }
     #endregion
-
 
     #region Battle End
     private IEnumerator Win()
@@ -248,6 +251,8 @@ public class BattleManager : MonoBehaviour
     {
         if (enemy.enemyType == EnemyType.Melpomene && !enemy.IsPartDestroyed(PartType.Body)) //멜포메네
         {
+            battleUI.ResetUI();
+
             Melpomene melpomene = FindObjectOfType<Melpomene>();
             melpomene.Redemption();
 
@@ -320,8 +325,6 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-
-
     #region Save / Load
     public void SaveFightData(bool isRun = false)
     {
@@ -381,6 +384,93 @@ public class BattleManager : MonoBehaviour
             foreach (var hpData in data.runHpList)
             {
                 runHpDict[hpData.enemyType] = hpData.playerHp;
+            }
+        }
+    }
+    #endregion
+
+    #region Item Effect
+    public IEnumerator ItemEffect(int _itemID)
+    {
+        battleUI.ResetUI();
+
+        //if (_itemID == 10402 || _itemID == 10403)
+        //{
+        //    if (player.isMaxhp)
+        //    {
+        //        yield return StartCoroutine(CannotUse());
+        //        yield break;
+        //    }
+        //}
+
+        switch (_itemID)
+        {
+            case 10402:
+                Debug.Log("비타5000 효과");
+                Vita5000();
+                break;
+            case 10403:
+                Debug.Log("포도주 효과");
+                Wine();
+                break;
+            case 20103:
+                Debug.Log("수상한 액체가 든 병 효과");
+                SuspiciousPotion();
+                break;
+        }
+        yield return new WaitUntil(() => battleUI.isTyping);
+        yield return new WaitUntil(() => !battleUI.isTyping);
+
+        yield return new WaitForSeconds(1f);
+
+        ChangeState(State.ENEMYTURN);
+    }
+
+    public bool CanUseItem(int _itemID)
+    {
+        switch (_itemID)
+        {
+            case 10402: //비타5000
+            case 10403: //포도주
+                return !player.isMaxhp;
+
+            default: //조건 없는 item
+                return true;
+        }
+    }
+
+    public IEnumerator CannotUseItem()
+    {        
+        yield return StartCoroutine(battleUI.TypeWriter("지금은 사용할 수 없다."));
+
+        yield return new WaitForSeconds(1f);
+
+        ChangeState(BattleManager.State.PLAYERTURN_START);
+    }
+
+    public void Vita5000() //비타5000
+    {
+        StartCoroutine(battleUI.TypeWriter("[비타 5000]을 꿀꺽꿀꺽 마셨다.\n기운이 넘친다!"));
+        player.Heal((int)(player.maxHp * 0.5));
+    }
+
+    public void Wine() //포도주
+    {
+        StartCoroutine(battleUI.TypeWriter("[포도주]를 꿀꺽꿀꺽 마셨다.\n생명력이 느껴진다!"));
+        player.Heal((int)(player.maxHp * 0.99));
+    }
+
+    public void SuspiciousPotion() //수상한 액체가 든 병
+    {
+        battleUI.ResetUI();
+
+        StartCoroutine(battleUI.TypeWriter("[수상한 액체가 든 병]을 조각상에 던진다."));
+
+        foreach (Part part in enemy.parts)
+        {
+            if (!part.IsDestroyed)
+            {
+                part.Damaged(1);
             }
         }
     }

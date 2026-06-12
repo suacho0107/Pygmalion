@@ -66,6 +66,11 @@ public class InventoryUI : MonoBehaviour
             }
         }
     }
+    public bool HasBattleItem()
+    {
+        LoadBattleItemList();
+        return battleItemList.Count > 0;
+    }
 
     public void RemoveSlot()
     {
@@ -147,7 +152,7 @@ public class InventoryUI : MonoBehaviour
         Color color = slots[0].selected_Item.GetComponent<Image>().color;
         color.a = 0f;
 
-        for (int i = 0; i < inventoryItemList.Count; i++)
+        for (int i = 0; i < currentList.Count; i++)
             slots[i].selected_Item.GetComponent<Image>().color = color;
 
         Description_Text.text = currentList[selectedItem].itemDescription;
@@ -188,6 +193,14 @@ public class InventoryUI : MonoBehaviour
         {
             if (inventoryItemList[i].itemID == _itemID)
             {
+                BattleManager battleManager = FindObjectOfType<BattleManager>();
+
+                if (!battleManager.CanUseItem(_itemID)) //사용 가능 여부 먼저 검사
+                {
+                    StartCoroutine(battleManager.CannotUseItem());
+                    return;
+                }
+
                 ItemDB.ItemEffect(_itemID);
                 if (inventoryItemList[i].itemCount > 1) inventoryItemList[i].itemCount--;
                 else inventoryItemList.RemoveAt(i);
