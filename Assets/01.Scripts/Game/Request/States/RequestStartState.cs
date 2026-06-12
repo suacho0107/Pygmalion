@@ -26,11 +26,10 @@ public class RequestStartState : IRequestState
                 request.InteractText.text = "네 알겠습니다.";
                 request.InteractText.color = Color.black;
 
-                request.canSend = true;
-
-                //request.StartDialogue();
+                request.StartDialogue();
             }
-            //if (request.dialogueManager.isEnd) request.canSend = true;
+            if (request.dialogueManager.isEnd) 
+                request.canSend = true;
         }
     }
 

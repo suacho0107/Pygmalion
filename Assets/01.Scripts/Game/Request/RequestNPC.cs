@@ -108,6 +108,18 @@ public class RequestNPC : NPC
 
     public void RequestOff()
     {
+        processNum++;
+
+        if (1 == processNum)
+            canOff = true;
+    }
+
+    public void RequestOffEx()
+    {
+        processNum++;
+
+        if (1 == processNum)
+            canOff = true;
         canOff = true;
     }
 }

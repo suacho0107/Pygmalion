@@ -513,7 +513,22 @@ public class DialogueUI : MonoBehaviour
             selectedStatue.CheckResult();
         }
 
-        if(npc is NPC _npc && !_npc.isObject)
+        if (npc is RequestNPC selectedRequestNPC)
+        {
+            if (selectedRequestNPC.dialogueFileName == "request2_dialogue")
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                    selectedRequestNPC.RequestOff();
+            }
+
+            if (selectedRequestNPC.dialogueFileName == "Office-Day2-request1_dialogue")
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                    selectedRequestNPC.RequestOffEx();
+            }
+        }
+
+        if (npc is NPC _npc && !_npc.isObject)
         {
             _npc.isInteract = true;
         }
