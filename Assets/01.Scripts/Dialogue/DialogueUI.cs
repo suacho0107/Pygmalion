@@ -389,12 +389,16 @@ public class DialogueUI : MonoBehaviour
             }
         }
 
+        int portraitIndex = -1;
         int portraitNum = 0;
+
         for (int i = 0; i < Portraits.Count; i++)
         {
             // 이름 선택
             if (Portraits[i].name == nameText.text)
             {
+                portraitIndex = i; //배열 Portraits의 Index
+
                 currentPortrait = Portraits[i];
                 currentPortrait.SetActive(true);
 
@@ -422,7 +426,7 @@ public class DialogueUI : MonoBehaviour
         }
         else
         {
-            if (portraitNum <= 3)
+            if (portraitIndex <= 3)
             {
                 contextText = descriptionText;
             }

@@ -13,11 +13,11 @@ public class DialogueParser : MonoBehaviour
 
         for (int i = 1; i < data.Length - 1;) //변환 과정에서 맨 뒤에 한 줄이 더 들어가는 듯
         {
-            string[] row = data[i].Split(new char[] { ',' }); //',' 단위로 쪼갬
+            string[] col = data[i].Split(new char[] { ',' }); //',' 단위로 쪼갬
 
             Dialogue dialgoue = new Dialogue(); // 대사 리스트 생성
 
-            dialgoue.name = row[1];
+            dialgoue.name = col[1];
 
             //List 생성
             List<int> portraitList = new List<int>();
@@ -27,21 +27,21 @@ public class DialogueParser : MonoBehaviour
 
             do
             {
-                portraitList.Add(row.Length > 2 ? int.Parse(row[2]) : 0); // 열의 길이를 체크하고 부족하면 빈 문자열 추가
-                contextList.Add(row.Length > 3 ? row[3] : "");
-                eventList.Add(row.Length > 4 ? row[4] : "");
-                skipList.Add(row.Length > 5 ? row[5] : "");
+                portraitList.Add(col.Length > 2 && int.TryParse(col[2].Trim(), out int portrait) ? portrait : 0); // 열의 길이를 체크하고 부족하면 빈 문자열 추가
+                contextList.Add(col.Length > 3 ? col[3] : "");
+                eventList.Add(col.Length > 4 ? col[4] : "");
+                skipList.Add(col.Length > 5 ? col[5] : "");
 
                 if (++i < data.Length - 1)
                 {
-                    row = data[i].Split(new char[] { ',' });
+                    col = data[i].Split(new char[] { ',' });
                 }
                 else
                 {
                     break;
                 }
 
-            } while (row[0].ToString() == ""); //ID가 공백이면 sentence만 추가
+            } while (col[0].ToString() == ""); //ID가 공백이면 sentence만 추가
 
 
             //List 배열화
