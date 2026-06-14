@@ -1,27 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 //using static UnityEditor.Progress;
 
 public class FieldItems : MonoBehaviour
 {
     public int itemID;
     public int _count;
+    [SerializeField] NPC npc;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             InventoryUI.instance.GetAnItem(itemID);
             FieldItemManager.Instance.CollectedItem(itemID, transform.position);
-            Destroy(this.gameObject);
 
+            if (SceneManager.GetActiveScene().name == "Museum_Garden")
+            {
+                MuseumKey();
+                Destroy(this.gameObject);
+                return;
+            }
             string message = $"[{gameObject.name}]¿ª(∏¶) »πµÊ«ﬂ¥Ÿ.";
 
-            //DialogueManager dm = FindObjectOfType<DialogueManager>();
-            //dm.ShowMessage(message);
             DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
             dialogueUI.ShowMessage(message);
+
+            Destroy(this.gameObject);
+        }
+    }
+
+    void MuseumKey()
+    {
+        MuseumGuard mGuard = FindObjectOfType<MuseumGuard>();
+        if (mGuard.questStart)
+        {
+            npc.ChangeDialogueFileName("Museum-GuardItemT_dialogue");
+            npc.StartDialogue();
+        }
+        else
+        {
+            npc.ChangeDialogueFileName("Museum-GuardItemF_dialogue");
+            npc.StartDialogue();
         }
     }
 
@@ -38,5 +60,7 @@ public class FieldItems : MonoBehaviour
         {
             return;
         }
+
+        npc = GetComponent<NPC>();
     }
 }

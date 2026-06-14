@@ -41,7 +41,7 @@ public class MuseumGuard : StageNPC
             }
             else
             {
-                if (!isInteract && dialogueUI.LineCount() == 0)
+                if (!isInteract && dialogueUI.LineCount() > 1)
                 {
                     uncontacted = true;
                 }
