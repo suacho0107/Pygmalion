@@ -50,43 +50,68 @@ public class Statue : NPC
 
     private void Update()
     {
-        if (isStatue)
-        {
-            if (sceneName.StartsWith("Museum_Lobby"))
-            {
-                Judge();
-            }
-            else
-            {
-                if (statueScore != null)
-                {
-                    if (sceneName.StartsWith("Museum"))
-                    {
-                        if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
-                        {
-                            //Debug.Log("기본대사 -> 판별");
-                            ChangeDialogueFile(1);
-                            Judge();
-                        }
-                        else
-                        {
-                            Judge();
-                        }
-                    }
-                    else if (sceneName.StartsWith("Library"))
-                    {
-                        Judge();
-                    }
-                }
-            }
-        }
-
         if (isFin)
         {
             Result();
+            return;
+        }
+
+        if (isStatue && statueScore != null)
+        {
+            if (sceneName == "Museum_ExhibitionRoom2")
+            {
+                if (isInteract)
+                {
+                    ChangeDialogueFile(1);
+                    Judge();
+                }
+                return;
+            }
+
+            if (sceneName.StartsWith("Museum"))
+            {
+                if(sceneName == "Museum_Lobby")
+                {
+                    Debug.Log("로비");
+                    StageNPC stageNPC = FindObjectOfType<StageNPC>();
+                    if (!stageNPC.isInteract) { Debug.Log("미술관장 미접촉"); return; }
+                }
+                ChangeDialogueFile(1);
+                Judge();
+                return;
+            }
+            Debug.Log("그냥 판별");
+            Judge();
+            
+            //if (sceneName.StartsWith("Museum_Lobby"))
+            //{
+            //    Judge();
+            //}
+            //else
+            //{
+            //    if (statueScore != null)
+            //    {
+            //        if (sceneName.StartsWith("Museum"))
+            //        {
+            //            if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
+            //            {
+            //                //Debug.Log("기본대사 -> 판별");
+            //                ChangeDialogueFile(1);
+            //                Judge();
+            //            }
+            //            else
+            //            {
+            //                Judge();
+            //            }
+            //        }
+            //        else if (sceneName.StartsWith("Library"))
+            //        {
+            //            Judge();
+            //        }
+            //    }
+            //}
         }
     }
-
 
     public void Judge()
     {

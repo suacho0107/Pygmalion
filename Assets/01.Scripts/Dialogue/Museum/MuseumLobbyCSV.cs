@@ -71,7 +71,7 @@ public class MuseumLobbyCSV : MonoBehaviour
             {
                 if (sceneName.StartsWith("Museum_Lobby"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "stage1_lobby_dialogue", "Museum-Lobby_Statue1_dialogue", "Museum-Lobby_Statue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
+                    npcs[0].dialogueFiles = new string[] { "battle1_dialogue", "Museum-Lobby_Statue1_dialogue", "Museum-Lobby_Statue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge-statue2_select", "judge-checking2_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
