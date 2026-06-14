@@ -432,11 +432,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &74913187 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509187810832, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &94703534
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -923,11 +918,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8181397637667482739, guid: dc377ecdf743b0b45a05ab1c8ddd8e6f, type: 3}
   m_PrefabInstance: {fileID: 315024385}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &342045440 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509668161419, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &342653927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,11 +1247,6 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
---- !u!1 &523237146 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509159368766, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &529815675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,7 +1343,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
-  dialogueFileName: stage1_lobby_dialogue
+  dialogueFileName: Museum-Lobby_dialogue
   selectFileName: 
   explainNum: 6
   dialogueFiles: []
@@ -1566,9 +1551,9 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
-  dialogueFileName: stage1_lobby_dialogue
+  dialogueFileName: Museum-Lobby_dialogue
   selectFileName: 
-  explainNum: 7
+  explainNum: 8
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
@@ -3195,7 +3180,9 @@ GameObject:
   - component: {fileID: 842306382}
   - component: {fileID: 842306386}
   - component: {fileID: 842306383}
-  m_Layer: 0
+  - component: {fileID: 842306388}
+  - component: {fileID: 842306387}
+  m_Layer: 6
   m_Name: "\uD3EC\uC2A4\uD130"
   m_TagString: Artwork
   m_Icon: {fileID: 0}
@@ -3295,6 +3282,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &842306387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842306381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4240b8aa3b88e6f4a8d1b180c0ac13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  interactionEvent: {fileID: 842306388}
+  csv: {fileID: 0}
+  statueScore: {fileID: 0}
+  npcData:
+    isChecked: 0
+    isJudged: 0
+    isCorrect: 0
+    isDialogueChanged: 0
+    currentIndex: 0
+    dialogueFileName: 
+    selectFileName: 
+    isFin: 0
+    result: 0
+    isSpriteChanged: 0
+    enter1st: 0
+    enterFight: 0
+    trg_nEnmy: 0
+    trg_destroyed: 0
+    isInteract: 0
+    isTutoDialogueChanged: 0
+    isTutoFin: 0
+    questStart: 0
+    questEnd: 0
+    unlock: 0
+    runHpList: []
+  isInteract: 0
+  isObject: 1
+  isOfficeTuto: 0
+  isDialogueChanged: 0
+  filePath: 
+  dialogueFileName: Museum-Lobby_dialogue
+  selectFileName: 
+  explainNum: 3
+  dialogueFiles: []
+  selectFiles: []
+  currentIndex: 0
+--- !u!114 &842306388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842306381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ad138c9b9cb12458387d3b06b83f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    line: {x: 0, y: 0}
+    dialogues: []
+  select:
+    name: 
+    line: {x: 0, y: 0}
+    selects: []
 --- !u!1001 &909144928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6957,11 +7014,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.34, y: 0.6}
   m_EdgeRadius: 0
---- !u!1 &1395061078 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102508902169097, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1440322505 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7945751963211392557, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
@@ -7110,16 +7162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1580462512 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509785803083, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1590702849 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102507866643470, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1629737564
 GameObject:
   m_ObjectHideFlags: 0
@@ -7196,11 +7238,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629737564}
   m_CullTransparentMesh: 1
---- !u!1 &1649753560 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509772947178, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 583159850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1670581720 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3662297088307180539, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
@@ -7290,7 +7327,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
-  dialogueFileName: stage1_lobby_dialogue
+  dialogueFileName: Museum-Lobby_dialogue
   selectFileName: 
   explainNum: 2
   dialogueFiles: []
@@ -9341,27 +9378,27 @@ PrefabInstance:
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[0]
       value: 
-      objectReference: {fileID: 523237146}
+      objectReference: {fileID: 585929123}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[1]
       value: 
-      objectReference: {fileID: 1590702849}
+      objectReference: {fileID: 585929123}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[2]
       value: 
-      objectReference: {fileID: 1395061078}
+      objectReference: {fileID: 585929123}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[3]
       value: 
-      objectReference: {fileID: 1649753560}
+      objectReference: {fileID: 585929123}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[4]
       value: 
-      objectReference: {fileID: 1580462512}
+      objectReference: {fileID: 585929123}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[5]
       value: 
-      objectReference: {fileID: 342045440}
+      objectReference: {fileID: 585929123}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[6]
       value: 
@@ -9369,7 +9406,7 @@ PrefabInstance:
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[7]
       value: 
-      objectReference: {fileID: 74913187}
+      objectReference: {fileID: 1629737564}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Portraits.Array.data[0]
       value: 

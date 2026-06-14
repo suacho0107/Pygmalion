@@ -61,11 +61,11 @@ public class StageNPC : NPC
                         {
                             if (statueScore.statueCount == 0)
                             {
-                                ChangeDialogueFileName("Check0_dialogue");
+                                ChangeDialogueFileName("Museum-Lobby_Check0_dialogue");
                             }
                             else if (statueScore.statueCount == 1)
                             {
-                                ChangeDialogueFileName("Tutorial2_dialogue");
+                                ChangeDialogueFileName("Museum-Lobby_Tuto2_dialogue");
                             }
                             else
                             {
@@ -76,15 +76,15 @@ public class StageNPC : NPC
                         {
                             if (statueScore.statueCount == 1)
                             {
-                                ChangeDialogueFileName("Check1_dialogue");
+                                ChangeDialogueFileName("Museum-Lobby_Check1_dialogue");
                             }
                             else if (statueScore.statueCount > 1 && statueScore.statueCount < 6)
                             {
-                                ChangeDialogueFileName("Check2_dialogue");
+                                ChangeDialogueFileName("Museum-Lobby_Check2_dialogue");
                             }
                             else if (statueScore.statueCount >= 6)
                             {
-                                ChangeDialogueFileName("Check3_dialogue");
+                                ChangeDialogueFileName("Museum-Lobby_Check3_dialogue");
                             }
                         }
                     }

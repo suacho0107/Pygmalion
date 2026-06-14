@@ -489,12 +489,12 @@ public class DialogueUI : MonoBehaviour
         {
             selectedNPC.isInteract = true;
             //미술관장
-            if (selectedNPC.dialogueFileName == "Tutorial1_dialogue")
+            if (selectedNPC.dialogueFileName == "Museum-Lobby_Tuto1_dialogue")
                  //|| selectedNPC.dialogueFileName == "Guard1_dialogue")
             {
                 UIManager.u_instance.Set_UIState(Define.UI.UIState.Work);
             }
-            if (selectedNPC.dialogueFileName == "Tutorial2_dialogue")
+            if (selectedNPC.dialogueFileName == "Museum-Lobby_Tuto2_dialogue")
             {
                 selectedNPC.TutorialFin();
             }
@@ -503,7 +503,7 @@ public class DialogueUI : MonoBehaviour
                 InventoryUI.instance.GetQuestItem(10402);
                 selectedNPC.questEnd = true;
             }
-            else if (selectedNPC.dialogueFileName == "Check3_dialogue")
+            else if (selectedNPC.dialogueFileName == "Museum-Lobby_Check3_dialogue")
                     //|| selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
             {
                 StartCoroutine(Set_UIStateEnd_Coroutine());
