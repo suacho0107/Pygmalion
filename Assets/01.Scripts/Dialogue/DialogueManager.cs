@@ -125,6 +125,20 @@ public class DialogueManager : MonoBehaviour
                 {
                     dialogueUI.lineCount = skipLine - 2; //왜 -2인지는 모르겠는데.... 쨌든 이렇게 하면 제대로 돌아감
                     dialogueUI.contextCount = 0;
+
+                    // 설명문에서 skipNum 있으면 해당 대사 출력
+                    if (isExplain)
+                    {
+                        if (++dialogueUI.lineCount < dialogues.Length)
+                        {
+                            dialogueUI.DialogueWriter(); //다음 line으로 이동
+                        }
+                        else
+                        {
+                            dialogueUI.EndDialogue(); //대화 종료
+                        }
+                        return;
+                    }
                 }
             }
 
