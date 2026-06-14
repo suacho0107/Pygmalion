@@ -72,44 +72,15 @@ public class Statue : NPC
             {
                 if(sceneName == "Museum_Lobby")
                 {
-                    Debug.Log("로비");
                     StageNPC stageNPC = FindObjectOfType<StageNPC>();
-                    if (!stageNPC.isInteract) { Debug.Log("미술관장 미접촉"); return; }
+                    if (!stageNPC.isInteract) { return; }
                 }
                 ChangeDialogueFile(1);
                 Judge();
                 return;
             }
-            Debug.Log("그냥 판별");
+
             Judge();
-            
-            //if (sceneName.StartsWith("Museum_Lobby"))
-            //{
-            //    Judge();
-            //}
-            //else
-            //{
-            //    if (statueScore != null)
-            //    {
-            //        if (sceneName.StartsWith("Museum"))
-            //        {
-            //            if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
-            //            {
-            //                //Debug.Log("기본대사 -> 판별");
-            //                ChangeDialogueFile(1);
-            //                Judge();
-            //            }
-            //            else
-            //            {
-            //                Judge();
-            //            }
-            //        }
-            //        else if (sceneName.StartsWith("Library"))
-            //        {
-            //            Judge();
-            //        }
-            //    }
-            //}
         }
     }
 
@@ -162,16 +133,6 @@ public class Statue : NPC
                             Debug.Log("건드린다 > 정답");
                             isCorrect = true;
                             EnterFight();
-                            //statueAudio.PlayEnterFight();
-                            //ChangeDialogueExplain(FILEINDEX, "1");
-                            //statueScore.fightCount += 1;
-                            //statueScore.SaveScore();
-                            //enterFight = true;
-                            ////Debug.Log("enterFight True");
-                            //SceneTransport.previousStatue = filePath;
-                            //SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-                            //Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
-                            //StartCoroutine(DelayLoadScene(1.2f, "Battle"));
                             Debug.Log("적, 정답, 최초");
                         }
                         else if(enter1st && !enterFight && !trg_play) // 정답 전투 재진입

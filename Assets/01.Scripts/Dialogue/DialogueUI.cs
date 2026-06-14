@@ -171,6 +171,7 @@ public class DialogueUI : MonoBehaviour
                 if (int.TryParse(moveNumString, out int selectedIndex))
                 {
                     buttonIndexNPC = currentSelectButtonIndex;
+                    Debug.Log("buttonIndexNPC : " + buttonIndexNPC);
                     OnSelectButtonSelected(selectedIndex, currentSelectButtonIndex);
                 }
                 else if (string.IsNullOrWhiteSpace(moveNumString))
