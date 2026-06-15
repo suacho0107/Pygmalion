@@ -71,14 +71,14 @@ public class MuseumLobbyCSV : MonoBehaviour
             {
                 if (sceneName.StartsWith("Museum_Lobby"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "stage1_lobby_dialogue", "Museum-Lobby_Statue1_dialogue", "Museum-Lobby_Statue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
+                    npcs[0].dialogueFiles = new string[] { "battle1_dialogue", "Museum-Lobby_Statue1_dialogue", "Museum-Lobby_Statue1_dialogue", "battle1_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge-statue2_select", "judge-checking2_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
 
-                    npcs[1].dialogueFiles = new string[] { "Tutorial1_dialogue", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue", "Default-Exit_map_dialogue" };
-                    npcs[1].selectFiles = new string[] { "Tutorial1_select", "", "", "", "" };
+                    npcs[1].dialogueFiles = new string[] { "Museum-Lobby_Tuto1_dialogue", "Museum-Lobby_Tuto2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue", "Default-Exit_map_dialogue" };
+                    npcs[1].selectFiles = new string[] { "Museum-Lobby_Tuto1_select", "", "", "", "" };
                     ////Test
                     //npcs[1].dialogueFiles = new string[] { "2Select_Test_Dialogue_Jiyun", "Tutorial2_dialogue", "Check1_dialogue", "Check2_dialogue", "Check3_dialogue" };
                     //npcs[1].selectFiles = new string[] { "2Select_Test_Select_Jiyun", "", "", "", "" };
@@ -118,7 +118,7 @@ public class MuseumLobbyCSV : MonoBehaviour
                 }
                 else if (sceneName.StartsWith("Museum_Garden"))
                 {
-                    npcs[0].dialogueFiles = new string[] { "Stage1GardenStatue5_dialogue", "Museum-Garden_Statue5-1_dialogue", "Museum-Garden_Statue5-2_dialogue", "battle5_dialogue", "Destroyed_dialogue" };
+                    npcs[0].dialogueFiles = new string[] { "Museum-Garden_Statue5-1_dialogue", "Museum-Garden_Statue5-1_dialogue", "Museum-Garden_Statue5-2_dialogue", "battle5_dialogue", "Destroyed_dialogue" };
                     npcs[0].selectFiles = new string[] { "", "judge-statue4_select", "judge-checking4_select", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];

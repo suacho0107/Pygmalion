@@ -335,15 +335,15 @@ public class InventoryUI : MonoBehaviour
 
     void DefaultItmes()
     {
-        inventoryItemList.Add(new Item(20101, "열람실 열쇠", "도서관 B1 열람실의 잠금을 해제할 수 있다.", "열람실 열쇠", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(20102, "회의실A 열쇠", "도서관 1F 회의실A의 잠금을 해제할 수 있다.", "회의실A 열쇠", Item.ItemType.Use));
+        //inventoryItemList.Add(new Item(20101, "열람실 열쇠", "도서관 B1 열람실의 잠금을 해제할 수 있다.", "열람실 열쇠", Item.ItemType.Use));
+        //inventoryItemList.Add(new Item(20102, "회의실A 열쇠", "도서관 1F 회의실A의 잠금을 해제할 수 있다.", "회의실A 열쇠", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
+        //inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
         //inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(20102, "회의실 열쇠", "회의실 열쇠 설명", "회의실 열쇠", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(20101, "열람실 열쇠", "열람실 열쇠 설명", "열람실 열쇠", Item.ItemType.Use));
-        inventoryItemList.Add(new Item(10402, "비타5000", "요즘 인기 최고인 에너지드링크.\n피로와 상처를 순식간에 회복시켜준다.", "비타5000", Item.ItemType.Battle));
-        inventoryItemList.Add(new Item(10403, "포도주", "술과 축제의 신 디오니소스가 특별히 만든 포도주.\n생명력이 깃들어 죽어가던 사람도 살아난다고 한다.", "포도주", Item.ItemType.Battle));
+        //inventoryItemList.Add(new Item(20101, "열람실 열쇠", "열람실 열쇠 설명", "열람실 열쇠", Item.ItemType.Use));
+        //inventoryItemList.Add(new Item(10402, "비타5000", "요즘 인기 최고인 에너지드링크.\n피로와 상처를 순식간에 회복시켜준다.", "비타5000", Item.ItemType.Battle));
+        //inventoryItemList.Add(new Item(10403, "포도주", "술과 축제의 신 디오니소스가 특별히 만든 포도주.\n생명력이 깃들어 죽어가던 사람도 살아난다고 한다.", "포도주", Item.ItemType.Battle));
         //SaveInventory();
         //Debug.Log("DefualtItem");
     }

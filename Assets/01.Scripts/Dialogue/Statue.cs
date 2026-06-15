@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class Statue : NPC
 {
     StatueAudio statueAudio;
+    InteractItem interactItem;
 
     public SpriteRenderer spriteRenderer;
     public Sprite destroyedSprite; // 무너진 조각상 스프라이트
@@ -39,54 +40,52 @@ public class Statue : NPC
     {
         base.Awake();
         LoadStatueData();
+        dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
     private void Start()
     {
         statueAudio = GetComponent<StatueAudio>();
+        interactItem = GetComponent<InteractItem>();
 
         sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
     {
-        if (isStatue)
-        {
-            if (sceneName.StartsWith("Museum_Lobby"))
-            {
-                Judge();
-            }
-            else
-            {
-                if (statueScore != null)
-                {
-                    if (sceneName.StartsWith("Museum"))
-                    {
-                        if (statueScore.statueCount >= 1 && !isChecked && !isJudged && !isFin)
-                        {
-                            //Debug.Log("기본대사 -> 판별");
-                            ChangeDialogueFile(1);
-                            Judge();
-                        }
-                        else
-                        {
-                            Judge();
-                        }
-                    }
-                    else if (sceneName.StartsWith("Library"))
-                    {
-                        Judge();
-                    }
-                }
-            }
-        }
-
         if (isFin)
         {
             Result();
+            return;
+        }
+
+        if (isStatue && statueScore != null)
+        {
+            if (sceneName == "Museum_ExhibitionRoom2")
+            {
+                if (isInteract)
+                {
+                    ChangeDialogueFile(1);
+                    Judge();
+                }
+                return;
+            }
+
+            if (sceneName.StartsWith("Museum"))
+            {
+                if(sceneName == "Museum_Lobby")
+                {
+                    StageNPC stageNPC = FindObjectOfType<StageNPC>();
+                    if (!stageNPC.isInteract) { return; }
+                }
+                ChangeDialogueFile(1);
+                Judge();
+                return;
+            }
+
+            Judge();
         }
     }
-
 
     public void Judge()
     {
@@ -137,16 +136,6 @@ public class Statue : NPC
                             Debug.Log("건드린다 > 정답");
                             isCorrect = true;
                             EnterFight();
-                            //statueAudio.PlayEnterFight();
-                            //ChangeDialogueExplain(FILEINDEX, "1");
-                            //statueScore.fightCount += 1;
-                            //statueScore.SaveScore();
-                            //enterFight = true;
-                            ////Debug.Log("enterFight True");
-                            //SceneTransport.previousStatue = filePath;
-                            //SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-                            //Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
-                            //StartCoroutine(DelayLoadScene(1.2f, "Battle"));
                             Debug.Log("적, 정답, 최초");
                         }
                         else if(enter1st && !enterFight && !trg_play) // 정답 전투 재진입

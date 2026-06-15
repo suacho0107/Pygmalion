@@ -41,7 +41,7 @@ public class MuseumGuard : StageNPC
             }
             else
             {
-                if (!isInteract && dialogueUI.LineCount() == 0)
+                if (!isInteract && dialogueUI.LineCount() < 2)
                 {
                     uncontacted = true;
                 }
@@ -59,43 +59,27 @@ public class MuseumGuard : StageNPC
                     #region 최초 상호작용시
                     if (!isInteract) // 최초 상호작용
                     {
-                        if (InventoryUI.instance.HasItem(10401)) // 최초 상호작용, 퀘스트 시작 전 아이템 소지
+                        if (dialogueUI.buttonIndexNPC == 0) // 퀘스트 수락
                         {
-                            ChangeDialogueFile(3);
-                            // Statue isEnd랑 간섭 문제 발생
+                            //Debug.Log("최초 상호작용, 퀘스트 시작 전 아이템 미소지, 퀘스트 수락");
                             if (currentNPC && dialogueManager.isEnd)
                             {
-                                questEnd = true;
-                                InventoryUI.instance.GetAnItem(10402);
-                                InventoryUI.instance.RemoveInventoryItem(10401);
+                                //Debug.Log("퀘스트 수락, isEnd");
+                                questStart = true;
+                                if (InventoryUI.instance.HasItem(10401)) ChangeDialogueFile(1);
+                                else ChangeDialogueFile(2);
                                 SaveMGuardData();
                                 dialogueManager.isEnd = false;
                             }
                         }
-                        else // 최초 상호작용, 퀘스트 시작 전 아이템 미소지
+                        else // 퀘스트 거절
                         {
-                            if (dialogueUI.buttonIndexNPC == 2) // 퀘스트 수락
+                            if (currentNPC && dialogueManager.isEnd)
                             {
-                                //Debug.Log("최초 상호작용, 퀘스트 시작 전 아이템 미소지, 퀘스트 수락");
-                                if (currentNPC && dialogueManager.isEnd)
-                                {
-                                    //Debug.Log("퀘스트 수락, isEnd");
-                                    questStart = true;
-                                    if (InventoryUI.instance.HasItem(10401)) ChangeDialogueFile(1);
-                                    else ChangeDialogueFile(2);
-                                    SaveMGuardData();
-                                    dialogueManager.isEnd = false;
-                                }
-                            }
-                            else // 퀘스트 거절
-                            {
-                                if (currentNPC && dialogueManager.isEnd)
-                                {
-                                    questStart = false;
-                                    ChangeDialogueFile(4);
-                                    SaveMGuardData();
-                                    dialogueManager.isEnd = false;
-                                }
+                                questStart = false;
+                                ChangeDialogueFile(4);
+                                SaveMGuardData();
+                                dialogueManager.isEnd = false;
                             }
                         }
                     }
@@ -123,8 +107,9 @@ public class MuseumGuard : StageNPC
                             dialogueManager.isEnd = false;
                         }
 
-                        if (dialogueUI.buttonIndexNPC == 2) // 퀘스트 수락
+                        if (dialogueUI.buttonIndexNPC == 0) // 퀘스트 수락
                         {
+                            //Debug.Log("최초 이후 퀘스트 수락");
                             questStart = true;
                             SaveMGuardData();
                         }
