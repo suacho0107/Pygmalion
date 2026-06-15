@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class Statue : NPC
 {
     StatueAudio statueAudio;
+    InteractItem interactItem;
 
     public SpriteRenderer spriteRenderer;
     public Sprite destroyedSprite; // 무너진 조각상 스프라이트
@@ -39,11 +40,13 @@ public class Statue : NPC
     {
         base.Awake();
         LoadStatueData();
+        dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
     private void Start()
     {
         statueAudio = GetComponent<StatueAudio>();
+        interactItem = GetComponent<InteractItem>();
 
         sceneName = SceneManager.GetActiveScene().name;
     }

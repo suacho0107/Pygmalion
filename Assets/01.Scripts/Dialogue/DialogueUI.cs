@@ -514,6 +514,11 @@ public class DialogueUI : MonoBehaviour
 
         if (npc is Statue selectedStatue)
         {
+            if (selectedStatue.gameObject.name == "stage1_statue 5" && !selectedStatue.isInteract)
+            {
+                InventoryUI.instance.GetAnItem(10403);
+            }
+
             selectedStatue.isInteract = true;
             selectedStatue.CheckResult();
         }
