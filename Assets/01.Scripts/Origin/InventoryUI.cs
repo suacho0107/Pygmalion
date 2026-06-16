@@ -198,6 +198,14 @@ public class InventoryUI : MonoBehaviour
                 if (!battleManager.CanUseItem(_itemID)) //사용 가능 여부 먼저 검사
                 {
                     StartCoroutine(battleManager.CannotUseItem());
+
+                    //인벤 창 닫기
+                    activeInventory = false;
+                    activeSelect = false;
+                    keyUp = false;
+                    inventoryPanel.SetActive(false);
+                    activeItem = false;
+
                     return;
                 }
 

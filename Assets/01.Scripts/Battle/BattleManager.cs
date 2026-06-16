@@ -394,15 +394,6 @@ public class BattleManager : MonoBehaviour
     {
         battleUI.ResetUI();
 
-        //if (_itemID == 10402 || _itemID == 10403)
-        //{
-        //    if (player.isMaxhp)
-        //    {
-        //        yield return StartCoroutine(CannotUse());
-        //        yield break;
-        //    }
-        //}
-
         switch (_itemID)
         {
             case 10402:
@@ -416,6 +407,10 @@ public class BattleManager : MonoBehaviour
             case 20103:
                 Debug.Log("수상한 액체가 든 병 효과");
                 SuspiciousPotion();
+                break;
+            case 20105:
+                Debug.Log("먹다 남은 쿠키 효과");
+                LeftoverCookie();
                 break;
         }
         yield return new WaitUntil(() => battleUI.isTyping);
@@ -432,6 +427,7 @@ public class BattleManager : MonoBehaviour
         {
             case 10402: //비타5000
             case 10403: //포도주
+            case 20105: //먹다 남은 쿠키
                 return !player.isMaxhp;
 
             default: //조건 없는 item
@@ -473,6 +469,12 @@ public class BattleManager : MonoBehaviour
                 part.Damaged(1);
             }
         }
+    }
+
+    public void LeftoverCookie() //먹다 남은 쿠키
+    {
+        StartCoroutine(battleUI.TypeWriter("[먹다 남은 쿠키]를 우물우물 먹었다.\n생각보다 썩 괜찮은 맛이다."));
+        player.Heal((int)(player.maxHp * 0.2));
     }
     #endregion
 }
