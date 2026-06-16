@@ -47,8 +47,7 @@ public class StartManager : MonoBehaviour
             {
                 SceneManager.LoadScene("Company_LobbyTuto-1");
             }
-        }
-        
+        }        
     }
 
     private void ButtonInputHandler()
@@ -76,11 +75,12 @@ public class StartManager : MonoBehaviour
             {
                 StartCoroutine(FadeInOut(true, 1f));
             }
-            else if (selectedButtonIndex == 1) // 이어하기
-            {
-                SaveManager.s_instance.LoadData();
-            }
-            else if (selectedButtonIndex == 2) //종료하기
+            //else if (selectedButtonIndex == 1) // 이어하기
+            //{
+            //    SaveManager.s_instance.LoadData();
+            //}
+            //else if (selectedButtonIndex == 2) //종료하기
+            else if (selectedButtonIndex == 1) //종료하기
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
