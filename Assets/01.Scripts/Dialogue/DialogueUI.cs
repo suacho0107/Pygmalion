@@ -540,6 +540,11 @@ public class DialogueUI : MonoBehaviour
 
         if (npc is NPC _npc && !_npc.isObject)
         {
+            if (_npc.gameObject.name == "도서관1F낙서" && !_npc.isInteract)
+            {
+                InventoryUI.instance.GetAnItem(20105);
+            }
+
             _npc.isInteract = true;
         }
 
