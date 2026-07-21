@@ -38,11 +38,11 @@ public class LibraryRoom : NPC
                 {
                     unlock = true;
 
-                    //if (!saved) // 한 번 열면 열쇠 상호작용 필요 없음
-                    //{
-                    //    SaveData();
-                    //    saved = true;
-                    //}
+                    if (!saved) // 한 번 열면 열쇠 상호작용 필요 없음
+                    {
+                        SaveData();
+                        saved = true;
+                    }
                 }
             }
             else ChangeExplainNum("10");

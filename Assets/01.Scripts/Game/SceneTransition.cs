@@ -18,7 +18,7 @@ public class SceneTransition : MonoBehaviour
     public StageNPC stageNpc; // StageNPC 직접 할당
     public NPC npc; // NPC
     bool enter = false;
-    [SerializeField] bool block = false;
+    public bool block = false;
 
     void LoadNextScene()
     {
@@ -31,9 +31,9 @@ public class SceneTransition : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            if (BlockGlobalMap())
+            if (BlockGlobalMap()) // 씬 이동 막고 대사 출력
             {
-                if(npc != null || stageNpc != null)
+                if(gameObject.layer != 6 && npc != null || stageNpc != null)
                 {
                     if (!enter)
                     {
@@ -98,10 +98,10 @@ public class SceneTransition : MonoBehaviour
                         enter = true;
                     }
                 }
-                else if(SceneManager.GetActiveScene().name == "Library_1F")
-                {
-                    //if(!InventoryUI.instance.HasItem(20102)) gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                }
+                //else if(SceneManager.GetActiveScene().name == "Library_1F")
+                //{
+                //    if (InventoryUI.instance.HasItem(20102)) block = false;
+                //}
             }
         }
     }
@@ -200,6 +200,10 @@ public class SceneTransition : MonoBehaviour
                     LoadNextScene();
                 }
             }
+        }
+        else if (SceneManager.GetActiveScene().name == "Library_1F")
+        {
+            if (InventoryUI.instance.HasItem(20102)) block = false;
         }
     }
 
