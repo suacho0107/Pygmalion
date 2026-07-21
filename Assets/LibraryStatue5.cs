@@ -23,7 +23,8 @@ public class LibraryStatue5 : MonoBehaviour
 
     void Update()
     {
-        if (melData.result && !statue.isJudged)
+        if (melData == null) return;
+        if (!statue.isJudged && melData.result)
         {
             statue.dialogueFileName = "Library-B1F_Statue5-2_dialogue";
         }
