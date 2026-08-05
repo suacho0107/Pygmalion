@@ -2,7 +2,8 @@ public enum EnemyType
 {
     Aphrodite,
     ReadingChild,
-    Melpomene
+    Melpomene,
+    BikeCouple
 }
 
 public enum PartType
@@ -13,5 +14,15 @@ public enum PartType
     RArm,
     LArm,
     RLeg,
-    LLeg
+    LLeg,
+
+    //자전거 타는 연인
+    MHead,
+    WHead,
+    MBody,
+    WBody,
+    MArm,
+    WArm,
+    MLeg,
+    WLeg
 }

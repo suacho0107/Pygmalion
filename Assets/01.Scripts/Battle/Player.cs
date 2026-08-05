@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     [Header("Status")]
     public bool isCharmed; //매혹
     public bool isConfused; //혼란
+    public bool isAngry; //분노
+    public bool isNegated; //무효
     #endregion
 
     #region Unity Methods
@@ -69,11 +71,24 @@ public class Player : MonoBehaviour
 
         battleSFX.Play(battleSFX.playerAttack);
 
+        yield return null;
+
         if (isConfused) // 혼란 상태: 자기 자신 공격
         {
             StartCoroutine(battleUI.TypeWriter(" 당신은 순간 혼란에 빠져 스스로를 공격합니다."));
 
             Damaged(attackPower);
+        }
+        if (isAngry) //분노 상태: 1턴 동안 공격력 2배
+        {
+            //대사 추가시 수정
+            StartCoroutine(battleUI.TypeWriter($" {battleUI.TranslateEnemy(enemy)}의 {battleUI.TranslatePart(part)}{battleUI.KorParticle(battleUI.TranslatePart(part), "을", "를")} 공격합니다."));
+            
+            part.Damaged(attackPower * 2);
+        }
+        if (isNegated) //무효
+        {
+            StartCoroutine(battleUI.TypeWriter(" 공격 무효"));
         }
         else // 일반 공격
         {
@@ -96,6 +111,8 @@ public class Player : MonoBehaviour
     {
         // 상태 초기화
         isConfused = false;
+        isAngry = false;
+        isNegated = false;
 
         //Inventory UI
         if (InventoryUI.instance.activeInventory)
