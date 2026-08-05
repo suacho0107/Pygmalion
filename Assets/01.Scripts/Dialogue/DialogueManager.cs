@@ -270,21 +270,25 @@ public class DialogueManager : MonoBehaviour
 
     public void SaveData()
     {
-        if (npc is StageNPC stageNpcInstance)
+        //if (npc is StageNPC stageNpcInstance)
+        //{
+        //     stageNpcInstance.SaveStageNPCData();
+        //}
+        //else if (npc is Statue statueInstance)
+        //{
+        //    statueInstance.SaveStatueData();
+        //}
+        //else if (npc is RequestNPC requestNPCInstance)
+        //{
+        //    requestNPCInstance.SaveRequestNPCData();
+        //}
+        //else if (npc is NPC npcInstance)
+        //{
+        //    npcInstance.SaveNPCData();
+        //}
+        if (SaveManager.s_instance != null)
         {
-            stageNpcInstance.SaveStageNPCData();
-        }
-        else if (npc is Statue statueInstance)
-        {
-            statueInstance.SaveStatueData();
-        }
-        else if (npc is RequestNPC requestNPCInstance)
-        {
-            requestNPCInstance.SaveRequestNPCData();
-        }
-        else if (npc is NPC npcInstance)
-        {
-            npcInstance.SaveNPCData();
+            SaveManager.s_instance.SaveData();
         }
     }
 }

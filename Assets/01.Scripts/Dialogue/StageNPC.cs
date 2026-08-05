@@ -182,4 +182,29 @@ public class StageNPC : NPC
 
         Debug.Log(gameObject.name + " 데이터 로드");
     }
+
+    public override NPCData CaptureData()
+    {
+        NPCData data = base.CaptureData();
+
+        data.isTutoDialogueChanged = isTutoDialogueChanged;
+        data.isTutoFin = isTutoFin;
+        data.questStart = questStart;
+        data.questEnd = questEnd;
+
+        return data;
+    }
+
+    public override void RestoreData(NPCData data)
+    {
+        base.RestoreData(data);
+
+        if (data == null)
+            return;
+
+        isTutoDialogueChanged = data.isTutoDialogueChanged;
+        isTutoFin = data.isTutoFin;
+        questStart = data.questStart;
+        questEnd = data.questEnd;
+    }
 }
