@@ -74,6 +74,7 @@ public class StartManager : MonoBehaviour
         {
             if (selectedButtonIndex == 0) //시작하기
             {
+                ResetAllData();
                 StartCoroutine(FadeInOut(true, 1f));
             }
             else if (selectedButtonIndex == 1) // 이어하기
@@ -97,6 +98,25 @@ public class StartManager : MonoBehaviour
             }
         }
         HighlightButton();
+    }
+
+    void ResetAllData()
+    {
+        DeleteAllData deleteAllData = FindObjectOfType<DeleteAllData>();
+
+        if (null != deleteAllData)
+        {
+            deleteAllData.DeleteAllJsonFiles();
+        }
+        else
+        {
+            Debug.LogWarning("삭제할 데이터가 없습니다.");
+        }
+
+        if (null != FieldItemManager.Instance)
+        {
+            FieldItemManager.Instance.ResetFieldItems();
+        }
     }
 
     //private void ButtonInputHandler()
