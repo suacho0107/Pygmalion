@@ -136,12 +136,11 @@ public class SaveUI : MonoBehaviour
             if (selectedPopupButtonIndex == 0) // 저장하고 나가기
             {
                 OnSaveData();
-                //ClosePanel();
+                UIManager.u_instance.RequestSaveMessage();
                 SceneManager.LoadScene("Start");
             }
             else if (selectedPopupButtonIndex == 1) // 저장하지않고 나가기
             {
-                //ClosePanel();
                 SceneManager.LoadScene("Start");
             }
         }

@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     public  int     stageIndex = 0;
     public  bool    isRespawn = false;
     public  bool    stateWork = false;
+    private bool    canShowMessage = false;
 
     void Awake()
     {
@@ -88,6 +89,9 @@ public class UIManager : MonoBehaviour
     void Assign_UIObject()
     {
         GameObject uiCanvas = GameObject.FindWithTag("UICanvas");
+
+        if (null == uiCanvas)
+            return;
 
         UIReady = UIReady   != null ? UIReady   : uiCanvas.transform.Find("UIReady")?.gameObject;
         UIStart = UIStart   != null ? UIStart   : uiCanvas.transform.Find("UIStart")?.gameObject;
@@ -160,6 +164,23 @@ public class UIManager : MonoBehaviour
         }
 
         //Debug.Log($"UI 상태가 {currentState}로 전환되었습니다.");
+    }
+
+    // Start씬 내 저장 팝업 메세지 전달용
+    public void RequestSaveMessage()
+    {
+        canShowMessage = true;
+    }
+
+    public bool canRequestSaveMessage()
+    {
+        if (!canShowMessage)
+        {
+            return false;
+        }
+
+        canShowMessage = false;
+        return true;
     }
 
 }
