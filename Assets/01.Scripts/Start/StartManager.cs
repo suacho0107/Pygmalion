@@ -74,14 +74,21 @@ public class StartManager : MonoBehaviour
         {
             if (selectedButtonIndex == 0) //시작하기
             {
+                ResetAllData();
                 StartCoroutine(FadeInOut(true, 1f));
             }
-            //else if (selectedButtonIndex == 1) // 이어하기
-            //{
-            //    SaveManager.s_instance.LoadData();
-            //}
-            //else if (selectedButtonIndex == 2) //종료하기
-            else if (selectedButtonIndex == 1) //종료하기
+            else if (selectedButtonIndex == 1) // 이어하기
+            {
+                if (SaveManager.s_instance != null)
+                {
+                    SaveManager.s_instance.LoadData();
+                }
+                else
+                {
+                    Debug.LogError("SaveManager 인스턴스가 없습니다.");
+                }
+            }
+            else if (selectedButtonIndex == 2) //종료하기
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
@@ -91,6 +98,25 @@ public class StartManager : MonoBehaviour
             }
         }
         HighlightButton();
+    }
+
+    void ResetAllData()
+    {
+        DeleteAllData deleteAllData = FindObjectOfType<DeleteAllData>();
+
+        if (null != deleteAllData)
+        {
+            deleteAllData.DeleteAllJsonFiles();
+        }
+        else
+        {
+            Debug.LogWarning("삭제할 데이터가 없습니다.");
+        }
+
+        if (null != FieldItemManager.Instance)
+        {
+            FieldItemManager.Instance.ResetFieldItems();
+        }
     }
 
     //private void ButtonInputHandler()

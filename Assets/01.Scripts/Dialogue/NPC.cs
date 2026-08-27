@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters;
+using System.Collections.Generic;
 //using static UnityEditor.Progress;
 
 public class NPC : MonoBehaviour
@@ -25,6 +26,9 @@ public class NPC : MonoBehaviour
 
     //public int FILEINDEX;
     #endregion
+
+    [Header("Save")]
+    [SerializeField] public string saveID;
 
     [SerializeField] public string dialogueFileName;
     [SerializeField] public string selectFileName;
@@ -145,5 +149,37 @@ public class NPC : MonoBehaviour
             Debug.Log("NPC 데이터 초기화 : " + filePath);
         }
         npcData = new NPCData();
+    }
+
+    public virtual NPCData CaptureData()
+    {
+        NPCData data = new NPCData();
+
+        data.isDialogueChanged = isDialogueChanged;
+        data.currentIndex = currentIndex;
+        data.dialogueFileName = dialogueFileName;
+        data.selectFileName = selectFileName;
+        data.isInteract = isInteract;
+
+        if (npcData.runHpList != null)
+        {
+            data.runHpList = new List<RunHpData>(npcData.runHpList);
+        }
+
+        return data;
+    }
+
+    public virtual void RestoreData(NPCData data)
+    {
+        if (data == null)
+            return;
+
+        npcData = data;
+
+        isDialogueChanged = data.isDialogueChanged;
+        currentIndex = data.currentIndex;
+        dialogueFileName = data.dialogueFileName;
+        selectFileName = data.selectFileName;
+        isInteract = data.isInteract;
     }
 }

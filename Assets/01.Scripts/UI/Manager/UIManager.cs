@@ -30,8 +30,8 @@ public class UIManager : MonoBehaviour
 
     public  int     stageIndex = 0;
     public  bool    isRespawn = false;
-    private bool needResetAllData = false;
-    public bool stateWork = false;
+    public  bool    stateWork = false;
+    private bool    canShowMessage = false;
 
     void Awake()
     {
@@ -57,32 +57,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        #region Test
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            LoadStartScene();
-            needResetAllData = true;        // 초기화 요청
-        }
-        #endregion
     }
-
-    #region Test
-    private void LoadStartScene()
-    {
-        Set_UIState(UI.UIState.Ready);
-
-        string sceneName = "Start";
-
-        if (!string.IsNullOrEmpty(sceneName))
-        {
-            SceneManager.LoadScene(sceneName);
-        }
-        else
-        {
-            Debug.LogWarning("씬 이름이 설정되지 않았습니다!");
-        }
-    }
-    #endregion
 
     private void OnDestroy()
     {
@@ -92,26 +67,7 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        DeleteAllData delete = FindObjectOfType<DeleteAllData>();
-        if (scene.name == "Start" && needResetAllData)
-        {
-            if (delete != null)
-            {
-                delete.DeleteAllJsonFiles();
-            }
-            else
-            {
-                Debug.LogWarning("Start 씬에서 DeleteAllData를 찾을 수 없습니다.");
-            }
-
-            if (FieldItemManager.Instance != null)
-            {
-                FieldItemManager.Instance.ResetFieldItems();
-            }
-
-            needResetAllData = false; // 초기화 한 번 하고 플래그 해제
-        }
-        else if(scene.name == "Monologue_success")
+        if(scene.name == "Monologue_success")
         {
             PlayerPrefs.SetInt("StatueCount", 0);
             PlayerPrefs.SetInt("destroyedCount", 0);
@@ -133,6 +89,9 @@ public class UIManager : MonoBehaviour
     void Assign_UIObject()
     {
         GameObject uiCanvas = GameObject.FindWithTag("UICanvas");
+
+        if (null == uiCanvas)
+            return;
 
         UIReady = UIReady   != null ? UIReady   : uiCanvas.transform.Find("UIReady")?.gameObject;
         UIStart = UIStart   != null ? UIStart   : uiCanvas.transform.Find("UIStart")?.gameObject;
@@ -205,6 +164,23 @@ public class UIManager : MonoBehaviour
         }
 
         //Debug.Log($"UI 상태가 {currentState}로 전환되었습니다.");
+    }
+
+    // Start씬 내 저장 팝업 메세지 전달용
+    public void RequestSaveMessage()
+    {
+        canShowMessage = true;
+    }
+
+    public bool canRequestSaveMessage()
+    {
+        if (!canShowMessage)
+        {
+            return false;
+        }
+
+        canShowMessage = false;
+        return true;
     }
 
 }

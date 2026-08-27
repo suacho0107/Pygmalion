@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class NPCSaveEntry
+{
+    public string npcID;
+    public string sceneID;
+    public NPCData data;
+}
+
+[System.Serializable]
 public class SaveData
 {
     public string sceneName;
@@ -14,4 +22,5 @@ public class SaveData
     public int stageIndex;
 
     public List<FieldItemData> collectedItems = new List<FieldItemData>();
+    public List<NPCSaveEntry> npcDatas = new List<NPCSaveEntry>();
 }
