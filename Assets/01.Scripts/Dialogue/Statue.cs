@@ -32,7 +32,7 @@ public class Statue : NPC
 
     public bool isSpriteChanged = false;
 
-    int FILEINDEX; // currentIndex와 상관 없이 상수 정해두려고
+    int FILEINDEX = 3; // currentIndex와 상관 없이 상수 정해두려고
 
     string sceneName;
 
@@ -90,7 +90,7 @@ public class Statue : NPC
     public void Judge()
     {
         //Debug.Log("Judge 넘어감");
-        if (enter1st)
+        if (enter1st && !result)
         {
             ChangeDialogueFile(FILEINDEX);
             explainNum = "1";
@@ -98,7 +98,6 @@ public class Statue : NPC
 
         if (sceneName.StartsWith("Museum")) // && !isChecked && !isJudged)
         {
-            FILEINDEX = 3;
             if (currentIndex == 1 || currentIndex == 2)
             {
                 explainNum = null;
@@ -106,7 +105,6 @@ public class Statue : NPC
         }
         else
         {
-            FILEINDEX = 3;
             if (currentIndex == 0 || currentIndex == 1)
             {
                 explainNum = null;

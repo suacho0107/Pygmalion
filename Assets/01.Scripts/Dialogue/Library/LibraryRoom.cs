@@ -26,26 +26,35 @@ public class LibraryRoom : NPC
             }
 
             ChangeDialogueFileName("Stage2_1F_dialogue");
-            if (InventoryUI.instance.HasItem(20102))
+
+            if(gameObject.name == "소회의실문")
             {
-                if (explainNum != "11")
-                {
-                    isInteract = false;
-                }
-
-                ChangeExplainNum("11");
-                if (isInteract && !unlock)
-                {
-                    unlock = true;
-
-                    //if (!saved) // 한 번 열면 열쇠 상호작용 필요 없음
-                    //{
-                    //    SaveData();
-                    //    saved = true;
-                    //}
-                }
+                DoorUnlock(20106);
             }
-            else ChangeExplainNum("10");
+            else if(gameObject.name == "대회의실문")
+            {
+                DoorUnlock(20102);
+            }
+            //if (InventoryUI.instance.HasItem(20102))
+            //{
+            //    if (explainNum != "11")
+            //    {
+            //        isInteract = false;
+            //    }
+
+            //    ChangeExplainNum("11");
+            //    if (isInteract && !unlock)
+            //    {
+            //        unlock = true;
+
+            //        if (!saved) // 한 번 열면 열쇠 상호작용 필요 없음
+            //        {
+            //            SaveData();
+            //            saved = true;
+            //        }
+            //    }
+            //}
+            //else ChangeExplainNum("10");
         }
         else if (SceneManager.GetActiveScene().name == "Library_B1F") // 열람실
         {
@@ -78,6 +87,30 @@ public class LibraryRoom : NPC
                 ChangeExplainNum("1");
             }
         }
+    }
+
+    void DoorUnlock(int _itemID)
+    {
+        if (InventoryUI.instance.HasItem(_itemID))
+        {
+            if (explainNum != "11")
+            {
+                isInteract = false;
+            }
+
+            ChangeExplainNum("11");
+            if (isInteract && !unlock)
+            {
+                unlock = true;
+
+                if (!saved) // 한 번 열면 열쇠 상호작용 필요 없음
+                {
+                    SaveData();
+                    saved = true;
+                }
+            }
+        }
+        else ChangeExplainNum("10");
     }
 
     void SaveData()
