@@ -36,8 +36,26 @@ public class TutorialTrigger : TutorialBase
                     }
                 }
 
+                if(playerMove.RayhitObj != null)
+                {
+                    if (SceneManager.GetActiveScene().name.StartsWith("Library"))
+                    {
+                        if (playerMove.RayhitObj.name == "대회의실문" || playerMove.RayhitObj.name == "소회의실문")
+                            libraryRoom = playerMove.RayhitObj.GetComponent<LibraryRoom>();
+                    }
+                }
+
                 if (libraryRoom != null)
                 {
+                    if (obj.name == "triggerObj_CR1")
+                    {
+                        if (!InventoryUI.instance.HasItem(20106)) triggerActive = false;
+                        else
+                        {
+                            if (libraryRoom.unlock) triggerActive = true;
+                            else triggerActive = false;
+                        }
+                    }
                     if (obj.name == "triggerObj_CR2")
                     {
                         if (!InventoryUI.instance.HasItem(20102)) triggerActive = false;

@@ -344,7 +344,8 @@ public class InventoryUI : MonoBehaviour
     void DefaultItmes()
     {
         //inventoryItemList.Add(new Item(20101, "열람실 열쇠", "도서관 B1 열람실의 잠금을 해제할 수 있다.", "열람실 열쇠", Item.ItemType.Use));
-        //inventoryItemList.Add(new Item(20102, "회의실A 열쇠", "도서관 1F 회의실A의 잠금을 해제할 수 있다.", "회의실A 열쇠", Item.ItemType.Use));
+        //inventoryItemList.Add(new Item(20106, "회의실A 카드키", "도서관 1F 회의실A의 잠금을 해제할 수 있다.", "회의실A 카드키", Item.ItemType.Use));
+        //inventoryItemList.Add(new Item(20102, "회의실B 카드키", "도서관 1F 회의실B의 잠금을 해제할 수 있다.", "회의실B 카드키", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(10001, "Items_10", "A설명", "Itmes_10", Item.ItemType.Use));
         //inventoryItemList.Add(new Item(20001, "C이름", "C설명", "C이름", Item.ItemType.Equip));
         //inventoryItemList.Add(new Item(10002, "B이름", "B설명", "B이름", Item.ItemType.Use));
