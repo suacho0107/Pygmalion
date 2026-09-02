@@ -444,8 +444,8 @@ public class DialogueUI : MonoBehaviour
 
         if (npc != null && npc.dialogueFileName == "Office-Day2-Storage_dialogue")
         {
-            if(lineCount == 4 && contextCount == 0) ItemPopup();
-            if(lineCount == 9 && contextCount == 0) ItemImage.SetActive(false);
+            if (lineCount == 4 && contextCount == 0) ItemPopup();
+            if (lineCount == 9 && contextCount == 0) ItemClose();
         }
 
         //context 출력
@@ -555,7 +555,7 @@ public class DialogueUI : MonoBehaviour
 
         if (ItemImage != null)
         {
-            ItemImage.SetActive(false);
+            ItemClose();
         }
 
         #region Image Popup
@@ -789,6 +789,20 @@ public class DialogueUI : MonoBehaviour
     public void ItemPopup()
     {
         ItemImage.SetActive(true);
+        ItemFade itemFade = FindObjectOfType<ItemFade>();
+        StartCoroutine(itemFade.ItemFadeIn(0.2f));
+    }
+
+    public void ItemClose()
+    {
+        StartCoroutine(DelayItemClose());
+    }
+
+    IEnumerator DelayItemClose()
+    {
+        ItemFade itemFade = FindObjectOfType<ItemFade>();
+        yield return StartCoroutine(itemFade.ItemFadeOut(0.2f));
+        ItemImage.SetActive(false);
     }
     #endregion
 
