@@ -28,7 +28,8 @@ public class SoundManager : MonoBehaviour
     }
     #endregion
 
-    private AudioSource audioSource;
+    private AudioSource audioSource_BG;
+    private AudioSource audioSource_Eff;
 
     private Stage.StageState currentState;
 
@@ -39,8 +40,8 @@ public class SoundManager : MonoBehaviour
             s_instance = this;
             DontDestroyOnLoad(gameObject);
 
-            audioSource = GetComponent<AudioSource>();
-            audioSource.loop = true;
+            audioSource_BG = GetComponent<AudioSource>();
+            audioSource_BG.loop = true;
 
             // 씬 로드 이벤트 등록
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -135,10 +136,21 @@ public class SoundManager : MonoBehaviour
                 break;
         }
 
-        if (bgmToPlay != null && audioSource.clip != bgmToPlay)
+        if (bgmToPlay != null && audioSource_BG.clip != bgmToPlay)
         {
-            audioSource.clip = bgmToPlay;
-            audioSource.Play();
+            audioSource_BG.clip = bgmToPlay;
+            audioSource_BG.Play();
         }
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        audioSource_BG.volume = volume;
+    }
+
+    public void SetEffectVolume(float volume)
+    {
+        // 효과음 AudioSource 모아서 한번에 조정
+
     }
 }

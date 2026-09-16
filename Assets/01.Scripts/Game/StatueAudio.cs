@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class StatueAudio : MonoBehaviour
 {
-    private AudioSource audioSource;
+    [SerializeField] private AudioMixerGroup SFXGroup;
 
     public AudioClip pencil;
     public AudioClip enterFight;
     //public AudioClip retry;
     public AudioClip destroyed;
+
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -20,6 +23,7 @@ public class StatueAudio : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        audioSource.outputAudioMixerGroup = SFXGroup;
     }
 
     //public void SoundButton()
