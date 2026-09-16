@@ -47,8 +47,7 @@ public class StartManager : MonoBehaviour
             {
                 SceneManager.LoadScene("Company_LobbyTuto-1");
             }
-        }
-        
+        }        
     }
 
     private void ButtonInputHandler()

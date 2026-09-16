@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ReadingChild : Enemy
+public class ReadingChild : Enemy //책을 읽는 아이
 {
     protected override void Awake()
     {

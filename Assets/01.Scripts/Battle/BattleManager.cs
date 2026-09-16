@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour
     public GameObject Aphrodite;
     public GameObject ReadingChild;
     public GameObject Melpomene;
+    public GameObject BikeCouple;
     #endregion
 
     #region Player Position
@@ -169,8 +170,10 @@ public class BattleManager : MonoBehaviour
             //enemy = Aphrodite.GetComponent<Enemy>();
             //ReadingChild.SetActive(true);
             //enemy = ReadingChild.GetComponent<Enemy>();
-            Melpomene.SetActive(true);
-            enemy = Melpomene.GetComponent<Enemy>();
+            //Melpomene.SetActive(true);
+            //enemy = Melpomene.GetComponent<Enemy>();
+            BikeCouple.SetActive(true);
+            enemy = BikeCouple.GetComponent<Enemy>();
 
             playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
             playerPos.isChecked = true;

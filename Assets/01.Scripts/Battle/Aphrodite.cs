@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Aphrodite : Enemy
+public class Aphrodite : Enemy //아프로디테
 {
     protected override void Awake()
     {

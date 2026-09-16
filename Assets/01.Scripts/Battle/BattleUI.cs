@@ -484,7 +484,7 @@ public class BattleUI : MonoBehaviour
     public void Playerturn_Start()
     {
         ResetUI();
-        StartCoroutine(TypeWriter("어떤 행동을 할까?"));
+        StartCoroutine(TypeWriter("어떤 행동을 할까?", false));
 
         dialogueButtons.SetActive(true);
     }
@@ -695,19 +695,24 @@ public class BattleUI : MonoBehaviour
         hpBar.FillAmount = end;
     }
 
-    public IEnumerator TypeWriter(string _text)
+    public IEnumerator TypeWriter(string _text, bool isScript = true)
     {
-        Debug.Log("TypeWriter 시작 전 : " + contentText.text);
-
         if (isTyping)
         {
             yield return new WaitUntil(() => !isTyping);
         }
 
+        if (isScript)
+        {
+            contentText.alignment = TextAnchor.MiddleLeft;
+        }
+        else
+        {
+            contentText.alignment = TextAnchor.UpperLeft;
+        }
+
         isTyping = true;
         contentText.text = "";
-
-        Debug.Log("초기화 후 : " + contentText.text);
 
         for (int i = 0; i < _text.Length; i++)
         {
@@ -796,65 +801,40 @@ public class BattleUI : MonoBehaviour
     #region Translation
     public string TranslateEnemy(Enemy enemy)
     {
-        EnemyType origin = enemy.enemyType;
-        string translated;
-
-        if (origin == EnemyType.Aphrodite)
+        return enemy.enemyType switch
         {
-            translated = "아프로디테";
-        }
-        else if (origin == EnemyType.ReadingChild)
-        {
-            translated = "책을 읽는 아이";
-        }
-        else if (origin == EnemyType.Melpomene)
-        {
-            translated = "멜포메네";
-        }
-        else
-        {
-            translated = enemy.name;
-        }
-
-        return translated;
+            EnemyType.Aphrodite => "아프로디테",
+            EnemyType.ReadingChild => "책을 읽는 아이",
+            EnemyType.Melpomene => "멜포메네",
+            EnemyType.BikeCouple => "자전거 타는 연인",
+            _ => enemy.name
+        };
     }
 
     public string TranslatePart(Part part)
     {
-        PartType origin = part.partType;
+        return part.partType switch
+        {
+            PartType.Head => "머리",
+            PartType.Mask => "가면",
+            PartType.Body => "몸통",
+            PartType.LArm => "왼팔",
+            PartType.RArm => "오른팔",
+            PartType.LLeg => "왼다리",
+            PartType.RLeg => "오른다리",
 
-        if (origin == PartType.Head)
-        {
-            return "머리";
-        }
-        else if (origin == PartType.Mask)
-        {
-            return "가면";
-        }
-        else if (origin == PartType.Body)
-        {
-            return "몸통";
-        }
-        else if (origin == PartType.LArm)
-        {
-            return "왼팔";
-        }
-        else if (origin == PartType.RArm)
-        {
-            return "오른팔";
-        }
-        else if (origin == PartType.LLeg)
-        {
-            return "왼다리";
-        }
-        else if (origin == PartType.RLeg)
-        {
-            return "오른다리";
-        }
-        else
-        {
-            return part.name;
-        }
+            // 자전거 타는 연인
+            PartType.MHead => "남자의 머리",
+            PartType.WHead => "여자의 머리",
+            PartType.MBody => "남자의 몸통",
+            PartType.WBody => "여자의 몸통",
+            PartType.MArm => "남자의 팔",
+            PartType.WArm => "여자의 팔",
+            PartType.MLeg => "남자의 다리",
+            PartType.WLeg => "여자의 다리",
+
+            _ => part.name
+        };
     }
     #endregion
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Melpomene : Enemy
+public class Melpomene : Enemy //멜포메네
 {
     #region Variables
     public Dictionary<PartType, bool> canNarrative = new();
