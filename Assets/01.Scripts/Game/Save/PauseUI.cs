@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SaveUI : MonoBehaviour
+public class PauseUI : MonoBehaviour
 {
-    [SerializeField] GameObject SavePanel;
+    [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject buttons;
-    [SerializeField] GameObject SavePopup;
+    [SerializeField] private GameObject SavePopup;
     [SerializeField] private GameObject popupButtons;
+    [SerializeField] private GameObject OptionTab;
 
     private List<GameObject> buttonList = new List<GameObject>();
     private List<GameObject> popupButtonList = new List<GameObject>();
@@ -18,12 +19,13 @@ public class SaveUI : MonoBehaviour
 
     private Scene currentScene;
 
-    bool isPanelOn = false;
-    bool isPopupOn = false;
+    private bool isPanelOn = false;
+    private bool isPopupOn = false;
+    private bool isOptionOn = false;
 
     void Start()
     {
-        SavePanel.SetActive(false);
+        PausePanel.SetActive(false);
         for (int i = 0; i < buttons.transform.childCount; i++)
         {
             GameObject button = buttons.transform.GetChild(i).gameObject;
@@ -45,6 +47,11 @@ public class SaveUI : MonoBehaviour
     }
 
     void Update()
+    {
+        UpdateUI();
+    }
+
+    void UpdateUI()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -102,7 +109,7 @@ public class SaveUI : MonoBehaviour
             }
             else if (selectedButtonIndex == 1) // 설정
             {
-
+                OpenOptionTab();
             }
             else if (selectedButtonIndex == 2) // 시작화면으로 돌아가기
             {
@@ -194,7 +201,7 @@ public class SaveUI : MonoBehaviour
         isPanelOn = true;
         isPopupOn = false;
 
-        SavePanel.SetActive(isPanelOn);
+        PausePanel.SetActive(isPanelOn);
         SavePopup.SetActive(isPopupOn);
 
         for (int i = 0; i < buttonList.Count; i++)
@@ -215,7 +222,7 @@ public class SaveUI : MonoBehaviour
         isPanelOn = false;
         isPopupOn = false;
 
-        SavePanel.SetActive(isPanelOn);
+        PausePanel.SetActive(isPanelOn);
         SavePopup.SetActive(isPopupOn);
 
         for (int i = 0; i < buttonList.Count; i++)
@@ -253,6 +260,13 @@ public class SaveUI : MonoBehaviour
         }
 
         HighlightButton();
+    }
+
+    void OpenOptionTab()
+    {
+        isOptionOn = !isOptionOn;
+
+        OptionTab.SetActive(isOptionOn);
     }
 
     public void OnSaveData()

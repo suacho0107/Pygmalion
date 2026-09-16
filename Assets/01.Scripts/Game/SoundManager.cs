@@ -1,17 +1,21 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using Define;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip mainBGM;
-    [SerializeField] private AudioClip companyBGM;
-    [SerializeField] private AudioClip globalBGM;
-    [SerializeField] private AudioClip museumBGM;
-    [SerializeField] private AudioClip libraryBGM;
-    [SerializeField] private AudioClip battleBGM;
-    [SerializeField] private AudioClip demoBGM;
+    [SerializeField] private AudioMixer         audioMixer;
+    [SerializeField] private AudioMixerGroup    audioMixerGroup_BGM;
+
+    [SerializeField] private AudioClip          mainBGM;
+    [SerializeField] private AudioClip          companyBGM;
+    [SerializeField] private AudioClip          globalBGM;
+    [SerializeField] private AudioClip          museumBGM;
+    [SerializeField] private AudioClip          libraryBGM;
+    [SerializeField] private AudioClip          battleBGM;
+    [SerializeField] private AudioClip          demoBGM;
 
     #region Singleton
     static SoundManager s_instance;
@@ -28,7 +32,8 @@ public class SoundManager : MonoBehaviour
     }
     #endregion
 
-    private AudioSource audioSource;
+    private AudioSource audioSource_BG;
+    private AudioSource audioSource_Eff;
 
     private Stage.StageState currentState;
 
@@ -39,8 +44,9 @@ public class SoundManager : MonoBehaviour
             s_instance = this;
             DontDestroyOnLoad(gameObject);
 
-            audioSource = GetComponent<AudioSource>();
-            audioSource.loop = true;
+            audioSource_BG = GetComponent<AudioSource>();
+            audioSource_BG.loop = true;
+            audioSource_BG.outputAudioMixerGroup = audioMixerGroup_BGM;
 
             // 씬 로드 이벤트 등록
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -135,10 +141,28 @@ public class SoundManager : MonoBehaviour
                 break;
         }
 
-        if (bgmToPlay != null && audioSource.clip != bgmToPlay)
+        if (bgmToPlay != null && audioSource_BG.clip != bgmToPlay)
         {
-            audioSource.clip = bgmToPlay;
-            audioSource.Play();
+            audioSource_BG.clip = bgmToPlay;
+            audioSource_BG.Play();
         }
+    }
+
+    public void SetBGMVolume(float volume)
+    {
+        //volume = Mathf.Clamp01(volume);
+        audioMixer.SetFloat("BGMVolume", ToDecibels(volume));
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        //volume = Mathf.Clamp01(volume);
+        audioMixer.SetFloat("SFXVolume", ToDecibels(volume));
+    }
+
+    private static float ToDecibels(float volume)
+    {
+        volume = Mathf.Clamp01(volume);
+        return volume <= 0f ? -80f : Mathf.Log10(volume) * 20f;
     }
 }

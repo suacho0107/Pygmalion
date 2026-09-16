@@ -300,6 +300,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 11
@@ -339,6 +340,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: testSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 728c852fcf3ce004a98b5ac1c3afb739, type: 3}
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: audioMixerGroup
+      value: 
+      objectReference: {fileID: 269752188937996381, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: audioMixerGroup_BGM
+      value: 
+      objectReference: {fileID: 269752188937996381, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
     - target: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -386,6 +403,10 @@ PrefabInstance:
     - target: {fileID: 800132507857237431, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_Name
       value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208981646110678396, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
@@ -746,6 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a2e7c645610d846a8b49d212ba338c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SFXGroup: {fileID: -5367480786450015769, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
   pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
   enterFight: {fileID: 8300000, guid: e90fd590dac6e7e4da20a78265c817d1, type: 3}
   destroyed: {fileID: 8300000, guid: 46129038dbb387c47a1d28382addbff8, type: 3}
@@ -793,6 +815,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: stage1_exhibit2_dialogue
   selectFileName: 
   explainNum: 1
@@ -1136,6 +1159,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4880277370391473290, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -5367480786450015769, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: ItemImage
       value: 
@@ -1401,6 +1428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a2e7c645610d846a8b49d212ba338c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SFXGroup: {fileID: 0}
   pencil: {fileID: 8300000, guid: 3575cb1122774874ca0d0f43252007f1, type: 3}
   enterFight: {fileID: 8300000, guid: e90fd590dac6e7e4da20a78265c817d1, type: 3}
   destroyed: {fileID: 8300000, guid: 46129038dbb387c47a1d28382addbff8, type: 3}
@@ -1448,6 +1476,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: stage1_exhibit2_dialogue
   selectFileName: 
   explainNum: 2
@@ -1840,6 +1869,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -1893,6 +1923,17 @@ Transform:
   m_Father: {fileID: 350357333862935683}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &598143531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+  m_PrefabInstance: {fileID: 112428316}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a825eca3b0d1bbd479def6aeeb4d9906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &644716522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3245,6 +3286,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -3418,6 +3460,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -3699,6 +3742,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -6839,6 +6883,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 5
@@ -7096,6 +7141,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -7338,6 +7384,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 8
@@ -7635,6 +7682,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -7680,11 +7728,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcs: []
---- !u!1 &1622059235 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3662297088307180539, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-  m_PrefabInstance: {fileID: 1624208406}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1624208406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7692,154 +7735,66 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 562688299981669366, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+    - target: {fileID: 397338158, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 397338158, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 562688299981669366, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMin.y
+    - target: {fileID: 397338158, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 562688299981669366, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.x
+    - target: {fileID: 445151547, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 562688299981669366, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688299981669366, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688299981669366, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300013054734, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+    - target: {fileID: 445151547, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 562688300013054734, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMin.y
+    - target: {fileID: 906425381, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 562688300013054734, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300013054734, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300013054734, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300013054734, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300287645465, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+    - target: {fileID: 906425381, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 562688300287645465, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
+    - target: {fileID: 1329090696, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 562688300287645465, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300287645465, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300287645465, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688300287645465, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301016118784, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301016118784, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301016118784, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301016118784, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301016118784, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301016118784, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301279563461, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301279563461, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301279563461, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301279563461, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301279563461, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301279563461, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301837228775, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301837228775, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301837228775, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301837228775, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301837228775, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 562688301837228775, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1173245323303677926, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: infoPanel
+    - target: {fileID: 1329090696, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1622059235}
+      objectReference: {fileID: 598143531}
+    - target: {fileID: 1329090696, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetBGMVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344277763, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 598143531}
+    - target: {fileID: 1344277763, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSFXVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931947901, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931947901, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931947901, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4106509476160126613, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -7927,10 +7882,6 @@ PrefabInstance:
     - target: {fileID: 4106509476160126697, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
       propertyPath: m_Name
       value: Game Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4106509476160126697, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5832a1dc409bc744be71febcc63ea41, type: 3}
@@ -8309,6 +8260,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 1
@@ -8569,6 +8521,7 @@ MonoBehaviour:
   isOfficeTuto: 0
   isDialogueChanged: 0
   filePath: 
+  saveID: 
   dialogueFileName: Museum-Ex2_dialogue
   selectFileName: 
   explainNum: 3
