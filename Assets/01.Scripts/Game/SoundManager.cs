@@ -148,13 +148,13 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void SetMusicVolume(float volume)
+    public void SetBGMVolume(float volume)
     {
         //volume = Mathf.Clamp01(volume);
         audioMixer.SetFloat("BGMVolume", ToDecibels(volume));
     }
 
-    public void SetEffectVolume(float volume)
+    public void SetSFXVolume(float volume)
     {
         //volume = Mathf.Clamp01(volume);
         audioMixer.SetFloat("SFXVolume", ToDecibels(volume));
