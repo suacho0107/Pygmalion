@@ -340,6 +340,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: testSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 728c852fcf3ce004a98b5ac1c3afb739, type: 3}
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: audioMixerGroup
+      value: 
+      objectReference: {fileID: 269752188937996381, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
+    - target: {fileID: 800132507857237429, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: audioMixerGroup_BGM
+      value: 
+      objectReference: {fileID: 269752188937996381, guid: 9433171d6dee2ca4fa4c8b003bafe192, type: 2}
     - target: {fileID: 800132507857237430, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -387,6 +403,10 @@ PrefabInstance:
     - target: {fileID: 800132507857237431, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
       propertyPath: m_Name
       value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208981646110678396, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91e389282a77b594ea17c63c05fe35a6, type: 3}
@@ -577,7 +597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4623885132973872061, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b9512e9dd0f3b24786257f4669b8900, type: 3}
@@ -3909,7 +3929,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 598143531}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: SetMusicVolume
+        m_MethodName: SetEffectVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9347,7 +9367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1774833234
 RectTransform:
   m_ObjectHideFlags: 0
