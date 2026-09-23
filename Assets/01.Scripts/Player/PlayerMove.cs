@@ -310,7 +310,7 @@ public class PlayerMove : MonoBehaviour
 
         Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("InteractObj"));
-        if(rayHit.collider != null) RayhitObj = rayHit.collider.gameObject;
+        if (rayHit.collider != null) { RayhitObj = rayHit.collider.gameObject; } //Debug.Log(rayHit.collider.name); }
 
         if (rayHit.collider != null)
         {
