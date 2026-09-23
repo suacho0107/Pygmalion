@@ -34,6 +34,7 @@ public class Statue : NPC
 
     int FILEINDEX = 3; // currentIndex와 상관 없이 상수 정해두려고
 
+    [SerializeField] int statueID;
     string sceneName;
 
     protected override void Awake()
@@ -61,17 +62,22 @@ public class Statue : NPC
 
         if (isStatue && statueScore != null)
         {
-            if (sceneName == "Museum_ExhibitionRoom2")
+            // 미술관 조각상: 에로스만 판별 전 최초 1회 대사 출력
+            if (statueID == 1004)
             {
-                if (isInteract)
+                //PlayerMove pm = FindObjectOfType<PlayerMove>();
+                //if(pm.RayhitObj.name == "stage1_statue 4")
                 {
-                    ChangeDialogueFile(1);
-                    Judge();
+                    if (isInteract)
+                    {
+                        ChangeDialogueFile(1);
+                        Judge();
+                    }
+                    return;
                 }
-                return;
             }
 
-            if (sceneName.StartsWith("Museum"))
+            if (sceneName.StartsWith("Museum") && !isChecked && !isJudged)
             {
                 if(sceneName == "Museum_Lobby")
                 {
