@@ -37,6 +37,13 @@ public class PlayerMove : MonoBehaviour
     public bool IsMoved { set; get; } = true;  // 이동 가능 여부
     public bool IsAnimation { set; get; } = true;
 
+    private int blockedInputFrame = -1;
+
+    public void BlockInputForCurrentFrame()
+    {
+        blockedInputFrame = Time.frameCount;
+    }
+
     public bool ActiveInteract
     {
         get { return activeInteract; }
@@ -123,7 +130,7 @@ public class PlayerMove : MonoBehaviour
     {
         anim.speed = IsAnimation ? 1 : 0;
 
-        if (!IsMoved)
+        if (!IsMoved || blockedInputFrame == Time.frameCount)
         {
             h = 0;
             v = 0;
@@ -337,7 +344,7 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsMoved)
+        if (!IsMoved || blockedInputFrame == Time.frameCount)
         {
             rigid.velocity = Vector2.zero;
             return;

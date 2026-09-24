@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(-100)]
 public class VendingMachineUI : MonoBehaviour
 {
     [System.Serializable]
@@ -52,6 +53,12 @@ public class VendingMachineUI : MonoBehaviour
 
     void UpdateMachine()
     {
+        if (IsOpen && !VMPanel.activeInHierarchy)
+        {
+            Close();
+            return;
+        }
+
         if (!VMObject.IsPlayerRange)
         {
             if (IsOpen)
@@ -125,6 +132,7 @@ public class VendingMachineUI : MonoBehaviour
         {
             previousMoveState = playerMove.IsMoved;
             playerMove.IsMoved = false;
+            playerMove.BlockInputForCurrentFrame();
         }
 
         VMPanel.SetActive(true);
@@ -140,7 +148,10 @@ public class VendingMachineUI : MonoBehaviour
         IsOpen = false;
 
         if (playerMove != null)
+        {
             playerMove.IsMoved = previousMoveState;
+            playerMove.BlockInputForCurrentFrame();
+        }
 
         if (VMPanel != null)
             VMPanel.SetActive(false);
