@@ -100,7 +100,8 @@ public class BattleManager : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        SetEnemyByStage();
+        //SetEnemyByStage();
+        SetEnemyByEnemyType();
 
         LoadFightData();
     }
@@ -112,7 +113,7 @@ public class BattleManager : MonoBehaviour
     #endregion
 
     #region Battle Setup
-    private void SetEnemyByStage()
+    private void SetEnemyByEnemyType()
     {
         if (UIManager.u_instance != null)
         {
@@ -120,49 +121,33 @@ public class BattleManager : MonoBehaviour
 
             battleUI.SetBackground(stage);
 
-            switch (stage)
+            switch (SceneTransport.selectedEnemy)
             {
-                case 0:
-                    {
-                        if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
-                        {
-                            Aphrodite.SetActive(true);
-                            enemy = Aphrodite.GetComponent<Enemy>();
-
-                            playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
-                            playerPos.isChecked = true;
-                            break;
-                        }
-                        break;
-                    }
-                case 1:
-                    {
-                        if (SceneTransport.previousScene == "Library_B1F")
-                        {
-                            ReadingChild.SetActive(true);
-                            enemy = ReadingChild.GetComponent<Enemy>();
-
-                            playerPos.nextPosition = new Vector3(-0.6f, 7f, 0f);
-                            playerPos.isChecked = true;
-                        }
-                        else if (SceneTransport.previousScene == "Library_2F")
-                        {
-                            Melpomene.SetActive(true);
-                            enemy = Melpomene.GetComponent<Enemy>();
-
-                            playerPos.nextPosition = new Vector3(-9f, -3f, 0f);
-                            playerPos.isChecked = true;
-                        }
-                        break;
-                    }
-                default:
+                case EnemyType.Aphrodite:
                     Aphrodite.SetActive(true);
                     enemy = Aphrodite.GetComponent<Enemy>();
-
                     playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
-                    playerPos.isChecked = true;
+                    break;
+
+                case EnemyType.ReadingChild:
+                    ReadingChild.SetActive(true);
+                    enemy = ReadingChild.GetComponent<Enemy>();
+                    playerPos.nextPosition = new Vector3(-0.6f, 7f, 0f);
+                    break;
+
+                case EnemyType.Melpomene:
+                    Melpomene.SetActive(true);
+                    enemy = Melpomene.GetComponent<Enemy>();
+                    playerPos.nextPosition = new Vector3(-9f, -3f, 0f);
+                    break;
+
+                case EnemyType.BikeCouple:
+                    BikeCouple.SetActive(true);
+                    enemy = BikeCouple.GetComponent<Enemy>();
+                    //playerPos.nextPosition = new Vector3();
                     break;
             }
+            playerPos.isChecked = true;
         }
         else
         {
@@ -177,8 +162,77 @@ public class BattleManager : MonoBehaviour
 
             playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
             playerPos.isChecked = true;
+
         }
     }
+
+    //private void SetEnemyByStage()
+    //{
+    //    if (UIManager.u_instance != null)
+    //    {
+    //        int stage = UIManager.u_instance.stageIndex;
+
+    //        battleUI.SetBackground(stage);
+
+    //        switch (stage)
+    //        {
+    //            case 0:
+    //                {
+    //                    if (SceneTransport.previousScene == "Museum_ExhibitionRoom2")
+    //                    {
+    //                        Aphrodite.SetActive(true);
+    //                        enemy = Aphrodite.GetComponent<Enemy>();
+
+    //                        playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+    //                        playerPos.isChecked = true;
+    //                        break;
+    //                    }
+    //                    break;
+    //                }
+    //            case 1:
+    //                {
+    //                    if (SceneTransport.previousScene == "Library_B1F")
+    //                    {
+    //                        ReadingChild.SetActive(true);
+    //                        enemy = ReadingChild.GetComponent<Enemy>();
+
+    //                        playerPos.nextPosition = new Vector3(-0.6f, 7f, 0f);
+    //                        playerPos.isChecked = true;
+    //                    }
+    //                    else if (SceneTransport.previousScene == "Library_2F")
+    //                    {
+    //                        Melpomene.SetActive(true);
+    //                        enemy = Melpomene.GetComponent<Enemy>();
+
+    //                        playerPos.nextPosition = new Vector3(-9f, -3f, 0f);
+    //                        playerPos.isChecked = true;
+    //                    }
+    //                    break;
+    //                }
+    //            default:
+    //                Aphrodite.SetActive(true);
+    //                enemy = Aphrodite.GetComponent<Enemy>();
+
+    //                playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+    //                playerPos.isChecked = true;
+    //                break;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        //Aphrodite.SetActive(true);
+    //        //enemy = Aphrodite.GetComponent<Enemy>();
+    //        //ReadingChild.SetActive(true);
+    //        //enemy = ReadingChild.GetComponent<Enemy>();
+    //        //Melpomene.SetActive(true);
+    //        //enemy = Melpomene.GetComponent<Enemy>();
+    //        BikeCouple.SetActive(true);
+    //        enemy = BikeCouple.GetComponent<Enemy>();
+
+    //        playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
+    //        playerPos.isChecked = true;
+    //    }
+    //}
 
     private void StartBattle()
     {

@@ -21,6 +21,8 @@ public class Statue : NPC
     public bool isEnemy = false;
     public bool isCorrect = false;
 
+    public EnemyType enemyType;
+
     public bool isFin = false;
     public bool result = false;
 
@@ -217,11 +219,11 @@ public class Statue : NPC
 
     void EnterFight()
     {
-        SceneTransport.previousStatue = filePath;
         SceneTransport.previousScene = SceneManager.GetActiveScene().name;
-        //Debug.Log($"Statue: previousScene = {SceneTransport.previousScene}");
+        SceneTransport.previousStatue = filePath;
+        SceneTransport.selectedEnemy = enemyType;
 
-        if(!enter1st) ChangeDialogueExplain(FILEINDEX, "1");
+        if (!enter1st) ChangeDialogueExplain(FILEINDEX, "1");
         StartCoroutine(PlaySound());
         statueScore.fightCount += 1;
         statueScore.SaveScore();
