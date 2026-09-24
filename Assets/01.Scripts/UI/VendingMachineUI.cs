@@ -29,6 +29,9 @@ public class VendingMachineUI : MonoBehaviour
     private List<Item>  products = new List<Item>();
     private List<int>   prices = new List<int>();
 
+    [SerializeField] private PlayerMove playerMove;
+    private bool previousMoveState;
+
     private bool IsOpen = false;
     private int selectedIndex;
 
@@ -36,6 +39,9 @@ public class VendingMachineUI : MonoBehaviour
 
     void Start()
     {
+        if (playerMove == null)
+            playerMove = FindObjectOfType<PlayerMove>();
+
         VMPanel.SetActive(false);
     }
 
@@ -114,6 +120,13 @@ public class VendingMachineUI : MonoBehaviour
 
         selectedIndex = 0;
         IsOpen = true;
+
+        if (playerMove != null)
+        {
+            previousMoveState = playerMove.IsMoved;
+            playerMove.IsMoved = false;
+        }
+
         VMPanel.SetActive(true);
 
         UpdateSelection();
@@ -121,8 +134,21 @@ public class VendingMachineUI : MonoBehaviour
 
     void Close()
     {
+        if (!IsOpen)
+            return;
+
         IsOpen = false;
-        VMPanel.SetActive(IsOpen);
+
+        if (playerMove != null)
+            playerMove.IsMoved = previousMoveState;
+
+        if (VMPanel != null)
+            VMPanel.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        Close();
     }
 
     void UpdateSelection()

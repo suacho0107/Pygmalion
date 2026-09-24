@@ -123,6 +123,16 @@ public class PlayerMove : MonoBehaviour
     {
         anim.speed = IsAnimation ? 1 : 0;
 
+        if (!IsMoved)
+        {
+            h = 0;
+            v = 0;
+            rigid.velocity = Vector2.zero;
+            WalkSound.Stop();
+            SetIdleState();
+            return;
+        }
+
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
@@ -327,6 +337,12 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!IsMoved)
+        {
+            rigid.velocity = Vector2.zero;
+            return;
+        }
+
         if (pState == PlayerState.Move)
         {
             if (IsMoved)
