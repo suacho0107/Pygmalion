@@ -540,4 +540,45 @@ public class InventoryUI : MonoBehaviour
             #endregion
         }
     }
+
+    public bool TryAddPurchasedItem(int itemID)
+    {
+        if (ItemDB == null || inventoryItemList == null || slots == null)
+            return false;
+
+        Item original = ItemDB.itemList.Find(x => x.itemID == itemID);
+
+        if (original == null)
+            return false;
+
+        Item ownedItem = inventoryItemList.Find(x => x.itemID == itemID);
+
+        if (ownedItem != null)
+        {
+            if (ownedItem.itemCount == int.MaxValue)
+                return false;
+
+            ownedItem.itemCount++;
+        }
+        else
+        {
+            if (inventoryItemList.Count >= slots.Length)
+                return false;
+
+            // DB 원본의 수량이 바뀌지 않도록 새 아이템 생성
+            Item newItem = new Item(
+                original.itemID,
+                original.itemName,
+                original.itemDescription,
+                original.itemIconName,
+                original.itemType,
+                1
+            );
+
+            inventoryItemList.Add(newItem);
+        }
+
+        SaveInventory();
+        return true;
+    }
 }
