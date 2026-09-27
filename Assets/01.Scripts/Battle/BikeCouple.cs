@@ -14,12 +14,12 @@ public class BikeCouple : Enemy //자전거 타는 연인
     {
         ResetSkill();
 
-        AddSkill(0.2f, Whisper, !IsPartDestroyed(PartType.MHead));
-        AddSkill(0.2f, Whisper, !IsPartDestroyed(PartType.WHead));
-        AddSkill(0.15f, Connect, !IsPartDestroyed(PartType.MArm));
-        AddSkill(0.15f, Connect, !IsPartDestroyed(PartType.WArm));
-        AddSkill(0.15f, Rush, !IsPartDestroyed(PartType.MLeg));
-        AddSkill(0.15f, Rush, !IsPartDestroyed(PartType.WLeg));
+        AddSkill(20f, Whisper, !IsPartDestroyed(PartType.MHead));
+        AddSkill(20f, Whisper, !IsPartDestroyed(PartType.WHead));
+        AddSkill(15f, Connect, !IsPartDestroyed(PartType.MArm));
+        AddSkill(15f, Connect, !IsPartDestroyed(PartType.WArm));
+        AddSkill(15f, Rush, !IsPartDestroyed(PartType.MLeg));
+        AddSkill(15f, Rush, !IsPartDestroyed(PartType.WLeg));
 
         RandomSkill();        
 

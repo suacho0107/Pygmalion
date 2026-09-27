@@ -15,8 +15,8 @@ public class ReadingChild : Enemy //책을 읽는 아이
     {
         ResetSkill();
 
-        AddSkill(null, Storyteller, !IsPartDestroyed(PartType.Head));
-        AddSkill(null, Kick, !IsPartDestroyed(PartType.RLeg));
+        AddSkill(1f, Storyteller, !IsPartDestroyed(PartType.Head));
+        AddSkill(1f, Kick, !IsPartDestroyed(PartType.RLeg));
 
         if (!IsPartDestroyed(PartType.RArm))
         {

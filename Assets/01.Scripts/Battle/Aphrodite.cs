@@ -15,8 +15,8 @@ public class Aphrodite : Enemy //아프로디테
     {
         ResetSkill();
 
-        AddSkill(0.2f, Charm, !IsPartDestroyed(PartType.Head));
-        AddSkill(0.2f, Dance, !IsPartDestroyed(PartType.Body));
+        AddSkill(20f, Charm, !IsPartDestroyed(PartType.Head));
+        AddSkill(20f, Dance, !IsPartDestroyed(PartType.Body));
 
         if (skills.Count > 0)
         {

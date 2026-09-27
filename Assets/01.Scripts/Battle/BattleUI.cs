@@ -366,7 +366,7 @@ public class BattleUI : MonoBehaviour
     //    battleManager.state = BattleManager.State.PLAYERTURN_START;
     //    //battleManager.isStatePLAYERTURN = true;
     //}
-    #endregion\
+    #endregion
 
     #region UI Setup
     public void SetDialogueButtons()

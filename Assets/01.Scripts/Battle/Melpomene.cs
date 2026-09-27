@@ -66,8 +66,8 @@ public class Melpomene : Enemy //멜포메네
 
         ResetSkill();
 
-        AddSkill(null, Shout, IsPartDestroyed(PartType.Mask)&&!IsPartDestroyed(PartType.Head));
-        AddSkill(null, Slap, IsPartDestroyed(PartType.RArm)&&!IsPartDestroyed(PartType.LArm));
+        AddSkill(1f, Shout, IsPartDestroyed(PartType.Mask)&&!IsPartDestroyed(PartType.Head));
+        AddSkill(1f, Slap, IsPartDestroyed(PartType.RArm)&&!IsPartDestroyed(PartType.LArm));
 
         if (!IsPartDestroyed(PartType.RArm))
         {

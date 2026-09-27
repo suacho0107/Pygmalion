@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
         }
         if (isNegated) //무효
         {
-            StartCoroutine(battleUI.TypeWriter(" 공격 무효"));
+            StartCoroutine(battleUI.TypeWriter(" 공격이 닿았지만, 조각상은 미동도 하지 않았다."));
         }
         else // 일반 공격
         {
