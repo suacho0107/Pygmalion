@@ -30,7 +30,7 @@ public class StageNPC : NPC
 
     private void Start()
     {
-        sceneName = SceneManager.GetActiveScene().name;// Library는 아직 따로 빼는 씬이 없어서 안 해도 될 듯
+        sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
@@ -41,7 +41,7 @@ public class StageNPC : NPC
     void NPCInteraction()
     {
         #region Tutorial NPC
-        if (sceneName.StartsWith("Museum_Lobby"))
+        if (sceneName == "Museum_Lobby")
         {
             if (tutorial && csv && statueScore != null)// 미술관장 tutorial V
             {
@@ -92,7 +92,7 @@ public class StageNPC : NPC
         #endregion
 
         #region Library Guard
-        else if (SceneManager.GetActiveScene().name == "Library_1F" && isNPC) // 도서관 1층 경비원
+        else if (sceneName == "Library_1F" && isNPC) // 도서관 1층 경비원
         {
             LibraryGuard();
 
