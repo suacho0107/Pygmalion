@@ -41,13 +41,11 @@ public class StageNPC : NPC
             if (tutorial && csv && statueScore != null)// 미술관장 tutorial V
             {
                 // 업무 완료 확인
-                if (statueScore.statueCount == 0)
-                {
-                    ChangeDialogueFileName("Museum-Lobby_Check0_dialogue");
-                }
-                else if (statueScore.statueCount >= 6)
+                if (statueScore.statueCount >= 6)
                 {
                     ChangeDialogueFileName("Museum-Lobby_Check3_dialogue");
+                    selectFileName = "";
+                    return;
                 }
 
                 // 미술관장과의 첫 대화가 끝나면 isInteract == true;
@@ -62,6 +60,13 @@ public class StageNPC : NPC
 
                     if (isTutoDialogueChanged)
                     {
+                        selectFileName = "";
+                        if (statueScore.statueCount == 0)
+                        {
+                            ChangeDialogueFileName("Museum-Lobby_Check0_dialogue");
+                            return;
+                        }
+
                         if (!isTutoFin)
                         {
                             if (statueScore.statueCount == 0)
