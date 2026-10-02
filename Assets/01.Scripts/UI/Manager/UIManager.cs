@@ -53,6 +53,13 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         Assign_UIObject();
+
+        #region Test
+        if (SceneManager.GetActiveScene().name == "Museum_Lobby")
+        {
+            Set_UIState(UI.UIState.Work);
+        }
+        #endregion
     }
 
     private void Update()
