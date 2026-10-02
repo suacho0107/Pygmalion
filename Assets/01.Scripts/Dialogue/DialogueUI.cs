@@ -513,8 +513,11 @@ public class DialogueUI : MonoBehaviour
                     //|| selectedNPC.dialogueFileName == "Guard_Check3_dialogue")
             {
                 StartCoroutine(Set_UIStateEnd_Coroutine());
-                //Set_UIStateEnd();
+                //Set_UIStateEnd();_npc.isInteract = true;
             }
+
+            // 상태 변경이 모두 끝난 뒤 저장
+            selectedNPC.SaveStageNPCData();
         }
 
         if (npc is Statue selectedStatue)

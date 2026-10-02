@@ -139,6 +139,15 @@ public class StageNPC : NPC
             return;
         }
 
+        if (!isInteract)
+        {
+            ChangeDialogueFileName("Guard1_dialogue");
+            selectFileName = "Guard1_select";
+            return;
+        }
+
+        selectFileName = "";
+
         if (isInteract)
         {
             ChangeDialogueFileName("Guard_Check0_dialogue");

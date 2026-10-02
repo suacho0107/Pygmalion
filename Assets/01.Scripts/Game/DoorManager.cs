@@ -8,13 +8,22 @@ public class DoorManager : MonoBehaviour
     [SerializeField] private StageNPC   stageNPC;
     [SerializeField] private DialogueUI dialogueUI;
 
-    Animator animator;
+    private Animator animator;
+    private bool isTrigger = false;
 
     private void Awake()
     {
         if (gameObject != null)
         {
             animator = GetComponent<Animator>();
+        }
+    }
+
+    private void Start()
+    {
+        if (stageNPC != null && stageNPC.isInteract)
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -43,7 +52,7 @@ public class DoorManager : MonoBehaviour
 
     public void DoorOff()
     {
-        doorState.isDoorDestroyed = true;
+        doorState.isDoorClosed = true;
         gameObject.SetActive(false);
     }
 }
