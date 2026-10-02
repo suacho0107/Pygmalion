@@ -45,6 +45,7 @@ public class StageNPC : NPC
         {
             if (tutorial && csv && statueScore != null)// 미술관장 tutorial V
             {
+                // 업무 완료 확인
                 if (statueScore.statueCount >= 6)
                 {
                     ChangeDialogueFileName("Museum-Lobby_Check3_dialogue");
@@ -68,13 +69,9 @@ public class StageNPC : NPC
                             {
                                 ChangeDialogueFileName("Museum-Lobby_Check0_dialogue");
                             }
-                            else if (statueScore.statueCount == 1)
+                            else if (statueScore.statueCount == 1)  // 튜토 완료
                             {
                                 ChangeDialogueFileName("Museum-Lobby_Tuto2_dialogue");
-                            }
-                            else
-                            {
-                                //Debug.LogError("튜토 미완료");
                             }
                         }
                         else
@@ -83,13 +80,9 @@ public class StageNPC : NPC
                             {
                                 ChangeDialogueFileName("Museum-Lobby_Check1_dialogue");
                             }
-                            else if (statueScore.statueCount > 1 && statueScore.statueCount < 6)
+                            else if (statueScore.statueCount > 1)
                             {
                                 ChangeDialogueFileName("Museum-Lobby_Check2_dialogue");
-                            }
-                            else if (statueScore.statueCount >= 6)
-                            {
-                                //ChangeDialogueFileName("Museum-Lobby_Check3_dialogue");
                             }
                         }
                     }
@@ -144,7 +137,6 @@ public class StageNPC : NPC
     public void TutorialFin()
     {
         isTutoFin = true;
-        //Debug.Log("TutorialFin 실행");
     }
     
     public void SaveStageNPCData()
