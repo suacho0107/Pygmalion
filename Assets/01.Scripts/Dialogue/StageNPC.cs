@@ -41,7 +41,11 @@ public class StageNPC : NPC
             if (tutorial && csv && statueScore != null)// 미술관장 tutorial V
             {
                 // 업무 완료 확인
-                if (statueScore.statueCount >= 6)
+                if (statueScore.statueCount == 0)
+                {
+                    ChangeDialogueFileName("Museum-Lobby_Check0_dialogue");
+                }
+                else if (statueScore.statueCount >= 6)
                 {
                     ChangeDialogueFileName("Museum-Lobby_Check3_dialogue");
                 }
@@ -120,7 +124,17 @@ public class StageNPC : NPC
 
     void LibraryGuard() // 조각상 개수에 따른 대사
     {
-        if (statueScore != null)
+        if (statueScore == null)
+            return;
+
+        if (statueScore.statueCount >= 5)
+        {
+            ChangeDialogueFileName("Guard_Check3_dialogue");
+            selectFileName = "";
+            return;
+        }
+
+        if (isInteract)
         {
             ChangeDialogueFileName("Guard_Check0_dialogue");
             if (statueScore.statueCount == 1)
@@ -130,10 +144,6 @@ public class StageNPC : NPC
             else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
             {
                 ChangeDialogueFileName("Guard_Check2_dialogue");
-            }
-            else if (statueScore.statueCount == 5)
-            {
-                ChangeDialogueFileName("Guard_Check3_dialogue");
             }
         }
     }

@@ -35,15 +35,13 @@ public class StatueScore : MonoBehaviour
     void Update()
     {
         UpdateScore();
+
+        DebugUpdateScore();
     }
 
     void UpdateScore()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-
-        /* 여기 */
-        //if (조건 미충족)
-        //        return;
 
         if (sceneName.StartsWith("Museum"))
         {
@@ -67,5 +65,17 @@ public class StatueScore : MonoBehaviour
 
         PlayerPrefs.Save(); // 저장 강제 적용
         UpdateScore();
+    }
+
+    void DebugUpdateScore()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            PlayerPrefs.SetInt("StatueCount", ++statueCount);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            PlayerPrefs.SetInt("StatueCount", --statueCount);
+        }
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    [SerializeField] DoorState doorState;
+    [SerializeField] private DoorState  doorState;
+    [SerializeField] private StageNPC   stageNPC;
+    [SerializeField] private DialogueUI dialogueUI;
 
     Animator animator;
 
@@ -13,22 +15,30 @@ public class DoorManager : MonoBehaviour
         if (gameObject != null)
         {
             animator = GetComponent<Animator>();
-
-            if (doorState.isDoorDestroyed)
-            {
-                Destroy(gameObject);
-            }
         }
-        else
-            return;
     }
 
-    private void OnCollisionEnter2D(Collision2D col)
+    private void OnEnable()
     {
-        if (col.gameObject.CompareTag("Player"))
-        {
-            animator.SetTrigger("Open");
-        }
+        // 이벤트 등록
+        if (dialogueUI != null)
+            dialogueUI.OnDialogueEnded += HandleDialogueEnded;
+    }
+
+    private void OnDisable()
+    {
+        // 이벤트 제거
+        if (dialogueUI != null)
+            dialogueUI.OnDialogueEnded -= HandleDialogueEnded;
+    }
+
+    // DialogueUI에서 이벤트 호출과 함께 NPC 전달
+    void HandleDialogueEnded(NPC endedNPC)
+    {
+        if (!stageNPC.isInteract)
+            return;
+
+        animator.SetTrigger("Open");
     }
 
     public void DoorOff()

@@ -18,7 +18,7 @@ public class DialogueUI : MonoBehaviour
     MuseumLobbyCSV csv;
     #endregion
 
-    #region variables
+    #region Variables
     [Header("Images & Portraits")]
     public List<GameObject> Images;
     public List<GameObject> Portraits;
@@ -70,6 +70,10 @@ public class DialogueUI : MonoBehaviour
 
     [Header("Current Portrait")]
     private GameObject currentPortrait;
+    #endregion
+
+    #region Events
+    public event System.Action<NPC> OnDialogueEnded;
     #endregion
 
     #region Unity Methods
@@ -489,6 +493,7 @@ public class DialogueUI : MonoBehaviour
         if (npc is StageNPC selectedNPC)
         {
             selectedNPC.isInteract = true;
+
             //미술관장
             if (selectedNPC.dialogueFileName == "Museum-Lobby_Tuto1_dialogue")
                  //|| selectedNPC.dialogueFileName == "Guard1_dialogue")
@@ -566,6 +571,7 @@ public class DialogueUI : MonoBehaviour
         }
         #endregion
 
+        OnDialogueEnded?.Invoke(npc);
     }
 
     private IEnumerator Set_UIStateEnd_Coroutine()
