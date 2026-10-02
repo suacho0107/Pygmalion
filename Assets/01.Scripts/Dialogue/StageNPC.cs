@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class StageNPC : NPC
 {
-    public bool isNPC = true;
     public bool tutorial = false;
 
     public bool isTutoDialogueChanged = false;
@@ -17,10 +16,6 @@ public class StageNPC : NPC
     public bool questEnd = false;
 
     string sceneName;
-
-    //bool isDialogueChanged = false;
-
-    //bool once;
 
     protected override void Awake()
     {
@@ -92,7 +87,7 @@ public class StageNPC : NPC
         #endregion
 
         #region Library Guard
-        else if (sceneName == "Library_1F" && isNPC) // 도서관 1층 경비원
+        else if (sceneName == "Library_1F") // 도서관 1층 경비원
         {
             LibraryGuard();
 
@@ -128,9 +123,18 @@ public class StageNPC : NPC
         if (statueScore != null)
         {
             ChangeDialogueFileName("Guard_Check0_dialogue");
-            if (statueScore.statueCount == 1) ChangeDialogueFileName("Guard_Check1_dialogue");
-            else if (statueScore.statueCount > 1 && statueScore.statueCount < 5) ChangeDialogueFileName("Guard_Check2_dialogue");
-            else if (statueScore.statueCount == 5) ChangeDialogueFileName("Guard_Check3_dialogue");
+            if (statueScore.statueCount == 1)
+            {
+                ChangeDialogueFileName("Guard_Check1_dialogue");
+            }
+            else if (statueScore.statueCount > 1 && statueScore.statueCount < 5)
+            {
+                ChangeDialogueFileName("Guard_Check2_dialogue");
+            }
+            else if (statueScore.statueCount == 5)
+            {
+                ChangeDialogueFileName("Guard_Check3_dialogue");
+            }
         }
     }
 

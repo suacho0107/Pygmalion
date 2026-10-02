@@ -9,9 +9,6 @@ public class LibraryLibrarian : StageNPC
     public GameObject tremble;
     public GameObject idle;
 
-    bool trg1 = false;
-    bool trg2 = false;
-
     public librarianState LState;
 
     public enum librarianState
@@ -22,6 +19,11 @@ public class LibraryLibrarian : StageNPC
         AllEnd1,
         AllEnd2
     }
+
+    // 수아: 가급적 public 함수들은 위로, private 함수들은 아래로 숨겨주세요
+    private bool trg1 = false;
+    private bool trg2 = false;
+    private string sceneName = "";
 
     protected override void Awake()
     {
@@ -34,6 +36,7 @@ public class LibraryLibrarian : StageNPC
     private void Start()
     {
         LState = librarianState.Tremble;
+        sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
@@ -57,7 +60,11 @@ public class LibraryLibrarian : StageNPC
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Library_2F" && isNPC)
+        /* (확인하시면 지워주세요)
+         수아 : Update에서 SceneManager.GetActiveScene()로 매번 씬 이름을 가져오는건 불필요한 호출입니다.
+         Start에서 한번만 가져와서 조건문 비교할 땐 String 값으로만 비교하는게 비용적 측면에서 이득입니다.
+         */
+        if (sceneName == "Library_2F")
         {
             Statue mel = (csv.npcs[0] as Statue); // 멜포메네
             string transPath = Application.persistentDataPath + "/stage2_statue 5_data.json"; // 책읽는아이
