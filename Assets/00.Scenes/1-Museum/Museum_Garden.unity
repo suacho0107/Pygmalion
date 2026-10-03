@@ -2812,7 +2812,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 27, y: 16, z: 0}
@@ -2922,7 +2922,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 26, y: 19, z: 0}
@@ -2952,7 +2952,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 25, y: 20, z: 0}
@@ -2992,7 +2992,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 25, y: 21, z: 0}
@@ -3132,7 +3132,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 27, y: 24, z: 0}
@@ -3172,7 +3172,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 27, y: 25, z: 0}
@@ -3252,7 +3252,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 27, y: 27, z: 0}
@@ -3262,7 +3262,7 @@ Tilemap:
       - {fileID: -1546149806, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1425265426, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
       - {fileID: -1583378064, guid: 781071e7a6afa9f47a20602cd514d25d, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -7790,7 +7790,6 @@ MonoBehaviour:
   dialogueFiles: []
   selectFiles: []
   currentIndex: 0
-  isNPC: 1
   tutorial: 0
   isTutoDialogueChanged: 0
   isTutoFin: 0
@@ -8249,6 +8248,7 @@ MonoBehaviour:
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
+  enemyType: 0
   isFin: 0
   result: 0
   enter1st: 0
@@ -8257,6 +8257,7 @@ MonoBehaviour:
   trg_nEnmy: 0
   trg_destroyed: 0
   isSpriteChanged: 0
+  statueID: 0
 --- !u!114 &1346697869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9183,7 +9184,7 @@ Tilemap:
       - {fileID: 21300000, guid: db1197cd5c224594884ff6540cc6867f, type: 3}
       - {fileID: 21300000, guid: 22b80282027893945b5775f91a98e89c, type: 3}
       - {fileID: 21300000, guid: 245806f807efc0c4c992965c02bf0f09, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -9835,7 +9836,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5292143506464023916}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.2, y: 5.607, z: 0}
+  m_LocalPosition: {x: 16.2, y: 5.542, z: 0}
   m_LocalScale: {x: 1.2, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

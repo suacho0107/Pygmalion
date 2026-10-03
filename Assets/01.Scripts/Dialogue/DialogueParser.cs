@@ -9,6 +9,13 @@ public class DialogueParser : MonoBehaviour
         List<Dialogue> dialogueList = new List<Dialogue>(); //대화 List 생성
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName); //csv파일 TextAsset으로 변환해서 가져옴
 
+        if (csvData == null)
+        {
+            Debug.LogError(
+                $"대사 CSV 로드 실패: [{_CSVFileName}] 길이={_CSVFileName?.Length}");
+            return new Dialogue[0];
+        }
+
         string[] data = csvData.text.Split(new char[] { '\n' }); //'\n' 단위로 쪼갬
 
         for (int i = 1; i < data.Length - 1;) //변환 과정에서 맨 뒤에 한 줄이 더 들어가는 듯
