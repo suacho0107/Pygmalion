@@ -300,29 +300,30 @@ public class PlayerMove : MonoBehaviour
                 WalkSound.Stop();
             }
 
-            // Debug.Log("pState = Inventory");
-            if (hDown && h == -1)
-            {
-                Debug.Log("Inventory A");
-            }
-            else if (hDown && h == 1)
-            {
-                Debug.Log("Inventory D");
-            }
-            else if (vDown && v == -1)
-            {
-                Debug.Log("Inventory S");
-            }
-            else if (vDown && v == 1)
-            {
-                Debug.Log("Inventory W");
-            }
-
-            if(Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
                 activeInven = false;
                 pState = PlayerState.Move;
             }
+
+            #region Test Key
+            //if (hDown && h == -1)
+            //{
+            //    Debug.Log("Inventory A");
+            //}
+            //else if (hDown && h == 1)
+            //{
+            //    Debug.Log("Inventory D");
+            //}
+            //else if (vDown && v == -1)
+            //{
+            //    Debug.Log("Inventory S");
+            //}
+            //else if (vDown && v == 1)
+            //{
+            //    Debug.Log("Inventory W");
+            //}
+            #endregion
         }
 
         Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0));
