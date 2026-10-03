@@ -10,7 +10,19 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private PlayerPosition playerPos;
 
-    private string SavePath => Path.Combine(Application.persistentDataPath, "SaveData.json");
+    private bool developmentSave;
+    private string SavePath => Path.Combine(Application.persistentDataPath,
+        developmentSave ? "DevSaveData.json" : "SaveData.json");
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    public void BeginDevelopmentCheckpoint(Vector3 spawnPosition)
+    {
+        developmentSave = true;
+        currentSaveData = new SaveData();
+        playerPos.nextPosition = spawnPosition;
+        playerPos.isChecked = true;
+    }
+#endif
 
     private SaveData currentSaveData = new SaveData();
 
@@ -24,6 +36,7 @@ public class SaveManager : MonoBehaviour
         s_instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
     public void SaveData()
     {
         currentSaveData.sceneName = SceneManager.GetActiveScene().name;
@@ -106,7 +119,6 @@ public class SaveManager : MonoBehaviour
             if (string.IsNullOrEmpty(npc.saveID))
             {
                 npc.saveID = npc.name;
-                continue;
             }
 
             NPCSaveEntry entry = currentSaveData.npcDatas.Find(

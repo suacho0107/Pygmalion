@@ -554,6 +554,13 @@ public class DialogueUI : MonoBehaviour
             }
 
             _npc.isInteract = true;
+
+            // The guard reads this door's individual save before giving the study-room key.
+            if (_npc is LibraryRoom && _npc.gameObject.name == "interactObj_S"
+                && SceneManager.GetActiveScene().name == "Library_B1F")
+            {
+                _npc.SaveNPCData();
+            }
         }
 
         dialogueManager.SaveData();
