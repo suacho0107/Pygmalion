@@ -32,8 +32,21 @@ public abstract class Enemy : MonoBehaviour
     #endregion
 
     #region Skill System
+    protected class SkillEntry
+    {
+        public float weight;
+        public Action skill;
+
+        public SkillEntry(float weight, Action skill)
+        {
+            this.weight = weight;
+            this.skill = skill;
+        }
+    }
+
     [Header("Skill System")]
-    protected List<Action> skills = new();
+    //protected List<Action> skills = new();
+    protected List<SkillEntry> skills = new();
 
     protected float increaseAttackPower = 1.0f;
     #endregion
@@ -143,32 +156,81 @@ public abstract class Enemy : MonoBehaviour
     #region Skill Logic
     protected abstract IEnumerator EnemySkill();
 
-    protected void AddSkill(float? probability, Action skill, bool partAlive)
+    protected void AddSkill(float weight, Action skill, bool partAlive)
     {
         if (!partAlive)
         {
             return;
         }
 
-        if (probability == null)
-        {
-            skills.Add(skill);
-        }
-        else if (Random.value <= probability)
-        {
-            skills.Add(skill);
-        }
-    }
-
-    protected void RandomSkill()
-    {
-        if (skills.Count <= 0)
+        if (weight <= 0f)
         {
             return;
         }
 
-        skills[Random.Range(0, skills.Count)]();
+        skills.Add(new SkillEntry(weight, skill));
     }
+    protected void RandomSkill()
+    {
+        if (skills.Count == 0)
+        {
+            return;
+        }
+
+        // 현재 살아있는 스킬들의 전체 가중치
+        float totalWeight = 0f;
+
+        foreach (SkillEntry skill in skills)
+        {
+            totalWeight += skill.weight;
+        }
+
+        if (totalWeight <= 0f)
+        {
+            return;
+        }
+
+        // 0 ~ totalWeight 사이에서 랜덤 선택
+        float randomValue = Random.Range(0f, totalWeight);
+
+        foreach (SkillEntry skill in skills)
+        {
+            randomValue -= skill.weight;
+
+            if (randomValue <= 0f)
+            {
+                skill.skill();
+                return;
+            }
+        }
+    }
+
+    //protected void AddSkill(float? probability, Action skill, bool partAlive)
+    //{
+    //    if (!partAlive)
+    //    {
+    //        return;
+    //    }
+
+    //    if (probability == null)
+    //    {
+    //        skills.Add(skill);
+    //    }
+    //    else if (Random.value <= probability)
+    //    {
+    //        skills.Add(skill);
+    //    }
+    //}
+
+    //protected void RandomSkill()
+    //{
+    //    if (skills.Count <= 0)
+    //    {
+    //        return;
+    //    }
+
+    //    skills[Random.Range(0, skills.Count)]();
+    //}
 
     protected void ResetSkill()
     {
