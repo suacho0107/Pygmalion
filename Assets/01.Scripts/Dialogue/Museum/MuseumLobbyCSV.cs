@@ -203,14 +203,14 @@ public class MuseumLobbyCSV : MonoBehaviour
             {
                 if (npcs.Length > 0) // 정원사
                 {
-                    npcs[0].dialogueFiles = new string[] { "", "", "", "", "" };
-                    npcs[0].selectFiles = new string[] { "", "", "", "", "" };
+                    npcs[0].dialogueFiles = new string[] { "Park-Gardener0_dialogue", "Park-Gardener1_dialogue", "Park-Gardener2a_dialogue", "Park-Gardener2b_dialogue", "Park-Gardener3_dialogue", "Park-Gardener4C_dialogue", "Park-Gardener4F_dialogue", "Park-Gardener5_dialogue", "Park-Gardener6_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "", "", "", "", "", "", "", "" };
                     npcs[0].currentIndex = 0;
                     npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
                     npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
                 }
 
-                if (npcs.Length > 1)
+                if (npcs.Length > 1) // 관리인
                 {
                     npcs[1].dialogueFiles = new string[] { "", "", "", "", "" };
                     npcs[1].selectFiles = new string[] { "", "", "", "", "" };

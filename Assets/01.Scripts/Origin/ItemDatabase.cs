@@ -44,5 +44,9 @@ public class ItemDatabase : MonoBehaviour
         itemList.Add(new Item(20104, "의문의 파편", "이게 뭐지?", "2-2발", Item.ItemType.Shard));
         itemList.Add(new Item(20105, "먹다 남은 쿠키", "누군가 먹다 남긴 도서관 카페 쿠키.\n조금 눅눅하지만 당분 보충에는 문제가 없어 보인다.", "먹다 남은 쿠키", Item.ItemType.Battle));
         itemList.Add(new Item(20201, "의문의 파편", "이게 뭐지?", "2-1손가락1개", Item.ItemType.Shard));
+        itemList.Add(new Item(30401, "필름카메라", "", "필름카메라", Item.ItemType.Quest));
+        itemList.Add(new Item(30402, "이름 모를 꽃 사진", "이름 모를 꽃이 적당히 산개해 있는 사진이다.\n꽤나 귀엽게 생긴 듯하다. 정원사에게 갖다주자.", "이름 모를 꽃 사진", Item.ItemType.Quest));
+        itemList.Add(new Item(30403, "찌그러진 초코바", "거의 다 녹았다가 찌그러진 상태로 다시 굳은 초코바.\n기분은 묘하지만 맛에는 이상이 없을 것 같다.", "찌그러진 초코바", Item.ItemType.Battle));
+        itemList.Add(new Item(30501, "자그마한 꽃 사진", "빈터의 조각상 근처에 자그마한 꽃이 조금 피어 있는 사진이다.\n정원사에게 갖다주자.", "자그마한 꽃 사진", Item.ItemType.Quest));
     }    
 }
