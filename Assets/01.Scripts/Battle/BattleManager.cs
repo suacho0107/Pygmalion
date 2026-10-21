@@ -24,6 +24,7 @@ public class BattleManager : MonoBehaviour
     public GameObject ReadingChild;
     public GameObject Melpomene;
     public GameObject BikeCouple;
+    public GameObject LyingFace;
     #endregion
 
     #region Player Position

@@ -833,6 +833,12 @@ public class BattleUI : MonoBehaviour
             PartType.MLeg => "남자의 다리",
             PartType.WLeg => "여자의 다리",
 
+            //누워 있는 얼굴
+            PartType.Eye => "눈",
+            PartType.Mouth => "입",
+            PartType.Hand => "손",
+            PartType.Arm => "팔",
+
             _ => part.name
         };
     }
