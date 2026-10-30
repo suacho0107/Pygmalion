@@ -392,7 +392,9 @@ public class InventoryUI : MonoBehaviour
     {
         if (!battleInventory) // 일반 씬 인벤토리 *전투 씬 인벤토리는 BattleUI에
         {
-            if (dialogueUI.dialoguePanel.activeInHierarchy || pauseUI.PanelActive() || vm.VMOpen()) return; // 대화창, 일시정지, 자판기 활성화 시 인벤토리 사용 불가
+            if (dialogueUI.dialoguePanel.activeInHierarchy) return; // 대화창, 일시정지, 자판기 활성화 시 인벤토리 사용 불가
+            if (pauseUI != null) { if (pauseUI.PanelActive()) return; }
+            if (vm != null) { if (vm.VMOpen()) return; }
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
