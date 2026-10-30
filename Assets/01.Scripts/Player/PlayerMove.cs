@@ -11,6 +11,9 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rigid;
     Animator anim;
 
+    PauseUI pauseUI;
+    VendingMachineUI vm;
+
     Vector3 dirVec;
 
     public AudioSource WalkSound;
@@ -88,6 +91,8 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        pauseUI = FindObjectOfType<PauseUI>();
+        vm = FindObjectOfType<VendingMachineUI>();
         WalkSound = GetComponent<AudioSource>();
         WalkSound.Stop();
 
@@ -206,8 +211,11 @@ public class PlayerMove : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                activeInven = true;
-                pState = PlayerState.Inventory;
+                if (!pauseUI.PanelActive() && !vm.VMOpen())
+                {
+                    activeInven = true;
+                    pState = PlayerState.Inventory;
+                }
             }
 
             if (ActiveInteract == true)

@@ -13,6 +13,10 @@ public class InventoryUI : MonoBehaviour
     public static InventoryUI instance;
     private ItemDatabase ItemDB;
     DialogueUI dialogueUI;
+
+    PauseUI pauseUI;
+    VendingMachineUI vm;
+
     public GameObject inventoryPanel;
     public GameObject currencyPanel;
     public GameObject infoPanel;
@@ -360,7 +364,10 @@ public class InventoryUI : MonoBehaviour
         instance = this;
         ItemDB = FindObjectOfType<ItemDatabase>();
         dialogueUI = FindObjectOfType<DialogueUI>();
-        
+
+        pauseUI = FindObjectOfType<PauseUI>();
+        vm = FindObjectOfType<VendingMachineUI>();
+
         inventoryPanel.SetActive(activeInventory);
         if (!battleInventory)
         {
@@ -385,7 +392,7 @@ public class InventoryUI : MonoBehaviour
     {
         if (!battleInventory) // 일반 씬 인벤토리 *전투 씬 인벤토리는 BattleUI에
         {
-            if (dialogueUI.dialoguePanel.activeInHierarchy) return; // 대화창 활성화 시 인벤토리 사용 불가
+            if (dialogueUI.dialoguePanel.activeInHierarchy || pauseUI.PanelActive() || vm.VMOpen()) return; // 대화창, 일시정지, 자판기 활성화 시 인벤토리 사용 불가
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {

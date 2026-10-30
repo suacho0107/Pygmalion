@@ -251,4 +251,11 @@ public class VendingMachineUI : MonoBehaviour
 
         descriptionText.text = item.itemName + "구매 완료.";
     }
+
+    public bool VMOpen()
+    {
+        return IsOpen;
+        //if (IsOpen) return true;
+        //else return false;
+    }
 }

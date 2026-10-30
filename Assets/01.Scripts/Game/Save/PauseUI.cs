@@ -273,4 +273,11 @@ public class PauseUI : MonoBehaviour
     {
         SaveManager.s_instance.SaveData();
     }
+
+    public bool PanelActive()
+    {
+        return isPanelOn;
+        //if (isPanelOn) return true;
+        //else return false;
+    }
 }
