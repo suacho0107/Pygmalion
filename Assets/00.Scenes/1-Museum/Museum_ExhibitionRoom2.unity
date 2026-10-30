@@ -829,6 +829,7 @@ MonoBehaviour:
   isJudged: 0
   isEnemy: 1
   isCorrect: 0
+  enemyType: 0
   isFin: 0
   result: 0
   enter1st: 0
@@ -1007,26 +1008,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1389102509151751759, guid: 77979822413c63647a08add78294fed6, type: 3}
   m_PrefabInstance: {fileID: 349123737}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &349123739 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509072860743, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 349123737}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &349123740 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102508583114517, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 349123737}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &349123742 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102508462896133, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 349123737}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &349123743 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1389102509261123052, guid: 77979822413c63647a08add78294fed6, type: 3}
-  m_PrefabInstance: {fileID: 349123737}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &349123745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1389102509620035075, guid: 77979822413c63647a08add78294fed6, type: 3}
@@ -1199,11 +1180,11 @@ PrefabInstance:
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1092713317}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1092713317}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[2]
       value: 
@@ -1231,23 +1212,23 @@ PrefabInstance:
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[8]
       value: 
-      objectReference: {fileID: 349123743}
+      objectReference: {fileID: 1092713317}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[9]
       value: 
-      objectReference: {fileID: 349123742}
+      objectReference: {fileID: 1028325299}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[10]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1092713317}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[11]
       value: 
-      objectReference: {fileID: 349123740}
+      objectReference: {fileID: 1028325299}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Images.Array.data[12]
       value: 
-      objectReference: {fileID: 349123739}
+      objectReference: {fileID: 1092713317}
     - target: {fileID: 4880277370391473291, guid: e37acb337fef84d4e9ea0ea399f0e405, type: 3}
       propertyPath: Portraits.Array.data[0]
       value: 
@@ -1491,6 +1472,7 @@ MonoBehaviour:
   isJudged: 0
   isEnemy: 0
   isCorrect: 0
+  enemyType: 0
   isFin: 0
   result: 0
   enter1st: 0
