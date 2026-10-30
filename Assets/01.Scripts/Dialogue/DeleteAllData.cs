@@ -8,13 +8,13 @@ public class DeleteAllData : MonoBehaviour
 {
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "Demo_End") { DeleteAllJsonFiles(); DeleteItemList(); }
+        if (SceneManager.GetActiveScene().name == "Demo_End") { DeleteNPCJsonFiles(); DeleteItemList(); }
         InventoryUI.instance.RemoveUseItem();
     }
 
-    public void DeleteAllJsonFiles()
+    public void DeleteNPCJsonFiles()
     {
-        Debug.Log("[DeleteAllData] DeleteAllJsonFiles »£√‚µ ");
+        Debug.Log("[DeleteAllData] DeleteNPCJsonFiles »£√‚µ ");
         PlayerPrefs.DeleteAll();
 
         string folderPath = Application.persistentDataPath;

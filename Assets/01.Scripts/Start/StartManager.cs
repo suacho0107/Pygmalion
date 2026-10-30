@@ -105,7 +105,8 @@ public class StartManager : MonoBehaviour
 
         if (null != deleteAllData)
         {
-            deleteAllData.DeleteAllJsonFiles();
+            deleteAllData.DeleteNPCJsonFiles();
+            deleteAllData.DeleteItemList();
         }
         else
         {
