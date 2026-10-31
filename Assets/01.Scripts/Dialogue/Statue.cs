@@ -234,6 +234,7 @@ public class Statue : NPC
         statueScore.fightCount += 1;
         statueScore.SaveScore();
         enterFight = true;
+        SaveStatueData();
     }
 
     void Result()
@@ -287,22 +288,24 @@ public class Statue : NPC
     {
         if (!isEnemy && isFin && !result)
         {
-            if (currentIndex == 3)
-            {
-                //Debug.Log("selected Statue currentIndex = 3");
-                if (isCorrect == true)
-                {
-                    //npc.ChangeDialogueExplain(3, "3");
-                    result = true;
-                    //Debug.Log("CheckResult 실행");
-                }
-                else
-                {
-                    //npc.ChangeDialogueFileName("Destroyed_dialogue");
-                    result = true;
-                    //Debug.Log("CheckResult 실행");
-                }
-            }
+            result = true;
+            SaveStatueData();
+            //if (currentIndex == 3)
+            //{
+            //    //Debug.Log("selected Statue currentIndex = 3");
+            //    if (isCorrect == true)
+            //    {
+            //        //npc.ChangeDialogueExplain(3, "3");
+            //        result = true;
+            //        //Debug.Log("CheckResult 실행");
+            //    }
+            //    else
+            //    {
+            //        //npc.ChangeDialogueFileName("Destroyed_dialogue");
+            //        result = true;
+            //        //Debug.Log("CheckResult 실행");
+            //    }
+            //}
         }
     }
 
@@ -408,7 +411,7 @@ public class Statue : NPC
         string json = JsonUtility.ToJson(npcData);
         File.WriteAllText(filePath, json);
 
-        //Debug.Log(gameObject.name + " 데이터 저장");
+        Debug.Log(gameObject.name + " 데이터 저장");
         //Debug.Log("조각상 result: " + result);
     }
 
