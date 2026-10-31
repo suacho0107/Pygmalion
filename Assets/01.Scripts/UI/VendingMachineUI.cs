@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,7 +59,7 @@ public class VendingMachineUI : MonoBehaviour
             return;
         }
 
-        if (!VMObject.IsPlayerRange)
+        if (VMObject == null || !VMObject.IsPlayerRange)
         {
             if (IsOpen)
                 Close();
@@ -112,7 +112,7 @@ public class VendingMachineUI : MonoBehaviour
 
             if (item == null)
             {
-                Debug.LogWarning("µî·ÏµÇÁö ¾ÊÀº »óÇ° ID: " + product.itemID);
+                Debug.LogWarning("ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ID: " + product.itemID);
                 continue;
             }
 
@@ -234,7 +234,7 @@ public class VendingMachineUI : MonoBehaviour
 
         if (wallet.currency < price)
         {
-            descriptionText.text = "³Ê¹« ºñ½Ô´Ï´Ù.";
+            descriptionText.text = "ï¿½Ê¹ï¿½ ï¿½ï¿½Ô´Ï´ï¿½.";
             return;
         }
 
@@ -242,14 +242,14 @@ public class VendingMachineUI : MonoBehaviour
 
         if (!added)
         {
-            descriptionText.text = "¾ÆÀÌÅÛÀ» Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù. ÀÎº¥Åä¸®¸¦ È®ÀÎÇÏ¼¼¿ä.";
+            descriptionText.text = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.";
             return;
         }
 
         wallet.AddCurrency(-price);
         PlayerPrefs.Save();
 
-        descriptionText.text = item.itemName + "±¸¸Å ¿Ï·á.";
+        descriptionText.text = item.itemName + "ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½.";
     }
 
     public bool VMOpen()
