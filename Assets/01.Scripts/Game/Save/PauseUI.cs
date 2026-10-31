@@ -11,6 +11,7 @@ public class PauseUI : MonoBehaviour
     [SerializeField] private GameObject SavePopup;
     [SerializeField] private GameObject popupButtons;
     [SerializeField] private GameObject OptionTab;
+    [SerializeField] private GameObject ContinueTab;
 
     private List<GameObject> buttonList = new List<GameObject>();
     private List<GameObject> popupButtonList = new List<GameObject>();
@@ -42,6 +43,8 @@ public class PauseUI : MonoBehaviour
 
             button.SetActive(false);
         }
+
+        ContinueTab.SetActive(false);
 
         selectedButtonIndex = selectedPopupButtonIndex = 0;
     }
@@ -203,6 +206,7 @@ public class PauseUI : MonoBehaviour
 
         PausePanel.SetActive(isPanelOn);
         SavePopup.SetActive(isPopupOn);
+        ContinueTab.SetActive(isPopupOn);
 
         for (int i = 0; i < buttonList.Count; i++)
         {
@@ -224,6 +228,7 @@ public class PauseUI : MonoBehaviour
 
         PausePanel.SetActive(isPanelOn);
         SavePopup.SetActive(isPopupOn);
+        ContinueTab.SetActive(isPopupOn);
 
         for (int i = 0; i < buttonList.Count; i++)
         {
