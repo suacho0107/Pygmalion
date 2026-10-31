@@ -211,7 +211,7 @@ public class PlayerMove : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (!pauseUI.PanelActive() && !vm.VMOpen())
+                if (!pauseUI.PanelActive() && (vm == null || !vm.VMOpen()))
                 {
                     activeInven = true;
                     pState = PlayerState.Inventory;
