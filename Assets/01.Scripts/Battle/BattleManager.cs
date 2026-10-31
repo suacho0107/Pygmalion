@@ -396,10 +396,10 @@ public class BattleManager : MonoBehaviour
             string json = File.ReadAllText(path);
             NPCData data = JsonUtility.FromJson<NPCData>(json);
 
+            data.enter1st = _enter1st;
             if (isRun == false)
             {
                 data.isFin = isWin;
-                data.enter1st = _enter1st;
                 data.enterFight = _enterFight;
             }
 
