@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+癤퓎sing System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -13,265 +12,153 @@ public class PauseUI : MonoBehaviour
     [SerializeField] private GameObject OptionTab;
     [SerializeField] private GameObject ContinueTab;
 
-    private List<GameObject> buttonList = new List<GameObject>();
-    private List<GameObject> popupButtonList = new List<GameObject>();
-    private int selectedButtonIndex = 0;
-    private int selectedPopupButtonIndex = 0;
+    private readonly List<GameObject> buttonList = new List<GameObject>();
+    private readonly List<GameObject> popupButtonList = new List<GameObject>();
+    private int selectedButtonIndex;
+    private int selectedPopupButtonIndex;
+    private bool isPanelOn;
+    private bool isPopupOn;
+    private bool isPopupFocused;
 
-    private Scene currentScene;
-
-    private bool isPanelOn = false;
-    private bool isPopupOn = false;
-    private bool isOptionOn = false;
-
-    void Start()
+    void Awake()
     {
-        PausePanel.SetActive(false);
-        for (int i = 0; i < buttons.transform.childCount; i++)
+        CollectButtons(buttons, buttonList);
+        CollectButtons(popupButtons, popupButtonList);
+        ClosePanel();
+    }
+
+    private static void CollectButtons(GameObject root, List<GameObject> list)
+    {
+        if (root == null) return;
+        foreach (Transform child in root.transform)
         {
-            GameObject button = buttons.transform.GetChild(i).gameObject;
-            buttonList.Add(button);
-
-            button.SetActive(false);
+            list.Add(child.gameObject);
         }
-
-        SavePopup.SetActive(false);
-        for (int i = 0; i < popupButtons.transform.childCount; i++)
-        {
-            GameObject button = popupButtons.transform.GetChild(i).gameObject;
-            popupButtonList.Add(button);
-
-            button.SetActive(false);
-        }
-
-        ContinueTab.SetActive(false);
-
-        selectedButtonIndex = selectedPopupButtonIndex = 0;
     }
 
     void Update()
     {
-        UpdateUI();
-    }
-
-    void UpdateUI()
-    {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPopupOn)
+            if (isPopupFocused)
             {
-                ClosePopup();
+                isPopupFocused = false;
+                HighlightButtons();
             }
-            else if (isPanelOn)
-            {
-                ClosePanel();
-            }
-            else
-            {
-                OpenPanel();
-            }
-
+            else if (isPanelOn) ClosePanel();
+            else OpenPanel();
             return;
         }
-
-        if (isPopupOn)
-        {
-            PopupButtonInputHandler();
-        }
-        else if (isPanelOn)
-        {
-            ButtonInputHandler();
-        }
+        if (!isPanelOn) return;
+        if (isPopupFocused) PopupButtonInputHandler();
+        else ButtonInputHandler();
     }
 
     void ButtonInputHandler()
     {
-        //상하 이동
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            if (selectedButtonIndex > 0)
-            {
-                selectedButtonIndex--;
-            }
-        }
+            selectedButtonIndex = Mathf.Max(0, selectedButtonIndex - 1);
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            selectedButtonIndex = Mathf.Min(buttonList.Count - 1, selectedButtonIndex + 1);
+        else if (isPopupOn && popupButtonList.Count > 0 &&
+            (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space)))
+            isPopupFocused = true;
+        else if (selectedButtonIndex == 0 && Input.GetKeyDown(KeyCode.Space))
         {
-            if (selectedButtonIndex < buttons.transform.childCount - 1)
-            {
-                selectedButtonIndex++;
-            }
+            ClosePanel();
+            return;
         }
-
-        //선택
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (selectedButtonIndex == 0) // 계속하기
-            {
-                ClosePanel();
-                ClosePopup();
-            }
-            else if (selectedButtonIndex == 1) // 설정
-            {
-                OpenOptionTab();
-            }
-            else if (selectedButtonIndex == 2) // 시작화면으로 돌아가기
-            {
-                OpenPopup();
-            }
-        }
-        HighlightButton();
+        UpdateSelectedPage();
+        HighlightButtons();
     }
 
     void PopupButtonInputHandler()
     {
-        //상하 이동
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            if (selectedPopupButtonIndex > 0)
-            {
-                selectedPopupButtonIndex--;
-            }
-        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            isPopupFocused = false;
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            selectedPopupButtonIndex = Mathf.Max(0, selectedPopupButtonIndex - 1);
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            if (selectedPopupButtonIndex < popupButtons.transform.childCount - 1)
-            {
-                selectedPopupButtonIndex++;
-            }
-        }
-
-        //선택
+            selectedPopupButtonIndex = Mathf.Min(popupButtonList.Count - 1, selectedPopupButtonIndex + 1);
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (selectedPopupButtonIndex == 0) // 저장하고 나가기
+            if (selectedPopupButtonIndex == 0)
             {
                 OnSaveData();
                 UIManager.u_instance.RequestSaveMessage();
                 SceneManager.LoadScene("Start");
+                return;
             }
-            else if (selectedPopupButtonIndex == 1) // 저장하지않고 나가기
+            if (selectedPopupButtonIndex == 1)
             {
                 SceneManager.LoadScene("Start");
+                return;
             }
+            // Optional third item: cancel and return to the continue page.
+            selectedButtonIndex = 0;
+            isPopupFocused = false;
+            UpdateSelectedPage();
         }
-        HighlightButton();
+        HighlightButtons();
     }
 
-    private void HighlightButton()
+    private void HighlightButtons()
     {
-        if (isPanelOn && !isPopupOn)
+        ApplyHighlight(buttonList, selectedButtonIndex);
+        ApplyHighlight(popupButtonList, isPopupFocused ? selectedPopupButtonIndex : -1);
+    }
+
+    private static void ApplyHighlight(List<GameObject> list, int index)
+    {
+        for (int i = 0; i < list.Count; i++)
         {
-            if (selectedButtonIndex < 0 || selectedButtonIndex >= buttonList.Count)
-            {
-                return;
-            }
-
-            for (int i = 0; i < buttonList.Count; i++)
-            {
-                GameObject selectedButton = buttonList[i];
-
-                //Text Color 변경
-                Text text = selectedButton.GetComponent<Text>();
-                text.color = (i == selectedButtonIndex) ? new Color32(206, 178, 120, 255) : new Color32(156, 156, 156, 255);
-
-                //Text 하단 Image
-                GameObject selectedImage = selectedButton.transform.GetChild(0).gameObject;
-                selectedImage.SetActive(i == selectedButtonIndex ? true : false);
-            }
-        }
-        else if (isPanelOn && isPopupOn)
-        {
-            if (selectedPopupButtonIndex < 0 || selectedPopupButtonIndex >= popupButtonList.Count)
-            {
-                return;
-            }
-
-            for (int i = 0; i < popupButtonList.Count; i++)
-            {
-                GameObject selectedButton = popupButtonList[i];
-
-                Text text = selectedButton.GetComponent<Text>();
-                text.color = (i == selectedPopupButtonIndex) ? new Color32(206, 178, 120, 255) : new Color32(156, 156, 156, 255);
-
-                GameObject selectedImage = selectedButton.transform.GetChild(0).gameObject;
-                selectedImage.SetActive(i == selectedPopupButtonIndex ? true : false);
-            }
+            Text text = list[i].GetComponent<Text>();
+            if (text != null)
+                text.color = i == index ? new Color32(206, 178, 120, 255) : new Color32(156, 156, 156, 255);
+            if (list[i].transform.childCount > 0)
+                list[i].transform.GetChild(0).gameObject.SetActive(i == index);
         }
     }
 
     void OpenPanel()
     {
         isPanelOn = true;
-        isPopupOn = false;
-
-        PausePanel.SetActive(isPanelOn);
-        SavePopup.SetActive(isPopupOn);
-        ContinueTab.SetActive(isPopupOn);
-
-        for (int i = 0; i < buttonList.Count; i++)
-        {
-            buttonList[i].SetActive(isPanelOn);
-        }
-
-        for (int i = 0; i < popupButtonList.Count; i++)
-        {
-            popupButtonList[i].SetActive(isPopupOn);
-        }
-
-        HighlightButton();
+        isPopupFocused = false;
+        selectedButtonIndex = 0;
+        selectedPopupButtonIndex = 0;
+        SetPageActive(PausePanel, true);
+        foreach (GameObject button in buttonList) button.SetActive(true);
+        UpdateSelectedPage();
+        HighlightButtons();
     }
 
     void ClosePanel()
     {
         isPanelOn = false;
-        isPopupOn = false;
-
-        PausePanel.SetActive(isPanelOn);
-        SavePopup.SetActive(isPopupOn);
-        ContinueTab.SetActive(isPopupOn);
-
-        for (int i = 0; i < buttonList.Count; i++)
-        {
-            buttonList[i].SetActive(isPanelOn);
-        }
-
-        for (int i = 0; i < popupButtonList.Count; i++)
-        {
-            popupButtonList[i].SetActive(isPopupOn);
-        }
+        isPopupFocused = false;
+        UpdateSelectedPage();
+        SetPageActive(PausePanel, false);
+        foreach (GameObject button in buttonList) button.SetActive(false);
     }
 
-    void OpenPopup()
+    private void UpdateSelectedPage()
     {
-        isPopupOn = true;
-        selectedPopupButtonIndex = 0;
-
-        SavePopup.SetActive(isPopupOn);
-
-        for (int i = 0; i < popupButtonList.Count; i++)
+        bool showPopup = isPanelOn && selectedButtonIndex == 2;
+        if (showPopup != isPopupOn)
         {
-            popupButtonList[i].SetActive(isPopupOn);
+            selectedPopupButtonIndex = 0;
+            isPopupFocused = false;
         }
+        isPopupOn = showPopup;
+        SetPageActive(ContinueTab, isPanelOn && selectedButtonIndex == 0);
+        SetPageActive(OptionTab, isPanelOn && selectedButtonIndex == 1);
+        SetPageActive(SavePopup, showPopup);
+        foreach (GameObject button in popupButtonList) button.SetActive(showPopup);
     }
 
-    void ClosePopup()
+    private static void SetPageActive(GameObject page, bool active)
     {
-        isPopupOn = false;
-        SavePopup.SetActive(false);
-
-        for (int i = 0; i < popupButtonList.Count; i++)
-        {
-            popupButtonList[i].SetActive(false);
-        }
-
-        HighlightButton();
-    }
-
-    void OpenOptionTab()
-    {
-        isOptionOn = !isOptionOn;
-
-        OptionTab.SetActive(isOptionOn);
+        if (page != null && page.activeSelf != active) page.SetActive(active);
     }
 
     public void OnSaveData()
@@ -282,7 +169,5 @@ public class PauseUI : MonoBehaviour
     public bool PanelActive()
     {
         return isPanelOn;
-        //if (isPanelOn) return true;
-        //else return false;
     }
 }
