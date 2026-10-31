@@ -1,7 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.UI;
+using UnityEngine.Events;
 using Define;
 
 public class SoundManager : MonoBehaviour
@@ -48,7 +50,7 @@ public class SoundManager : MonoBehaviour
             audioSource_BG.loop = true;
             audioSource_BG.outputAudioMixerGroup = audioMixerGroup_BGM;
 
-            // ¾À ·Îµå ÀÌº¥Æ® µî·Ï
+            // ï¿½ï¿½ ï¿½Îµï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -59,19 +61,20 @@ public class SoundManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // ¾À ·Îµå ÀÌº¥Æ® ÇØÁ¦
+        // ï¿½ï¿½ ï¿½Îµï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // ¾À ·Îµå ÈÄ BGM ¼³Á¤
+        // ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ BGM ï¿½ï¿½ï¿½ï¿½
         UpdateStageBGM();
+        BindVolumeSliders();
     }
 
     public void SetStageBGM(Stage.StageState state)
     {
-        // ÇöÀç »óÅÂ¿Í ºñ±³ÇÏ¿© µ¿ÀÏÇÏ¸é Áßº¹ ¼³Á¤ ¹æÁö
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (currentState == state) return;
 
         currentState = state;
@@ -145,6 +148,41 @@ public class SoundManager : MonoBehaviour
         {
             audioSource_BG.clip = bgmToPlay;
             audioSource_BG.Play();
+        }
+    }
+
+    private void Start()
+    {
+        if (s_instance == this) BindVolumeSliders();
+    }
+
+    private void BindVolumeSliders()
+    {
+        // Include inactive option pages, but exclude prefab assets.
+        foreach (Slider slider in Resources.FindObjectsOfTypeAll<Slider>())
+        {
+            if (!slider.gameObject.scene.IsValid() || !slider.gameObject.scene.isLoaded) continue;
+
+            bool isBGM = slider.name == "BGM_Slider";
+            bool isSFX = slider.name == "SFX_Slider";
+            for (int i = 0; i < slider.onValueChanged.GetPersistentEventCount(); i++)
+            {
+                string method = slider.onValueChanged.GetPersistentMethodName(i);
+                if (method != nameof(SetBGMVolume) && method != nameof(SetSFXVolume)) continue;
+                isBGM |= method == nameof(SetBGMVolume);
+                isSFX |= method == nameof(SetSFXVolume);
+                // Scene-local managers can be destroyed by the singleton guard.
+                slider.onValueChanged.SetPersistentListenerState(i, UnityEventCallState.Off);
+            }
+            if (!isBGM && !isSFX) continue;
+
+            slider.onValueChanged.RemoveListener(SetBGMVolume);
+            slider.onValueChanged.RemoveListener(SetSFXVolume);
+            if (isBGM) slider.onValueChanged.AddListener(SetBGMVolume);
+            else slider.onValueChanged.AddListener(SetSFXVolume);
+
+            if (audioMixer != null && audioMixer.GetFloat(isBGM ? "BGMVolume" : "SFXVolume", out float decibels))
+                slider.SetValueWithoutNotify(decibels <= -80f ? 0f : Mathf.Pow(10f, decibels / 20f));
         }
     }
 
