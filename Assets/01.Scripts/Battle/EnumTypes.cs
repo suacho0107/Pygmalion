@@ -24,5 +24,11 @@ public enum PartType
     MArm,
     WArm,
     MLeg,
-    WLeg
+    WLeg,
+
+    //누워 있는 얼굴
+    Eye,
+    Mouth,
+    Hand,
+    Arm
 }

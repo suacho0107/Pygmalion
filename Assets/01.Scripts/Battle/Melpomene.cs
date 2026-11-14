@@ -85,7 +85,6 @@ public class Melpomene : Enemy //멜포메네
         }
 
         yield return null;
-
     }
 
     #region Melpomene_Skills
@@ -94,6 +93,7 @@ public class Melpomene : Enemy //멜포메네
         StartCoroutine(battleUI.TypeWriter("조각상이 비극을 외쳐, 그 울림이 당신에게 강력한 정신적 충격을 줍니다.\n방어력이 감소합니다."));
 
         Deal(30);
+        //정신력 소폭 하락
     }
 
     private IEnumerator Narrative(PartType part) //운명의 서사
