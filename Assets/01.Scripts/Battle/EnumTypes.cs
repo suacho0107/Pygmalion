@@ -3,7 +3,8 @@ public enum EnemyType
     Aphrodite,
     ReadingChild,
     Melpomene,
-    BikeCouple
+    BikeCouple,
+    LyingFace
 }
 
 public enum PartType
