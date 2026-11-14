@@ -60,10 +60,26 @@ public class UIManager : MonoBehaviour
             Set_UIState(UI.UIState.Work);
         }
         #endregion
+
+        HideCursor();
     }
 
-    private void Update()
+    private void OnApplicationFocus(bool hasFocus)
     {
+        if (hasFocus)
+            HideCursor();
+    }
+
+    private void OnApplicationPause(bool isPaused)
+    {
+        if (!isPaused)
+            HideCursor();
+    }
+
+    private static void HideCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnDestroy()
