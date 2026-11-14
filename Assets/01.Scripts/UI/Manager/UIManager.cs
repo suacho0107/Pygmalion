@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     public  bool    isRespawn = false;
     public  bool    stateWork = false;
     private bool    canShowMessage = false;
+    private bool settingsCursorVisible;
 
     void Awake()
     {
@@ -61,25 +62,31 @@ public class UIManager : MonoBehaviour
         }
         #endregion
 
-        HideCursor();
+        ApplyCursorState();
     }
 
     private void OnApplicationFocus(bool hasFocus)
     {
         if (hasFocus)
-            HideCursor();
+            ApplyCursorState();
     }
 
     private void OnApplicationPause(bool isPaused)
     {
         if (!isPaused)
-            HideCursor();
+            ApplyCursorState();
     }
 
-    private static void HideCursor()
+    public void SetSettingsCursorVisible(bool visible)
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        settingsCursorVisible = visible;
+        ApplyCursorState();
+    }
+
+    private void ApplyCursorState()
+    {
+        Cursor.lockState = settingsCursorVisible ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = settingsCursorVisible;
     }
 
     private void OnDestroy()

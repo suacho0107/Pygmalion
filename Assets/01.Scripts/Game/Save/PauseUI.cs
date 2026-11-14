@@ -94,7 +94,7 @@ public class PauseUI : MonoBehaviour
                 SceneManager.LoadScene("Start");
                 return;
             }
-            // Optional third item: cancel and return to the continue page.
+
             selectedButtonIndex = 0;
             isPopupFocused = false;
             UpdateSelectedPage();
@@ -122,6 +122,10 @@ public class PauseUI : MonoBehaviour
 
     void OpenPanel()
     {
+        transform.SetAsLastSibling();
+        if (OptionTab != null && OptionTab.transform.parent == transform.parent)
+            OptionTab.transform.SetAsLastSibling();
+
         isPanelOn = true;
         isPopupFocused = false;
         selectedButtonIndex = 0;
@@ -151,9 +155,18 @@ public class PauseUI : MonoBehaviour
         }
         isPopupOn = showPopup;
         SetPageActive(ContinueTab, isPanelOn && selectedButtonIndex == 0);
-        SetPageActive(OptionTab, isPanelOn && selectedButtonIndex == 1);
+        bool showOptions = isPanelOn && selectedButtonIndex == 1;
+        SetPageActive(OptionTab, showOptions);
+        if (UIManager.u_instance != null)
+            UIManager.u_instance.SetSettingsCursorVisible(showOptions && OptionTab != null && OptionTab.activeInHierarchy);
         SetPageActive(SavePopup, showPopup);
         foreach (GameObject button in popupButtonList) button.SetActive(showPopup);
+    }
+
+    private void OnDisable()
+    {
+        if (UIManager.u_instance != null)
+            UIManager.u_instance.SetSettingsCursorVisible(false);
     }
 
     private static void SetPageActive(GameObject page, bool active)
