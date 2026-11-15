@@ -16,6 +16,7 @@ public class BattleUI : MonoBehaviour
     public Image background;
     public Sprite museumBackground;
     public Sprite libraryBackGround;
+    public Sprite parkBackground;
     #endregion
 
     #region Dialogue UI
@@ -758,6 +759,10 @@ public class BattleUI : MonoBehaviour
 
             case 1: //도서관
                 background.sprite = libraryBackGround;
+                break;
+
+            case 2: //공원
+                background.sprite = parkBackground;
                 break;
         }
     }
