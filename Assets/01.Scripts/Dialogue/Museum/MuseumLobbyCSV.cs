@@ -199,9 +199,61 @@ public class MuseumLobbyCSV : MonoBehaviour
                     //npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
                 }
             }
-            else if (sceneName.StartsWith(""))
+            else if (sceneName.StartsWith("Park"))
             {
+                if (npcs.Length > 0) // 정원사
+                {
+                    npcs[0].dialogueFiles = new string[] { "Park-Gardener0_dialogue", "Park-Gardener1_dialogue", "Park-Gardener2a_dialogue", "Park-Gardener2b_dialogue", "Park-Gardener3_dialogue", "Park-Gardener4C_dialogue", "Park-Gardener4F_dialogue", "Park-Gardener5_dialogue", "Park-Gardener6_dialogue" };
+                    npcs[0].selectFiles = new string[] { "", "", "", "", "", "", "", "", "" };
+                    npcs[0].currentIndex = 0;
+                    npcs[0].dialogueFileName = npcs[0].dialogueFiles[npcs[0].currentIndex];
+                    npcs[0].selectFileName = npcs[0].selectFiles[npcs[0].currentIndex];
+                }
 
+                if (npcs.Length > 1) // 관리인
+                {
+                    npcs[1].dialogueFiles = new string[] { "", "", "", "", "" };
+                    npcs[1].selectFiles = new string[] { "", "", "", "", "" };
+                    npcs[1].currentIndex = 0;
+                    npcs[1].dialogueFileName = npcs[1].dialogueFiles[npcs[1].currentIndex];
+                    npcs[1].selectFileName = npcs[1].selectFiles[npcs[1].currentIndex];
+                }
+
+                if (npcs.Length > 2) // 돌고래
+                {
+                    npcs[2].dialogueFiles = new string[] { "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
+                    npcs[2].selectFiles = new string[] { "judge-statue3_select", "judge-checking3_select", "judge-checking3_select", "", "" };
+                    npcs[2].currentIndex = 0;
+                    npcs[2].dialogueFileName = npcs[2].dialogueFiles[npcs[2].currentIndex];
+                    npcs[2].selectFileName = npcs[2].selectFiles[npcs[2].currentIndex];
+                }
+
+                if (npcs.Length > 3) // 자전거 타는 연인
+                {
+                    npcs[3].dialogueFiles = new string[] { "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
+                    npcs[3].selectFiles = new string[] { "judge-statue3_select", "judge-checking3_select", "judge-checking3_select", "", "" };
+                    npcs[3].currentIndex = 0;
+                    npcs[3].dialogueFileName = npcs[3].dialogueFiles[npcs[3].currentIndex];
+                    npcs[3].selectFileName = npcs[3].selectFiles[npcs[3].currentIndex];
+                }
+
+                if (npcs.Length > 4) // 말 탄 사람
+                {
+                    npcs[4].dialogueFiles = new string[] { "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
+                    npcs[4].selectFiles = new string[] { "judge-statue3_select", "judge-checking3_select", "judge-checking3_select", "", "" };
+                    npcs[4].currentIndex = 0;
+                    npcs[4].dialogueFileName = npcs[4].dialogueFiles[npcs[4].currentIndex];
+                    npcs[4].selectFileName = npcs[4].selectFiles[npcs[4].currentIndex];
+                }
+
+                if (npcs.Length > 5) // 누워 있는 얼굴
+                {
+                    npcs[5].dialogueFiles = new string[] { "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Library-1F_Statue1_dialogue", "Stage2_battle1_dialogue", "Destroyed_dialogue" };
+                    npcs[5].selectFiles = new string[] { "judge-statue3_select", "judge-checking3_select", "judge-checking3_select", "", "" };
+                    npcs[5].currentIndex = 0;
+                    npcs[5].dialogueFileName = npcs[5].dialogueFiles[npcs[5].currentIndex];
+                    npcs[5].selectFileName = npcs[5].selectFiles[npcs[5].currentIndex];
+                }
             }
         }
     }
