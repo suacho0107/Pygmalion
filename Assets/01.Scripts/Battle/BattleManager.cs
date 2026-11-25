@@ -25,6 +25,7 @@ public class BattleManager : MonoBehaviour
     public GameObject Melpomene;
     public GameObject BikeCouple;
     public GameObject LyingFace;
+    public GameObject Dolphin;
     #endregion
 
     #region Player Position
@@ -153,6 +154,12 @@ public class BattleManager : MonoBehaviour
                     enemy = LyingFace.GetComponent<Enemy>();
                     //playerPos.nextPosition = new Vector3();
                     break;
+
+                case EnemyType.Dolphin:
+                    Dolphin.SetActive(true);
+                    enemy = Dolphin.GetComponent<Enemy>();
+                    //playerPos.nextPosition = new Vector3();
+                    break;
             }
             playerPos.isChecked = true;
         }
@@ -166,8 +173,10 @@ public class BattleManager : MonoBehaviour
             //enemy = Melpomene.GetComponent<Enemy>();
             //BikeCouple.SetActive(true);
             //enemy = BikeCouple.GetComponent<Enemy>();
-            LyingFace.SetActive(true);
-            enemy = LyingFace.GetComponent<Enemy>();
+            //LyingFace.SetActive(true);
+            //enemy = LyingFace.GetComponent<Enemy>();
+            Dolphin.SetActive(true);
+            enemy = Dolphin.GetComponent<Enemy>();
 
             playerPos.nextPosition = new Vector3(-2.55f, 11.5f, 0f);
             playerPos.isChecked = true;

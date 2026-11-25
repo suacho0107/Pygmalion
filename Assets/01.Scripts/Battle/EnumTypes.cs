@@ -4,7 +4,8 @@ public enum EnemyType
     ReadingChild,
     Melpomene,
     BikeCouple,
-    LyingFace
+    LyingFace,
+    Dolphin
 }
 
 public enum PartType
@@ -26,6 +27,17 @@ public enum PartType
     WArm,
     MLeg,
     WLeg,
+    
+    //돌고래
+    ThirdHead,
+    ThirdFin,
+    ThirdTail,
+    SecondHead,
+    SecondFin,
+    SecondTail,
+    FirstHead,
+    FirstFin,
+    FirstTail,
 
     //누워 있는 얼굴
     Eye,

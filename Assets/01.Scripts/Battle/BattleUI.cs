@@ -838,6 +838,17 @@ public class BattleUI : MonoBehaviour
             PartType.MLeg => "남자의 다리",
             PartType.WLeg => "여자의 다리",
 
+            //돌고래
+            PartType.ThirdHead => "3층 돌고래의 머리",
+            PartType.ThirdFin => "3층 돌고래의 지느러미",
+            PartType.ThirdTail => "3층 돌고래의 꼬리",
+            PartType.SecondHead => "2층 돌고래의 머리",
+            PartType.SecondFin => "2층 돌고래의 지느러미",
+            PartType.SecondTail => "2층 돌고래의 꼬리",
+            PartType.FirstHead => "1층 돌고래의 머리",
+            PartType.FirstFin => "1층 돌고래의 지느러미",
+            PartType.FirstTail => "3층 돌고래의 꼬리",
+
             //누워 있는 얼굴
             PartType.Eye => "눈",
             PartType.Mouth => "입",
