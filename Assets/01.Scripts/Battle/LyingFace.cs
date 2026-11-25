@@ -34,7 +34,6 @@ public class LyingFace : Enemy //누워 있는 얼굴
     }
 
     #region LyingFace_Skills
-
     private void Stare() //가만히 노려보기
     {
         StartCoroutine(battleUI.TypeWriter("조각상이 당신을 가만히 노려봅니다.\n당신의 마음속에 불쾌한 감정이 싹틉니다."));
@@ -64,7 +63,5 @@ public class LyingFace : Enemy //누워 있는 얼굴
 
         Deal(25);
     }
-
     #endregion
-
 }
